@@ -24,6 +24,20 @@
     ];
     ```
 
+Import configuration:
+
+    ```yaml
+    imports:
+        - { resource: "@SyliusRefundPlugin/Resources/config/app/config.yml" }
+    ```
+
+Import routing:
+
+    ````yaml
+    sylius_refund:
+        resource: "@SyliusRefundPlugin/Resources/config/app/routing.yml"
+    ````
+
 3. Clear cache:
 
     ```bash

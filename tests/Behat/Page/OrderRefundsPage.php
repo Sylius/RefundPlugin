@@ -10,11 +10,11 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 {
     public function getRouteName(): string
     {
-        return 'sylius_refund_order_refunds';
+        return 'sylius_refund_order_refunds_list';
     }
 
     public function countRefundableUnitsWithProduct(string $productName): int
     {
-        return count($this->getDocument()->findAll('css', '#refunds .unit'));
+        return count($this->getDocument()->findAll('css', sprintf('#refunds .unit:contains("%s")', $productName)));
     }
 }

@@ -1,0 +1,4 @@
+sylius_refund_order_refunds_list:
+    path: /admin/orders/{orderNumber}/refunds
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\OrderRefundsListAction
