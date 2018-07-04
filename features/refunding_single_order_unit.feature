@@ -19,11 +19,11 @@ Feature: Refunding a single order unit
         When I want to refund some units of order "#00000022"
         Then I should be able to refund 2 "Mr. Meeseeks T-Shirt" products
 
-    @ui @todo
+    @ui
     Scenario: Refunding one of the order unit
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
-        Then I should be notified that order unit has been successfully refunded
+        Then I should be notified that selected order units have been successfully refunded
         And refunded total should be "$10"
-        And I should not be able to refund 1st "Mr. Meeseeks T-Shirt" product
-        But I should still be able to refund 2nd "Mr. Meeseeks T-Shirt" product
+        And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
+        But I should still be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
