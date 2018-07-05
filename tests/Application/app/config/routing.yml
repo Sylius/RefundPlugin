@@ -4,4 +4,4 @@ sylius:
 # Put your own routes here
 
 sylius_refund:
-    resource: "@SyliusRefundPlugin/Resources/config/app/routing.yml"
+    resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
