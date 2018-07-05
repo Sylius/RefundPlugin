@@ -8,8 +8,7 @@ final class RefundUnits
     private $orderNumber;
 
     /** @var array|int[] */
-    private $refundedUnitIds
-    ;
+    private $refundedUnitIds;
 
     public function __construct(string $orderNumber, array $refundedUnitId)
     {

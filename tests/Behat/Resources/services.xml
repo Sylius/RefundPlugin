@@ -4,7 +4,11 @@
     <services>
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
 
-        <service id="Tests\Sylius\RefundPlugin\Behat\Context\RefundingContext">
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext">
+            <argument type="service" id="sylius.behat.notification_checker" />
+            <tag name="fob.context_service" />
+        </service>
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext">
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" />
             <argument type="service" id="sylius.behat.notification_checker" />
             <tag name="fob.context_service" />

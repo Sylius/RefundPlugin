@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sylius\RefundPlugin\Behat\Context;
+namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
@@ -37,7 +37,7 @@ final class RefundingContext implements Context
     /**
      * @When /^I decide to refund (\d)st "([^"]+)" product$/
      */
-    public function decideToRefund1stProduct(int $unitNumber, string $productName): void
+    public function decideToRefundProduct(int $unitNumber, string $productName): void
     {
         $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber);
         $this->orderRefundsPage->refund();
