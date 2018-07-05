@@ -11,6 +11,7 @@
 
         <service id="Sylius\RefundPlugin\Creator\RefundCreator">
             <argument type="service" id="sylius_refund.factory.refund" />
+            <argument type="service" id="sylius_refund.repository.refund" />
             <argument type="service" id="sylius_refund.manager.refund" />
         </service>
 

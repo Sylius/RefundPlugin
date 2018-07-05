@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 
@@ -41,7 +42,7 @@ final class RefundingContext implements Context
      */
     public function decideToRefundProduct(int $unitNumber, string $productName): void
     {
-        $unit = $this->order->getItemUnits()->get($unitNumber);
+        $unit = $this->getOrderUnit($unitNumber, $productName);
 
         $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
     }
@@ -59,7 +60,7 @@ final class RefundingContext implements Context
      */
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
-        $unit = $this->order->getItemUnits()->get($unitNumber);
+        $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
             $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
@@ -75,7 +76,7 @@ final class RefundingContext implements Context
      */
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
-        $unit = $this->order->getItemUnits()->get($unitNumber);
+        $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
             $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
@@ -90,5 +91,14 @@ final class RefundingContext implements Context
     public function shouldBeNotifiedThatSelectedOrderUnitsHaveBeenSuccessfullyRefunded(): void
     {
         // intentionally left blank - not relevant in application scope
+    }
+
+    private function getOrderUnit(int $unitNumber, string $productName): OrderItemUnitInterface
+    {
+        $unitsWithProduct = $this->order->getItemUnits()->filter(function(OrderItemUnitInterface $unit) use ($productName): bool {
+            return $unit->getOrderItem()->getProduct()->getName() === $productName;
+        });
+
+        return $unitsWithProduct->get($unitNumber-1);
     }
 }
