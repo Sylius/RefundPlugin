@@ -8,5 +8,21 @@
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="twig" />
         </service>
+
+        <service id="Sylius\RefundPlugin\Creator\RefundCreator">
+            <argument type="service" id="sylius_refund.factory.refund" />
+            <argument type="service" id="sylius_refund.manager.refund" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\RepositoryRefundedUnitTotalProvider">
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+
+        <!--Command handlers-->
+        <service id="Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler">
+            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RepositoryRefundedUnitTotalProvider" />
+            <tag name="prooph_service_bus.acme_command_bus.route_target" />
+        </service>
     </services>
 </container>

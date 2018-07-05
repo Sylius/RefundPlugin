@@ -19,7 +19,7 @@ Feature: Refunding a single order unit
         When I want to refund some units of order "#00000022"
         Then I should be able to refund 2 "Mr. Meeseeks T-Shirt" products
 
-    @ui @application
+    @application
     Scenario: Refunding one of the order unit
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product

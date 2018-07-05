@@ -1,2 +1,13 @@
 imports:
     - { resource: '@SyliusRefundPlugin/Resources/config/services.xml' }
+
+sylius_resource:
+    resources:
+        sylius_refund.refund:
+            classes:
+                model: Sylius\RefundPlugin\Entity\Refund
+                factory: Sylius\RefundPlugin\Factory\RefundFactory
+
+prooph_service_bus:
+    command_buses:
+        sylius_refund_command_bus: ~

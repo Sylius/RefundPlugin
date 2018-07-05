@@ -16,10 +16,11 @@
     composer require sylius/refund-plugin
     ```
 
-2. Add plugin class to your `AppKernel`:
+2. Add plugin class and other required bundles to your `AppKernel`:
 
     ```php
     $bundles = [
+       new Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
         new \Sylius\RefundPlugin\SyliusRefundPlugin(),
     ];
     ```
