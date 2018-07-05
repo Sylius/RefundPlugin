@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Sylius\RefundPlugin\Command\RefundUnits;

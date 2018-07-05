@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Sylius\RefundPlugin\Creator;
 
 use Doctrine\Common\Persistence\ObjectManager;
