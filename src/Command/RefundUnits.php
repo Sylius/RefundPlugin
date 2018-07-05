@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
-final class RefundUnits
+use Prooph\Common\Messaging\Command;
+use Prooph\Common\Messaging\PayloadTrait;
+
+final class RefundUnits extends Command
 {
-    /** @var string */
-    private $orderNumber;
+    use PayloadTrait;
 
-    /** @var array|int[] */
-    private $refundedUnitIds;
-
-    public function __construct(string $orderNumber, array $refundedUnitId)
+    public function __construct(string $orderNumber, array $refundedUnitIds)
     {
-        $this->orderNumber = $orderNumber;
-        $this->refundedUnitIds = $refundedUnitId;
+        $this->init();
+        $this->setPayload([
+            'order_number' => $orderNumber,
+            'refunded_unit_ids' => $refundedUnitIds
+        ]);
     }
 
     public function orderNumber(): string
     {
-        return $this->orderNumber;
+        return $this->payload()['order_number'];
     }
 
     public function refundedUnitIds(): array
     {
-        return $this->refundedUnitIds;
+        return $this->payload()['refunded_unit_ids'];
     }
 }

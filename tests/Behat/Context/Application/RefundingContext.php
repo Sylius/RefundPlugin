@@ -5,20 +5,27 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
+use Prooph\ServiceBus\CommandBus;
+use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\RefundPlugin\Command\RefundUnits;
 
 final class RefundingContext implements Context
 {
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
+    /** @var CommandBus */
+    private $commandBus;
+
     /** @var OrderInterface|null */
     private $order;
 
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(OrderRepositoryInterface $orderRepository, CommandBus $commandBus)
     {
         $this->orderRepository = $orderRepository;
+        $this->commandBus = $commandBus;
     }
 
     /**
@@ -36,7 +43,7 @@ final class RefundingContext implements Context
     {
         $unit = $this->order->getItemUnits()->get($unitNumber);
 
-        // TODO: dispatching a command with command bus
+        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
     }
 
     /**
@@ -52,7 +59,15 @@ final class RefundingContext implements Context
      */
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
-        // TODO: Check if dispatching refund command throws an error
+        $unit = $this->order->getItemUnits()->get($unitNumber);
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
+        } catch (CommandDispatchException $exception) {
+            return;
+        }
+
+        throw new \Exception('RefundUnits command should fail');
     }
 
     /**
@@ -60,7 +75,13 @@ final class RefundingContext implements Context
      */
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
-        // TODO: Check if dispatching refund command does not throw any error
+        $unit = $this->order->getItemUnits()->get($unitNumber);
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
+        } catch (CommandDispatchException $exception) {
+            throw new \Exception('RefundUnits command should not fail');
+        }
     }
 
     /**

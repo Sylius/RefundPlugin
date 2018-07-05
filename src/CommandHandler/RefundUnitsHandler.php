@@ -24,7 +24,7 @@ final class RefundUnitsHandler
         $this->refundedUnitTotalProvider = $refundedUnitTotalProvider;
     }
 
-    public function handle(RefundUnits $command): void
+    public function __invoke(RefundUnits $command): void
     {
         foreach ($command->refundedUnitIds() as $refundedUnitId) {
             $this->refundCreator->__invoke(

@@ -18,11 +18,13 @@
             <argument type="service" id="sylius.repository.order_item_unit" />
         </service>
 
-        <!--Command handlers-->
+        <!--Command Bus-->
+        <service id="Prooph\ServiceBus\CommandBus" alias="prooph_service_bus.sylius_refund_command_bus" />
+
         <service id="Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RepositoryRefundedUnitTotalProvider" />
-            <tag name="prooph_service_bus.acme_command_bus.route_target" />
+            <tag name="prooph_service_bus.sylius_refund_command_bus.route_target" message-detection="true" />
         </service>
     </services>
 </container>

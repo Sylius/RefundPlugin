@@ -5,7 +5,8 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext">
-            <argument type="service" id="sylius.behat.notification_checker" />
+            <argument type="service" id="__symfony__.sylius.repository.order" />
+            <argument type="service" id="__symfony__.prooph_service_bus.sylius_refund_command_bus" />
             <tag name="fob.context_service" />
         </service>
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext">

@@ -28,6 +28,6 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $refundCreator->__invoke('000222', 1, 1000)->shouldBeCalled();
         $refundCreator->__invoke('000222', 3, 500)->shouldBeCalled();
 
-        $this->handle(new RefundUnits('000222', [1, 3]));
+        $this->__invoke(new RefundUnits('000222', [1, 3]));
     }
 }
