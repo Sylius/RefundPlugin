@@ -2,18 +2,19 @@
 
 namespace Sylius\RefundPlugin\Command;
 
-final class RefundUnit
+final class RefundUnits
 {
     /** @var string */
     private $orderNumber;
 
     /** @var array|int[] */
-    private $refundedUnitId;
+    private $refundedUnitIds
+    ;
 
     public function __construct(string $orderNumber, array $refundedUnitId)
     {
         $this->orderNumber = $orderNumber;
-        $this->refundedUnitId = $refundedUnitId;
+        $this->refundedUnitIds = $refundedUnitId;
     }
 
     public function orderNumber(): string
@@ -23,6 +24,6 @@ final class RefundUnit
 
     public function refundedUnitIds(): array
     {
-        return $this->refundedUnitId;
+        return $this->refundedUnitIds;
     }
 }
