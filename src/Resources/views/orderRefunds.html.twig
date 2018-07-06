@@ -43,7 +43,7 @@
     <div class="ui stackable grid">
         <div class="sixteen wide column">
             <div class="ui segment">
-                <form>
+                <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
                     <table id="refunds" class="ui compact celled definition table">
                         <thead>
                             <tr>
@@ -69,7 +69,7 @@
                                     </td>
                                     <td class="aligned collapsing">
                                         <div class="ui checkbox">
-                                            <input type="checkbox" name="unit_{{ unit.id }}">
+                                            <input type="checkbox" name="sylius_refund_units[]" value="{{ unit.id }}">
                                         </div>
                                     </td>
                                 </tr>

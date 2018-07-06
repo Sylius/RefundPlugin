@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 final class RefundUnitsSpec extends ObjectBehavior
 {
-    function it_represents_an_intention_to_refund_specific_order_unit(): void
+    function it_represents_an_intention_to_refund_specific_order_units(): void
     {
         $this->beConstructedWith('000222', [1, 3, 5]);
 

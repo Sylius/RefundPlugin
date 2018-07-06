@@ -9,6 +9,12 @@
             <argument type="service" id="twig" />
         </service>
 
+        <service id="Sylius\RefundPlugin\Action\RefundUnitsAction">
+            <argument type="service" id="prooph_service_bus.sylius_refund_command_bus" />
+            <argument type="service" id="session" />
+            <argument type="service" id="router" />
+        </service>
+
         <service id="Sylius\RefundPlugin\Creator\RefundCreator">
             <argument type="service" id="sylius_refund.factory.refund" />
             <argument type="service" id="sylius_refund.repository.refund" />
