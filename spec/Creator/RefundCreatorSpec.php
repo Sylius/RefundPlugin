@@ -7,6 +7,7 @@ namespace spec\Sylius\RefundPlugin\Creator;
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
@@ -16,10 +17,10 @@ final class RefundCreatorSpec extends ObjectBehavior
 {
     function let(
         RefundFactoryInterface $refundFactory,
-        RepositoryInterface $refundRepository,
+        UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         ObjectManager $refundManager
     ): void {
-        $this->beConstructedWith($refundFactory, $refundRepository, $refundManager);
+        $this->beConstructedWith($refundFactory, $unitRefundingAvailabilityChecker, $refundManager);
     }
 
     function it_implements_refund_creator_interface()
@@ -29,11 +30,11 @@ final class RefundCreatorSpec extends ObjectBehavior
 
     function it_creates_refund_with_given_data_and_save_it_in_database(
         RefundFactoryInterface $refundFactory,
-        RepositoryInterface $refundRepository,
+        UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         ObjectManager $refundManager,
         RefundInterface $refund
     ) {
-        $refundRepository->findOneBy(['orderNumber' => '000222', 'refundedUnitId' => 1])->willReturn(null);
+        $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(true);
 
         $refundFactory->createWithData('000222', 1, 1000)->willReturn($refund);
 
@@ -44,10 +45,9 @@ final class RefundCreatorSpec extends ObjectBehavior
     }
 
     function it_throws_exception_if_unit_has_already_been_refunded(
-        RepositoryInterface $refundRepository,
-        RefundInterface $refund
+        UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker
     ) {
-        $refundRepository->findOneBy(['orderNumber' => '000222', 'refundedUnitId' => 1])->willReturn($refund);
+        $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(false);
 
         $this
             ->shouldThrow(UnitAlreadyRefundedException::class)

@@ -59,12 +59,12 @@
                                 {% set variant = item.variant %}
                                 {% set product = item.variant.product %}
 
-                                <tr class="unit">
+                                <tr class="unit{% if not can_unit_be_refunded(unit.id) %} disabled{% endif %}">
                                     <td class="single line">
                                         {% include '@SyliusAdmin/Product/_info.html.twig' %}
                                     </td>
                                     <td class="right aligned total">
-                                        {{ money.format(item.total, order.currencyCode) }}
+                                        {{ money.format(unit.total, order.currencyCode) }}
                                     </td>
                                     <td class="aligned collapsing">
                                         <div class="ui checkbox">
@@ -83,7 +83,7 @@
 
                     <h3 id="refundedTotal">
                         {{ 'sylius_refunds.ui.refunded_total'|trans }}:
-                        {{ money.format(sylius_refund_order_refunded_total(order.number), order.currencyCode) }}
+                        {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
                     </h3>
                 </form>
             </div>

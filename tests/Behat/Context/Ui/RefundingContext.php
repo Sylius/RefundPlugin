@@ -39,7 +39,7 @@ final class RefundingContext implements Context
      */
     public function decideToRefundProduct(int $unitNumber, string $productName): void
     {
-        $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber);
+        $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
         $this->orderRefundsPage->refund();
     }
 
