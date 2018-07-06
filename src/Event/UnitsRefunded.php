@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Event;
 
-final class UnitsRefunded
+use Prooph\Common\Messaging\DomainEvent;
+use Prooph\Common\Messaging\PayloadTrait;
+
+final class UnitsRefunded extends DomainEvent
 {
+    use PayloadTrait;
+
     /** @var string */
     private $orderNumber;
 
@@ -17,23 +22,26 @@ final class UnitsRefunded
 
     public function __construct(string $orderNumber, iterable $unitIds, int $amount)
     {
-        $this->orderNumber = $orderNumber;
-        $this->unitIds = $unitIds;
-        $this->amount = $amount;
+        $this->init();
+        $this->setPayload([
+            'order_number' => $orderNumber,
+            'unit_ids' => $unitIds,
+            'amount' => $amount,
+        ]);
     }
 
     public function orderNumber(): string
     {
-        return $this->orderNumber;
+        return $this->payload['order_number'];
     }
 
     public function unitIds(): iterable
     {
-        return $this->unitIds;
+        return $this->payload['unit_ids'];
     }
 
     public function amount(): int
     {
-        return $this->amount;
+        return $this->payload['amount'];
     }
 }

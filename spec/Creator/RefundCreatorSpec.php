@@ -21,18 +21,18 @@ final class RefundCreatorSpec extends ObjectBehavior
     function let(
         RefundFactoryInterface $refundFactory,
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
-        ObjectManager $refundManager,
+        ObjectManager $refundEntityManager,
         EventBus $eventBus
     ): void {
         $this->beConstructedWith(
             $refundFactory,
             $unitRefundingAvailabilityChecker,
-            $refundManager,
+            $refundEntityManager,
             $eventBus
         );
     }
 
-    function it_implements_refund_creator_interface()
+    function it_implements_refund_creator_interface(): void
     {
         $this->shouldImplement(RefundCreatorInterface::class);
     }
@@ -40,16 +40,16 @@ final class RefundCreatorSpec extends ObjectBehavior
     function it_creates_refund_with_given_data_and_save_it_in_database(
         RefundFactoryInterface $refundFactory,
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
-        ObjectManager $refundManager,
+        ObjectManager $refundEntityManager,
         EventBus $eventBus,
         RefundInterface $refund
-    ) {
+    ): void {
         $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(true);
 
         $refundFactory->createWithData('000222', 1, 1000)->willReturn($refund);
 
-        $refundManager->persist($refund)->shouldBeCalled();
-        $refundManager->flush()->shouldBeCalled();
+        $refundEntityManager->persist($refund)->shouldBeCalled();
+        $refundEntityManager->flush()->shouldBeCalled();
 
         $eventBus->dispatch(Argument::that(function(UnitRefunded $event): bool {
             return
@@ -64,7 +64,7 @@ final class RefundCreatorSpec extends ObjectBehavior
 
     function it_throws_exception_if_unit_has_already_been_refunded(
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker
-    ) {
+    ): void {
         $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(false);
 
         $this

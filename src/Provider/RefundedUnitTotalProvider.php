@@ -8,7 +8,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class RepositoryRefundedUnitTotalProvider implements RefundedUnitTotalProviderInterface
+final class RefundedUnitTotalProvider implements RefundedUnitTotalProviderInterface
 {
     /** @var RepositoryInterface */
     private $orderItemUnitRepository;

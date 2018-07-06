@@ -8,7 +8,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 
-final class RepositoryOrderRefundedTotalProvider implements OrderRefundedTotalProviderInterface
+final class OrderRefundedTotalProvider implements OrderRefundedTotalProviderInterface
 {
     /** @var RepositoryInterface */
     private $refundRepository;

@@ -10,7 +10,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 
-final class RepositoryOrderRefundedTotalProviderSpec extends ObjectBehavior
+final class OrderRefundedTotalProviderSpec extends ObjectBehavior
 {
     function let(RepositoryInterface $refundRepository, RepositoryInterface $orderItemUnitRepository): void
     {

@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
-final class RepositoryRefundedUnitTotalProviderSpec extends ObjectBehavior
+final class RefundedUnitTotalProviderSpec extends ObjectBehavior
 {
     function let(RepositoryInterface $orderItemUnitRepository): void
     {
@@ -31,8 +31,9 @@ final class RepositoryRefundedUnitTotalProviderSpec extends ObjectBehavior
         $this->getTotalOfUnitWithId(1)->shouldReturn(1000);
     }
 
-    function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(RepositoryInterface $orderItemUnitRepository)
-    {
+    function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(
+        RepositoryInterface $orderItemUnitRepository
+    ): void {
         $orderItemUnitRepository->find(1)->willReturn(null);
 
         $this
