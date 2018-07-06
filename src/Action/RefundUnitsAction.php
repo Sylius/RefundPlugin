@@ -35,6 +35,8 @@ final class RefundUnitsAction
     {
         try {
             $this->commandBus->dispatch(RefundUnitsRequest::getCommand($request));
+
+            $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
         } catch (CommandDispatchException $exception) {
             $this->session->getFlashBag()->add('error', $exception->getPrevious()->getMessage());
         }

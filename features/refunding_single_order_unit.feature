@@ -24,6 +24,6 @@ Feature: Refunding a single order unit
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
         Then I should be notified that selected order units have been successfully refunded
-        And this order refunded total should be "$10"
+        And this order refunded total should be "$10.00"
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
         But I should still be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"

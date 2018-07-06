@@ -1,6 +1,7 @@
 {% extends 'SyliusAdminBundle::layout.html.twig' %}
 
 {% import '@SyliusUi/Macro/flags.html.twig' as flags %}
+{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
 
 {% block title %}{{ 'sylius.ui.order'|trans ~' #'~ order.number }} {{ 'sylius_refunds.ui.refunds'|trans }} {{ parent() }}{% endblock %}
 
@@ -55,8 +56,6 @@
                         <tbody>
                         {% for item in order.items %}
                             {% for unit in item.units %}
-                                {% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
-
                                 {% set variant = item.variant %}
                                 {% set product = item.variant.product %}
 
@@ -82,7 +81,10 @@
 
                     <br/><br/>
 
-                    <h3>{{ 'sylius_refunds.ui.refunded_total'|trans }}: $0.00</h3>
+                    <h3 id="refundedTotal">
+                        {{ 'sylius_refunds.ui.refunded_total'|trans }}:
+                        {{ money.format(sylius_refund_order_refunded_total(order.number), order.currencyCode) }}
+                    </h3>
                 </form>
             </div>
         </div>

@@ -30,6 +30,11 @@
             <argument type="service" id="sylius.repository.order_item_unit" />
         </service>
 
+        <service id="Sylius\RefundPlugin\Twig\OrderRefundedTotalExtension">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RepositoryOrderRefundedTotalProvider" />
+            <tag name="twig.extension"/>
+        </service>
+
         <!--Command Bus-->
         <service id="Prooph\ServiceBus\CommandBus" alias="prooph_service_bus.sylius_refund_command_bus" />
 

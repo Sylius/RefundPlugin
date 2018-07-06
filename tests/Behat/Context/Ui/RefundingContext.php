@@ -63,7 +63,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then refunded total should be :refundedTotal
+     * @Then this order refunded total should be :refundedTotal
      */
     public function refundedTotalShouldBe(string $refundedTotal): void
     {
@@ -75,7 +75,7 @@ final class RefundingContext implements Context
      */
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
-        Assert::false($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber));
+        Assert::false($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
     }
 
     /**
@@ -83,6 +83,6 @@ final class RefundingContext implements Context
      */
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
-        Assert::true($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber));
+        Assert::true($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
     }
 }

@@ -24,7 +24,7 @@ final class RepositoryOrderRefundedTotalProvider implements OrderRefundedTotalPr
 
     public function __invoke(string $orderNumber): int
     {
-        $refunds = $this->refundRepository->findOneBy(['orderNumber' => $orderNumber]);
+        $refunds = $this->refundRepository->findBy(['orderNumber' => $orderNumber]);
 
         $orderRefundedTotal = 0;
         /** @var RefundInterface $refund */
