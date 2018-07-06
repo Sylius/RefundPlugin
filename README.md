@@ -44,3 +44,5 @@
     bin/console cache:clear
     ```
     
+6. Copy migrations from `vendor/sylius/refund-plugin/migrations/`
+to your migrations directory and run `bin/console doctrine:migrations:migrate`
