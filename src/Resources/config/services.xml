@@ -19,6 +19,7 @@
             <argument type="service" id="sylius_refund.factory.refund" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
             <argument type="service" id="sylius_refund.manager.refund" />
+            <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
         </service>
 
         <service id="Sylius\RefundPlugin\Provider\RepositoryRefundedUnitTotalProvider">
@@ -46,7 +47,11 @@
         <service id="Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RepositoryRefundedUnitTotalProvider" />
+            <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
             <tag name="prooph_service_bus.sylius_refund_command_bus.route_target" message-detection="true" />
         </service>
+
+        <!--Event Bus-->
+        <service id="Prooph\ServiceBus\EventBus" alias="prooph_service_bus.sylius_refund_event_bus" />
     </services>
 </container>
