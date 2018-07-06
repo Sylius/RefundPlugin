@@ -14,7 +14,7 @@ Feature: Refunding a single order unit
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
 
-    @ui @todo
+    @ui
     Scenario: Seeing available order units to refund
         When I want to refund some units of order "#00000022"
         Then I should be able to refund 2 "Mr. Meeseeks T-Shirt" products

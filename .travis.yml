@@ -70,5 +70,7 @@ script:
     - composer validate --strict
     - bin/phpstan.phar analyse -c phpstan.neon -l max src/
 
+    - bin/behat features/
+
 after_failure:
     - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"

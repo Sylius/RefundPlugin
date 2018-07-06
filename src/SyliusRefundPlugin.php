@@ -7,7 +7,7 @@ namespace Sylius\RefundPlugin;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class RefundPlugin extends Bundle
+final class SyliusRefundPlugin extends Bundle
 {
     use SyliusPluginTrait;
 }
