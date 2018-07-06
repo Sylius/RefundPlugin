@@ -10,12 +10,18 @@ use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Entity\RefundInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
 {
     /** @var OrderRepositoryInterface */
     private $orderRepository;
+
+    /** @var RepositoryInterface */
+    private $refundRepository;
 
     /** @var CommandBus */
     private $commandBus;
@@ -23,9 +29,13 @@ final class RefundingContext implements Context
     /** @var OrderInterface|null */
     private $order;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, CommandBus $commandBus)
-    {
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        RepositoryInterface $refundRepository,
+        CommandBus $commandBus
+    ) {
         $this->orderRepository = $orderRepository;
+        $this->refundRepository = $refundRepository;
         $this->commandBus = $commandBus;
     }
 
@@ -48,11 +58,22 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then refunded total should be :refundedTotal
+     * @Then /^this order refunded total should be ("[^"]+")$/
      */
-    public function refundedTotalShouldBe(string $refundedTotal): void
+    public function refundedTotalShouldBe(int $refundedTotal): void
     {
-        // TODO: check refunded total with service
+        $refundedUnitIds = array_map(function(RefundInterface $refund): int {
+            return $refund->getRefundedUnitId();
+        }, $this->refundRepository->findBy(['orderNumber' => $this->order->getNumber()]));
+
+        $orderRefundedTotal = 0;
+        foreach ($this->order->getItemUnits() as $unit) {
+            if (in_array($unit->getId(), $refundedUnitIds)) {
+                $orderRefundedTotal += $unit->getTotal();
+            }
+        }
+
+        Assert::same($refundedTotal, $orderRefundedTotal);
     }
 
     /**

@@ -21,7 +21,7 @@
     ```php
     $bundles = [
        new Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
-        new \Sylius\RefundPlugin\SyliusRefundPlugin(),
+       new \Sylius\RefundPlugin\SyliusRefundPlugin(),
     ];
     ```
 
