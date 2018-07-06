@@ -39,6 +39,8 @@ final class RefundUnitsAction
             $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
         } catch (CommandDispatchException $exception) {
             $this->session->getFlashBag()->add('error', $exception->getPrevious()->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            $this->session->getFlashBag()->add('error', $exception->getMessage());
         }
 
         return new RedirectResponse($this->router->generate(

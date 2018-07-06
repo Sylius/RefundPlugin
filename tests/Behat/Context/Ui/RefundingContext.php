@@ -44,6 +44,14 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I refund zero items
+     */
+    public function refundZeroItems(): void
+    {
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @Then I should be able to refund :count :productName products
      */
     public function iShouldBeAbleToRefundProducts(int $count, string $productName): void
@@ -59,6 +67,17 @@ final class RefundingContext implements Context
         $this->notificationChecker->checkNotification(
             'Order units have been successfully refunded',
             NotificationType::success()
+        );
+    }
+
+    /**
+     * @Then I should be notified that at least one unit should be selected to refund
+     */
+    public function shouldBeNotifiedThatAtLeastOneUnitShouldBeSelectedToRefund(): void
+    {
+        $this->notificationChecker->checkNotification(
+            'At least one unit should be selected to refund',
+            NotificationType::failure()
         );
     }
 

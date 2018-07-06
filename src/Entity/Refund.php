@@ -7,16 +7,16 @@ namespace Sylius\RefundPlugin\Entity;
 /** @final */
 class Refund implements RefundInterface
 {
-    /** @var int */
+    /** @var int|null */
     private $id;
 
-    /** @var string */
+    /** @var string|null */
     private $orderNumber;
 
-    /** @var int */
+    /** @var int|null */
     private $amount;
 
-    /** @var int */
+    /** @var int|null */
     private $refundedUnitId;
 
     public function getId(): ?int

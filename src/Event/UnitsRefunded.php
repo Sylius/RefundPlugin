@@ -9,7 +9,7 @@ final class UnitsRefunded
     /** @var string */
     private $orderNumber;
 
-    /** @var iterable|int[] */
+    /** @var iterable */
     private $unitIds;
 
     /** @var int */
