@@ -21,7 +21,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     public function getRefundedTotal(): string
     {
-        return str_replace('Refunded total: ', '', $this->getDocument()->find('css', '#refundedTotal')->getText());
+        return str_replace('Refunded total: ', '', $this->getElement('refunded_total')->getText());
     }
 
     public function pickUnitWithProductToRefund(string $productName, int $unitNumber): void
@@ -41,6 +41,13 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         $units = $this->getUnitsWithProduct($productName);
 
         return !$units[$unitNumber]->hasClass('disabled');
+    }
+
+    protected function getDefinedElements(): array
+    {
+        return [
+            'refunded_total' => '#refunded-total',
+        ];
     }
 
     /** @return array|NodeElement[] */

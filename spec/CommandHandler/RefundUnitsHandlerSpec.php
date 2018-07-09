@@ -33,7 +33,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $refundCreator->__invoke('000222', 1, 1000)->shouldBeCalled();
         $refundCreator->__invoke('000222', 3, 500)->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function(UnitsRefunded $event): bool {
+        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
             return
                 $event->orderNumber() === '000222' &&
                 $event->unitIds() === [1, 3] &&
@@ -41,6 +41,6 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this->__invoke(new RefundUnits('000222', [1, 3]));
+        $this(new RefundUnits('000222', [1, 3]));
     }
 }

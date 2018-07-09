@@ -6,7 +6,6 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Prooph\ServiceBus\EventBus;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;

@@ -16,7 +16,7 @@ final class RefundUnits extends Command
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
-            'refunded_unit_ids' => $refundedUnitIds
+            'refunded_unit_ids' => $refundedUnitIds,
         ]);
     }
 

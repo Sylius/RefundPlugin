@@ -16,7 +16,7 @@ final class RefundUnitsRequest
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
-            array_map(function(string $unitId): int {
+            array_map(function (string $unitId): int {
                 return (int) $unitId;
             }, $request->request->get('sylius_refund_units'))
         );

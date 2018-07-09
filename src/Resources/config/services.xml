@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="services/actions.xml" />
+        <import resource="services/command_bus.xml" />
+        <import resource="services/event_bus.xml" />
+    </imports>
     <services>
-        <defaults public="true" />
-
-        <service id="Sylius\RefundPlugin\Action\OrderRefundsListAction">
-            <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="twig" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Action\RefundUnitsAction">
-            <argument type="service" id="prooph_service_bus.sylius_refund_command_bus" />
-            <argument type="service" id="session" />
-            <argument type="service" id="router" />
-        </service>
+        <defaults autowire="false" autoconfigure="false" public="true" />
 
         <service id="Sylius\RefundPlugin\Creator\RefundCreator">
             <argument type="service" id="sylius_refund.factory.refund" />
@@ -40,18 +34,5 @@
             <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
             <tag name="twig.extension"/>
         </service>
-
-        <!--Command Bus-->
-        <service id="Prooph\ServiceBus\CommandBus" alias="prooph_service_bus.sylius_refund_command_bus" />
-
-        <service id="Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler">
-            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RefundedUnitTotalProvider" />
-            <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
-            <tag name="prooph_service_bus.sylius_refund_command_bus.route_target" message-detection="true" />
-        </service>
-
-        <!--Event Bus-->
-        <service id="Prooph\ServiceBus\EventBus" alias="prooph_service_bus.sylius_refund_event_bus" />
     </services>
 </container>

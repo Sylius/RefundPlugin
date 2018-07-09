@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
@@ -51,7 +50,7 @@ final class RefundCreatorSpec extends ObjectBehavior
         $refundEntityManager->persist($refund)->shouldBeCalled();
         $refundEntityManager->flush()->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function(UnitRefunded $event): bool {
+        $eventBus->dispatch(Argument::that(function (UnitRefunded $event): bool {
             return
                 $event->orderNumber() === '000222' &&
                 $event->unitId() === 1 &&
