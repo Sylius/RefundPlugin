@@ -5,5 +5,10 @@
         <defaults autowire="false" autoconfigure="false" public="true" />
 
         <service id="Prooph\ServiceBus\EventBus" alias="prooph_service_bus.sylius_refund_event_bus" />
+
+        <service id="Sylius\RefundPlugin\Listener\UnitsRefundedEventListener">
+            <argument type="service" id="session" />
+            <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
+        </service>
     </services>
 </container>
