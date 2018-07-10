@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <imports>
+        <import resource="services/actions.xml" />
+        <import resource="services/command_bus.xml" />
+        <import resource="services/event_bus.xml" />
+    </imports>
     <services>
-        <defaults public="true" />
+        <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Action\OrderRefundsListAction">
-            <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="twig" />
+        <service id="Sylius\RefundPlugin\Creator\RefundCreator">
+            <argument type="service" id="sylius_refund.factory.refund" />
+            <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
+            <argument type="service" id="sylius_refund.manager.refund" />
+            <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\RefundedUnitTotalProvider">
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider">
+            <argument type="service" id="sylius_refund.repository.refund" />
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker">
+            <argument type="service" id="sylius_refund.repository.refund" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Twig\OrderRefundsExtension">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
+            <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
+            <tag name="twig.extension"/>
         </service>
     </services>
 </container>

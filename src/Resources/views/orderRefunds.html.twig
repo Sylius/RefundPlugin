@@ -1,6 +1,7 @@
 {% extends 'SyliusAdminBundle::layout.html.twig' %}
 
 {% import '@SyliusUi/Macro/flags.html.twig' as flags %}
+{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
 
 {% block title %}{{ 'sylius.ui.order'|trans ~' #'~ order.number }} {{ 'sylius_refunds.ui.refunds'|trans }} {{ parent() }}{% endblock %}
 
@@ -43,39 +44,48 @@
     <div class="ui stackable grid">
         <div class="sixteen wide column">
             <div class="ui segment">
-                <table id="refunds" class="ui compact celled definition table">
-                    <thead>
-                        <tr>
-                            <th class="wide sylius-table-column-item">{{ 'sylius.ui.order_item_product'|trans }}</th>
-                            <th class="center aligned sylius-table-column-total">{{ 'sylius.ui.total'|trans }}</th>
-                            <th class="center aligned"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in order.items %}
-                        {% for unit in item.units %}
-                            {% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
-
-                            {% set variant = item.variant %}
-                            {% set product = item.variant.product %}
-
-                            <tr class="unit">
-                                <td class="single line">
-                                    {% include '@SyliusAdmin/Product/_info.html.twig' %}
-                                </td>
-                                <td class="right aligned total">
-                                    {{ money.format(item.total, order.currencyCode) }}
-                                </td>
-                                <td class="aligned collapsing">
-                                    <div class="ui checkbox">
-                                        <input type="checkbox" name="unit_{{ unit.id }}">
-                                    </div>
-                                </td>
+                <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
+                    <table id="refunds" class="ui compact celled definition table">
+                        <thead>
+                            <tr>
+                                <th class="wide sylius-table-column-item">{{ 'sylius.ui.order_item_product'|trans }}</th>
+                                <th class="center aligned sylius-table-column-total">{{ 'sylius.ui.total'|trans }}</th>
+                                <th class="center aligned"></th>
                             </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in order.items %}
+                            {% for unit in item.units %}
+                                {% set variant = item.variant %}
+                                {% set product = variant.product %}
+
+                                <tr class="unit{% if not can_unit_be_refunded(unit.id) %} disabled{% endif %}">
+                                    <td class="single line">
+                                        {% include '@SyliusAdmin/Product/_info.html.twig' %}
+                                    </td>
+                                    <td class="right aligned total">
+                                        {{ money.format(unit.total, order.currencyCode) }}
+                                    </td>
+                                    <td class="aligned collapsing">
+                                        <div class="ui checkbox">
+                                            <input type="checkbox" name="sylius_refund_units[]" value="{{ unit.id }}">
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+
+                    <button class="ui primary button" type="submit">{{ 'sylius.ui.refund'|trans }}</button>
+
+                    <br/><br/>
+
+                    <h3 id="refunded-total">
+                        {{ 'sylius_refunds.ui.refunded_total'|trans }}:
+                        {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
+                    </h3>
+                </form>
             </div>
         </div>
     </div>

@@ -9,4 +9,12 @@ use Sylius\Behat\Page\SymfonyPageInterface;
 interface OrderRefundsPageInterface extends SymfonyPageInterface
 {
     public function countRefundableUnitsWithProduct(string $productName): int;
+
+    public function getRefundedTotal(): string;
+
+    public function pickUnitWithProductToRefund(string $productName, int $unitNumber): void;
+
+    public function refund(): void;
+
+    public function isUnitWithProductAvailableToRefund(string $productName, int $unitNumber): bool;
 }

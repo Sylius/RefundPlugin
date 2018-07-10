@@ -16,11 +16,12 @@
     composer require sylius/refund-plugin
     ```
 
-2. Add plugin class to your `AppKernel`:
+2. Add plugin class and other required bundles to your `AppKernel`:
 
     ```php
     $bundles = [
-        new \Sylius\RefundPlugin\SyliusRefundPlugin(),
+       new Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
+       new \Sylius\RefundPlugin\SyliusRefundPlugin(),
     ];
     ```
 
@@ -30,12 +31,11 @@
     imports:
         - { resource: "@SyliusRefundPlugin/Resources/config/app/config.yml" }
     ```
-
 4. Import routing:
 
     ````yaml
     sylius_refund:
-        resource: "@SyliusRefundPlugin/Resources/config/app/routing.yml"
+        resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
     ````
 
 5. Clear cache:
@@ -44,3 +44,5 @@
     bin/console cache:clear
     ```
     
+6. Copy migrations from `vendor/sylius/refund-plugin/migrations/`
+to your migrations directory and run `bin/console doctrine:migrations:migrate`
