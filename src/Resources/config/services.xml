@@ -34,5 +34,9 @@
             <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
             <tag name="twig.extension"/>
         </service>
+
+        <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
+            <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
+        </service>
     </services>
 </container>
