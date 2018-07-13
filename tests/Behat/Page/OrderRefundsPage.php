@@ -31,6 +31,11 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         $units[$unitNumber]->find('css', '.checkbox input')->check();
     }
 
+    public function pickAllUnitsToRefund(): void
+    {
+        $this->getDocument()->checkField('Refund all');
+    }
+
     public function refund(): void
     {
         $this->getDocument()->pressButton('Refund');

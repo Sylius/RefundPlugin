@@ -44,6 +44,15 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I decide to refund all units of this order
+     */
+    public function decideToRefundAllUnits(): void
+    {
+        $this->orderRefundsPage->pickAllUnitsToRefund();
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When I refund zero items
      */
     public function refundZeroItems(): void
