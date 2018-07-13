@@ -99,7 +99,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^I should not be able to refund (\d)st unit with product "([^"]+)"$/
+     * @Then /^I should not be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/
      */
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {

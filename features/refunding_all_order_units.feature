@@ -1,8 +1,8 @@
 @refunds
 Feature: Refunding all order units
-    In order to give back money for alla of the bought products to Customer
+    In order to give back money for all of the bought products to Customer
     As an Administrator
-    I want to be able to refund a single order unit
+    I want to be able to refund all order units
 
     Background:
         Given the store operates on a single channel in "United States"
@@ -21,5 +21,5 @@ Feature: Refunding all order units
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$30.00"
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
-        But I should still be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
-        But I should still be able to refund 3rd unit with product "Mr. Meeseeks T-Shirt"
+        But I should not be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
+        But I should not be able to refund 3rd unit with product "Mr. Meeseeks T-Shirt"

@@ -33,7 +33,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     public function pickAllUnitsToRefund(): void
     {
-        $this->getDocument()->checkField('Refund all');
+        $this->getDocument()->find('css', '#refund-all')->click();
     }
 
     public function refund(): void
@@ -45,7 +45,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
     {
         $units = $this->getUnitsWithProduct($productName);
 
-        return !$units[$unitNumber]->hasClass('disabled');
+        return !$units[$unitNumber]->find('css', '.checkbox')->hasClass('disabled');
     }
 
     protected function getDefinedElements(): array
