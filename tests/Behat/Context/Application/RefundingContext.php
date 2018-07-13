@@ -13,6 +13,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Exception\OrderIsNotPaidException;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context

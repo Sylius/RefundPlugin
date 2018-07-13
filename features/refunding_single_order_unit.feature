@@ -54,8 +54,7 @@ Feature: Refunding a single order unit
         When I view the summary of the order "#00000022"
         Then I should not be able to see refunds button
 
-    @todo @application
+    @application
     Scenario: Not being able to refund unit from an order that is unpaid
         When I want to refund some units of order "#00000022"
-        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
-        Then I should not be able to refund units
+        Then I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
