@@ -49,7 +49,7 @@ Feature: Refunding a single order unit
         When I want to refund some units of order "#00000022"
         Then I should be notified that the order should be paid
 
-    @todo @ui
+    @ui
     Scenario: Not being able to see refunds button
         When I view the summary of the order "#00000022"
         Then I should not be able to see refunds button
