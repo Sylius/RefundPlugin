@@ -17,9 +17,9 @@ Feature: Refunding a single order unit with taxes applied
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
 
-    @ui @todo
+    @ui @application
     Scenario: Refunding one of the order unit with tax applied
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
-        Then I should be notified that order unit has been successfully refunded
-        And refunded total should be "$11"
+        Then I should be notified that selected order units have been successfully refunded
+        And this order refunded total should be "$11.00"
