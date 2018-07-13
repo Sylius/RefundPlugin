@@ -44,6 +44,15 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I decide to refund all units of this order
+     */
+    public function decideToRefundAllUnits(): void
+    {
+        $this->orderRefundsPage->pickAllUnitsToRefund();
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When I refund zero items
      */
     public function refundZeroItems(): void
@@ -90,7 +99,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^I should not be able to refund (\d)st unit with product "([^"]+)"$/
+     * @Then /^I should not be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/
      */
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {

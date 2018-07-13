@@ -1,4 +1,5 @@
 sylius_refunds:
     ui:
+        refund_all: Refund all
         refunded_total: Refunded total
         refunds: Refunds

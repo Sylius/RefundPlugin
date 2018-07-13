@@ -44,6 +44,10 @@
     <div class="ui stackable grid">
         <div class="sixteen wide column">
             <div class="ui segment">
+                <div id="refund-all" class="ui checkbox" style="float: right; margin-bottom: 20px;">
+                    <input type="checkbox">
+                    <label>{{ 'sylius_refunds.ui.refund_all'|trans }}</label>
+                </div>
                 <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
                     <table id="refunds" class="ui compact celled definition table">
                         <thead>
@@ -59,7 +63,7 @@
                                 {% set variant = item.variant %}
                                 {% set product = variant.product %}
 
-                                <tr class="unit{% if not can_unit_be_refunded(unit.id) %} disabled{% endif %}">
+                                <tr class="unit">
                                     <td class="single line">
                                         {% include '@SyliusAdmin/Product/_info.html.twig' %}
                                     </td>
@@ -67,7 +71,7 @@
                                         {{ money.format(unit.total, order.currencyCode) }}
                                     </td>
                                     <td class="aligned collapsing">
-                                        <div class="ui checkbox">
+                                        <div class="ui checkbox {% if not can_unit_be_refunded(unit.id) %} disabled{% endif %}">
                                             <input type="checkbox" name="sylius_refund_units[]" value="{{ unit.id }}">
                                         </div>
                                     </td>
@@ -89,4 +93,24 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('#refund-all').checkbox({
+                onChecked: function() { $('td .checkbox:not(.disabled)').checkbox('check'); },
+                onUnchecked: function() {
+                    if ($('td .checkbox:not(.checked)').length == 0) {
+                        $('td .checkbox:not(.disabled)').checkbox('uncheck');
+                    }
+                }
+            });
+
+            $('td .checkbox').checkbox({
+                onUnchecked: function() { $('#refund-all').checkbox('uncheck'); }
+            })
+        });
+    </script>
 {% endblock %}
