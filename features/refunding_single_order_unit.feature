@@ -43,8 +43,9 @@ Feature: Refunding a single order unit
         And I refund zero items
         Then I should be notified that at least one unit should be selected to refund
 
-    @todo @ui
+    @ui
     Scenario: Not being able to refund unit from an order that is unpaid
+        Given I am viewing the summary of the order "#00000022"
         When I want to refund some units of order "#00000022"
         Then I should be notified that the order should be paid
 

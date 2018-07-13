@@ -6,6 +6,7 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
+use Sylius\Behat\Page\UnexpectedPageException;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
@@ -31,7 +32,10 @@ final class RefundingContext implements Context
      */
     public function wantToRefundSomeUnitsOfOrder(string $orderNumber): void
     {
-        $this->orderRefundsPage->open(['orderNumber' => $orderNumber]);
+        try {
+            $this->orderRefundsPage->open(['orderNumber' => $orderNumber]);
+        } catch (UnexpectedPageException $exception) {
+        }
     }
 
     /**
