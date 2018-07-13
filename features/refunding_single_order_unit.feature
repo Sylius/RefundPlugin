@@ -28,6 +28,12 @@ Feature: Refunding a single order unit
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
         But I should still be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
 
+    @application
+    Scenario: Not being able to refund already refunded unit
+        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has been already refunded
+        When I want to refund some units of order "#00000022"
+        And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
+
     @ui
     Scenario: Not being able to refund 0 units
         When I want to refund some units of order "#00000022"
