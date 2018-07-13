@@ -13,6 +13,7 @@ Feature: Refunding all order units
         And the customer bought 3 "Mr. Meeseeks T-Shirt" products
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
+        And the order "#00000022" is already paid
 
     @ui @javascript
     Scenario: Refunding all order units

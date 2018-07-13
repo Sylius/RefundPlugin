@@ -16,6 +16,7 @@ Feature: Refunding a single order unit with taxes applied
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
+        And the order "#00000022" is already paid
 
     @ui @application
     Scenario: Refunding one of the order unit with tax applied
