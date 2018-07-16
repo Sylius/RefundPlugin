@@ -29,16 +29,16 @@ final class OrderRefundingAvailabilityCheckerSpec extends ObjectBehavior
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
 
-        $this->__invoke('00000007')->shouldReturn(true);
+        $this('00000007')->shouldReturn(true);
     }
 
-    function it_returns_true_if_order_is_unpaid(
+    function it_returns_false_if_order_is_unpaid(
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
 
-        $this->__invoke('00000007')->shouldReturn(false);
+        $this('00000007')->shouldReturn(false);
     }
 }

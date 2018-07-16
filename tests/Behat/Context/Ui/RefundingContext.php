@@ -32,6 +32,14 @@ final class RefundingContext implements Context
      */
     public function wantToRefundSomeUnitsOfOrder(string $orderNumber): void
     {
+        $this->orderRefundsPage->open(['orderNumber' => $orderNumber]);
+    }
+
+    /**
+     * @When I try to refund some units of order :orderNumber
+     */
+    public function tryToRefundSomeUnitsOfOrder(string $orderNumber): void
+    {
         try {
             $this->orderRefundsPage->open(['orderNumber' => $orderNumber]);
         } catch (UnexpectedPageException $exception) {

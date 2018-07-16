@@ -11,7 +11,7 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Exception\OrderIsNotPaidException;
+use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
@@ -61,7 +61,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(false);
 
         $this
-            ->shouldThrow(OrderIsNotPaidException::class)
+            ->shouldThrow(OrderNotAvailableForRefundingException::class)
             ->during('__invoke', [new RefundUnits('000222', [1, 3])])
         ;
     }

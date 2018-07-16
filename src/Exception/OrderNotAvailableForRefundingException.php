@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Exception;
 
-final class OrderIsNotPaidException extends \InvalidArgumentException
+final class OrderNotAvailableForRefundingException extends \InvalidArgumentException
 {
     public static function withOrderNumber(string $orderNumber): self
     {

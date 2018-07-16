@@ -9,7 +9,7 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Exception\OrderIsNotPaidException;
+use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class RefundUnitsHandler
@@ -41,7 +41,7 @@ final class RefundUnitsHandler
     public function __invoke(RefundUnits $command): void
     {
         if (!$this->orderRefundingAvailabilityChecker->__invoke($command->orderNumber())) {
-            throw OrderIsNotPaidException::withOrderNumber($command->orderNumber());
+            throw OrderNotAvailableForRefundingException::withOrderNumber($command->orderNumber());
         }
 
         $refundedTotal = 0;
