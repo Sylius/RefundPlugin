@@ -6,7 +6,7 @@ Feature: Refunding all order units
 
     Background:
         Given the store operates on a single channel in "United States"
-        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10"
+        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
