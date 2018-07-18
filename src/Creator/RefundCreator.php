@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Creator;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
-use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 
@@ -22,19 +20,14 @@ final class RefundCreator implements RefundCreatorInterface
     /** @var ObjectManager */
     private $refundManager;
 
-    /** @var EventBus */
-    private $eventBus;
-
     public function __construct(
         RefundFactoryInterface $refundFactory,
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
-        ObjectManager $refundManager,
-        EventBus $eventBus
+        ObjectManager $refundManager
     ) {
         $this->refundFactory = $refundFactory;
         $this->unitRefundingAvailabilityChecker = $unitRefundingAvailabilityChecker;
         $this->refundManager = $refundManager;
-        $this->eventBus = $eventBus;
     }
 
     public function __invoke(string $orderNumber, int $unitId, int $amount): void
@@ -47,7 +40,5 @@ final class RefundCreator implements RefundCreatorInterface
 
         $this->refundManager->persist($refund);
         $this->refundManager->flush();
-
-        $this->eventBus->dispatch(new UnitRefunded($orderNumber, $unitId, $amount));
     }
 }

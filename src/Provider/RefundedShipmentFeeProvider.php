@@ -23,6 +23,7 @@ final class RefundedShipmentFeeProvider implements RefundedShipmentFeeProviderIn
         /** @var AdjustmentInterface $adjustment */
         $adjustment = $this->adjustmentRepository->find($adjustmentId);
         Assert::notNull($adjustment);
+        Assert::same($adjustment->getType(), AdjustmentInterface::SHIPPING_ADJUSTMENT);
 
         return $adjustment->getAmount();
     }
