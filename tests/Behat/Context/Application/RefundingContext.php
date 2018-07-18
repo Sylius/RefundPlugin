@@ -69,7 +69,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @When  /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
+     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
      */
     public function decideToRefundProductAndShipment(int $unitNumber, string $productName): void
     {
