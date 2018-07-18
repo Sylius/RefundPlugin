@@ -56,6 +56,6 @@ final class OrderUnitsRefunderSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this->refundFromOrder([1, 3], '000222')->shouldReturn(2500);;
+        $this->refundFromOrder([1, 3], '000222')->shouldReturn(2500);
     }
 }

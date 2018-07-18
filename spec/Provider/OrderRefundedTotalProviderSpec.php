@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;

@@ -134,7 +134,7 @@ final class RefundingContext implements Context
      */
     public function refundedTotalShouldBe(string $refundedTotal): void
     {
-        Assert::same($refundedTotal, $this->orderRefundsPage->getRefundedTotal());
+        Assert::same($this->orderRefundsPage->getRefundedTotal(), $refundedTotal);
     }
 
     /**

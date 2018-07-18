@@ -6,10 +6,8 @@ namespace spec\Sylius\RefundPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\AdjustmentInterface;
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
-use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
 {

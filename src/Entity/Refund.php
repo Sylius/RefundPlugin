@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
+
 use Sylius\RefundPlugin\Model\RefundType;
 
 /** @final */
@@ -11,13 +12,13 @@ class Refund implements RefundInterface
     /** @var int|null */
     private $id;
 
-    /** @var string|null */
+    /** @var string */
     private $orderNumber;
 
-    /** @var int|null */
+    /** @var int */
     private $amount;
 
-    /** @var int|null */
+    /** @var int */
     private $refundedUnitId;
 
     /** @var RefundType */

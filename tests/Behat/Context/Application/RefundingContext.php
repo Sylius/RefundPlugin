@@ -92,7 +92,7 @@ final class RefundingContext implements Context
             return $refund->getAmount();
         }, $orderRefunds));
 
-        Assert::same($refundedTotal, $orderRefundedTotal);
+        Assert::same($orderRefundedTotal, $refundedTotal);
     }
 
     /**

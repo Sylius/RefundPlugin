@@ -12,6 +12,7 @@ Feature: Refunding an order shipping cost
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
         And I am logged in as an administrator
 
     @ui @application

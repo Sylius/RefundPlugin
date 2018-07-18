@@ -6,7 +6,6 @@ namespace Sylius\RefundPlugin\Request;
 
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Symfony\Component\HttpFoundation\Request;
-use Webmozart\Assert\Assert;
 
 final class RefundUnitsRequest
 {

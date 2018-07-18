@@ -7,10 +7,8 @@ namespace Sylius\RefundPlugin\Refunder;
 use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
-use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
-use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class OrderShipmentsRefunder implements RefunderInterface
 {

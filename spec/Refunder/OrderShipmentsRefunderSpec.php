@@ -45,6 +45,6 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this->refundFromOrder([4], '000222')->shouldReturn(2500);;
+        $this->refundFromOrder([4], '000222')->shouldReturn(2500);
     }
 }
