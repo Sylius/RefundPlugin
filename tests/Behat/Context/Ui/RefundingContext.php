@@ -113,18 +113,7 @@ final class RefundingContext implements Context
     public function shouldBeNotifiedThatSelectedOrderUnitsHaveBeenSuccessfullyRefunded(): void
     {
         $this->notificationChecker->checkNotification(
-            'Order units have been successfully refunded',
-            NotificationType::success()
-        );
-    }
-
-    /**
-     * @Then I should be notified that order shipment has been successfully refunded
-     */
-    public function shouldBeNotifiedThatOrderShipmentHasBeenSuccessfullyRefunded(): void
-    {
-        $this->notificationChecker->checkNotification(
-            'Order shipment has been successfully refunded',
+            'Selected order units have been successfully refunded',
             NotificationType::success()
         );
     }

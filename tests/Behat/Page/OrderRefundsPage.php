@@ -83,6 +83,6 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     private function isRefundable(NodeElement $element): bool
     {
-        return $element->find('css', '.checkbox')->hasClass('disabled');
+        return !$element->find('css', '.checkbox')->hasClass('disabled');
     }
 }

@@ -143,7 +143,6 @@ final class RefundingContext implements Context
 
     /**
      * @Then I should be notified that selected order units have been successfully refunded
-     * @Then I should be notified that order shipment has been successfully refunded
      */
     public function notificationSteps(): void
     {

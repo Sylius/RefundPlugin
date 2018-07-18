@@ -12,7 +12,9 @@ final class RefundUnitsRequest
 {
     public static function getCommand(Request $request): RefundUnits
     {
-        Assert::notNull($request->request->get('sylius_refund_units'), 'sylius_refund.at_least_one_unit_should_be_selected_to_refund');
+        if ($request->request->get('sylius_refund_units') === null && $request->request->get('sylius_refund_shipments') === null) {
+            throw new \InvalidArgumentException('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
+        }
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),

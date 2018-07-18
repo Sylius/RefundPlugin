@@ -18,7 +18,6 @@ Feature: Refunding an order shipping cost
     Scenario: Refunding an order shipment
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment
-        Then I should be notified that order shipment has been successfully refunded
         And this order refunded total should be "$20.00"
         And I should not be able to refund order shipment
 
@@ -26,7 +25,6 @@ Feature: Refunding an order shipping cost
     Scenario: Refunding and order shipment along with order unit
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment and 1st "Mr. Meeseeks T-Shirt" product
-        Then I should be notified that order shipment has been successfully refunded
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$30.00"
         And I should not be able to refund order shipment

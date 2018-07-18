@@ -12,9 +12,9 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 
 final class OrderRefundedTotalProviderSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $refundRepository, RepositoryInterface $orderItemUnitRepository): void
+    function let(RepositoryInterface $refundRepository): void
     {
-        $this->beConstructedWith($refundRepository, $orderItemUnitRepository);
+        $this->beConstructedWith($refundRepository);
     }
 
     function it_implements_order_refunded_total_provider_interface(): void
@@ -24,22 +24,13 @@ final class OrderRefundedTotalProviderSpec extends ObjectBehavior
 
     function it_returns_refunded_total_of_order_with_given_number(
         RepositoryInterface $refundRepository,
-        RepositoryInterface $orderItemUnitRepository,
         RefundInterface $firstRefund,
-        RefundInterface $secondRefund,
-        OrderItemUnitInterface $firstOrderItemUnit,
-        OrderItemUnitInterface $secondOrderItemUnit
+        RefundInterface $secondRefund
     ): void {
         $refundRepository->findBy(['orderNumber' => '000222'])->willReturn([$firstRefund, $secondRefund]);
 
-        $firstRefund->getRefundedUnitId()->willReturn(10);
-        $secondRefund->getRefundedUnitId()->willReturn(5);
-
-        $orderItemUnitRepository->find(10)->willReturn($firstOrderItemUnit);
-        $orderItemUnitRepository->find(5)->willReturn($secondOrderItemUnit);
-
-        $firstOrderItemUnit->getTotal()->willReturn(1000);
-        $secondOrderItemUnit->getTotal()->willReturn(500);
+        $firstRefund->getAmount()->willReturn(1000);
+        $secondRefund->getAmount()->willReturn(500);
 
         $this->__invoke('000222')->shouldReturn(1500);
     }
