@@ -18,7 +18,10 @@ final class RefundUnitsRequest
             $request->attributes->get('orderNumber'),
             array_map(function (string $unitId): int {
                 return (int) $unitId;
-            }, $request->request->get('sylius_refund_units'))
+            }, $request->request->get('sylius_refund_units', [])),
+            array_map(function (string $unitId): int {
+                return (int) $unitId;
+            }, $request->request->get('sylius_refund_shipments', []))
         );
     }
 }

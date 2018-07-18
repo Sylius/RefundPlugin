@@ -19,38 +19,30 @@ class Refund implements RefundInterface
     /** @var int|null */
     private $refundedUnitId;
 
+    public function __construct(string $orderNumber, int $amount, int $refundedUnitId)
+    {
+        $this->orderNumber = $orderNumber;
+        $this->amount = $amount;
+        $this->refundedUnitId = $refundedUnitId;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOrderNumber(): ?string
+    public function getOrderNumber(): string
     {
         return $this->orderNumber;
     }
 
-    public function setOrderNumber(?string $orderNumber): void
-    {
-        $this->orderNumber = $orderNumber;
-    }
-
-    public function getAmount(): ?int
+    public function getAmount(): int
     {
         return $this->amount;
     }
 
-    public function setAmount(?int $amount): void
-    {
-        $this->amount = $amount;
-    }
-
-    public function getRefundedUnitId(): ?int
+    public function getRefundedUnitId(): int
     {
         return $this->refundedUnitId;
-    }
-
-    public function setRefundedUnitId(?int $refundedUnitId): void
-    {
-        $this->refundedUnitId = $refundedUnitId;
     }
 }
