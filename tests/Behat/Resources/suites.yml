@@ -27,6 +27,9 @@ default:
                 - sylius.behat.context.setup.taxation
                 - sylius.behat.context.setup.zone
 
+                - sylius.behat.context.ui.admin.managing_orders
+
+                - Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext
             filters:
                 tags: "@refunds && @ui"

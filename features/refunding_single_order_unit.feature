@@ -16,11 +16,13 @@ Feature: Refunding a single order unit
 
     @ui
     Scenario: Seeing available order units to refund
+        Given the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         Then I should be able to refund 2 "Mr. Meeseeks T-Shirt" products
 
     @ui @application
     Scenario: Refunding one of the order unit
+        Given the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
         Then I should be notified that selected order units have been successfully refunded
@@ -30,12 +32,30 @@ Feature: Refunding a single order unit
 
     @application
     Scenario: Not being able to refund already refunded unit
-        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has been already refunded
+        Given the order "#00000022" is already paid
+        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has been already refunded
         When I want to refund some units of order "#00000022"
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
 
     @ui
     Scenario: Not being able to refund 0 units
+        Given the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         And I refund zero items
         Then I should be notified that at least one unit should be selected to refund
+
+    @ui
+    Scenario: Not being able to refund unit from an order that is unpaid
+        Given I am viewing the summary of the order "#00000022"
+        When I try to refund some units of order "#00000022"
+        Then I should be notified that the order should be paid
+
+    @ui
+    Scenario: Not being able to see refunds button
+        When I view the summary of the order "#00000022"
+        Then I should not be able to see refunds button
+
+    @application
+    Scenario: Not being able to refund unit from an order that is unpaid
+        When I want to refund some units of order "#00000022"
+        Then I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
