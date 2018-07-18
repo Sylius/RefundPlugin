@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundCreator implements RefundCreatorInterface
 {
@@ -30,13 +31,13 @@ final class RefundCreator implements RefundCreatorInterface
         $this->refundManager = $refundManager;
     }
 
-    public function __invoke(string $orderNumber, int $unitId, int $amount): void
+    public function __invoke(string $orderNumber, int $unitId, int $amount, RefundType $refundType): void
     {
         if (!$this->unitRefundingAvailabilityChecker->__invoke($unitId)) {
             throw UnitAlreadyRefundedException::withIdAndOrderNumber($unitId, $orderNumber);
         }
 
-        $refund = $this->refundFactory->createWithData($orderNumber, $unitId, $amount);
+        $refund = $this->refundFactory->createWithData($orderNumber, $unitId, $amount, $refundType);
 
         $this->refundManager->persist($refund);
         $this->refundManager->flush();

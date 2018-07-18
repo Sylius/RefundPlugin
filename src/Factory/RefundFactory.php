@@ -6,11 +6,12 @@ namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\RefundPlugin\Entity\Refund;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundFactory implements RefundFactoryInterface
 {
-    public function createWithData(string $orderNumber, int $unitId, int $amount): RefundInterface
+    public function createWithData(string $orderNumber, int $unitId, int $amount, RefundType $type): RefundInterface
     {
-        return new Refund($orderNumber, $amount, $unitId);
+        return new Refund($orderNumber, $amount, $unitId, $type);
     }
 }

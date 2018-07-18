@@ -6,12 +6,13 @@ namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('000666', 1000, 3);
+        $this->beConstructedWith('000666', 1000, 3, RefundType::orderUnit());
     }
 
     function it_implements_refund_interface(): void
@@ -32,5 +33,10 @@ final class RefundSpec extends ObjectBehavior
     function it_has_refunded_unit_id(): void
     {
         $this->getRefundedUnitId()->shouldReturn(3);
+    }
+
+    function it_has_type(): void
+    {
+        $this->getType()->shouldBeLike(RefundType::orderUnit());
     }
 }

@@ -8,6 +8,7 @@ use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Event\UnitRefunded;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
@@ -38,7 +39,7 @@ final class OrderShipmentsRefunder implements RefunderInterface
         foreach ($unitIds as $shipmentUnitId) {
             $refundAmount = $this->refundedShipmentFeeProvider->getFeeOfShipment($shipmentUnitId);
 
-            $this->refundCreator->__invoke($orderNumber, $shipmentUnitId, $refundAmount);
+            $this->refundCreator->__invoke($orderNumber, $shipmentUnitId, $refundAmount, RefundType::shipment());
 
             $refundedTotal += $refundAmount;
 

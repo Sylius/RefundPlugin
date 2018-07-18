@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
+use Sylius\RefundPlugin\Model\RefundType;
 
 /** @final */
 class Refund implements RefundInterface
@@ -19,11 +20,15 @@ class Refund implements RefundInterface
     /** @var int|null */
     private $refundedUnitId;
 
-    public function __construct(string $orderNumber, int $amount, int $refundedUnitId)
+    /** @var RefundType */
+    private $type;
+
+    public function __construct(string $orderNumber, int $amount, int $refundedUnitId, RefundType $type)
     {
         $this->orderNumber = $orderNumber;
         $this->amount = $amount;
         $this->refundedUnitId = $refundedUnitId;
+        $this->type = $type;
     }
 
     public function getId(): ?int
@@ -44,5 +49,10 @@ class Refund implements RefundInterface
     public function getRefundedUnitId(): int
     {
         return $this->refundedUnitId;
+    }
+
+    public function getType(): RefundType
+    {
+        return $this->type;
     }
 }

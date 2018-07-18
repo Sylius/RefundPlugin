@@ -11,6 +11,7 @@ use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundCreatorSpec extends ObjectBehavior
 {
@@ -39,12 +40,12 @@ final class RefundCreatorSpec extends ObjectBehavior
     ): void {
         $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(true);
 
-        $refundFactory->createWithData('000222', 1, 1000)->willReturn($refund);
+        $refundFactory->createWithData('000222', 1, 1000, RefundType::shipment())->willReturn($refund);
 
         $refundEntityManager->persist($refund)->shouldBeCalled();
         $refundEntityManager->flush()->shouldBeCalled();
 
-        $this('000222', 1, 1000);
+        $this('000222', 1, 1000, RefundType::shipment());
     }
 
     function it_throws_exception_if_unit_has_already_been_refunded(
@@ -54,7 +55,7 @@ final class RefundCreatorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(UnitAlreadyRefundedException::class)
-            ->during('__invoke', ['000222', 1, 1000])
+            ->during('__invoke', ['000222', 1, 1000, RefundType::orderUnit()])
         ;
     }
 }

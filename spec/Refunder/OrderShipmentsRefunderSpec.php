@@ -9,6 +9,7 @@ use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
@@ -34,7 +35,7 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
     ): void {
         $refundedShipmentFeeProvider->getFeeOfShipment(4)->willReturn(2500);
 
-        $refundCreator->__invoke('000222', 4, 2500)->shouldBeCalled();
+        $refundCreator->__invoke('000222', 4, 2500, RefundType::shipment())->shouldBeCalled();
 
         $eventBus->dispatch(Argument::that(function (ShipmentRefunded $event): bool {
             return

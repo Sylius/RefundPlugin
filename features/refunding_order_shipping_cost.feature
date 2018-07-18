@@ -22,7 +22,7 @@ Feature: Refunding an order shipping cost
         And this order refunded total should be "$20.00"
         And I should not be able to refund order shipment
 
-    @application
+    @application @todo
     Scenario: Refunding and order shipment along with order unit
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment and 1st "Mr. Meeseeks T-Shirt" product

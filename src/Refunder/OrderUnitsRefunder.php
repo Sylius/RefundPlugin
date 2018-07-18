@@ -7,6 +7,7 @@ namespace Sylius\RefundPlugin\Refunder;
 use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class OrderUnitsRefunder implements RefunderInterface
@@ -36,7 +37,7 @@ final class OrderUnitsRefunder implements RefunderInterface
         foreach ($unitIds as $unitId) {
             $refundAmount = $this->refundedUnitTotalProvider->getTotalOfUnitWithId($unitId);
 
-            $this->refundCreator->__invoke($orderNumber, $unitId, $refundAmount);
+            $this->refundCreator->__invoke($orderNumber, $unitId, $refundAmount, RefundType::orderUnit());
 
             $refundedTotal += $refundAmount;
 
