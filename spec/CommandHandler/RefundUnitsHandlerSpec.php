@@ -12,6 +12,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
@@ -19,12 +20,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
     function let(
         RefundCreatorInterface $refundCreator,
         RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
+        RefundedShipmentFeeProviderInterface $refundedShippingFeeProvider,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus
     ): void {
         $this->beConstructedWith(
             $refundCreator,
             $refundedUnitTotalProvider,
+            $refundedShippingFeeProvider,
             $orderRefundingAvailabilityChecker,
             $eventBus
         );
@@ -48,11 +51,33 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             return
                 $event->orderNumber() === '000222' &&
                 $event->unitIds() === [1, 3] &&
+                $event->shipmentIds() === [] &&
                 $event->amount() === 1500
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', [1, 3]));
+        $this(new RefundUnits('000222', [1, 3], []));
+    }
+
+    function it_handles_command_and_create_refund_for_each_refunded_shipment(
+        RefundCreatorInterface $refundCreator,
+        RefundedShipmentFeeProviderInterface $refundedShippingFeeProvider,
+        EventBus $eventBus
+    ): void {
+        $refundedShippingFeeProvider->getFeeOfShipment(1)->willReturn(1000);
+
+        $refundCreator->__invoke('000222', 1, 1000)->shouldBeCalled();
+
+        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
+            return
+                $event->orderNumber() === '000222' &&
+                $event->unitIds() === [] &&
+                $event->shipmentIds() === [1] &&
+                $event->amount() === 1000
+            ;
+        }))->shouldBeCalled();
+
+        $this(new RefundUnits('000222', [], [1]));
     }
 
     function it_throws_an_exception_if_order_is_not_available_for_refund(

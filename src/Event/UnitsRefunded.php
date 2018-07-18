@@ -11,21 +11,13 @@ final class UnitsRefunded extends DomainEvent
 {
     use PayloadTrait;
 
-    /** @var string */
-    private $orderNumber;
-
-    /** @var iterable */
-    private $unitIds;
-
-    /** @var int */
-    private $amount;
-
-    public function __construct(string $orderNumber, iterable $unitIds, int $amount)
+    public function __construct(string $orderNumber, iterable $unitIds, iterable $shipmentIds, int $amount)
     {
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
             'unit_ids' => $unitIds,
+            'shipment_ids' => $shipmentIds,
             'amount' => $amount,
         ]);
     }
@@ -38,6 +30,11 @@ final class UnitsRefunded extends DomainEvent
     public function unitIds(): iterable
     {
         return $this->payload['unit_ids'];
+    }
+
+    public function shipmentIds(): iterable
+    {
+        return $this->payload['shipment_ids'];
     }
 
     public function amount(): int

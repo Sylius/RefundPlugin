@@ -10,6 +10,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 
 final class RefundUnitsHandler
@@ -20,6 +21,9 @@ final class RefundUnitsHandler
     /** @var RefundedUnitTotalProviderInterface */
     private $refundedUnitTotalProvider;
 
+    /** @var RefundedShipmentFeeProviderInterface */
+    private $refundedShippingFeeProvider;
+
     /** @var OrderRefundingAvailabilityCheckerInterface */
     private $orderRefundingAvailabilityChecker;
 
@@ -29,11 +33,13 @@ final class RefundUnitsHandler
     public function __construct(
         RefundCreatorInterface $refundCreator,
         RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
+        RefundedShipmentFeeProviderInterface $refundedShippingFeeProvider,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus
     ) {
         $this->refundCreator = $refundCreator;
         $this->refundedUnitTotalProvider = $refundedUnitTotalProvider;
+        $this->refundedShippingFeeProvider = $refundedShippingFeeProvider;
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->eventBus = $eventBus;
     }
@@ -53,9 +59,18 @@ final class RefundUnitsHandler
             $refundedTotal += $refundAmount;
         }
 
+        foreach ($command->refundedShipmentIds() as $shipmentId) {
+            $shippingRefundAmount = $this->refundedShippingFeeProvider->getFeeOfShipment($shipmentId);
+
+            $this->refundCreator->__invoke($command->orderNumber(), $shipmentId, $shippingRefundAmount);
+
+            $refundedTotal += $shippingRefundAmount;
+        }
+
         $this->eventBus->dispatch(new UnitsRefunded(
             $command->orderNumber(),
             $command->refundedUnitIds(),
+            $command->refundedShipmentIds(),
             $refundedTotal
         ));
     }
