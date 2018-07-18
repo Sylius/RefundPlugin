@@ -38,24 +38,28 @@ final class RefundCreatorSpec extends ObjectBehavior
         ObjectManager $refundEntityManager,
         RefundInterface $refund
     ): void {
-        $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(true);
+        $refundType = RefundType::shipment();
+
+        $unitRefundingAvailabilityChecker->__invoke(1, $refundType)->willReturn(true);
 
         $refundFactory->createWithData('000222', 1, 1000, RefundType::shipment())->willReturn($refund);
 
         $refundEntityManager->persist($refund)->shouldBeCalled();
         $refundEntityManager->flush()->shouldBeCalled();
 
-        $this('000222', 1, 1000, RefundType::shipment());
+        $this('000222', 1, 1000, $refundType);
     }
 
     function it_throws_exception_if_unit_has_already_been_refunded(
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker
     ): void {
-        $unitRefundingAvailabilityChecker->__invoke(1)->willReturn(false);
+        $refundType = RefundType::shipment();
+
+        $unitRefundingAvailabilityChecker->__invoke(1, $refundType)->willReturn(false);
 
         $this
             ->shouldThrow(UnitAlreadyRefundedException::class)
-            ->during('__invoke', ['000222', 1, 1000, RefundType::orderUnit()])
+            ->during('__invoke', ['000222', 1, 1000, $refundType])
         ;
     }
 }

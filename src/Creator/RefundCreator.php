@@ -33,7 +33,7 @@ final class RefundCreator implements RefundCreatorInterface
 
     public function __invoke(string $orderNumber, int $unitId, int $amount, RefundType $refundType): void
     {
-        if (!$this->unitRefundingAvailabilityChecker->__invoke($unitId)) {
+        if (!$this->unitRefundingAvailabilityChecker->__invoke($unitId, $refundType)) {
             throw UnitAlreadyRefundedException::withIdAndOrderNumber($unitId, $orderNumber);
         }
 
