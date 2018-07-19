@@ -8,7 +8,7 @@ use Sylius\RefundPlugin\Exception\RefundTypeNotResolved;
 
 final class RefundType
 {
-    public const ORDER_UNIT = 'order_unit';
+    public const ORDER_ITEM_UNIT = 'order_item_unit';
     public const SHIPMENT = 'shipment';
 
     /** @var string */
@@ -16,7 +16,7 @@ final class RefundType
 
     public function __construct(string $value)
     {
-        if (!in_array($value, [self::ORDER_UNIT, self::SHIPMENT])) {
+        if (!in_array($value, [self::ORDER_ITEM_UNIT, self::SHIPMENT])) {
             throw RefundTypeNotResolved::withType($value);
         }
 
@@ -28,9 +28,9 @@ final class RefundType
         return $this->value;
     }
 
-    public static function orderUnit(): self
+    public static function orderItemUnit(): self
     {
-        return new self(self::ORDER_UNIT);
+        return new self(self::ORDER_ITEM_UNIT);
     }
 
     public static function shipment(): self

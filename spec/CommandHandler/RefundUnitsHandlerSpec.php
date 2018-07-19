@@ -16,13 +16,13 @@ use Sylius\RefundPlugin\Refunder\RefunderInterface;
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
     function let(
-        RefunderInterface $orderUnitsRefunder,
+        RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus
     ): void {
         $this->beConstructedWith(
-            $orderUnitsRefunder,
+            $orderItemUnitsRefunder,
             $orderShipmentsRefunder,
             $orderRefundingAvailabilityChecker,
             $eventBus
@@ -31,13 +31,13 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
     function it_handles_command_and_create_refund_for_each_refunded_unit(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        RefunderInterface $orderUnitsRefunder,
+        RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         EventBus $eventBus
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
-        $orderUnitsRefunder->refundFromOrder([1, 3], '000222')->willReturn(3000);
+        $orderItemUnitsRefunder->refundFromOrder([1, 3], '000222')->willReturn(3000);
         $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(4000);
 
         $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
@@ -46,7 +46,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
                 $event->unitIds() === [1, 3] &&
                 $event->shipmentIds() === [3, 4] &&
                 $event->amount() === 7000
-                ;
+            ;
         }))->shouldBeCalled();
 
         $this(new RefundUnits('000222', [1, 3], [3, 4]));

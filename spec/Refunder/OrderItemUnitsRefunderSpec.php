@@ -13,7 +13,7 @@ use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
-final class OrderUnitsRefunderSpec extends ObjectBehavior
+final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 {
     function let(
         RefundCreatorInterface $refundCreator,
@@ -36,7 +36,7 @@ final class OrderUnitsRefunderSpec extends ObjectBehavior
         $refundedUnitTotalProvider->getTotalOfUnitWithId(1)->willReturn(1500);
         $refundedUnitTotalProvider->getTotalOfUnitWithId(3)->willReturn(1000);
 
-        $refundCreator->__invoke('000222', 1, 1500, RefundType::orderUnit())->shouldBeCalled();
+        $refundCreator->__invoke('000222', 1, 1500, RefundType::orderItemUnit())->shouldBeCalled();
 
         $eventBus->dispatch(Argument::that(function (UnitRefunded $event): bool {
             return
@@ -46,7 +46,7 @@ final class OrderUnitsRefunderSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $refundCreator->__invoke('000222', 3, 1000, RefundType::orderUnit())->shouldBeCalled();
+        $refundCreator->__invoke('000222', 3, 1000, RefundType::orderItemUnit())->shouldBeCalled();
 
         $eventBus->dispatch(Argument::that(function (UnitRefunded $event): bool {
             return

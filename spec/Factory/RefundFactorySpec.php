@@ -19,8 +19,8 @@ final class RefundFactorySpec extends ObjectBehavior
     function it_allows_to_create_refund_with_given_data(): void
     {
         $this
-            ->createWithData('0001', 1, 1000, RefundType::orderUnit())
-            ->shouldBeLike(new Refund('0001', 1000, 1, RefundType::orderUnit()))
+            ->createWithData('0001', 1, 1000, RefundType::orderItemUnit())
+            ->shouldBeLike(new Refund('0001', 1000, 1, RefundType::orderItemUnit()))
         ;
     }
 }

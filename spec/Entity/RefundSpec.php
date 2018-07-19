@@ -10,9 +10,9 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundSpec extends ObjectBehavior
 {
-    function let()
+    function let(): void
     {
-        $this->beConstructedWith('000666', 1000, 3, RefundType::orderUnit());
+        $this->beConstructedWith('000666', 1000, 3, RefundType::orderItemUnit());
     }
 
     function it_implements_refund_interface(): void
@@ -37,6 +37,6 @@ final class RefundSpec extends ObjectBehavior
 
     function it_has_type(): void
     {
-        $this->getType()->shouldBeLike(RefundType::orderUnit());
+        $this->getType()->shouldBeLike(RefundType::orderItemUnit());
     }
 }

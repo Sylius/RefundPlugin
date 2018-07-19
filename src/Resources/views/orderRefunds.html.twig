@@ -71,7 +71,7 @@
                                         {{ money.format(unit.total, order.currencyCode) }}
                                     </td>
                                     <td class="aligned collapsing">
-                                        <div class="ui checkbox {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_UNIT')) %} disabled{% endif %}">
+                                        <div class="ui checkbox {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}">
                                             <input type="checkbox" name="sylius_refund_units[]" value="{{ unit.id }}">
                                         </div>
                                     </td>

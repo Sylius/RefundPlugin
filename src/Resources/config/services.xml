@@ -15,7 +15,7 @@
             <argument type="service" id="sylius_refund.manager.refund" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Refunder\OrderUnitsRefunder">
+        <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RefundedUnitTotalProvider" />
             <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />

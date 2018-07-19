@@ -13,7 +13,7 @@ final class RefundUnitsSpec extends ObjectBehavior
         $this->beConstructedWith('000222', [1, 3, 5], [2]);
 
         $this->orderNumber()->shouldReturn('000222');
-        $this->refundedUnitIds()->shouldReturn([1, 3, 5]);
-        $this->refundedShipmentIds()->shouldReturn([2]);
+        $this->unitIds()->shouldReturn([1, 3, 5]);
+        $this->shipmentIds()->shouldReturn([2]);
     }
 }

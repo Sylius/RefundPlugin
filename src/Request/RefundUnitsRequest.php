@@ -17,12 +17,15 @@ final class RefundUnitsRequest
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
-            array_map(function (string $unitId): int {
-                return (int) $unitId;
-            }, $request->request->get('sylius_refund_units', [])),
-            array_map(function (string $unitId): int {
-                return (int) $unitId;
-            }, $request->request->get('sylius_refund_shipments', []))
+            self::parseIdsToIntegers($request->request->get('sylius_refund_units', [])),
+            self::parseIdsToIntegers($request->request->get('sylius_refund_shipments', []))
         );
+    }
+
+    private static function parseIdsToIntegers(array $elements): array
+    {
+        return array_map(function (string $element): int {
+            return (int) $element;
+        }, $elements);
     }
 }
