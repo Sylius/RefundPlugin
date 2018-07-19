@@ -24,11 +24,11 @@ Feature: Having credit memo generated
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
         Then I should be notified that selected order units have been successfully refunded
-        And I should have credit memo for order "#00000022" generated
+        And I should have 1 credit memo generated
 
     @ui @application @todo
     Scenario: Seeing the details of generated credit memo
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has been already refunded
         And I browse the details of the only credit memo generated for order "#00000022"
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product, with "$1.00" discount and "$0.90" tax applied
-        And this its total should be "$9.90"
+        And its total should be "$9.90"
