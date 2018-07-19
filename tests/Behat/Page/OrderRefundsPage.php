@@ -48,6 +48,11 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return !$units[$unitNumber]->find('css', '.checkbox')->hasClass('disabled');
     }
 
+    public function hasBackButton(): bool
+    {
+        return null !== $this->getDocument()->find('css', 'a:contains("Back")');
+    }
+
     protected function getDefinedElements(): array
     {
         return [

@@ -19,6 +19,7 @@ Feature: Refunding a single order unit
         Given the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         Then I should be able to refund 2 "Mr. Meeseeks T-Shirt" products
+        And I should be able to go back to order details
 
     @ui @application
     Scenario: Refunding one of the order unit

@@ -81,7 +81,11 @@
                         </tbody>
                     </table>
 
-                    <button class="ui primary button" type="submit">{{ 'sylius.ui.refund'|trans }}</button>
+                    <div class="ui buttons">
+                        <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">{{ 'sylius.ui.back'|trans }}</a>
+                        <div class="or"></div>
+                        <button class="ui primary button" type="submit">{{ 'sylius.ui.refund'|trans }}</button>
+                    </div>
 
                     <br/><br/>
 
