@@ -19,4 +19,6 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
     public function refund(): void;
 
     public function isUnitWithProductAvailableToRefund(string $productName, int $unitNumber): bool;
+
+    public function hasBackButton(): bool;
 }

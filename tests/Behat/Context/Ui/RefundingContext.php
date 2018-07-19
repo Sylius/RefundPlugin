@@ -75,9 +75,17 @@ final class RefundingContext implements Context
     /**
      * @Then I should be able to refund :count :productName products
      */
-    public function iShouldBeAbleToRefundProducts(int $count, string $productName): void
+    public function shouldBeAbleToRefundProducts(int $count, string $productName): void
     {
         Assert::same($count, $this->orderRefundsPage->countRefundableUnitsWithProduct($productName));
+    }
+
+    /**
+     * @Then I should be able to go back to order details
+     */
+    public function shouldBeAbleToGoBackToOrderDetails(): void
+    {
+        Assert::true($this->orderRefundsPage->hasBackButton());
     }
 
     /**
