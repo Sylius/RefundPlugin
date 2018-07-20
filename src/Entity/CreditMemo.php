@@ -22,6 +22,8 @@ class CreditMemo implements CreditMemoInterface
     public function __construct(string $orderNumber, int $total, string $currencyCode)
     {
         $this->orderNumber = $orderNumber;
+        $this->total = $total;
+        $this->currencyCode = $currencyCode;
     }
 
     public function getId(): int
