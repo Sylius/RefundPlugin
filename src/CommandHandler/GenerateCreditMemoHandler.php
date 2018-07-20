@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Prooph\ServiceBus\EventBus;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 
 final class GenerateCreditMemoHandler
@@ -19,10 +21,17 @@ final class GenerateCreditMemoHandler
     /** @var ObjectManager */
     private $creditMemoManager;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, ObjectManager $creditMemoManager)
-    {
+    /** @var EventBus */
+    private $eventBus;
+
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        ObjectManager $creditMemoManager,
+        EventBus $eventBus
+    ) {
         $this->orderRepository = $orderRepository;
         $this->creditMemoManager = $creditMemoManager;
+        $this->eventBus = $eventBus;
     }
 
     public function __invoke(GenerateCreditMemo $command): void
@@ -37,5 +46,7 @@ final class GenerateCreditMemoHandler
 
         $this->creditMemoManager->persist(new CreditMemo($orderNumber, $command->total(), $order->getCurrencyCode()));
         $this->creditMemoManager->flush();
+
+        $this->eventBus->dispatch(new CreditMemoGenerated($orderNumber));
     }
 }
