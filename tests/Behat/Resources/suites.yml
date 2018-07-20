@@ -63,6 +63,7 @@ default:
                 - sylius.behat.context.setup.zone
                 - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
 
+                - Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext
             filters:
                 tags: "@refunds && @application"

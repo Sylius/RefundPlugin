@@ -6,30 +6,43 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context
 {
-    /** @var CreditMemo */
+    /** @var CreditMemoInterface */
     private $creditMemo;
+
+    /** @var ObjectRepository */
+    private $creditMemoRepository;
+
+    public function __construct(ObjectManager $creditMemoManager)
+    {
+        $this->creditMemoRepository = $creditMemoManager->getRepository(CreditMemo::class);
+    }
 
     /**
      * @When I browse the details of the only credit memo generated for order :orderNumber
      */
     public function browseTheDetailsOfTheOnlyCreditMemoGeneratedForOrder(string $orderNumber): void
     {
-        // get credit memo for order from repository and save in memory
+        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber]);
 
-        throw new PendingException();
+        $this->creditMemo = $creditMemos[0];
     }
 
     /**
-     * @Then I should have :count credit memo generated
+     * @Then I should have :count credit memo generated for order :orderNumber
      */
-    public function shouldHaveCountCreditMemoGenerated(int $count): void
+    public function shouldHaveCountCreditMemoGeneratedForThisOrder(int $count, string $orderNumber): void
     {
-        // get all credit memos for order from repository and check if there is one
+        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber]);
 
-        throw new PendingException();
+        Assert::count($creditMemos, 1);
     }
 
     /**
@@ -47,12 +60,10 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then its total should be :total
+     * @Then /^its total should be ("[^"]+")$/
      */
-    public function creditMemoTotalShouldBe(string $total): void
+    public function creditMemoTotalShouldBe(int $total): void
     {
-        // check credit memo total
-
-        throw new PendingException();
+        Assert::same($this->creditMemo->getTotal(), $total);
     }
 }
