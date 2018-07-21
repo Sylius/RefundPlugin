@@ -54,5 +54,13 @@
         <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
             <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
         </service>
+
+        <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver">
+            <argument type="service" id="sm.factory" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
+        </service>
     </services>
 </container>

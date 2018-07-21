@@ -24,6 +24,7 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext">
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" />
             <argument type="service" id="sylius.behat.notification_checker" />
+            <argument type="service" id="__symfony__.sylius.repository.order" />
             <tag name="fob.context_service" />
         </service>
 

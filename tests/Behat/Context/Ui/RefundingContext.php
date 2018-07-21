@@ -8,6 +8,9 @@ use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\UnexpectedPageException;
 use Sylius\Behat\Service\NotificationCheckerInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\RefundPlugin\StateResolver\OrderStates;
 use Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -19,12 +22,17 @@ final class RefundingContext implements Context
     /** @var NotificationCheckerInterface */
     private $notificationChecker;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     public function __construct(
         OrderRefundsPageInterface $orderRefundsPage,
-        NotificationCheckerInterface $notificationChecker
+        NotificationCheckerInterface $notificationChecker,
+        OrderRepositoryInterface $orderRepository
     ) {
         $this->orderRefundsPage = $orderRefundsPage;
         $this->notificationChecker = $notificationChecker;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -159,5 +167,17 @@ final class RefundingContext implements Context
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         Assert::true($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
+    }
+
+    /**
+     * @Then the order :orderNumber should be fully refunded
+     */
+    public function orderShouldBeFullyRefunded(string $orderNumber): void
+    {
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+
+        Assert::isInstanceOf($order, OrderInterface::class);
+
+        Assert::eq($order->getState(), OrderStates::STATE_FULLY_REFUNDED);
     }
 }
