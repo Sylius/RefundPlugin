@@ -17,7 +17,8 @@
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext">
-            <argument type="service" id="__symfony__.doctrine.orm.entity_manager" />
+            <argument type="service" id="__symfony__.sylius_refund_plugin.repository.credit_memo" />
+            <argument type="service" id="__symfony__.Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
             <tag name="fob.context_service" />
         </service>
 
@@ -37,6 +38,7 @@
             <argument type="service" id="sylius.behat.page.admin.order.show" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" />
             <argument type="service" id="__symfony__.sylius_refund_plugin.repository.credit_memo" />
+            <argument type="service" id="__symfony__.Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
             <tag name="fob.context_service" />
         </service>
 

@@ -12,6 +12,7 @@
             <generator strategy="AUTO" />
         </id>
 
+        <field name="number" />
         <field name="orderNumber" />
         <field name="total" type="integer" />
         <field name="currencyCode" />

@@ -8,6 +8,8 @@ interface CreditMemoInterface
 {
     public function getId(): int;
 
+    public function getNumber(): string;
+
     public function getOrderNumber(): string;
 
     public function getTotal(): int;

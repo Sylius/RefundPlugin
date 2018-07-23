@@ -11,6 +11,9 @@ class CreditMemo implements CreditMemoInterface
     private $id;
 
     /** @var string */
+    private $number;
+
+    /** @var string */
     private $orderNumber;
 
     /** @var int */
@@ -19,8 +22,9 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     private $currencyCode;
 
-    public function __construct(string $orderNumber, int $total, string $currencyCode)
+    public function __construct(string $number, string $orderNumber, int $total, string $currencyCode)
     {
+        $this->number = $number;
         $this->orderNumber = $orderNumber;
         $this->total = $total;
         $this->currencyCode = $currencyCode;
@@ -29,6 +33,11 @@ class CreditMemo implements CreditMemoInterface
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getNumber(): string
+    {
+        return $this->number;
     }
 
     public function getOrderNumber(): string

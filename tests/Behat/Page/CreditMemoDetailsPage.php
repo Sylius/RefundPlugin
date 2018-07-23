@@ -28,6 +28,11 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         // TODO: Implement getUnitTax() method.
     }
 
+    public function getNumber(): string
+    {
+        return str_replace('#', '', $this->getDocument()->find('css', '#number')->getText());
+    }
+
     public function getTotal(): string
     {
         return str_replace('Total: ', '', $this->getDocument()->find('css', '#total')->getText());

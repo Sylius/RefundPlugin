@@ -7,6 +7,7 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
@@ -22,14 +23,19 @@ final class CreditMemoContext implements Context
     /** @var ObjectRepository */
     private $creditMemoRepository;
 
+    /** @var CurrentDateTimeProviderInterface */
+    private $currentDateTimeProvider;
+
     public function __construct(
         ShowPageInterface $orderShowPage,
         CreditMemoDetailsPageInterface $creditMemoDetailsPage,
-        ObjectRepository $creditMemoRepository
+        ObjectRepository $creditMemoRepository,
+        CurrentDateTimeProviderInterface $currentDateTimeProvider
     ) {
         $this->orderShowPage = $orderShowPage;
         $this->creditMemoDetailsPage = $creditMemoDetailsPage;
         $this->creditMemoRepository = $creditMemoRepository;
+        $this->currentDateTimeProvider = $currentDateTimeProvider;
     }
 
     /**
@@ -64,6 +70,17 @@ final class CreditMemoContext implements Context
         Assert::same($this->creditMemoDetailsPage->countUnitsWithProduct($productName), $count);
         Assert::same($this->creditMemoDetailsPage->getUnitDiscount($count, $productName), $discount);
         Assert::same($this->creditMemoDetailsPage->getUnitTax($count, $productName), $tax);
+    }
+
+    /**
+     * @Then it should have sequential number generated from current date
+     */
+    public function shouldHaveSequentialNumberGeneratedFromCurrentDate(): void
+    {
+        Assert::same(
+            $this->creditMemoDetailsPage->getNumber(),
+            $this->currentDateTimeProvider->now()->format('y/m').'/'.'000000001'
+        );
     }
 
     /**

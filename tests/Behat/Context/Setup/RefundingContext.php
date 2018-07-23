@@ -28,9 +28,9 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^(\d)st "([^"]+)" product from order "#([^"]+)" has been already refunded$/
+     * @Given /^(\d)st "([^"]+)" product from order "#([^"]+)" has already been refunded$/
      */
-    public function productFromOrderHasBeenAlreadyRefunded(int $unitNumber, string $productName, string $orderNumber): void
+    public function productFromOrderHasAlreadyBeenRefunded(int $unitNumber, string $productName, string $orderNumber): void
     {
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);

@@ -8,6 +8,7 @@
     <div class="ui stackable grid">
         <div class="sixteen wide column">
             <div class="ui segment">
+                <h3 id="number">#{{ creditMemo.number }}</h3>
                 <h3 id="total">{{ 'sylius.ui.total'|trans }}: {{ money.format(creditMemo.total, creditMemo.currencyCode) }}</h3>
             </div>
         </div>

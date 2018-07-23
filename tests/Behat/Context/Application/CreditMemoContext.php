@@ -10,6 +10,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context
@@ -20,9 +21,13 @@ final class CreditMemoContext implements Context
     /** @var ObjectRepository */
     private $creditMemoRepository;
 
-    public function __construct(ObjectManager $creditMemoManager)
+    /** @var CurrentDateTimeProviderInterface */
+    private $currentDateTimeProvider;
+
+    public function __construct(ObjectRepository $creditMemoRepository, CurrentDateTimeProviderInterface $currentDateTimeProvider)
     {
-        $this->creditMemoRepository = $creditMemoManager->getRepository(CreditMemo::class);
+        $this->creditMemoRepository = $creditMemoRepository;
+        $this->currentDateTimeProvider = $currentDateTimeProvider;
     }
 
     /**
@@ -43,6 +48,17 @@ final class CreditMemoContext implements Context
         $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber]);
 
         Assert::count($creditMemos, 1);
+    }
+
+    /**
+     * @Then it should have sequential number generated from current date
+     */
+    public function shouldHaveSequentialNumberGeneratedFromCurrentDate(): void
+    {
+        Assert::same(
+            $this->creditMemo->getNumber(),
+            $this->currentDateTimeProvider->now()->format('y/m').'/'.'000000001'
+        );
     }
 
     /**

@@ -14,25 +14,34 @@ use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
+use Sylius\RefundPlugin\Generator\NumberGenerator;
 
 final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 {
-    function let(OrderRepositoryInterface $orderRepository, ObjectManager $creditMemoManager, EventBus $eventBus)
-    {
-        $this->beConstructedWith($orderRepository, $creditMemoManager, $eventBus);
+    function let(
+        OrderRepositoryInterface $orderRepository,
+        ObjectManager $creditMemoManager,
+        NumberGenerator $creditMemoNumberGenerator,
+        EventBus $eventBus
+    ) {
+        $this->beConstructedWith($orderRepository, $creditMemoManager, $creditMemoNumberGenerator, $eventBus);
     }
 
     function it_generates_credit_memo(
         OrderRepositoryInterface $orderRepository,
         ObjectManager $creditMemoManager,
+        NumberGenerator $creditMemoNumberGenerator,
         EventBus $eventBus,
         OrderInterface $order
     ): void {
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
 
+        $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
+
         $creditMemoManager->persist(Argument::that(function (CreditMemo $creditMemo): bool {
             return
+                $creditMemo->getNumber() === '2018/07/00001111' &&
                 $creditMemo->getOrderNumber() === '000666' &&
                 $creditMemo->getTotal() === 1000 &&
                 $creditMemo->getCurrencyCode() === 'GBP'
@@ -40,7 +49,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         }))->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function(CreditMemoGenerated $event): bool {
+        $eventBus->dispatch(Argument::that(function (CreditMemoGenerated $event): bool {
             return $event->orderNumber() === '000666';
         }))->shouldBeCalled();
 
