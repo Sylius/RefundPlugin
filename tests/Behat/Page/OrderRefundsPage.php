@@ -36,6 +36,13 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         $this->getDocument()->find('css', '#refund-all')->click();
     }
 
+    public function pickOrderShipment(): void
+    {
+        $orderShipment = $this->getOrderShipment();
+
+        $orderShipment->find('css', '.checkbox input')->check();
+    }
+
     public function refund(): void
     {
         $this->getDocument()->pressButton('Refund');
@@ -43,9 +50,12 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     public function isUnitWithProductAvailableToRefund(string $productName, int $unitNumber): bool
     {
-        $units = $this->getUnitsWithProduct($productName);
+        return $this->isRefundable($this->getUnitsWithProduct($productName)[$unitNumber]);
+    }
 
-        return !$units[$unitNumber]->find('css', '.checkbox')->hasClass('disabled');
+    public function isOrderShipmentAvailableToRefund(): bool
+    {
+        return $this->isRefundable($this->getOrderShipment());
     }
 
     public function hasBackButton(): bool
@@ -64,5 +74,15 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
     private function getUnitsWithProduct(string $productName): array
     {
         return $this->getDocument()->findAll('css', sprintf('#refunds .unit:contains("%s")', $productName));
+    }
+
+    private function getOrderShipment(): NodeElement
+    {
+        return $this->getDocument()->find('css', '#refunds .shipment');
+    }
+
+    private function isRefundable(NodeElement $element): bool
+    {
+        return !$element->find('css', '.checkbox')->hasClass('disabled');
     }
 }

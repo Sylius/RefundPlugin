@@ -8,7 +8,7 @@ Feature: Refunding a single order unit with taxes applied
         Given the store operates on a single channel in "United States"
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
-        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10"
+        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"

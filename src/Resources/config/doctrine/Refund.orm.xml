@@ -8,13 +8,18 @@
 >
 
     <entity name="Sylius\RefundPlugin\Entity\Refund" table="sylius_refund_refund">
+        <unique-constraints>
+            <unique-constraint columns="refunded_unit_id,type" />
+        </unique-constraints>
+
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
 
-        <field name="orderNumber" type="string" />
+        <field name="orderNumber"/>
         <field name="amount" type="integer" />
-        <field name="refundedUnitId" type="integer" nullable="true"/>
+        <field name="refundedUnitId" type="integer" nullable="true" column="refunded_unit_id"/>
+        <field name="type" />
     </entity>
 
 </doctrine-mapping>

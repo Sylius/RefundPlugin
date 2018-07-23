@@ -7,6 +7,7 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 use Behat\Behat\Context\Context;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
+use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
@@ -54,7 +55,30 @@ final class RefundingContext implements Context
     {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
-        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
+        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], []));
+    }
+
+    /**
+     * @When I decide to refund order shipment
+     */
+    public function decideToRefundOrderShipment(): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()]));
+    }
+
+    /**
+     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
+     */
+    public function decideToRefundProductAndShipment(int $unitNumber, string $productName): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        $unit = $this->getOrderUnit($unitNumber, $productName);
+
+        $this->commandBus->dispatch(
+            new RefundUnits($this->order->getNumber(), [$unit->getId()], [$shippingAdjustment->getId()])
+        );
     }
 
     /**
@@ -62,18 +86,13 @@ final class RefundingContext implements Context
      */
     public function refundedTotalShouldBe(int $refundedTotal): void
     {
-        $refundedUnitIds = array_map(function(RefundInterface $refund): int {
-            return $refund->getRefundedUnitId();
-        }, $this->refundRepository->findBy(['orderNumber' => $this->order->getNumber()]));
+        $orderRefunds = $this->refundRepository->findBy(['orderNumber' => $this->order->getNumber()]);
 
-        $orderRefundedTotal = 0;
-        foreach ($this->order->getItemUnits() as $unit) {
-            if (in_array($unit->getId(), $refundedUnitIds)) {
-                $orderRefundedTotal += $unit->getTotal();
-            }
-        }
+        $orderRefundedTotal = array_sum(array_map(function(RefundInterface $refund): int {
+            return $refund->getAmount();
+        }, $orderRefunds));
 
-        Assert::same($refundedTotal, $orderRefundedTotal);
+        Assert::same($orderRefundedTotal, $refundedTotal);
     }
 
     /**
@@ -84,7 +103,23 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], []));
+        } catch (CommandDispatchException $exception) {
+            return;
+        }
+
+        throw new \Exception('RefundUnits command should fail');
+    }
+
+    /**
+     * @Then I should not be able to refund order shipment
+     */
+    public function shouldNotBeAbleToRefundOrderShipment(): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()]));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -100,7 +135,7 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()]));
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], []));
         } catch (CommandDispatchException $exception) {
             throw new \Exception('RefundUnits command should not fail');
         }
@@ -109,7 +144,7 @@ final class RefundingContext implements Context
     /**
      * @Then I should be notified that selected order units have been successfully refunded
      */
-    public function shouldBeNotifiedThatSelectedOrderUnitsHaveBeenSuccessfullyRefunded(): void
+    public function notificationSteps(): void
     {
         // intentionally left blank - not relevant in application scope
     }

@@ -6,7 +6,7 @@ Feature: Refunding a single order unit with promotion applied
 
     Background:
         Given the store operates on a single channel in "United States"
-        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10"
+        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"
         And there is a promotion "Anatomy Park Promotion"

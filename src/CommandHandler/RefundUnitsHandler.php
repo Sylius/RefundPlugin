@@ -7,18 +7,17 @@ namespace Sylius\RefundPlugin\CommandHandler;
 use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
-use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
-use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
+use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class RefundUnitsHandler
 {
-    /** @var RefundCreatorInterface */
-    private $refundCreator;
+    /** @var RefunderInterface */
+    private $orderUnitsRefunder;
 
-    /** @var RefundedUnitTotalProviderInterface */
-    private $refundedUnitTotalProvider;
+    /** @var RefunderInterface */
+    private $orderShipmentsRefunder;
 
     /** @var OrderRefundingAvailabilityCheckerInterface */
     private $orderRefundingAvailabilityChecker;
@@ -27,14 +26,14 @@ final class RefundUnitsHandler
     private $eventBus;
 
     public function __construct(
-        RefundCreatorInterface $refundCreator,
-        RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
+        RefunderInterface $orderUnitsRefunder,
+        RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus
     ) {
-        $this->refundCreator = $refundCreator;
-        $this->refundedUnitTotalProvider = $refundedUnitTotalProvider;
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
+        $this->orderUnitsRefunder = $orderUnitsRefunder;
+        $this->orderShipmentsRefunder = $orderShipmentsRefunder;
         $this->eventBus = $eventBus;
     }
 
@@ -44,18 +43,16 @@ final class RefundUnitsHandler
             throw OrderNotAvailableForRefundingException::withOrderNumber($command->orderNumber());
         }
 
+        $orderNumber = $command->orderNumber();
+
         $refundedTotal = 0;
-        foreach ($command->refundedUnitIds() as $refundedUnitId) {
-            $refundAmount = $this->refundedUnitTotalProvider->getTotalOfUnitWithId($refundedUnitId);
-
-            $this->refundCreator->__invoke($command->orderNumber(), $refundedUnitId, $refundAmount);
-
-            $refundedTotal += $refundAmount;
-        }
+        $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->unitIds(), $orderNumber);
+        $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipmentIds(), $orderNumber);
 
         $this->eventBus->dispatch(new UnitsRefunded(
-            $command->orderNumber(),
-            $command->refundedUnitIds(),
+            $orderNumber,
+            $command->unitIds(),
+            $command->shipmentIds(),
             $refundedTotal
         ));
     }

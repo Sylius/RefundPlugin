@@ -71,13 +71,27 @@
                                         {{ money.format(unit.total, order.currencyCode) }}
                                     </td>
                                     <td class="aligned collapsing">
-                                        <div class="ui checkbox {% if not can_unit_be_refunded(unit.id) %} disabled{% endif %}">
+                                        <div class="ui checkbox {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}">
                                             <input type="checkbox" name="sylius_refund_units[]" value="{{ unit.id }}">
                                         </div>
                                     </td>
                                 </tr>
                             {% endfor %}
                         {% endfor %}
+                        {% set shipment = order.getAdjustments('shipping').first() %}
+                            <tr class="shipment">
+                                <td class="single line">
+                                    {{ 'sylius.ui.shipment'|trans }}: {{ shipment.label }}
+                                </td>
+                                <td class="right aligned total">
+                                    {{ money.format(shipment.amount, order.currencyCode) }}
+                                </td>
+                                <td class="aligned collapsing">
+                                    <div class="ui checkbox {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}">
+                                        <input type="checkbox" name="sylius_refund_shipments[]" value="{{ shipment.id }}">
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 

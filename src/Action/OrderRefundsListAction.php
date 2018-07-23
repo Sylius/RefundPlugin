@@ -28,8 +28,8 @@ final class OrderRefundsListAction
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        Environment $twig)
-    {
+        Environment $twig
+    ) {
         $this->orderRepository = $orderRepository;
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->twig = $twig;

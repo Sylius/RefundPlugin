@@ -24,6 +24,6 @@ final class UnitsRefundedEventListenerSpec extends ObjectBehavior
 
         $flashBag->add('success', 'sylius_refund.units_successfully_refunded')->shouldBeCalled();
 
-        $this(new UnitsRefunded('000222', [1, 2], 1000));
+        $this(new UnitsRefunded('000222', [1, 2], [1], 1000));
     }
 }

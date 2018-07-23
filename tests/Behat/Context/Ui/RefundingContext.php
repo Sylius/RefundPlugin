@@ -65,6 +65,25 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I decide to refund order shipment
+     */
+    public function decideToRefundOrderShipment(): void
+    {
+        $this->orderRefundsPage->pickOrderShipment();
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
+     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
+     */
+    public function decideToRefundProductAndShipment(int $unitNumber, string $productName): void
+    {
+        $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
+        $this->orderRefundsPage->pickOrderShipment();
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When I refund zero items
      */
     public function refundZeroItems(): void
@@ -94,7 +113,7 @@ final class RefundingContext implements Context
     public function shouldBeNotifiedThatSelectedOrderUnitsHaveBeenSuccessfullyRefunded(): void
     {
         $this->notificationChecker->checkNotification(
-            'Order units have been successfully refunded',
+            'Selected order units have been successfully refunded',
             NotificationType::success()
         );
     }
@@ -115,7 +134,7 @@ final class RefundingContext implements Context
      */
     public function refundedTotalShouldBe(string $refundedTotal): void
     {
-        Assert::same($refundedTotal, $this->orderRefundsPage->getRefundedTotal());
+        Assert::same($this->orderRefundsPage->getRefundedTotal(), $refundedTotal);
     }
 
     /**
@@ -124,6 +143,14 @@ final class RefundingContext implements Context
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         Assert::false($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
+    }
+
+    /**
+     * @Then I should not be able to refund order shipment
+     */
+    public function shouldNotBeAbleToRefundOrderShipment(): void
+    {
+        Assert::false($this->orderRefundsPage->isOrderShipmentAvailableToRefund());
     }
 
     /**

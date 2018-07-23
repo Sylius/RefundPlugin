@@ -8,6 +8,7 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 
 final class UnitRefundingAvailabilityCheckerSpec extends ObjectBehavior
 {
@@ -23,17 +24,27 @@ final class UnitRefundingAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_true_if_refund_for_given_unit_does_not_already_exist(RepositoryInterface $refundRepository): void
     {
-        $refundRepository->findOneBy(['refundedUnitId' => 1])->willReturn(null);
+        $refundType = RefundType::shipment();
 
-        $this->__invoke(1)->shouldReturn(true);
+        $refundRepository
+            ->findOneBy(['refundedUnitId' => 1, 'type' => $refundType->__toString()])
+            ->willReturn(null)
+        ;
+
+        $this->__invoke(1, RefundType::shipment())->shouldReturn(true);
     }
 
     function it_returns_false_if_refund_for_given_unit_does_not_already_exist(
         RepositoryInterface $refundRepository,
         RefundInterface $refund
     ): void {
-        $refundRepository->findOneBy(['refundedUnitId' => 1])->willReturn($refund);
+        $refundType = RefundType::shipment();
 
-        $this->__invoke(1)->shouldReturn(false);
+        $refundRepository
+            ->findOneBy(['refundedUnitId' => 1, 'type' => $refundType->__toString()])
+            ->willReturn($refund)
+        ;
+
+        $this->__invoke(1, $refundType)->shouldReturn(false);
     }
 }

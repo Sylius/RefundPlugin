@@ -4,53 +4,56 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Sylius\RefundPlugin\Model\RefundType;
+
 /** @final */
 class Refund implements RefundInterface
 {
     /** @var int|null */
     private $id;
 
-    /** @var string|null */
+    /** @var string */
     private $orderNumber;
 
-    /** @var int|null */
+    /** @var int */
     private $amount;
 
-    /** @var int|null */
+    /** @var int */
     private $refundedUnitId;
+
+    /** @var RefundType */
+    private $type;
+
+    public function __construct(string $orderNumber, int $amount, int $refundedUnitId, RefundType $type)
+    {
+        $this->orderNumber = $orderNumber;
+        $this->amount = $amount;
+        $this->refundedUnitId = $refundedUnitId;
+        $this->type = $type;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOrderNumber(): ?string
+    public function getOrderNumber(): string
     {
         return $this->orderNumber;
     }
 
-    public function setOrderNumber(?string $orderNumber): void
-    {
-        $this->orderNumber = $orderNumber;
-    }
-
-    public function getAmount(): ?int
+    public function getAmount(): int
     {
         return $this->amount;
     }
 
-    public function setAmount(?int $amount): void
-    {
-        $this->amount = $amount;
-    }
-
-    public function getRefundedUnitId(): ?int
+    public function getRefundedUnitId(): int
     {
         return $this->refundedUnitId;
     }
 
-    public function setRefundedUnitId(?int $refundedUnitId): void
+    public function getType(): RefundType
     {
-        $this->refundedUnitId = $refundedUnitId;
+        return $this->type;
     }
 }
