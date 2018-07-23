@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="true" />
+
+        <service id="Sylius\RefundPlugin\Provider\RefundedUnitTotalProvider">
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\RefundedShipmentFeeProvider">
+            <argument type="service" id="sylius.repository.adjustment" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider">
+            <argument type="service" id="sylius_refund.repository.refund" />
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+
+        <service
+            id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface"
+            class="Sylius\RefundPlugin\Provider\CurrentDateTimeProvider"
+        />
+    </services>
+</container>
