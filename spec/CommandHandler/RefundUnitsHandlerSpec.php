@@ -64,7 +64,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         }))->shouldBeCalled();
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $orderFullyRefundedTotalChecker->check($order)->willReturn(false, false);
+        $orderFullyRefundedTotalChecker->check($order)->willReturn(false);
 
         $this(new RefundUnits('000222', [1, 3], [3, 4]));
     }
@@ -94,7 +94,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         }))->shouldBeCalled();
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $orderFullyRefundedTotalChecker->check($order)->willReturn(false, true);
+        $orderFullyRefundedTotalChecker->check($order)->willReturn(true);
 
         $orderFullyRefundedStateResolver->resolve($order)->shouldBeCalled();
 

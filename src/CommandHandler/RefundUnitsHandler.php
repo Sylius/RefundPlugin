@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Prooph\ServiceBus\EventBus;
-use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
@@ -63,16 +62,16 @@ final class RefundUnitsHandler
         }
 
         $orderNumber = $command->orderNumber();
-        $order = $this->orderRepository->findOneByNumber($orderNumber);
 
         $refundedTotal = 0;
         $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->unitIds(), $orderNumber);
-
-        $this->resolveOrderState($order);
-
         $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipmentIds(), $orderNumber);
 
-        $this->resolveOrderState($order);
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+
+        if ($this->orderFullyRefundedTotalChecker->check($order)) {
+            $this->orderFullyRefundedStateResolver->resolve($order);
+        }
 
         $this->eventBus->dispatch(new UnitsRefunded(
             $orderNumber,
@@ -80,12 +79,5 @@ final class RefundUnitsHandler
             $command->shipmentIds(),
             $refundedTotal
         ));
-    }
-
-    private function resolveOrderState(OrderInterface $order): void
-    {
-        if ($this->orderFullyRefundedTotalChecker->check($order)) {
-            $this->orderFullyRefundedStateResolver->resolve($order);
-        }
     }
 }

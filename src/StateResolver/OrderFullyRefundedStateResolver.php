@@ -28,7 +28,7 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
             return;
         }
 
-        $stateMachine = $this->stateMachineFactory->get($order,OrderTransitions::GRAPH);
+        $stateMachine = $this->stateMachineFactory->get($order, OrderTransitions::GRAPH);
 
         $stateMachine->apply(OrderTransitions::TRANSITION_REFUND);
 
