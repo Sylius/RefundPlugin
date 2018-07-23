@@ -20,14 +20,14 @@ Feature: Having credit memo generated
         And I am logged in as an administrator
         And the order "#00000022" is already paid
 
-    @application
+    @ui @application
     Scenario: Having credit memo generated after refund process
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
         Then I should be notified that selected order units have been successfully refunded
         And I should have 1 credit memo generated for order "#00000022"
 
-    @application
+    @ui @application
     Scenario: Seeing the details of generated credit memo
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has been already refunded
         And I browse the details of the only credit memo generated for order "#00000022"

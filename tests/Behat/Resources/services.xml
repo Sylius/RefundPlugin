@@ -7,6 +7,7 @@
 
     <services>
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
+        <service id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" parent="sylius.behat.symfony_page" public="true" />
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext">
             <argument type="service" id="__symfony__.sylius.repository.order" />
@@ -29,6 +30,13 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext">
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" />
             <argument type="service" id="sylius.behat.notification_checker" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext">
+            <argument type="service" id="sylius.behat.page.admin.order.show" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" />
+            <argument type="service" id="__symfony__.sylius_refund_plugin.repository.credit_memo" />
             <tag name="fob.context_service" />
         </service>
 

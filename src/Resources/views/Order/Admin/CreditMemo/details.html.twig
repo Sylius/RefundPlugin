@@ -1,0 +1,15 @@
+{% extends 'SyliusAdminBundle::layout.html.twig' %}
+
+{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+
+{% block title %}{{ 'sylius.ui.order'|trans ~' #'~ creditMemo.orderNumber }} | {{ 'sylius_refunds.ui.credit_memo'|trans }} {{ creditMemo.id }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    <div class="ui stackable grid">
+        <div class="sixteen wide column">
+            <div class="ui segment">
+                <h3 id="total">{{ 'sylius.ui.total'|trans }}: {{ money.format(creditMemo.total, creditMemo.currencyCode) }}</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}

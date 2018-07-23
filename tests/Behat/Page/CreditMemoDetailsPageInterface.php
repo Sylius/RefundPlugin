@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sylius\RefundPlugin\Behat\Page\Order;
+namespace Tests\Sylius\RefundPlugin\Behat\Page;
 
 use Sylius\Behat\Page\SymfonyPageInterface;
 

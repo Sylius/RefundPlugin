@@ -10,7 +10,7 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
 {
     public function countCreditMemos(): int
     {
-        return count($this->getDocument()->find('css', '#credit-memos tr'));
+        return count($this->getDocument()->findAll('css', '#credit-memos tbody tr'));
     }
 
     public function hasRefundsButton(): bool

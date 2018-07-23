@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Tests\Sylius\RefundPlugin\Behat\Page\Order\CreditMemoDetailsPageInterface;
+use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -19,13 +19,13 @@ final class CreditMemoContext implements Context
     /** @var CreditMemoDetailsPageInterface */
     private $creditMemoDetailsPage;
 
-    /** @var RepositoryInterface */
+    /** @var ObjectRepository */
     private $creditMemoRepository;
 
     public function __construct(
         ShowPageInterface $orderShowPage,
         CreditMemoDetailsPageInterface $creditMemoDetailsPage,
-        RepositoryInterface $creditMemoRepository
+        ObjectRepository $creditMemoRepository
     ) {
         $this->orderShowPage = $orderShowPage;
         $this->creditMemoDetailsPage = $creditMemoDetailsPage;
@@ -44,10 +44,11 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then I should have :count credit memo generated
+     * @Then I should have :count credit memo generated for order :order
      */
-    public function shouldHaveCountCreditMemoGenerated(int $count): void
+    public function shouldHaveCountCreditMemoGeneratedForOrder(int $count, OrderInterface $order): void
     {
+        $this->orderShowPage->open(['id' => $order->getId()]);
         Assert::same($this->orderShowPage->countCreditMemos(), $count);
     }
 
