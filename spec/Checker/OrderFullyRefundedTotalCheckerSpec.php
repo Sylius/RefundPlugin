@@ -36,30 +36,18 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
 
         $orderRefundedTotalProvider->__invoke('0000001')->willReturn(500);
 
-        $this->check($order, 200)->shouldReturn(false);
+        $this->check($order)->shouldReturn(false);
     }
 
-    function it_returns_true_if_order_total_has_been_fully_refunded_with_current_refund_request(
+    function it_returns_true_if_order_total_has_been_fully_refunded(
         OrderInterface $order,
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {
         $order->getTotal()->willReturn(1000);
         $order->getNumber()->willReturn('0000001');
 
-        $orderRefundedTotalProvider->__invoke('0000001')->willReturn(0);
+        $orderRefundedTotalProvider->__invoke('0000001')->willReturn(1000);
 
-        $this->check($order, 1000)->shouldReturn(true);
-    }
-
-    function it_returns_true_if_order_total_has_been_fully_refunded_with_current_and_previous_refund_requests(
-        OrderInterface $order,
-        OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
-    ): void {
-        $order->getTotal()->willReturn(1000);
-        $order->getNumber()->willReturn('0000001');
-
-        $orderRefundedTotalProvider->__invoke('0000001')->willReturn(500);
-
-        $this->check($order, 500)->shouldReturn(true);
+        $this->check($order)->shouldReturn(true);
     }
 }

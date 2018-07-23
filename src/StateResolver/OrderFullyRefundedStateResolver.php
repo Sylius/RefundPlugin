@@ -24,6 +24,10 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
 
     public function resolve(OrderInterface $order): void
     {
+        if (OrderStates::STATE_FULLY_REFUNDED === $order->getState()) {
+            return;
+        }
+
         $stateMachine = $this->stateMachineFactory->get($order,OrderTransitions::GRAPH);
 
         $stateMachine->apply(OrderTransitions::TRANSITION_REFUND);

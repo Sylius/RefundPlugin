@@ -44,7 +44,6 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus
         EventBus $eventBus,
         OrderInterface $order,
         OrderRepositoryInterface $orderRepository,
@@ -65,13 +64,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         }))->shouldBeCalled();
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $orderFullyRefundedTotalChecker->check($order, 1500)->willReturn(false);
+        $orderFullyRefundedTotalChecker->check($order)->willReturn(false, false);
 
-        $this(new RefundUnits('000222', [1, 3]));
+        $this(new RefundUnits('000222', [1, 3], [3, 4]));
     }
 
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
-        RefundCreatorInterface $refundCreator,
+        RefunderInterface $orderItemUnitsRefunder,
+        RefunderInterface $orderShipmentsRefunder,
         RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus,
@@ -82,26 +82,22 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
-        $refundedUnitTotalProvider->getTotalOfUnitWithId(1)->willReturn(1000);
-        $refundedUnitTotalProvider->getTotalOfUnitWithId(3)->willReturn(500);
-
-        $refundCreator->__invoke('000222', 1, 1000)->shouldBeCalled();
-        $refundCreator->__invoke('000222', 3, 500)->shouldBeCalled();
+        $orderItemUnitsRefunder->refundFromOrder([1, 3], '000222')->willReturn(1000);
+        $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(500);
 
         $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
             return
                 $event->orderNumber() === '000222' &&
                 $event->unitIds() === [1, 3] &&
                 $event->amount() === 1500
-                ;
+            ;
         }))->shouldBeCalled();
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $orderFullyRefundedTotalChecker->check($order, 1500)->willReturn(true);
+        $orderFullyRefundedTotalChecker->check($order)->willReturn(false, true);
 
         $orderFullyRefundedStateResolver->resolve($order)->shouldBeCalled();
 
-        $this(new RefundUnits('000222', [1, 3]));
         $this(new RefundUnits('000222', [1, 3], [3, 4]));
     }
 
