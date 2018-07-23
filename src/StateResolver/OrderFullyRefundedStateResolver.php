@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\StateResolver;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use SM\Factory\FactoryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
@@ -12,15 +13,21 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
     /** @var FactoryInterface */
     private $stateMachineFactory;
 
-    public function __construct(FactoryInterface $stateMachineFactory)
+    /** @var ObjectManager */
+    private $orderManager;
+
+    public function __construct(FactoryInterface $stateMachineFactory, ObjectManager $orderManager)
     {
         $this->stateMachineFactory = $stateMachineFactory;
+        $this->orderManager = $orderManager;
     }
 
     public function resolve(OrderInterface $order): void
     {
         $stateMachine = $this->stateMachineFactory->get($order,OrderTransitions::GRAPH);
 
-        $stateMachine->apply(OrderTransitions::REFUND);
+        $stateMachine->apply(OrderTransitions::TRANSITION_REFUND);
+
+        $this->orderManager->flush();
     }
 }

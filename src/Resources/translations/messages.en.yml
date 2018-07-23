@@ -3,3 +3,7 @@ sylius_refunds:
         refund_all: Refund all
         refunded_total: Refunded total
         refunds: Refunds
+
+sylius:
+    ui:
+        fully_refunded: 'Fully refunded'

@@ -20,5 +20,5 @@ winzou_state_machine:
             fully_refunded: ~
         transitions:
             refund:
-                from: [fulfilled]
+                from: [new, fulfilled]
                 to: fully_refunded

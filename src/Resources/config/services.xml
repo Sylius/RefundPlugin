@@ -57,6 +57,7 @@
 
         <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver">
             <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius.manager.order" />
         </service>
 
         <service id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker">

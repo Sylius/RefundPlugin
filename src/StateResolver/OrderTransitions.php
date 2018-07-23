@@ -8,7 +8,7 @@ final class OrderTransitions
 {
     public const GRAPH = 'sylius_order';
 
-    public const REFUND = 'refund';
+    public const TRANSITION_REFUND = 'refund';
 
     private function __construct()
     {

@@ -7,11 +7,16 @@ namespace spec\Sylius\RefundPlugin\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
+use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
+use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
@@ -19,13 +24,19 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus
+        EventBus $eventBus,
+        OrderRepositoryInterface $orderRepository,
+        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
+        OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver
     ): void {
         $this->beConstructedWith(
             $orderItemUnitsRefunder,
             $orderShipmentsRefunder,
             $orderRefundingAvailabilityChecker,
-            $eventBus
+            $eventBus,
+            $orderRepository,
+            $orderFullyRefundedTotalChecker,
+            $orderFullyRefundedStateResolver
         );
     }
 
@@ -34,6 +45,10 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         EventBus $eventBus
+        EventBus $eventBus,
+        OrderInterface $order,
+        OrderRepositoryInterface $orderRepository,
+        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
@@ -49,6 +64,44 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
+        $orderRepository->findOneByNumber('000222')->willReturn($order);
+        $orderFullyRefundedTotalChecker->check($order, 1500)->willReturn(false);
+
+        $this(new RefundUnits('000222', [1, 3]));
+    }
+
+    function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
+        RefundCreatorInterface $refundCreator,
+        RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
+        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        EventBus $eventBus,
+        OrderInterface $order,
+        OrderRepositoryInterface $orderRepository,
+        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
+        OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver
+    ): void {
+        $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
+
+        $refundedUnitTotalProvider->getTotalOfUnitWithId(1)->willReturn(1000);
+        $refundedUnitTotalProvider->getTotalOfUnitWithId(3)->willReturn(500);
+
+        $refundCreator->__invoke('000222', 1, 1000)->shouldBeCalled();
+        $refundCreator->__invoke('000222', 3, 500)->shouldBeCalled();
+
+        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
+            return
+                $event->orderNumber() === '000222' &&
+                $event->unitIds() === [1, 3] &&
+                $event->amount() === 1500
+                ;
+        }))->shouldBeCalled();
+
+        $orderRepository->findOneByNumber('000222')->willReturn($order);
+        $orderFullyRefundedTotalChecker->check($order, 1500)->willReturn(true);
+
+        $orderFullyRefundedStateResolver->resolve($order)->shouldBeCalled();
+
+        $this(new RefundUnits('000222', [1, 3]));
         $this(new RefundUnits('000222', [1, 3], [3, 4]));
     }
 

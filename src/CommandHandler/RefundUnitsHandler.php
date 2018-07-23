@@ -67,17 +67,17 @@ final class RefundUnitsHandler
         $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->unitIds(), $orderNumber);
         $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipmentIds(), $orderNumber);
 
+        $order = $this->orderRepository->findOneByNumber($command->orderNumber());
+
+        if ($this->orderFullyRefundedTotalChecker->check($order, $refundedTotal)) {
+            $this->orderFullyRefundedStateResolver->resolve($order);
+        }
+
         $this->eventBus->dispatch(new UnitsRefunded(
             $orderNumber,
             $command->unitIds(),
             $command->shipmentIds(),
             $refundedTotal
         ));
-
-        $order = $this->orderRepository->findOneByNumber($command->orderNumber());
-
-        if ($this->orderFullyRefundedTotalChecker->check($order, $refundedTotal)) {
-            $this->orderFullyRefundedStateResolver->resolve($order);
-        }
     }
 }
