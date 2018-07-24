@@ -5,29 +5,27 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\OrderItemInterface;
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
+use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
+use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
     function let(
         OrderRepositoryInterface $orderRepository,
-        RepositoryInterface $orderItemUnitRepository,
-        RepositoryInterface $adjustmentRepository,
+        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
+        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         NumberGenerator $creditMemoNumberGenerator
     ): void {
         $this->beConstructedWith(
             $orderRepository,
-            $orderItemUnitRepository,
-            $adjustmentRepository,
+            $orderItemUnitCreditMemoUnitGenerator,
+            $shipmentCreditMemoUnitGenerator,
             $creditMemoNumberGenerator
         );
     }
@@ -39,40 +37,22 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
     function it_generates_credit_memo_basing_on_event_data(
         OrderRepositoryInterface $orderRepository,
-        RepositoryInterface $orderItemUnitRepository,
-        RepositoryInterface $adjustmentRepository,
         NumberGenerator $creditMemoNumberGenerator,
         OrderInterface $order,
-        OrderItemInterface $firstOrderItem,
-        OrderItemInterface $secondOrderItem,
-        OrderItemUnitInterface $firstOrderItemUnit,
-        OrderItemUnitInterface $secondOrderItemUnit,
-        AdjustmentInterface $shipment
+        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
+        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator
     ): void {
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
 
-        $orderItemUnitRepository->find(1)->willReturn($firstOrderItemUnit);
-        $firstOrderItemUnit->getOrderItem()->willReturn($firstOrderItem);
-        $firstOrderItemUnit->getTotal()->willReturn(500);
-        $firstOrderItemUnit->getTaxTotal()->willReturn(50);
-        $firstOrderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT)->willReturn(0);
-        $firstOrderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_ITEM_PROMOTION_ADJUSTMENT)->willReturn(0);
-        $firstOrderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT)->willReturn(0);
-        $firstOrderItem->getProductName()->willReturn('Portal gun');
+        $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50, 0);
+        $orderItemUnitCreditMemoUnitGenerator->generate(1)->willReturn($firstCreditMemoUnit);
 
-        $orderItemUnitRepository->find(2)->willReturn($secondOrderItemUnit);
-        $secondOrderItemUnit->getOrderItem()->willReturn($secondOrderItem);
-        $secondOrderItemUnit->getTotal()->willReturn(500);
-        $secondOrderItemUnit->getTaxTotal()->willReturn(50);
-        $secondOrderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT)->willReturn(25);
-        $secondOrderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_ITEM_PROMOTION_ADJUSTMENT)->willReturn(25);
-        $secondOrderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT)->willReturn(0);
-        $secondOrderItem->getProductName()->willReturn('Broken Leg Serum');
+        $secondCreditMemoUnit = new CreditMemoUnit('Broken Leg Serum', 500, 50, 50);
+        $orderItemUnitCreditMemoUnitGenerator->generate(2)->willReturn($secondCreditMemoUnit);
 
-        $adjustmentRepository->findOneBy(['id' => 3, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])->willReturn($shipment);
-        $shipment->getLabel()->willReturn('Galaxy post');
-        $shipment->getAmount()->willReturn(400);
+        $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0, 0);
+        $shipmentCreditMemoUnitGenerator->generate(3)->willReturn($shipmentCreditMemoUnit);
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
@@ -82,10 +62,20 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             1400,
             'GBP',
             [
-                new CreditMemoUnit('Portal gun', 500, 50, 0),
-                new CreditMemoUnit('Broken Leg Serum', 500, 50, 50),
-                new CreditMemoUnit('Galaxy post', 400, 0, 0),
+                $firstCreditMemoUnit->serialize(),
+                $secondCreditMemoUnit->serialize(),
+                $shipmentCreditMemoUnit->serialize(),
             ]
         ));
+    }
+
+    function it_throws_exception_if_there_is_no_order_with_given_id(OrderRepositoryInterface $orderRepository): void
+    {
+        $orderRepository->findOneByNumber('000666')->willReturn(null);
+
+        $this
+            ->shouldThrow(OrderNotFound::withOrderNumber('000666'))
+            ->during('generate', ['000666', 1000, [], []])
+        ;
     }
 }

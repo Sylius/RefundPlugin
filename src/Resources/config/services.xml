@@ -80,10 +80,17 @@
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
         </service>
 
+        <service id="Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator">
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+        <service id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator">
+            <argument type="service" id="sylius.repository.adjustment" />
+        </service>
+
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
             <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="sylius.repository.order_item_unit" />
-            <argument type="service" id="sylius.repository.adjustment" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
         </service>
     </services>

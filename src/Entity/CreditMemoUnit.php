@@ -57,7 +57,7 @@ class CreditMemoUnit implements CreditMemoUnitInterface
         ]);
     }
 
-    public static function unserialize(string $serialized): CreditMemoUnit
+    public static function unserialize(string $serialized): self
     {
         $data = json_decode($serialized, true);
 
