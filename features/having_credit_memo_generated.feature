@@ -27,10 +27,10 @@ Feature: Having credit memo generated
         Then I should be notified that selected order units have been successfully refunded
         And I should have 1 credit memo generated for order "#00000022"
 
-    @application
+    @ui @application
     Scenario: Seeing the details of generated credit memo
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
         And I browse the details of the only credit memo generated for order "#00000022"
         And it should have sequential number generated from current date
-        Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product, with "$1.00" discount and "$0.90" tax applied
+        Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product, with "-$1.00" discount and "$0.90" tax applied
         And its total should be "$9.90"

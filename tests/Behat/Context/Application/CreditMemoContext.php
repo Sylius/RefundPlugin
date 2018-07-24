@@ -62,17 +62,20 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then this credit memo should contain :count :productName product, with :discount discount and :tax tax applied
+     * @Then /^this credit memo should contain (\d+) "([^"]+)" product, with ("[^"]+") discount and ("[^"]+") tax applied$/
      */
     public function thisCreditMemoShouldContainProductWithDiscountAndTaxApplied(
         int $count,
         string $productName,
-        string $discount,
-        string $tax
+        int $discount,
+        int $taxesTotal
     ): void {
-        // check data of saved credit memo
+        $units = $this->creditMemo->getUnits();
 
-        throw new PendingException();
+        Assert::same(count($units), $count);
+        Assert::same($units[0]->getProductName(), $productName);
+        Assert::same($units[0]->getDiscount(), $discount);
+        Assert::same($units[0]->getTaxesTotal(), $taxesTotal);
     }
 
     /**

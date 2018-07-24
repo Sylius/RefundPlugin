@@ -27,16 +27,16 @@
                 <tbody>
                 {% for unit in creditMemo.units %}
                     <tr>
-                        <td class="single line line-item-product-name">
+                        <td class="single line credit-memo-unit-product-name">
                             {{ unit.productName }}
                         </td>
-                        <td class="right aligned line-item-discount">
+                        <td class="right aligned credit-memo-unit-discount">
                             {{ money.format(unit.discount, creditMemo.currencyCode) }}
                         </td>
-                        <td class="right aligned line-item-taxes-total">
+                        <td class="right aligned credit-memo-unit-taxes-total">
                             {{ money.format(unit.taxesTotal, creditMemo.currencyCode) }}
                         </td>
-                        <td class="right aligned line-item-total">
+                        <td class="right aligned credit-memo-unit-total">
                             {{ money.format(unit.total, creditMemo.currencyCode) }}
                         </td>
                     </tr>
