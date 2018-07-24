@@ -8,5 +8,5 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 interface OrderFullyRefundedTotalCheckerInterface
 {
-    public function check(OrderInterface $order): bool;
+    public function isOrderFullyRefunded(OrderInterface $order): bool;
 }

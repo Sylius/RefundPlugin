@@ -10,6 +10,8 @@ final class OrderTransitions
 
     public const TRANSITION_REFUND = 'refund';
 
+    public const STATE_FULLY_REFUNDED = 'fully_refunded';
+
     private function __construct()
     {
     }

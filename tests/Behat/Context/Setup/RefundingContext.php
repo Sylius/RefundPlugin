@@ -9,7 +9,6 @@ use Prooph\ServiceBus\CommandBus;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Webmozart\Assert\Assert;
@@ -47,9 +46,9 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given all units from the order :orderNumber are refunded
+     * @Given all units and shipment from the order :orderNumber are refunded
      */
-    public function allUnitsFromOrderAreRefunded(string $orderNumber): void
+    public function allUnitsAndShipmentFromOrderAreRefunded(string $orderNumber): void
     {
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
@@ -59,20 +58,8 @@ final class RefundingContext implements Context
             return $unit->getId();
         }, $order->getItemUnits()->getValues());
 
-        $this->commandBus->dispatch(new RefundUnits($orderNumber, $orderItemUnits, []));
-    }
-
-    /**
-     * @Given the shipping of the order :orderNumber is refunded
-     */
-    public function shippingOfTheOrderIsRefunded(string $orderNumber): void
-    {
-        /** @var OrderInterface $order */
-        $order = $this->orderRepository->findOneByNumber($orderNumber);
-        Assert::notNull($order);
-
         $shipment = $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
-        $this->commandBus->dispatch(new RefundUnits($orderNumber, [], [$shipment->getId()]));
+        $this->commandBus->dispatch(new RefundUnits($orderNumber, $orderItemUnits, [$shipment->getId()]));
     }
 }

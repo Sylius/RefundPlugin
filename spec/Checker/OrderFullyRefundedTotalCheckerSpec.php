@@ -27,7 +27,7 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
         $this->shouldImplement(OrderFullyRefundedTotalCheckerInterface::class);
     }
 
-    function it_returns_false_if_order_total_has_not_been_fully_refunded(
+    function it_returns_false_if_order_refunded_total_is_lower_than_order_total(
         OrderInterface $order,
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {
@@ -36,10 +36,10 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
 
         $orderRefundedTotalProvider->__invoke('0000001')->willReturn(500);
 
-        $this->check($order)->shouldReturn(false);
+        $this->isOrderFullyRefunded($order)->shouldReturn(false);
     }
 
-    function it_returns_true_if_order_total_has_been_fully_refunded(
+    function it_returns_true_if_order_refunded_total_is_equal_to_order_total(
         OrderInterface $order,
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {
@@ -48,6 +48,6 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
 
         $orderRefundedTotalProvider->__invoke('0000001')->willReturn(1000);
 
-        $this->check($order)->shouldReturn(true);
+        $this->isOrderFullyRefunded($order)->shouldReturn(true);
     }
 }

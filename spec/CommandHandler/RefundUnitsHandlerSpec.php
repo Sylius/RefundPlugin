@@ -24,19 +24,13 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus,
-        OrderRepositoryInterface $orderRepository,
-        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
-        OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver
+        EventBus $eventBus
     ): void {
         $this->beConstructedWith(
             $orderItemUnitsRefunder,
             $orderShipmentsRefunder,
             $orderRefundingAvailabilityChecker,
-            $eventBus,
-            $orderRepository,
-            $orderFullyRefundedTotalChecker,
-            $orderFullyRefundedStateResolver
+            $eventBus
         );
     }
 
@@ -44,10 +38,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus,
-        OrderInterface $order,
-        OrderRepositoryInterface $orderRepository,
-        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker
+        EventBus $eventBus
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
@@ -63,22 +54,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $orderFullyRefundedTotalChecker->check($order)->willReturn(false);
-
         $this(new RefundUnits('000222', [1, 3], [3, 4]));
     }
 
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus,
-        OrderInterface $order,
-        OrderRepositoryInterface $orderRepository,
-        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
-        OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver
+        EventBus $eventBus
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
@@ -92,11 +75,6 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
                 $event->amount() === 1500
             ;
         }))->shouldBeCalled();
-
-        $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $orderFullyRefundedTotalChecker->check($order)->willReturn(true);
-
-        $orderFullyRefundedStateResolver->resolve($order)->shouldBeCalled();
 
         $this(new RefundUnits('000222', [1, 3], [3, 4]));
     }

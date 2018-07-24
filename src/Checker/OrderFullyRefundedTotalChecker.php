@@ -17,7 +17,7 @@ final class OrderFullyRefundedTotalChecker implements OrderFullyRefundedTotalChe
         $this->orderRefundedTotalProvider = $orderRefundedTotalProvider;
     }
 
-    public function check(OrderInterface $order): bool
+    public function isOrderFullyRefunded(OrderInterface $order): bool
     {
         return $order->getTotal() === $this->orderRefundedTotalProvider->__invoke($order->getNumber());
     }

@@ -1,8 +1,8 @@
 @refunds
 Feature: Having order fully refunded
-    In order to be aware of the order being fully refunded
+    In order to note that whole order total is refunded
     As an Administrator
-    I want to see that the order is in Fully Refunded state
+    I want to have order fully refunded
 
     Background:
         Given the store operates on a single channel in "United States"
@@ -14,8 +14,7 @@ Feature: Having order fully refunded
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
         And the order "#00000022" is already paid
-        And all units from the order "#00000022" are refunded
-        And the shipping of the order "#00000022" is refunded
+        And all units and shipment from the order "#00000022" are refunded
 
     @ui
     Scenario: Having order fully refunded when both items and shipping are refunded
