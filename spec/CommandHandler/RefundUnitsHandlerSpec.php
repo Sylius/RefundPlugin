@@ -7,11 +7,16 @@ namespace spec\Sylius\RefundPlugin\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
+use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
+use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
@@ -46,6 +51,28 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
                 $event->unitIds() === [1, 3] &&
                 $event->shipmentIds() === [3, 4] &&
                 $event->amount() === 7000
+            ;
+        }))->shouldBeCalled();
+
+        $this(new RefundUnits('000222', [1, 3], [3, 4]));
+    }
+
+    function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
+        RefunderInterface $orderItemUnitsRefunder,
+        RefunderInterface $orderShipmentsRefunder,
+        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        EventBus $eventBus
+    ): void {
+        $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
+
+        $orderItemUnitsRefunder->refundFromOrder([1, 3], '000222')->willReturn(1000);
+        $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(500);
+
+        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
+            return
+                $event->orderNumber() === '000222' &&
+                $event->unitIds() === [1, 3] &&
+                $event->amount() === 1500
             ;
         }))->shouldBeCalled();
 

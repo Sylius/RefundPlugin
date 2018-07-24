@@ -46,3 +46,6 @@
     
 6. Copy migrations from `vendor/sylius/refund-plugin/migrations/`
 to your migrations directory and run `bin/console doctrine:migrations:migrate`
+
+7. Copy templates from `vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/`
+to `app/Resources/SyliusAdminBundle/views/`

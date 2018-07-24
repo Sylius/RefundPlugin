@@ -13,3 +13,12 @@ prooph_service_bus:
         sylius_refund_command_bus: ~
     event_buses:
         sylius_refund_event_bus: ~
+
+winzou_state_machine:
+    sylius_order:
+        states:
+            fully_refunded: ~
+        transitions:
+            refund:
+                from: [new, fulfilled]
+                to: fully_refunded
