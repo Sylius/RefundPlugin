@@ -15,6 +15,7 @@
         <field name="number" />
         <field name="orderNumber" />
         <field name="total" type="integer" />
+        <field name="units" type="json" />
         <field name="currencyCode" />
     </entity>
 

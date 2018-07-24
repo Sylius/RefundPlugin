@@ -64,8 +64,8 @@ final class CreditMemoContext implements Context
     public function thisCreditMemoShouldContainProductWithDiscountAndTaxApplied(
         int $count,
         string $productName,
-        int $discount,
-        int $tax
+        string $discount,
+        string $tax
     ): void {
         Assert::same($this->creditMemoDetailsPage->countUnitsWithProduct($productName), $count);
         Assert::same($this->creditMemoDetailsPage->getUnitDiscount($count, $productName), $discount);

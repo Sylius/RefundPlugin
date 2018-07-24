@@ -67,8 +67,8 @@ final class CreditMemoContext implements Context
     public function thisCreditMemoShouldContainProductWithDiscountAndTaxApplied(
         int $count,
         string $productName,
-        int $discount,
-        int $tax
+        string $discount,
+        string $tax
     ): void {
         // check data of saved credit memo
 

@@ -6,12 +6,13 @@ namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Entity\CreditMemoUnitInterface;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
-    function let(): void
+    function let(CreditMemoUnitInterface $creditMemoUnit): void
     {
-        $this->beConstructedWith('2018/07/00003333', '0000222', 1000, 'USD');
+        $this->beConstructedWith('2018/07/00003333', '0000222', 1000, 'USD', [$creditMemoUnit]);
     }
 
     function it_implements_credit_memo_interface(): void
@@ -37,5 +38,10 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_currency_code(): void
     {
         $this->getCurrencyCode()->shouldReturn('USD');
+    }
+
+    function it_has_units(CreditMemoUnitInterface $creditMemoUnit): void
+    {
+        $this->getUnits()->shouldReturn([$creditMemoUnit]);
     }
 }

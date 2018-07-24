@@ -15,4 +15,6 @@ interface CreditMemoInterface
     public function getTotal(): int;
 
     public function getCurrencyCode(): string;
+
+    public function getUnits(): array;
 }

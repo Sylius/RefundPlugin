@@ -54,7 +54,8 @@ final class GenerateCreditMemoHandler
             $this->creditMemoNumberGenerator->generate(),
             $orderNumber,
             $command->total(),
-            $order->getCurrencyCode()
+            $order->getCurrencyCode(),
+            []
         ));
         $this->creditMemoManager->flush();
 
