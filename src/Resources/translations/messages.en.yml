@@ -2,6 +2,7 @@ sylius_refunds:
     ui:
         credit_memo: Credit memo
         credit_memos: Credit memos
+        issued_for_order: Issued for order
         refund_all: Refund all
         refunded_total: Refunded total
         refunds: Refunds

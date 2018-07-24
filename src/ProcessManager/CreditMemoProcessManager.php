@@ -20,6 +20,11 @@ final class CreditMemoProcessManager
 
     public function __invoke(UnitsRefunded $event): void
     {
-        $this->commandBus->dispatch(new GenerateCreditMemo($event->orderNumber(), $event->amount()));
+        $this->commandBus->dispatch(new GenerateCreditMemo(
+            $event->orderNumber(),
+            $event->amount(),
+            $event->unitIds(),
+            $event->shipmentIds()
+        ));
     }
 }

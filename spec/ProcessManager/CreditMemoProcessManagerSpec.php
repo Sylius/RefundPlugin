@@ -22,7 +22,9 @@ final class CreditMemoProcessManagerSpec extends ObjectBehavior
         $commandBus->dispatch(Argument::that(function (GenerateCreditMemo $command): bool {
             return
                 $command->orderNumber() === '000222' &&
-                $command->total() === 3000
+                $command->total() === 3000 &&
+                $command->unitIds() === [1, 2, 3] &&
+                $command->shipmentIds() === [1, 2]
             ;
         }));
 

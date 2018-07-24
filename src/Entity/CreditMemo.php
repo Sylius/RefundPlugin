@@ -22,7 +22,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     private $currencyCode;
 
-    /** @var array|CreditMemoUnitInterface[] */
+    /** @var array */
     private $units;
 
     public function __construct(string $number, string $orderNumber, int $total, string $currencyCode, array $units)
@@ -61,6 +61,11 @@ class CreditMemo implements CreditMemoInterface
 
     public function getUnits(): array
     {
-        return $this->units;
+        $units = [];
+        foreach ($this->units as $unit) {
+            $units[] = CreditMemoUnit::unserialize($unit);
+        }
+
+        return $units;
     }
 }

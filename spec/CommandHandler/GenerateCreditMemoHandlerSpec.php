@@ -8,61 +8,36 @@ use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
-use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
-use Sylius\RefundPlugin\Exception\OrderNotFound;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 
 final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 {
     function let(
-        OrderRepositoryInterface $orderRepository,
+        CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
-        NumberGenerator $creditMemoNumberGenerator,
         EventBus $eventBus
     ) {
-        $this->beConstructedWith($orderRepository, $creditMemoManager, $creditMemoNumberGenerator, $eventBus);
+        $this->beConstructedWith($creditMemoGenerator, $creditMemoManager, $eventBus);
     }
 
     function it_generates_credit_memo(
-        OrderRepositoryInterface $orderRepository,
+        CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
-        NumberGenerator $creditMemoNumberGenerator,
         EventBus $eventBus,
-        OrderInterface $order
+        CreditMemoInterface $creditMemo
     ): void {
-        $orderRepository->findOneByNumber('000666')->willReturn($order);
-        $order->getCurrencyCode()->willReturn('GBP');
+        $creditMemoGenerator->generate('000666', 1000, [1, 2], [3, 4])->willReturn($creditMemo);
 
-        $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
-
-        $creditMemoManager->persist(Argument::that(function (CreditMemo $creditMemo): bool {
-            return
-                $creditMemo->getNumber() === '2018/07/00001111' &&
-                $creditMemo->getOrderNumber() === '000666' &&
-                $creditMemo->getTotal() === 1000 &&
-                $creditMemo->getCurrencyCode() === 'GBP'
-            ;
-        }))->shouldBeCalled();
+        $creditMemoManager->persist($creditMemo)->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
         $eventBus->dispatch(Argument::that(function (CreditMemoGenerated $event): bool {
             return $event->orderNumber() === '000666';
         }))->shouldBeCalled();
 
-        $this(new GenerateCreditMemo('000666', 1000));
-    }
-
-    function it_throws_exception_if_order_with_given_number_does_not_exist(OrderRepositoryInterface $orderRepository): void
-    {
-        $orderRepository->findOneByNumber('000666')->willReturn(null);
-
-        $this
-            ->shouldThrow(OrderNotFound::class)
-            ->during('__invoke', [new GenerateCreditMemo('000666', 1000)])
-        ;
+        $this(new GenerateCreditMemo('000666', 1000, [1, 2], [3, 4]));
     }
 }

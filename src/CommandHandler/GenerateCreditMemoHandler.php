@@ -6,57 +6,38 @@ namespace Sylius\RefundPlugin\CommandHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Prooph\ServiceBus\EventBus;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
-use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
-use Sylius\RefundPlugin\Exception\OrderNotFound;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 
 final class GenerateCreditMemoHandler
 {
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    /** @var CreditMemoGeneratorInterface */
+    private $creditMemoGenerator;
 
     /** @var ObjectManager */
     private $creditMemoManager;
-
-    /** @var NumberGenerator */
-    private $creditMemoNumberGenerator;
 
     /** @var EventBus */
     private $eventBus;
 
     public function __construct(
-        OrderRepositoryInterface $orderRepository,
+        CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
-        NumberGenerator $creditMemoNumberGenerator,
         EventBus $eventBus
     ) {
-        $this->orderRepository = $orderRepository;
+        $this->creditMemoGenerator = $creditMemoGenerator;
         $this->creditMemoManager = $creditMemoManager;
-        $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
         $this->eventBus = $eventBus;
     }
 
     public function __invoke(GenerateCreditMemo $command): void
     {
         $orderNumber = $command->orderNumber();
-        /** @var OrderInterface|null $order */
-        $order = $this->orderRepository->findOneByNumber($orderNumber);
 
-        if ($order === null) {
-            throw OrderNotFound::withOrderNumber($orderNumber);
-        }
+        $creditMemo = $this->creditMemoGenerator->generate($orderNumber, $command->total(), $command->unitIds(), $command->shipmentIds());
 
-        $this->creditMemoManager->persist(new CreditMemo(
-            $this->creditMemoNumberGenerator->generate(),
-            $orderNumber,
-            $command->total(),
-            $order->getCurrencyCode(),
-            []
-        ));
+        $this->creditMemoManager->persist($creditMemo);
         $this->creditMemoManager->flush();
 
         $this->eventBus->dispatch(new CreditMemoGenerated($orderNumber));

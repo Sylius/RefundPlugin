@@ -27,7 +27,7 @@ Feature: Having credit memo generated
         Then I should be notified that selected order units have been successfully refunded
         And I should have 1 credit memo generated for order "#00000022"
 
-    @ui @application
+    @application
     Scenario: Seeing the details of generated credit memo
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
         And I browse the details of the only credit memo generated for order "#00000022"

@@ -1,16 +1,58 @@
-{% extends 'SyliusAdminBundle::layout.html.twig' %}
+{% extends '@SyliusAdmin/layout.html.twig' %}
 
-{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+{% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
 
-{% block title %}{{ 'sylius.ui.order'|trans ~' #'~ creditMemo.orderNumber }} | {{ 'sylius_refunds.ui.credit_memo'|trans }} {{ creditMemo.id }} {{ parent() }}{% endblock %}
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+
+{% block title %}{{ 'sylius_refunds.ui.credit_memo'|trans ~ ' ' ~ creditMemo.number }} {{ parent() }}{% endblock %}
 
 {% block content %}
-    <div class="ui stackable grid">
+    <div class="ui stackable two column grid">
+        <div class="ten wide column">
+            {% include '@SyliusRefundPlugin/Order/Admin/CreditMemo/_header.html.twig' %}
+        </div>
+    </div>
+
+    <div class="ui stackable segment grid">
         <div class="sixteen wide column">
-            <div class="ui segment">
-                <h3 id="number">#{{ creditMemo.number }}</h3>
-                <h3 id="total">{{ 'sylius.ui.total'|trans }}: {{ money.format(creditMemo.total, creditMemo.currencyCode) }}</h3>
-            </div>
+            <table class="ui celled compact small table fixed">
+                <thead>
+                <tr>
+                    <th class="four wide sylius-table-column-product-name">{{ 'sylius.ui.name'|trans }}</th>
+                    <th class="sylius-table-column-discount">{{ 'sylius.ui.discount'|trans }}</th>
+                    <th class="sylius-table-column-taxes-total">{{ 'sylius.ui.tax_total'|trans }}</th>
+                    <th class="sylius-table-column-total">{{ 'sylius.ui.total'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for unit in creditMemo.units %}
+                    <tr>
+                        <td class="single line line-item-product-name">
+                            {{ unit.productName }}
+                        </td>
+                        <td class="right aligned line-item-discount">
+                            {{ money.format(unit.discount, creditMemo.currencyCode) }}
+                        </td>
+                        <td class="right aligned line-item-taxes-total">
+                            {{ money.format(unit.taxesTotal, creditMemo.currencyCode) }}
+                        </td>
+                        <td class="right aligned line-item-total">
+                            {{ money.format(unit.total, creditMemo.currencyCode) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" class="right aligned">
+                            <strong>{{ 'sylius.ui.total'|trans }}</strong>:
+                        </th>
+                        <th id="credit-memo-total" class="right aligned">
+                            {{ money.format(creditMemo.total, creditMemo.currencyCode) }}
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 {% endblock %}
