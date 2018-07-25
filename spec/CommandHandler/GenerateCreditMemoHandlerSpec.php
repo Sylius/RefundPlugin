@@ -31,11 +31,16 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
     ): void {
         $creditMemoGenerator->generate('000666', 1000, [1, 2], [3, 4])->willReturn($creditMemo);
 
+        $creditMemo->getNumber()->willReturn('2018/01/000001');
+
         $creditMemoManager->persist($creditMemo)->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
         $eventBus->dispatch(Argument::that(function (CreditMemoGenerated $event): bool {
-            return $event->orderNumber() === '000666';
+            return
+                $event->number() === '2018/01/000001' &&
+                $event->orderNumber() === '000666'
+            ;
         }))->shouldBeCalled();
 
         $this(new GenerateCreditMemo('000666', 1000, [1, 2], [3, 4]));

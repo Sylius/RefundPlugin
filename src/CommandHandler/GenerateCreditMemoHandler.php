@@ -40,6 +40,6 @@ final class GenerateCreditMemoHandler
         $this->creditMemoManager->persist($creditMemo);
         $this->creditMemoManager->flush();
 
-        $this->eventBus->dispatch(new CreditMemoGenerated($orderNumber));
+        $this->eventBus->dispatch(new CreditMemoGenerated($creditMemo->getNumber(), $orderNumber));
     }
 }
