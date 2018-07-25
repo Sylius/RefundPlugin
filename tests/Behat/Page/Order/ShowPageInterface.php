@@ -8,5 +8,7 @@ use Sylius\Behat\Page\Admin\Order\ShowPageInterface as BaseOrderShowPageInterfac
 
 interface ShowPageInterface extends BaseOrderShowPageInterface
 {
+    public function countCreditMemos(): int;
+
     public function hasRefundsButton(): bool;
 }

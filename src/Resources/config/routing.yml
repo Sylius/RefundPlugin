@@ -7,3 +7,13 @@ sylius_refund_refund_units:
     path: /admin/orders/{orderNumber}/refund-units
     defaults:
         _controller: Sylius\RefundPlugin\Action\RefundUnitsAction
+
+sylius_refund_order_credit_memos_list:
+    path: /admin/orders/{orderNumber}/credit-memos
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\OrderCreditMemosListAction
+
+sylius_refund_credit_memo_details:
+    path: /admin/orders/{orderNumber}/credit-memos/{id}
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\CreditMemoDetailsAction

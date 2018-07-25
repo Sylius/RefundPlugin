@@ -11,5 +11,10 @@
             <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" />
             <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
         </service>
+
+        <service id="Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager">
+            <argument type="service" id="prooph_service_bus.sylius_refund_command_bus" />
+            <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
+        </service>
     </services>
 </container>

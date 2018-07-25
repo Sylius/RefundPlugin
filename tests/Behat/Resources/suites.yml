@@ -26,11 +26,11 @@ default:
                 - sylius.behat.context.setup.shipping
                 - sylius.behat.context.setup.taxation
                 - sylius.behat.context.setup.zone
+                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
 
                 - sylius.behat.context.ui.admin.managing_orders
 
-                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
-
+                - Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext
             filters:
@@ -63,6 +63,7 @@ default:
                 - sylius.behat.context.setup.zone
                 - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
 
+                - Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext
             filters:
                 tags: "@refunds && @application"
