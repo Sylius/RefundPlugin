@@ -7,16 +7,11 @@ namespace spec\Sylius\RefundPlugin\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
-use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
-use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {

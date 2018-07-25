@@ -22,7 +22,7 @@ final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
         $this->shouldImplement(CreditMemoUnitGeneratorInterface::class);
     }
 
-    function it_generates_credit_memo_unit_from_order_item_unit(
+    function it_generates_credit_memo_unit_from_shipping_adjustment(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment
     ): void {

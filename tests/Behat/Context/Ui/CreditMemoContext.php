@@ -59,16 +59,14 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then this credit memo should contain :count :productName product, with :discount discount and :tax tax applied
+     * @Then this credit memo should contain :count :productName product with :tax tax applied
      */
-    public function thisCreditMemoShouldContainProductWithDiscountAndTaxApplied(
+    public function thisCreditMemoShouldContainProductWithTaxApplied(
         int $count,
         string $productName,
-        string $discount,
         string $tax
     ): void {
         Assert::same($this->creditMemoDetailsPage->countUnitsWithProduct($productName), $count);
-        Assert::same($this->creditMemoDetailsPage->getUnitDiscount($count, $productName), $discount);
         Assert::same($this->creditMemoDetailsPage->getUnitTax($count, $productName), $tax);
     }
 
@@ -79,7 +77,7 @@ final class CreditMemoContext implements Context
     {
         Assert::same(
             $this->creditMemoDetailsPage->getNumber(),
-            $this->currentDateTimeProvider->now()->format('y/m').'/'.'000000001'
+            $this->currentDateTimeProvider->now()->format('Y/m').'/'.'000000001'
         );
     }
 

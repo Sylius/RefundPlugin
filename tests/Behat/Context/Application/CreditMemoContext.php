@@ -57,24 +57,22 @@ final class CreditMemoContext implements Context
     {
         Assert::same(
             $this->creditMemo->getNumber(),
-            $this->currentDateTimeProvider->now()->format('y/m').'/'.'000000001'
+            $this->currentDateTimeProvider->now()->format('Y/m').'/'.'000000001'
         );
     }
 
     /**
-     * @Then /^this credit memo should contain (\d+) "([^"]+)" product, with ("[^"]+") discount and ("[^"]+") tax applied$/
+     * @Then /^this credit memo should contain (\d+) "([^"]+)" product with ("[^"]+") tax applied$/
      */
-    public function thisCreditMemoShouldContainProductWithDiscountAndTaxApplied(
+    public function thisCreditMemoShouldContainProductWithTaxApplied(
         int $count,
         string $productName,
-        int $discount,
         int $taxesTotal
     ): void {
         $units = $this->creditMemo->getUnits();
 
         Assert::same(count($units), $count);
         Assert::same($units[0]->getProductName(), $productName);
-        Assert::same($units[0]->getDiscount(), $discount);
         Assert::same($units[0]->getTaxesTotal(), $taxesTotal);
     }
 

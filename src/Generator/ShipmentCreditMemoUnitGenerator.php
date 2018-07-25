@@ -29,6 +29,6 @@ final class ShipmentCreditMemoUnitGenerator implements CreditMemoUnitGeneratorIn
         ;
         Assert::notNull($shippingAdjustment);
 
-        return new CreditMemoUnit($shippingAdjustment->getLabel(), $shippingAdjustment->getAmount(), 0, 0);
+        return new CreditMemoUnit($shippingAdjustment->getLabel(), $shippingAdjustment->getAmount(), 0);
     }
 }

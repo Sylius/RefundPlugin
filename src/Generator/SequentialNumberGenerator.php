@@ -49,7 +49,7 @@ final class SequentialNumberGenerator implements NumberGenerator
 
     public function generate(): string
     {
-        $identifierPrefix = $this->currentDateTimeProvider->now()->format('y/m') . '/';
+        $identifierPrefix = $this->currentDateTimeProvider->now()->format('Y/m') . '/';
 
         /** @var SequenceInterface $sequence */
         $sequence = $this->getSequence();

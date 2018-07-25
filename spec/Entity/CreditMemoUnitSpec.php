@@ -34,25 +34,19 @@ final class CreditMemoUnitSpec extends ObjectBehavior
         $this->getTaxesTotal()->shouldReturn(990);
     }
 
-    function it_has_discount(): void
-    {
-        $this->getDiscount()->shouldReturn(100);
-    }
-
     function it_can_be_serialized(): void
     {
         $this->serialize()->shouldReturn(
-            '{"product_name":"Microverse Battery","total":10000,"taxes_total":990,"discount":100}'
+            '{"product_name":"Microverse Battery","total":10000,"taxes_total":990}'
         );
     }
 
     function it_can_be_unserialized(): void
     {
-        $this->unserialize('{"product_name":"Microverse Battery","total":10000,"taxes_total":990,"discount":100}');
+        $this->unserialize('{"product_name":"Microverse Battery","total":10000,"taxes_total":990}');
 
         $this->getProductName()->shouldReturn('Microverse Battery');
         $this->getTotal()->shouldReturn(10000);
         $this->getTaxesTotal()->shouldReturn(990);
-        $this->getDiscount()->shouldReturn(100);
     }
 }

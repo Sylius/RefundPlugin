@@ -12,7 +12,5 @@ interface CreditMemoUnitInterface
 
     public function getTaxesTotal(): int;
 
-    public function getDiscount(): int;
-
     public function serialize(): string;
 }

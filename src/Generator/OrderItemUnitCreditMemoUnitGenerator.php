@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -31,16 +30,10 @@ final class OrderItemUnitCreditMemoUnitGenerator implements CreditMemoUnitGenera
         /** @var OrderItemInterface $orderItem */
         $orderItem = $orderItemUnit->getOrderItem();
 
-        $discount = 0;
-        $discount += $orderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT);
-        $discount += $orderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_ITEM_PROMOTION_ADJUSTMENT);
-        $discount += $orderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT);
-
         return new CreditMemoUnit(
             $orderItem->getProductName(),
             $orderItemUnit->getTotal(),
-            $orderItemUnit->getTaxTotal(),
-            $discount
+            $orderItemUnit->getTaxTotal()
         );
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -36,11 +35,8 @@ final class OrderItemUnitCreditMemoUnitGeneratorSpec extends ObjectBehavior
 
         $orderItemUnit->getTotal()->willReturn(1500);
         $orderItemUnit->getTaxTotal()->willReturn(500);
-        $orderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT)->willReturn(0);
-        $orderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_ITEM_PROMOTION_ADJUSTMENT)->willReturn(-100);
-        $orderItemUnit->getAdjustmentsTotal(AdjustmentInterface::ORDER_UNIT_PROMOTION_ADJUSTMENT)->willReturn(-50);
 
-        $this->generate(1)->shouldBeLike(new CreditMemoUnit('Portal gun', 1500, 500, -150));
+        $this->generate(1)->shouldBeLike(new CreditMemoUnit('Portal gun', 1500, 500));
     }
 
     function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(

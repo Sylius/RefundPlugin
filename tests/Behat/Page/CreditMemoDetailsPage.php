@@ -19,13 +19,6 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         return count($this->getCreditMemoUnitsWithProduct($productName));
     }
 
-    public function getUnitDiscount(int $number, string $productName): string
-    {
-        $unit = $this->getCreditMemoUnitsWithProduct($productName)[0];
-
-        return $unit->find('css', '.credit-memo-unit-discount')->getText();
-    }
-
     public function getUnitTax(int $number, string $productName): string
     {
         $unit = $this->getCreditMemoUnitsWithProduct($productName)[0];

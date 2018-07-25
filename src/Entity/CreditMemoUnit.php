@@ -16,15 +16,11 @@ class CreditMemoUnit implements CreditMemoUnitInterface
     /** @var int */
     private $taxesTotal;
 
-    /** @var int */
-    private $discount;
-
-    public function __construct(string $productName, int $total, int $taxesTotal, int $discount)
+    public function __construct(string $productName, int $total, int $taxesTotal)
     {
         $this->productName = $productName;
         $this->total = $total;
         $this->taxesTotal = $taxesTotal;
-        $this->discount = $discount;
     }
 
     public function getProductName(): string
@@ -42,18 +38,12 @@ class CreditMemoUnit implements CreditMemoUnitInterface
         return $this->taxesTotal;
     }
 
-    public function getDiscount(): int
-    {
-        return $this->discount;
-    }
-
     public function serialize(): string
     {
         return json_encode([
             'product_name' => $this->productName,
             'total' => $this->total,
             'taxes_total' => $this->taxesTotal,
-            'discount' => $this->discount,
         ]);
     }
 
@@ -64,8 +54,7 @@ class CreditMemoUnit implements CreditMemoUnitInterface
         return new self(
             $data['product_name'],
             $data['total'],
-            $data['taxes_total'],
-            $data['discount']
+            $data['taxes_total']
         );
     }
 }

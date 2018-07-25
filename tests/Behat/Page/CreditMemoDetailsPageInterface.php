@@ -10,8 +10,6 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
 {
     public function countUnitsWithProduct(string $productName): int;
 
-    public function getUnitDiscount(int $number, string $productName): string;
-
     public function getUnitTax(int $number, string $productName): string;
 
     public function getNumber(): string;

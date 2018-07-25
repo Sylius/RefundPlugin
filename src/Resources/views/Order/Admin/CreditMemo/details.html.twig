@@ -19,7 +19,6 @@
                 <thead>
                 <tr>
                     <th class="four wide sylius-table-column-product-name">{{ 'sylius.ui.name'|trans }}</th>
-                    <th class="sylius-table-column-discount">{{ 'sylius.ui.discount'|trans }}</th>
                     <th class="sylius-table-column-taxes-total">{{ 'sylius.ui.tax_total'|trans }}</th>
                     <th class="sylius-table-column-total">{{ 'sylius.ui.total'|trans }}</th>
                 </tr>
@@ -29,9 +28,6 @@
                     <tr>
                         <td class="single line credit-memo-unit-product-name">
                             {{ unit.productName }}
-                        </td>
-                        <td class="right aligned credit-memo-unit-discount">
-                            {{ money.format(unit.discount, creditMemo.currencyCode) }}
                         </td>
                         <td class="right aligned credit-memo-unit-taxes-total">
                             {{ money.format(unit.taxesTotal, creditMemo.currencyCode) }}

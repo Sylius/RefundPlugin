@@ -44,7 +44,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
         \DateTime $now
     ): void {
         $currentDateTimeProvider->now()->willReturn($now);
-        $now->format('y/m')->willReturn('2018/05');
+        $now->format('Y/m')->willReturn('2018/05');
 
         $sequenceRepository->findOneBy([])->willReturn($sequence);
 
@@ -67,7 +67,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
         \DateTime $now
     ): void {
         $currentDateTimeProvider->now()->willReturn($now);
-        $now->format('y/m')->willReturn('2018/05');
+        $now->format('Y/m')->willReturn('2018/05');
 
         $sequenceRepository->findOneBy([])->willReturn(null);
 
