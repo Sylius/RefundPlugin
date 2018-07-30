@@ -6,6 +6,8 @@
 
 <h1 align="center">Refund Plugin</h1>
 
+<p align="center"><img src="https://travis-ci.org/Sylius/RefundPlugin.svg?branch=master"></p>
+
 <p align="center">This plugin provides basic refunds functionality for Sylius application.</p>
 
 ## Installation
