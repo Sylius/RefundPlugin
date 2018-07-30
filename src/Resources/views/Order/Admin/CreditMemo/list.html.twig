@@ -6,7 +6,7 @@
     <table class="ui celled compact small table fixed">
         <thead>
             <tr>
-                <th>{{ 'sylius.ui.id'|trans }}</th>
+                <th>{{ 'sylius.ui.number'|trans }}</th>
                 <th>{{ 'sylius.ui.total'|trans }}</th>
                 <th>{{ 'sylius.ui.actions'|trans }}</th>
             </tr>
@@ -14,7 +14,7 @@
         <tbody>
         {% for creditMemo in creditMemos %}
             <tr>
-                <td>{{ creditMemo.id }}</td>
+                <td>{{ creditMemo.number }}</td>
                 <td>{{ money.format(creditMemo.total, creditMemo.currencyCode) }}</td>
                 <td class="aligned collapsing">
                     {{ buttons.default(
