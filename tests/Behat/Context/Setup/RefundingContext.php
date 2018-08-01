@@ -39,8 +39,9 @@ final class RefundingContext implements Context
         $unitsWithProduct = $order->getItemUnits()->filter(function(OrderItemUnitInterface $unit) use ($productName): bool {
             return $unit->getOrderItem()->getProductName() === $productName;
         });
+        $unitsWithProduct = array_values($unitsWithProduct->toArray());
 
-        $unit = $unitsWithProduct->get($unitNumber-1);
+        $unit = $unitsWithProduct[$unitNumber-1];
 
         $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], []));
     }

@@ -10,13 +10,13 @@ Feature: Browsing list of all credit memos
         And the store has a product "Portal Gun" priced at "$20.00"
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"
-        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order
+        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought a single "Mr. Meeseeks T-Shirt"
-        And the customer bought a single "Portal gun"
+        And the customer bought a single "Portal Gun"
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And the order "#00000022" is already paid
         And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
-        And 1st "Portal gun" product from order "#00000022" has already been refunded
+        And 1st "Portal Gun" product from order "#00000022" has already been refunded
         And I am logged in as an administrator
 
     @ui

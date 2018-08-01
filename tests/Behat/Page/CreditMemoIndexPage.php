@@ -12,7 +12,7 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
     public function hasCreditMemoWithData(int $index, string $orderNumber, string $total): bool
     {
         /** @var NodeElement $creditMemo */
-        $creditMemo = $this->getDocument()->findAll('css', 'table tr')[$index-1];
+        $creditMemo = $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
 
         return
             $creditMemo->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null &&

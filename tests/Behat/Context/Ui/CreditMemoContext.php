@@ -112,7 +112,7 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "([^"]+)" and has total "([^"]+)"$/
+     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "#([^"]+)" and has total "([^"]+)"$/
      */
     public function stepDefinition(int $index, string $orderNumber, string $total): void
     {
