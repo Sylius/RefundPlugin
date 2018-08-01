@@ -63,18 +63,13 @@
             <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
         </service>
 
-        <service id="sylius_refund_plugin.repository.credit_memo" class="Doctrine\ORM\EntityRepository">
-            <factory service="doctrine.orm.entity_manager" method="getRepository"/>
-            <argument type="string">Sylius\RefundPlugin\Entity\CreditMemo</argument>
-        </service>
-
         <service id="sylius_refund_plugin.repository.credit_memo_sequence" class="Doctrine\ORM\EntityRepository">
             <factory service="doctrine.orm.entity_manager" method="getRepository"/>
             <argument type="string">Sylius\RefundPlugin\Entity\CreditMemoSequence</argument>
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator">
-            <argument type="service" id="sylius_refund_plugin.repository.credit_memo_sequence" />
+            <argument type="service" id="sylius_refund.repository.credit_memo" />
             <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />

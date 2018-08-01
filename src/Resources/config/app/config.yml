@@ -7,6 +7,9 @@ sylius_resource:
             classes:
                 model: Sylius\RefundPlugin\Entity\Refund
                 factory: Sylius\RefundPlugin\Factory\RefundFactory
+        sylius_refund.credit_memo:
+            classes:
+                model: Sylius\RefundPlugin\Entity\CreditMemo
 
 prooph_service_bus:
     command_buses:

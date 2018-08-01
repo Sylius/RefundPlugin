@@ -15,15 +15,5 @@
             <argument type="service" id="session" />
             <argument type="service" id="router" />
         </service>
-
-        <service id="Sylius\RefundPlugin\Action\OrderCreditMemosListAction">
-            <argument type="service" id="sylius_refund_plugin.repository.credit_memo" />
-            <argument type="service" id="twig" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Action\CreditMemoDetailsAction">
-            <argument type="service" id="sylius_refund_plugin.repository.credit_memo" />
-            <argument type="service" id="twig" />
-        </service>
     </services>
 </container>

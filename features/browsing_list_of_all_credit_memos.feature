@@ -10,6 +10,7 @@ Feature: Browsing list of all credit memos
         And the store has a product "Portal Gun" priced at "$20.00"
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"
+        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order
         And the customer bought a single "Mr. Meeseeks T-Shirt"
         And the customer bought a single "Portal gun"
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment

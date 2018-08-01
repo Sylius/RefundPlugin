@@ -10,10 +10,21 @@ sylius_refund_refund_units:
 
 sylius_refund_order_credit_memos_list:
     path: /admin/orders/{orderNumber}/credit-memos
+    methods: [GET]
     defaults:
-        _controller: Sylius\RefundPlugin\Action\OrderCreditMemosListAction
+        _controller: sylius_refund.controller.credit_memo:indexAction
+        _sylius:
+            criteria:
+                orderNumber: $orderNumber
+            template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/list.html.twig"
 
 sylius_refund_credit_memo_details:
     path: /admin/orders/{orderNumber}/credit-memos/{id}
+    methods: [GET]
     defaults:
-        _controller: Sylius\RefundPlugin\Action\CreditMemoDetailsAction
+        _controller: sylius_refund.controller.credit_memo:showAction
+        _sylius:
+            template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/details.html.twig"
+            criteria:
+                id: $id
+                orderNumber: $orderNumber
