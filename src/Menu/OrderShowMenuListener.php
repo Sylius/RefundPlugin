@@ -20,7 +20,7 @@ final class OrderShowMenuListener
                     'route' => 'sylius_refund_order_refunds_list',
                     'routeParameters' => ['orderNumber' => $order->getNumber()],
                 ])
-                ->setLabel('sylius_refunds.ui.refunds')
+                ->setLabel('sylius_refund.ui.refunds')
                 ->setLabelAttribute('icon', 'reply all')
                 ->setLabelAttribute('color', 'grey')
             ;

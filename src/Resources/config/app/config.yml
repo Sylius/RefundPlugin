@@ -25,3 +25,37 @@ winzou_state_machine:
             refund:
                 from: [new, fulfilled]
                 to: fully_refunded
+
+sylius_grid:
+    grids:
+        sylius_refund_credit_memo:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: Sylius\RefundPlugin\Entity\CreditMemo
+            fields:
+                number:
+                    type: string
+                    label: sylius.ui.number
+                orderNumber:
+                    type: string
+                    label: sylius_refund.ui.order_number
+                total:
+                    type: twig
+                    label: sylius.ui.total
+                    path: .
+                    sortable: total
+                    options:
+                        template: "@SyliusAdmin/Order/Grid/Field/total.html.twig"
+            actions:
+                item:
+                    show:
+                        type: show
+                        label: sylius.ui.show
+                        icon: eye
+                        options:
+                            link:
+                                route: sylius_refund_credit_memo_details
+                                parameters:
+                                    id: resource.id
+                                    orderNumber: resource.orderNumber

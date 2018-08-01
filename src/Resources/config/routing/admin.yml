@@ -1,0 +1,45 @@
+sylius_refund_order_refunds_list:
+    path: /orders/{orderNumber}/refunds
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\OrderRefundsListAction
+
+sylius_refund_refund_units:
+    path: /orders/{orderNumber}/refund-units
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\RefundUnitsAction
+
+sylius_refund_credit_memp:
+    resource: |
+        alias: sylius_refund.credit_memo
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        only: ['index']
+        grid: sylius_refund_credit_memo
+        permission: true
+        vars:
+            all:
+                subheader: sylius_refund.ui.manage_credit_memos
+            index:
+                icon: inbox
+    type: sylius.resource
+
+sylius_refund_order_credit_memos_list:
+    path: /orders/{orderNumber}/credit-memos
+    methods: [GET]
+    defaults:
+        _controller: sylius_refund.controller.credit_memo:indexAction
+        _sylius:
+            criteria:
+                orderNumber: $orderNumber
+            template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/list.html.twig"
+
+sylius_refund_credit_memo_details:
+    path: /orders/{orderNumber}/credit-memos/{id}
+    methods: [GET]
+    defaults:
+        _controller: sylius_refund.controller.credit_memo:showAction
+        _sylius:
+            template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/details.html.twig"
+            criteria:
+                id: $id
+                orderNumber: $orderNumber

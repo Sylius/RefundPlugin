@@ -3,7 +3,7 @@
 {% import '@SyliusUi/Macro/flags.html.twig' as flags %}
 {% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
 
-{% block title %}{{ 'sylius.ui.order'|trans ~' #'~ order.number }} {{ 'sylius_refunds.ui.refunds'|trans }} {{ parent() }}{% endblock %}
+{% block title %}{{ 'sylius.ui.order'|trans ~' #'~ order.number }} {{ 'sylius_refund.ui.refunds'|trans }} {{ parent() }}{% endblock %}
 
 {% set customer = order.customer %}
 
@@ -13,7 +13,7 @@
             <h1 class="ui header">
                 <i class="circular cart icon"></i>
                 <div class="content">
-                    {{ 'sylius.ui.order'|trans }} #{{ order.number }} - {{ 'sylius_refunds.ui.refunds'|trans }}
+                    {{ 'sylius.ui.order'|trans }} #{{ order.number }} - {{ 'sylius_refund.ui.refunds'|trans }}
                     <div class="sub header">
                         <div class="ui horizontal divided list">
                             <div class="item">
@@ -46,7 +46,7 @@
             <div class="ui segment">
                 <div id="refund-all" class="ui checkbox" style="float: right; margin-bottom: 20px;">
                     <input type="checkbox">
-                    <label>{{ 'sylius_refunds.ui.refund_all'|trans }}</label>
+                    <label>{{ 'sylius_refund.ui.refund_all'|trans }}</label>
                 </div>
                 <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
                     <table id="refunds" class="ui compact celled definition table">
@@ -104,7 +104,7 @@
                     <br/><br/>
 
                     <h3 id="refunded-total">
-                        {{ 'sylius_refunds.ui.refunded_total'|trans }}:
+                        {{ 'sylius_refund.ui.refunded_total'|trans }}:
                         {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
                     </h3>
                 </form>

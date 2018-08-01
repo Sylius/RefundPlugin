@@ -69,7 +69,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator">
-            <argument type="service" id="sylius_refund.repository.credit_memo" />
+            <argument type="service" id="sylius_refund_plugin.repository.credit_memo_sequence" />
             <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
