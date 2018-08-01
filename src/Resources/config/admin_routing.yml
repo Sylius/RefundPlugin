@@ -1,5 +1,6 @@
 sylius_refund_order_refunds_list:
     path: /orders/{orderNumber}/refunds
+    methods: [GET]
     defaults:
         _controller: Sylius\RefundPlugin\Action\OrderRefundsListAction
 
@@ -8,7 +9,7 @@ sylius_refund_refund_units:
     defaults:
         _controller: Sylius\RefundPlugin\Action\RefundUnitsAction
 
-sylius_refund_credit_memp:
+sylius_refund_credit_memo:
     resource: |
         alias: sylius_refund.credit_memo
         section: admin
