@@ -28,7 +28,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^(\d)st "([^"]+)" product from order "#([^"]+)" has already been refunded$/
+     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already been refunded$/
      */
     public function productFromOrderHasAlreadyBeenRefunded(int $unitNumber, string $productName, string $orderNumber): void
     {

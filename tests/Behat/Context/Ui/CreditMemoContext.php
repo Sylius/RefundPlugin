@@ -9,6 +9,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPageInterface;
+use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -16,6 +17,9 @@ final class CreditMemoContext implements Context
 {
     /** @var ShowPageInterface */
     private $orderShowPage;
+
+    /** @var CreditMemoIndexPageInterface */
+    private $creditMemoIndexPage;
 
     /** @var CreditMemoDetailsPageInterface */
     private $creditMemoDetailsPage;
@@ -28,11 +32,13 @@ final class CreditMemoContext implements Context
 
     public function __construct(
         ShowPageInterface $orderShowPage,
+        CreditMemoIndexPageInterface $creditMemoIndexPage,
         CreditMemoDetailsPageInterface $creditMemoDetailsPage,
         ObjectRepository $creditMemoRepository,
         CurrentDateTimeProviderInterface $currentDateTimeProvider
     ) {
         $this->orderShowPage = $orderShowPage;
+        $this->creditMemoIndexPage = $creditMemoIndexPage;
         $this->creditMemoDetailsPage = $creditMemoDetailsPage;
         $this->creditMemoRepository = $creditMemoRepository;
         $this->currentDateTimeProvider = $currentDateTimeProvider;
@@ -47,6 +53,14 @@ final class CreditMemoContext implements Context
         $creditMemo = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber])[0];
 
         $this->creditMemoDetailsPage->open(['orderNumber' => $orderNumber, 'id' => $creditMemo->getId()]);
+    }
+
+    /**
+     * @When I browse credit memos
+     */
+    public function browseCreditMemos(): void
+    {
+        $this->creditMemoIndexPage->open();
     }
 
     /**
@@ -87,5 +101,21 @@ final class CreditMemoContext implements Context
     public function creditMemoTotalShouldBe(string $total): void
     {
         Assert::same($this->creditMemoDetailsPage->getTotal(), $total);
+    }
+
+    /**
+     * @Then there should be :count credit memos generated
+     */
+    public function thereShouldBeCreditMemosGenerated(int $count): void
+    {
+        Assert::same($this->creditMemoIndexPage->countItems(), $count);
+    }
+
+    /**
+     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "([^"]+)" and has total "([^"]+)"$/
+     */
+    public function stepDefinition(int $index, string $orderNumber, string $total): void
+    {
+        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total));
     }
 }

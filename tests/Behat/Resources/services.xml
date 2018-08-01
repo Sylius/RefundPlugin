@@ -8,6 +8,9 @@
     <services>
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" parent="sylius.behat.symfony_page" public="true" />
+        <service id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPage" parent="sylius.behat.page.admin.crud.index" public="true">
+            <argument>sylius_refund_credit_memo_index</argument>
+        </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext">
             <argument type="service" id="__symfony__.sylius.repository.order" />
@@ -36,6 +39,7 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext">
             <argument type="service" id="sylius.behat.page.admin.order.show" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPage" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" />
             <argument type="service" id="__symfony__.sylius_refund_plugin.repository.credit_memo" />
             <argument type="service" id="__symfony__.Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
