@@ -46,6 +46,9 @@
         <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
             <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
         </service>
+        <service id="Sylius\RefundPlugin\Menu\AdminMainMenuListener">
+            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addCreditMemosSection" />
+        </service>
 
         <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver">
             <argument type="service" id="sm.factory" />
