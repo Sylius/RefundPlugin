@@ -26,6 +26,12 @@ winzou_state_machine:
                 from: [new, fulfilled]
                 to: fully_refunded
 
+knp_snappy:
+    pdf:
+        enabled: true
+        binary: /usr/local/bin/wkhtmltopdf
+        options: []
+
 sylius_grid:
     grids:
         sylius_refund_credit_memo:
