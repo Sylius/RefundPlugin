@@ -59,3 +59,12 @@ sylius_grid:
                                 parameters:
                                     id: resource.id
                                     orderNumber: resource.orderNumber
+                    download:
+                        type: default
+                        label: sylius_refund.ui.download
+                        icon: download
+                        options:
+                            link:
+                                route: sylius_refund_credit_memo_download
+                                parameters:
+                                    id: resource.id

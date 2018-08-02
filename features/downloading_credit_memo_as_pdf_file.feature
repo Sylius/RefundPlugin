@@ -11,7 +11,6 @@ Feature: Downloading credit memo as pdf file
         And the store allows paying with "Space money"
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought a single "Mr. Meeseeks T-Shirt"
-        And the customer bought a single "Portal Gun"
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And the order "#00000022" is already paid
         And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
