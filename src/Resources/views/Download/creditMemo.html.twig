@@ -1,0 +1,5 @@
+{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+
+<h1>{{ creditMemo.number }}</h1><br/><br/>
+<h2>Order number: {{ creditMemo.orderNumber }}</h2><br/><br/>
+<h2>Total: {{ money.format(creditMemo.total, creditMemo.currencyCode) }}</h2>

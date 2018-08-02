@@ -5,6 +5,7 @@
         <import resource="services/actions.xml" />
         <import resource="services/command_bus.xml" />
         <import resource="services/event_bus.xml" />
+        <import resource="services/generator.xml" />
         <import resource="services/provider.xml" />
     </imports>
     <services>
@@ -69,27 +70,6 @@
         <service id="sylius_refund_plugin.repository.credit_memo_sequence" class="Doctrine\ORM\EntityRepository">
             <factory service="doctrine.orm.entity_manager" method="getRepository"/>
             <argument type="string">Sylius\RefundPlugin\Entity\CreditMemoSequence</argument>
-        </service>
-
-        <service id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator">
-            <argument type="service" id="sylius_refund_plugin.repository.credit_memo_sequence" />
-            <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator">
-            <argument type="service" id="sylius.repository.order_item_unit" />
-        </service>
-        <service id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator">
-            <argument type="service" id="sylius.repository.adjustment" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
-            <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator" />
-            <argument type="service" id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator" />
-            <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
         </service>
     </services>
 </container>

@@ -44,3 +44,9 @@ sylius_refund_credit_memo_details:
             criteria:
                 id: $id
                 orderNumber: $orderNumber
+
+sylius_refund_credit_memo_download:
+    path: /credit-memos/{id}/download
+    methods: [GET]
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\DownloadCreditMemoAction
