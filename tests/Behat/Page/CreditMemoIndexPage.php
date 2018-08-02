@@ -9,6 +9,14 @@ use Sylius\Behat\Page\Admin\Crud\IndexPage;
 
 final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPageInterface
 {
+    public function downloadCreditMemo(int $index): void
+    {
+        /** @var NodeElement $creditMemoRow */
+        $creditMemoRow = $this->getDocument()->findAll('css', 'tbody tr')[$index-1];
+
+        $creditMemoRow->clickLink('Download');
+    }
+
     public function hasCreditMemoWithData(int $index, string $orderNumber, string $total): bool
     {
         /** @var NodeElement $creditMemo */

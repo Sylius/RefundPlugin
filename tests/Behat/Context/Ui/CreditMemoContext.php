@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElementInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPageInterface;
@@ -24,6 +25,9 @@ final class CreditMemoContext implements Context
     /** @var CreditMemoDetailsPageInterface */
     private $creditMemoDetailsPage;
 
+    /** @var PdfDownloadElementInterface */
+    private $pdfDownloadElement;
+
     /** @var ObjectRepository */
     private $creditMemoRepository;
 
@@ -34,12 +38,14 @@ final class CreditMemoContext implements Context
         ShowPageInterface $orderShowPage,
         CreditMemoIndexPageInterface $creditMemoIndexPage,
         CreditMemoDetailsPageInterface $creditMemoDetailsPage,
+        PdfDownloadElementInterface $pdfDownloadElement,
         ObjectRepository $creditMemoRepository,
         CurrentDateTimeProviderInterface $currentDateTimeProvider
     ) {
         $this->orderShowPage = $orderShowPage;
         $this->creditMemoIndexPage = $creditMemoIndexPage;
         $this->creditMemoDetailsPage = $creditMemoDetailsPage;
+        $this->pdfDownloadElement = $pdfDownloadElement;
         $this->creditMemoRepository = $creditMemoRepository;
         $this->currentDateTimeProvider = $currentDateTimeProvider;
     }
@@ -61,6 +67,30 @@ final class CreditMemoContext implements Context
     public function browseCreditMemos(): void
     {
         $this->creditMemoIndexPage->open();
+    }
+
+    /**
+     * @When /^I download (\d+)(?:|st|nd|rd) credit memo$/
+     */
+    public function downloadCreditMemoFromIndex(int $index): void
+    {
+        $this->creditMemoIndexPage->downloadCreditMemo($index);
+    }
+
+    /**
+     * @When /^I download (\d+)(?:|st|nd|rd) order's credit memo$/
+     */
+    public function downloadCreditMemoFromOrderShow(int $index): void
+    {
+        $this->orderShowPage->downloadCreditMemo($index);
+    }
+
+    /**
+     * @When I download it
+     */
+    public function downloadCreditMemo(): void
+    {
+        $this->creditMemoDetailsPage->download();
     }
 
     /**
@@ -117,5 +147,13 @@ final class CreditMemoContext implements Context
     public function stepDefinition(int $index, string $orderNumber, string $total): void
     {
         Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total));
+    }
+
+    /**
+     * @Then a pdf file should be successfully downloaded
+     */
+    public function pdfFileShouldBeSuccessfullyDownloaded(): void
+    {
+        Assert::true($this->pdfDownloadElement->isPdfFileDownloaded());
     }
 }
