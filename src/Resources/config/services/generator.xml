@@ -29,6 +29,7 @@
             <argument type="service" id="sylius_refund.repository.credit_memo" />
             <argument type="service" id="templating.engine.twig" />
             <argument type="service" id="knp_snappy.pdf" />
+            <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
         </service>
     </services>
 </container>

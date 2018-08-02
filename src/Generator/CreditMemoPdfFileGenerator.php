@@ -13,6 +13,8 @@ use Symfony\Component\Templating\EngineInterface;
 
 final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInterface
 {
+    private const FILE_EXTENSION = '.pdf';
+
     /** @var RepositoryInterface */
     private $creditMemoRepository;
 
@@ -22,14 +24,19 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
     /** @var GeneratorInterface */
     private $pdfGenerator;
 
+    /** @var string */
+    private $template;
+
     public function __construct(
         RepositoryInterface $creditMemoRepository,
         EngineInterface $twig,
-        GeneratorInterface $pdfGenerator
+        GeneratorInterface $pdfGenerator,
+        string $template
     ) {
         $this->creditMemoRepository = $creditMemoRepository;
         $this->twig = $twig;
         $this->pdfGenerator = $pdfGenerator;
+        $this->template = $template;
     }
 
     public function generate(int $creditMemoId): CreditMemoPdf
@@ -41,10 +48,10 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
             throw CreditMemoNotFound::withId($creditMemoId);
         }
 
-        $filename = str_replace('/', '_', $creditMemo->getNumber()) . '.pdf';
+        $filename = str_replace('/', '_', $creditMemo->getNumber()) . self::FILE_EXTENSION;
 
         $pdf = $this->pdfGenerator->getOutputFromHtml(
-            $this->twig->render('@SyliusRefundPlugin/Download/creditMemo.html.twig', ['creditMemo' => $creditMemo])
+            $this->twig->render($this->template, ['creditMemo' => $creditMemo])
         );
 
         return new CreditMemoPdf($filename, $pdf);

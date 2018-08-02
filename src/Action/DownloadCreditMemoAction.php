@@ -24,7 +24,7 @@ final class DownloadCreditMemoAction
 
         $response = new Response($creditMemoPdfFile->content(), Response::HTTP_OK, ['Content-Type' => 'application/pdf']);
         $response->headers->add([
-            'Content-Disposition' => $response->headers->makeDisposition('attachment', $creditMemoPdfFile->filename())
+            'Content-Disposition' => $response->headers->makeDisposition('attachment', $creditMemoPdfFile->filename()),
         ]);
 
         return $response;

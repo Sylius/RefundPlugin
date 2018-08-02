@@ -20,7 +20,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         EngineInterface $twig,
         GeneratorInterface $pdfGenerator
     ): void {
-        $this->beConstructedWith($creditMemoRepository, $twig, $pdfGenerator);
+        $this->beConstructedWith($creditMemoRepository, $twig, $pdfGenerator, 'creditMemoTemplate.html.twig');
     }
 
     function it_implements_credit_memo_pdf_file_generator_interface(): void
@@ -38,7 +38,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         $creditMemo->getNumber()->willReturn('2015/05/00004444');
 
         $twig
-            ->render('@SyliusRefundPlugin/Download/creditMemo.html.twig', ['creditMemo' => $creditMemo])
+            ->render('creditMemoTemplate.html.twig', ['creditMemo' => $creditMemo])
             ->willReturn('<html>I am a credit memo pdf file content</html>')
         ;
 
