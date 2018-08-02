@@ -1,5 +1,50 @@
-{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        table { width: 100%; }
+        td { border: 1px solid #000; }
+    </style>
+</head>
+<body>
+<h1>{{ 'sylius_refund.ui.credit_memo'|trans }} #{{ creditMemo.number }}</h1>
+<p>{{ 'sylius_refund.ui.order_number'|trans }}: #{{ creditMemo.orderNumber }}</p>
 
-<h1>{{ creditMemo.number }}</h1><br/><br/>
-<h2>Order number: {{ creditMemo.orderNumber }}</h2><br/><br/>
-<h2>Total: {{ money.format(creditMemo.total, creditMemo.currencyCode) }}</h2>
+<br /><br />
+
+<table>
+    <thead>
+    <tr>
+        <th align="left">{{ 'sylius.ui.name'|trans }}</th>
+        <th align="left">{{ 'sylius.ui.tax_total'|trans }}</th>
+        <th align="left">{{ 'sylius.ui.total'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for unit in creditMemo.units %}
+        <tr>
+            <td>
+                {{ unit.productName }}
+            </td>
+            <td>
+                {{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, 'en_US') }}
+            </td>
+            <td>
+                {{ unit.total|sylius_format_money(creditMemo.currencyCode, 'en_US') }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+        <th colspan="2" style="text-align: right;">
+            <strong>{{ 'sylius.ui.total'|trans }}</strong>:
+        </th>
+        <th>
+            {{ creditMemo.total|sylius_format_money(creditMemo.currencyCode, 'en_US') }}
+        </th>
+    </tr>
+    </tfoot>
+</table>
+</body>
+</html>
