@@ -12,7 +12,7 @@ final class CreditMemoSpec extends ObjectBehavior
 {
     function let(): void
     {
-        $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50, 0);
+        $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50);
 
         $this->beConstructedWith(
             '2018/07/00003333',
@@ -50,6 +50,6 @@ final class CreditMemoSpec extends ObjectBehavior
 
     function it_has_units(): void
     {
-        $this->getUnits()->shouldBeLike([new CreditMemoUnit('Portal gun', 1000, 50, 0)]);
+        $this->getUnits()->shouldBeLike([new CreditMemoUnit('Portal gun', 1000, 50)]);
     }
 }

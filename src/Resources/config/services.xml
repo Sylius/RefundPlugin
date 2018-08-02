@@ -46,6 +46,9 @@
         <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
             <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
         </service>
+        <service id="Sylius\RefundPlugin\Menu\AdminMainMenuListener">
+            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addCreditMemosSection" />
+        </service>
 
         <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver">
             <argument type="service" id="sm.factory" />
@@ -61,11 +64,6 @@
         <service id="sylius_refund_plugin.block_event_listener.order_show" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
             <argument>@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig</argument>
             <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
-        </service>
-
-        <service id="sylius_refund_plugin.repository.credit_memo" class="Doctrine\ORM\EntityRepository">
-            <factory service="doctrine.orm.entity_manager" method="getRepository"/>
-            <argument type="string">Sylius\RefundPlugin\Entity\CreditMemo</argument>
         </service>
 
         <service id="sylius_refund_plugin.repository.credit_memo_sequence" class="Doctrine\ORM\EntityRepository">

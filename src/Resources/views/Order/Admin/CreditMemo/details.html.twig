@@ -4,7 +4,7 @@
 
 {% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
 
-{% block title %}{{ 'sylius_refunds.ui.credit_memo'|trans ~ ' ' ~ creditMemo.number }} {{ parent() }}{% endblock %}
+{% block title %}{{ 'sylius_refund.ui.credit_memo'|trans ~ ' ' ~ credit_memo.number }} {{ parent() }}{% endblock %}
 
 {% block content %}
     <div class="ui stackable two column grid">
@@ -24,16 +24,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for unit in creditMemo.units %}
+                {% for unit in credit_memo.units %}
                     <tr>
                         <td class="single line credit-memo-unit-product-name">
                             {{ unit.productName }}
                         </td>
                         <td class="right aligned credit-memo-unit-taxes-total">
-                            {{ money.format(unit.taxesTotal, creditMemo.currencyCode) }}
+                            {{ money.format(unit.taxesTotal, credit_memo.currencyCode) }}
                         </td>
                         <td class="right aligned credit-memo-unit-total">
-                            {{ money.format(unit.total, creditMemo.currencyCode) }}
+                            {{ money.format(unit.total, credit_memo.currencyCode) }}
                         </td>
                     </tr>
                 {% endfor %}
@@ -44,7 +44,7 @@
                             <strong>{{ 'sylius.ui.total'|trans }}</strong>:
                         </th>
                         <th id="credit-memo-total" class="right aligned">
-                            {{ money.format(creditMemo.total, creditMemo.currencyCode) }}
+                            {{ money.format(credit_memo.total, credit_memo.currencyCode) }}
                         </th>
                     </tr>
                 </tfoot>
