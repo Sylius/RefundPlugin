@@ -48,6 +48,8 @@ final class CreditMemoGeneratedEventListener
             throw OrderNotFound::withOrderNumber($event->orderNumber());
         }
 
+        assert($order->getCustomer() !== null);
+
         $this->creditMemoEmailSender->send($creditMemo, $order->getCustomer()->getEmail());
     }
 }
