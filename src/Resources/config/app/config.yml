@@ -11,6 +11,15 @@ sylius_resource:
             classes:
                 model: Sylius\RefundPlugin\Entity\CreditMemo
 
+sylius_mailer:
+    sender:
+        name: Admin
+        address: admin@example.com
+    emails:
+        units_refunded:
+            subject: Units refunded
+            template: "@SyliusRefundPlugin/Email/unitsRefunded.html.twig"
+
 prooph_service_bus:
     command_buses:
         sylius_refund_command_bus: ~

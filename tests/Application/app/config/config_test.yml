@@ -4,7 +4,3 @@ imports:
 doctrine:
     dbal:
         path: "%kernel.project_dir%/var/db_test.sql"
-
-knp_snappy:
-    pdf:
-        binary: "%kernel.project_dir%/app/etc/wkhtmltopdf"
