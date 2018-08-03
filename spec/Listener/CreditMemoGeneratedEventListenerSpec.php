@@ -64,7 +64,7 @@ final class CreditMemoGeneratedEventListenerSpec extends ObjectBehavior
         $orderRepository->findOneByNumber('000000001')->willReturn(null);
 
         $this
-            ->shouldThrow(OrderNotFound::withOrderNumber('000000001'))
+            ->shouldThrow(OrderNotFound::withNumber('000000001'))
             ->during('__invoke', [new CreditMemoGenerated('2018/04/00001111', '000000001')])
         ;
     }

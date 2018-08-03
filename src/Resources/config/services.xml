@@ -75,11 +75,9 @@
         <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender">
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" />
             <argument type="service" id="sylius.email_sender" />
-            <argument type="service" id="Sylius\RefundPlugin\File\FileManager" />
+            <argument type="service" id="Sylius\RefundPlugin\File\TemporaryFileManager" />
         </service>
 
-        <service id="Sylius\RefundPlugin\File\FileManager">
-            <argument type="string">%kernel.project_dir%/web/media/credit-memos/</argument>
-        </service>
+        <service id="Sylius\RefundPlugin\File\TemporaryFileManager" />
     </services>
 </container>

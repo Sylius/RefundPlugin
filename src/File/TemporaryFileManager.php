@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\File;
 
-final class FileManager implements FileManagerInterface
+final class TemporaryFileManager implements FileManagerInterface
 {
     /** @var string */
     private $baseDirectory;
 
-    public function __construct(string $baseDirectory = '')
+    public function __construct()
     {
-        $this->baseDirectory = $baseDirectory;
+        $this->baseDirectory = sys_get_temp_dir().'/';
     }
 
     public function createWithContent(string $fileName, string $content): void
@@ -24,8 +24,8 @@ final class FileManager implements FileManagerInterface
         unlink($this->baseDirectory . $fileName);
     }
 
-    public function getBaseDirectory(): string
+    public function realPath(string $fileName): string
     {
-        return $this->baseDirectory;
+        return $this->baseDirectory.$fileName;
     }
 }

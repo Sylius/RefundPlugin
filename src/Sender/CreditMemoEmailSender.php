@@ -43,7 +43,7 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             self::UNITS_REFUNDED,
             [$recipient],
             ['creditMemo' => $creditMemo],
-            [$this->fileManager->getBaseDirectory() . $filePath]
+            [$this->fileManager->realPath($filePath)]
         );
 
         $this->fileManager->remove($filePath);

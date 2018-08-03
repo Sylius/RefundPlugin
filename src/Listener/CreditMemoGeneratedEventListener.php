@@ -45,10 +45,12 @@ final class CreditMemoGeneratedEventListener
         /** @var OrderInterface|null $order */
         $order = $this->orderRepository->findOneByNumber($event->orderNumber());
         if ($order === null) {
-            throw OrderNotFound::withOrderNumber($event->orderNumber());
+            throw OrderNotFound::withNumber($event->orderNumber());
         }
 
-        assert($order->getCustomer() !== null);
+        if ($order->getCustomer() === null) {
+            throw new \InvalidArgumentException('Credit memo order has no customer');
+        }
 
         $this->creditMemoEmailSender->send($creditMemo, $order->getCustomer()->getEmail());
     }

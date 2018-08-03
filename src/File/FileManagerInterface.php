@@ -10,5 +10,5 @@ interface FileManagerInterface
 
     public function remove(string $fileName): void;
 
-    public function getBaseDirectory(): string;
+    public function realPath(string $fileName): string;
 }

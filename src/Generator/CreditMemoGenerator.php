@@ -41,7 +41,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         /** @var OrderInterface|null $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         if ($order === null) {
-            throw OrderNotFound::withOrderNumber($orderNumber);
+            throw OrderNotFound::withNumber($orderNumber);
         }
 
         $creditMemoUnits = [];

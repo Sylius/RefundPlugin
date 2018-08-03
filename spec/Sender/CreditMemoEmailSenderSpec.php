@@ -40,7 +40,7 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
 
         $fileManager->createWithContent('credit-memo.pdf', 'I am credit memo number #2018/10/000444')->shouldBeCalled();
 
-        $fileManager->getBaseDirectory()->willReturn('/base/directory/');
+        $fileManager->realPath('credit-memo.pdf')->willReturn('/base/directory/credit-memo.pdf');
 
         $sender
             ->send('units_refunded', ['john@example.com'], ['creditMemo' => $creditMemo], ['/base/directory/credit-memo.pdf'])
