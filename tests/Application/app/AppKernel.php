@@ -20,6 +20,7 @@ final class AppKernel extends Kernel
             new \Sylius\Bundle\AdminApiBundle\SyliusAdminApiBundle(),
 
             new \Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
+            new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new \Sylius\RefundPlugin\SyliusRefundPlugin(),
         ]);
     }

@@ -26,6 +26,12 @@ winzou_state_machine:
                 from: [new, fulfilled]
                 to: fully_refunded
 
+knp_snappy:
+    pdf:
+        enabled: true
+        binary: /usr/local/bin/wkhtmltopdf
+        options: []
+
 sylius_grid:
     grids:
         sylius_refund_credit_memo:
@@ -59,3 +65,12 @@ sylius_grid:
                                 parameters:
                                     id: resource.id
                                     orderNumber: resource.orderNumber
+                    download:
+                        type: default
+                        label: sylius_refund.ui.download
+                        icon: download
+                        options:
+                            link:
+                                route: sylius_refund_credit_memo_download
+                                parameters:
+                                    id: resource.id

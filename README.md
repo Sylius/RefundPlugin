@@ -23,6 +23,7 @@
     ```php
     $bundles = [
        new Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
+       new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
        new \Sylius\RefundPlugin\SyliusRefundPlugin(),
     ];
     ```

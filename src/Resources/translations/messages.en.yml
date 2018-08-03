@@ -2,6 +2,7 @@ sylius_refund:
     ui:
         credit_memo: Credit memo
         credit_memos: Credit memos
+        download: Download
         issued_for_order: Issued for order
         manage_credit_memos: Manage credit memos
         order_number: Order number
