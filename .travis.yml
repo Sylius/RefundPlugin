@@ -70,6 +70,8 @@ script:
     - composer validate --strict
     - bin/phpstan.phar analyse -c phpstan.neon -l max src/
 
+    - bin/phpspec run
+    - bin/phpunit
     - bin/behat -vvv --no-interaction || bin/behat -vvv --no-interaction --rerun
 
 after_failure:

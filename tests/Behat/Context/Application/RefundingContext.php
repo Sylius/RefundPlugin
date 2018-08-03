@@ -11,6 +11,7 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
@@ -27,17 +28,22 @@ final class RefundingContext implements Context
     /** @var CommandBus */
     private $commandBus;
 
+    /** @var EmailCheckerInterface */
+    private $emailChecker;
+
     /** @var OrderInterface|null */
     private $order;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundRepository,
-        CommandBus $commandBus
+        CommandBus $commandBus,
+        EmailCheckerInterface $emailChecker
     ) {
         $this->orderRepository = $orderRepository;
         $this->refundRepository = $refundRepository;
         $this->commandBus = $commandBus;
+        $this->emailChecker = $emailChecker;
     }
 
     /**
@@ -139,6 +145,14 @@ final class RefundingContext implements Context
         } catch (CommandDispatchException $exception) {
             throw new \Exception('RefundUnits command should not fail');
         }
+    }
+
+    /**
+     * @Then email to :email with credit memo should be sent
+     */
+    public function emailToWithCreditMemoShouldBeSent(string $email): void
+    {
+        $this->emailChecker->hasMessageTo('Some of the units from your order have been refunded.', $email);
     }
 
     /**

@@ -74,7 +74,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $orderRepository->findOneByNumber('000666')->willReturn(null);
 
         $this
-            ->shouldThrow(OrderNotFound::withOrderNumber('000666'))
+            ->shouldThrow(OrderNotFound::withNumber('000666'))
             ->during('generate', ['000666', 1000, [], []])
         ;
     }
