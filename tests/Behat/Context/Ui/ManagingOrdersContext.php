@@ -6,9 +6,9 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
+use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
 final class ManagingOrdersContext implements Context

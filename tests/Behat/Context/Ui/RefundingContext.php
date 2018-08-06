@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\UnexpectedPageException;
 use Sylius\Behat\Service\NotificationCheckerInterface;
-use Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPageInterface;
+use Tests\Sylius\RefundPlugin\Behat\Admin\Page\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context

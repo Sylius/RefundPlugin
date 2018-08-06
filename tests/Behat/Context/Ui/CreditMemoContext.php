@@ -6,12 +6,12 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Tests\Sylius\RefundPlugin\Behat\Admin\Page\CreditMemoDetailsPageInterface;
+use Tests\Sylius\RefundPlugin\Behat\Admin\Page\CreditMemoIndexPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElementInterface;
-use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPageInterface;
-use Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPageInterface;
-use Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context
