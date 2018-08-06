@@ -1,0 +1,10 @@
+sylius_refund_plugin_shop_order_credit_memos_partial:
+    path: /_partial/credit-memos/{orderNumber}/
+    methods: [GET]
+    defaults:
+        _controller: sylius_refund_plugin.controller.credit_memo:indexAction
+        _sylius:
+            template: $template
+            repository:
+                method: findByOrderNumber
+                arguments: $orderNumber

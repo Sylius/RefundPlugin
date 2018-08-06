@@ -50,6 +50,7 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext">
             <argument type="service" id="sylius.behat.page.admin.order.show" />
+            <argument type="service" id="sylius.behat.page.shop.order.show" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPage" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElement" />
@@ -62,6 +63,10 @@
             <argument type="service" id="__symfony__.sylius.repository.order" />
             <argument type="service" id="__symfony__.prooph_service_bus.sylius_refund_command_bus" />
             <tag name="fob.context_service" />
+        </service>
+
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\CustomerBrowsingCreditMemosContext">
+            <argument type="service" id="sylius.behat.page.shop.order.show" />
         </service>
     </services>
 </container>
