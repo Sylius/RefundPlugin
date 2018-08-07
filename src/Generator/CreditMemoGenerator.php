@@ -59,6 +59,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $orderNumber,
             $total,
             $order->getCurrencyCode(),
+            $order->getLocaleCode(),
             $creditMemoUnits
         );
     }

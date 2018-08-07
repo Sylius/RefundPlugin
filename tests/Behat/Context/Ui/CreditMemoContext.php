@@ -9,8 +9,8 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
-use Tests\Sylius\RefundPlugin\Behat\Admin\Page\CreditMemoDetailsPageInterface;
-use Tests\Sylius\RefundPlugin\Behat\Admin\Page\CreditMemoIndexPageInterface;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPageInterface;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElementInterface;
 use Webmozart\Assert\Assert;
 

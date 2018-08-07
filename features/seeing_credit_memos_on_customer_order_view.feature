@@ -15,7 +15,8 @@ Feature: Seeing credit memos on customer order view
         And I addressed it to "Lucifer Morningstar", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And for the billing address of "Mazikeen Lilim" in the "Pacific Coast Hwy", "90806" "Los Angeles", "United States"
         And I chose "Free" shipping method with "Cash on Delivery" payment
-        And 1st "Angel T-Shirt" product from order "#00000066" has already been refunded
+        And this order is already paid
+        And 1st "Angel T-Shirt" product from order "#00000666" has already been refunded
 
     @ui
     Scenario: Seeing credit memo on customer order view

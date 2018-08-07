@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sylius\RefundPlugin\Behat\Admin\Page;
+namespace Tests\Sylius\RefundPlugin\Behat\Page\Admin;
 
 use Behat\Mink\Element\NodeElement;
 use Sylius\Behat\Page\Admin\Crud\IndexPage;

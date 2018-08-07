@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
-use Tests\Sylius\RefundPlugin\Behat\Page\Shop\Order\ShowPageInterface;
+use Sylius\Behat\Page\Shop\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
 final class CustomerBrowsingCreditMemosContext implements Context

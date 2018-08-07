@@ -1,5 +1,4 @@
 {% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
-{% import "@SyliusUi/Macro/buttons.html.twig" as buttons %}
 
 {% if credit_memos|length > 0 %}
     <div class="ui segment" id="credit-memos">
@@ -15,7 +14,7 @@
             {% for credit_memo in credit_memos %}
                 <tr>
                     <td>{{ credit_memo.number }}</td>
-                    <td>{{ money.format(credit_memo.total, credit_memo.currencyCode) }}</td>
+                    <td>{{ credit_memo.total|sylius_format_money(credit_memo.currencyCode, credit_memo.localeCode) }}</td>
                 </tr>
             {% endfor %}
             </tbody>
