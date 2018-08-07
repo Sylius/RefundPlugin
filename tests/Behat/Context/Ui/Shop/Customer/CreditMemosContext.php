@@ -25,4 +25,20 @@ final class CreditMemosContext implements Context
     {
         Assert::same($this->customerOrderShowPage->countCreditMemos(), $count);
     }
+
+    /**
+     * @When I download the first credit memo
+     */
+    public function downloadFirstCreditMemo(): void
+    {
+        $this->customerOrderShowPage->downloadFirstCreditMemo();
+    }
+
+    /**
+     * @Then the pdf file for this credit memo should be downloaded successfully
+     */
+    public function pdfFileForThisCreditMemoShouldBeDownloadedSuccessfully(): void
+    {
+        Assert::true($this->customerOrderShowPage->isPdfFileDownloaded());
+    }
 }

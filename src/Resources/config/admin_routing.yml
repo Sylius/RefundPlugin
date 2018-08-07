@@ -45,7 +45,7 @@ sylius_refund_credit_memo_details:
                 id: $id
                 orderNumber: $orderNumber
 
-sylius_refund_credit_memo_download:
+sylius_refund_admin_credit_memo_download:
     path: /credit-memos/{id}/download
     methods: [GET]
     defaults:
