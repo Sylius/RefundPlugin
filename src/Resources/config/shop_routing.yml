@@ -4,7 +4,7 @@ sylius_refund_plugin_shop_order_credit_memos_partial:
     defaults:
         _controller: sylius_refund.controller.credit_memo:indexAction
         _sylius:
-            template: $template
+            template: "@SyliusRefundPlugin/Order/Shop/_creditMemos.html.twig"
             repository:
                 method: findByOrderNumber
                 arguments: $orderNumber

@@ -79,7 +79,7 @@
         </service>
 
         <service id="sylius_invoicing_plugin.block_event_listener.account.order_show" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SyliusRefundPlugin/Order/Shop/fetchCreditMemos.html.twig</argument>
+            <argument>@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig</argument>
             <tag name="kernel.event_listener" event="sonata.block.event.sylius.shop.account.order.show.after_summary" method="onBlockEvent" />
         </service>
 

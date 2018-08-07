@@ -1,6 +1,6 @@
-@customer_browsing_credit_memos
+@customer_credit_memos
 Feature: Seeing credit memos on customer order view
-    In order to see every credit memo related to the order
+    In order to see every credit memo related to my order
     As a Customer
     I want to be able to browse them on the order view
 
@@ -12,8 +12,7 @@ Feature: Seeing credit memos on customer order view
         And I am a logged in customer
         And I placed an order "#00000666"
         And I bought a single "Angel T-Shirt"
-        And I addressed it to "Lucifer Morningstar", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
-        And for the billing address of "Mazikeen Lilim" in the "Pacific Coast Hwy", "90806" "Los Angeles", "United States"
+        And I addressed it to "Lucifer Morningstar", "Seaside Fwy", "90802" "Los Angeles" in the "United States" with identical billing address
         And I chose "Free" shipping method with "Cash on Delivery" payment
         And this order is already paid
         And 1st "Angel T-Shirt" product from order "#00000666" has already been refunded
@@ -21,4 +20,4 @@ Feature: Seeing credit memos on customer order view
     @ui
     Scenario: Seeing credit memo on customer order view
         When I view the summary of the order "#00000666"
-        Then I should see 1 credit memo related to this order
+        Then there should be 1 credit memo related to this order
