@@ -44,6 +44,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     ): void {
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
+        $order->getLocaleCode()->willReturn('en_US');
 
         $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50, 0);
         $orderItemUnitCreditMemoUnitGenerator->generate(1)->willReturn($firstCreditMemoUnit);
@@ -61,6 +62,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             '000666',
             1400,
             'GBP',
+            'en_US',
             [
                 $firstCreditMemoUnit->serialize(),
                 $secondCreditMemoUnit->serialize(),

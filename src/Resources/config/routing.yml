@@ -1,3 +1,9 @@
-sylius_refund:
-    resource: "admin_routing.yml"
+sylius_refund_admin:
+    resource: "@SyliusRefundPlugin/Resources/config/admin_routing.yml"
     prefix: /admin
+
+sylius_refund_shop:
+    resource: "@SyliusRefundPlugin/Resources/config/shop_routing.yml"
+    prefix: /{_locale}
+    requirements:
+        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$

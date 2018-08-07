@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Webmozart\Assert\Assert;

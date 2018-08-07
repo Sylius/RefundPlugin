@@ -17,6 +17,7 @@
         <field name="total" type="integer" />
         <field name="units" type="json" />
         <field name="currencyCode" />
+        <field name="localeCode" />
     </entity>
 
 </doctrine-mapping>

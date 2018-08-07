@@ -1,0 +1,23 @@
+{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+
+{% if credit_memos|length > 0 %}
+    <div class="ui segment" id="credit-memos">
+        <h3 class="ui dividing header">{{ 'sylius_refund.ui.credit_memos'|trans }}</h3>
+        <table class="ui celled compact small table fixed">
+            <thead>
+            <tr>
+                <th>{{ 'sylius.ui.number'|trans }}</th>
+                <th>{{ 'sylius.ui.total'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for credit_memo in credit_memos %}
+                <tr>
+                    <td>{{ credit_memo.number }}</td>
+                    <td>{{ credit_memo.total|sylius_format_money(credit_memo.currencyCode, credit_memo.localeCode) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

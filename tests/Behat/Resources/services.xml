@@ -2,13 +2,14 @@
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="sylius.behat.page.admin.order.show.class">Tests\Sylius\RefundPlugin\Behat\Page\Order\ShowPage</parameter>
+        <parameter key="sylius.behat.page.admin.order.show.class">Tests\Sylius\RefundPlugin\Behat\Page\Admin\Order\ShowPage</parameter>
+        <parameter key="sylius.behat.page.shop.order.show.class">Tests\Sylius\RefundPlugin\Behat\Page\Shop\Order\ShowPage</parameter>
     </parameters>
 
     <services>
-        <service id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
-        <service id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" parent="sylius.behat.symfony_page" public="true" />
-        <service id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPage" parent="sylius.behat.page.admin.crud.index" public="true">
+        <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
+        <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage" parent="sylius.behat.symfony_page" public="true" />
+        <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage" parent="sylius.behat.page.admin.crud.index" public="true">
             <argument>sylius_refund_admin_credit_memo_index</argument>
         </service>
 
@@ -43,15 +44,15 @@
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext">
-            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\OrderRefundsPage" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPage" />
             <argument type="service" id="sylius.behat.notification_checker" />
             <tag name="fob.context_service" />
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext">
             <argument type="service" id="sylius.behat.page.admin.order.show" />
-            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoIndexPage" />
-            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\CreditMemoDetailsPage" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElement" />
             <argument type="service" id="__symfony__.sylius_refund.repository.credit_memo" />
             <argument type="service" id="__symfony__.Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
@@ -61,6 +62,11 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext">
             <argument type="service" id="__symfony__.sylius.repository.order" />
             <argument type="service" id="__symfony__.prooph_service_bus.sylius_refund_command_bus" />
+            <tag name="fob.context_service" />
+        </service>
+
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemosContext">
+            <argument type="service" id="sylius.behat.page.shop.order.show" />
             <tag name="fob.context_service" />
         </service>
     </services>

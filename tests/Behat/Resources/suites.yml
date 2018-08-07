@@ -67,3 +67,35 @@ default:
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext
             filters:
                 tags: "@refunds && @application"
+        customer_credit_memos:
+            contexts_services:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.address
+                - sylius.behat.context.transform.customer
+                - sylius.behat.context.transform.order
+                - sylius.behat.context.transform.payment
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.product_variant
+                - sylius.behat.context.transform.promotion
+                - sylius.behat.context.transform.shared_storage
+                - sylius.behat.context.transform.shipping_method
+                - sylius.behat.context.transform.tax_category
+                - sylius.behat.context.transform.tax_rate
+                - sylius.behat.context.transform.user
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.order
+                - sylius.behat.context.setup.payment
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.promotion
+                - sylius.behat.context.setup.shipping
+                - sylius.behat.context.setup.shop_security
+                - sylius.behat.context.setup.user
+
+                - sylius.behat.context.ui.shop.account
+
+                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
+                - Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemosContext
+            filters:
+                tags: "@customer_credit_memos && @ui"

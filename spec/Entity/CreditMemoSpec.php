@@ -19,6 +19,7 @@ final class CreditMemoSpec extends ObjectBehavior
             '0000222',
             1000,
             'USD',
+            'en_US',
             [$creditMemoUnit->serialize()]
         );
     }
@@ -46,6 +47,11 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_currency_code(): void
     {
         $this->getCurrencyCode()->shouldReturn('USD');
+    }
+
+    function it_has_locale_code(): void
+    {
+        $this->getLocaleCode()->shouldReturn('en_US');
     }
 
     function it_has_units(): void

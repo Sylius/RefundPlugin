@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sylius\RefundPlugin\Behat\Page\Order;
+namespace Tests\Sylius\RefundPlugin\Behat\Page\Admin\Order;
 
 use Behat\Mink\Element\NodeElement;
 use Sylius\Behat\Page\Admin\Order\ShowPage as BaseOrderShowPage;
