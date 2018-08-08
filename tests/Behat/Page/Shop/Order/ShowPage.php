@@ -14,21 +14,10 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         return count($this->getDocument()->findAll('css', '#credit-memos tbody tr'));
     }
 
-    public function downloadFirstCreditMemo(): void
+    public function downloadCreditMemo(int $index): void
     {
-        $creditMemo = $this->getFirstCreditMemo();
+        $creditMemo = $this->getCreditMemosList()[$index];
         $creditMemo->clickLink('Download');
-    }
-
-    public function isPdfFileDownloaded(): bool
-    {
-        $session = $this->getSession();
-        $headers = $session->getResponseHeaders();
-
-        return
-            200 === $session->getStatusCode() &&
-            'application/pdf' === $headers['content-type'][0]
-        ;
     }
 
     protected function getDefinedElements(): array
@@ -36,11 +25,6 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         return array_merge(parent::getDefinedElements(), [
             'credit_memos' => '#credit-memos',
         ]);
-    }
-
-    private function getFirstCreditMemo(): NodeElement
-    {
-        return $this->getCreditMemosList()[1];
     }
 
     private function getCreditMemosList(): array

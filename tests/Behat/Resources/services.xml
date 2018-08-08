@@ -18,7 +18,7 @@
             <argument>%__behat__.mink.parameters%</argument>
         </service>
         <service
-            id="Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElement"
+            id="Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement"
             parent="FriendsOfBehat\PageObjectExtension\Element\Element"
             public="false"
         />
@@ -53,7 +53,7 @@
             <argument type="service" id="sylius.behat.page.admin.order.show" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage" />
-            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElement" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement" />
             <argument type="service" id="__symfony__.sylius_refund.repository.credit_memo" />
             <argument type="service" id="__symfony__.Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
             <tag name="fob.context_service" />
@@ -65,8 +65,9 @@
             <tag name="fob.context_service" />
         </service>
 
-        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemosContext">
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext">
             <argument type="service" id="sylius.behat.page.shop.order.show" />
+            <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement" />
             <tag name="fob.context_service" />
         </service>
     </services>

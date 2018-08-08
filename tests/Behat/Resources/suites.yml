@@ -95,7 +95,7 @@ default:
 
                 - sylius.behat.context.ui.shop.account
 
+                - Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
-                - Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemosContext
             filters:
                 tags: "@customer_credit_memos && @ui"

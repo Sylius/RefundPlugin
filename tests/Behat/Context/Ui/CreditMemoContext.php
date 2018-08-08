@@ -11,7 +11,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPageInterface;
-use Tests\Sylius\RefundPlugin\Behat\Context\Element\PdfDownloadElementInterface;
+use Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElementInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context

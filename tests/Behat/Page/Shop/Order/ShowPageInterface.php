@@ -9,6 +9,5 @@ use Sylius\Behat\Page\Shop\Order\ShowPageInterface as BaseOrderShowPageInterface
 interface ShowPageInterface extends BaseOrderShowPageInterface
 {
     public function countCreditMemos(): int;
-    public function downloadFirstCreditMemo(): void;
-    public function isPdfFileDownloaded(): bool;
+    public function downloadCreditMemo(int $index): void;
 }

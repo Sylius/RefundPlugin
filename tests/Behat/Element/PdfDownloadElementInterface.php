@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Sylius\RefundPlugin\Behat\Context\Element;
+namespace Tests\Sylius\RefundPlugin\Behat\Element;
 
 interface PdfDownloadElementInterface
 {
