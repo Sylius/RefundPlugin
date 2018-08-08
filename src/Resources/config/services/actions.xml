@@ -4,17 +4,24 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Action\DownloadCreditMemoAction">
+        <service id="Sylius\RefundPlugin\Action\Admin\DownloadCreditMemoAction">
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Action\OrderRefundsListAction">
+        <service id="Sylius\RefundPlugin\Action\Shop\DownloadCreditMemoAction">
+            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" />
+            <argument type="service" id="sylius.context.customer"/>
+            <argument type="service" id="sylius_refund.repository.credit_memo"/>
+            <argument type="service" id="sylius.repository.order"/>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker" />
             <argument type="service" id="twig" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Action\RefundUnitsAction">
+        <service id="Sylius\RefundPlugin\Action\Admin\RefundUnitsAction">
             <argument type="service" id="prooph_service_bus.sylius_refund_command_bus" />
             <argument type="service" id="session" />
             <argument type="service" id="router" />

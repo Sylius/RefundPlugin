@@ -18,7 +18,7 @@ Feature: Downloading credit memo on customer order view
         And 1st "Angel T-Shirt" product from order "#00000666" has already been refunded
 
     @ui
-    Scenario: Seeing credit memo on customer order view
+    Scenario: Downloading credit memo from customer order view
         When I view the summary of the order "#00000666"
         And I download the first credit memo
         Then a pdf file should be successfully downloaded

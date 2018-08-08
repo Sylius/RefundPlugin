@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Action;
+namespace Sylius\RefundPlugin\Action\Admin;
 
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;

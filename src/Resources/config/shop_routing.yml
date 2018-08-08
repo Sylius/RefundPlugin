@@ -13,4 +13,4 @@ sylius_refund_shop_credit_memo_download:
     path: /credit-memos/{id}/download
     methods: [GET]
     defaults:
-        _controller: Sylius\RefundPlugin\Action\DownloadCreditMemoAction
+        _controller: Sylius\RefundPlugin\Action\Shop\DownloadCreditMemoAction
