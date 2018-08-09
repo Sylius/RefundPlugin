@@ -84,5 +84,13 @@
         </service>
 
         <service id="Sylius\RefundPlugin\File\TemporaryFileManager" />
+
+        <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" />
+
+        <service id="Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationChecker">
+            <argument type="service" id="sylius.context.customer"/>
+            <argument type="service" id="sylius_refund.repository.credit_memo"/>
+            <argument type="service" id="sylius.repository.order"/>
+        </service>
     </services>
 </container>

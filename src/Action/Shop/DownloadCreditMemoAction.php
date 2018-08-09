@@ -9,8 +9,10 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
+use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,52 +21,32 @@ final class DownloadCreditMemoAction
     /** @var CreditMemoPdfFileGeneratorInterface */
     private $creditMemoPdfFileGenerator;
 
-    /** @var CustomerContext */
-    private $customerContext;
+    /** @var CreditMemoCustomerRelationCheckerInterface */
+    private $creditMemoCustomerRelationChecker;
 
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
-
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    /** @var CreditMemoFileResponseBuilderInterface */
+    private $creditMemoFileResponseBuilder;
 
     public function __construct(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        CustomerContext $customerContext,
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository
+        CreditMemoCustomerRelationCheckerInterface $creditMemoCustomerRelationChecker,
+        CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder
     ) {
         $this->creditMemoPdfFileGenerator = $creditMemoPdfFileGenerator;
-        $this->customerContext = $customerContext;
-        $this->creditMemoRepository = $creditMemoRepository;
-        $this->orderRepository = $orderRepository;
+        $this->creditMemoCustomerRelationChecker = $creditMemoCustomerRelationChecker;
+        $this->creditMemoFileResponseBuilder = $creditMemoFileResponseBuilder;
     }
 
     public function __invoke(Request $request, int $id): Response
     {
-        /** @var CreditMemoInterface $creditMemo */
-        $creditMemo = $this->creditMemoRepository->find($id);
-
-        /** @var OrderInterface $order */
-        $order = $this->orderRepository->findOneByNumber($creditMemo->getOrderNumber());
-
-        /** @var CustomerInterface $orderCustomer */
-        $orderCustomer = $order->getCustomer();
-
-        /** @var CustomerInterface $customer */
-        $customer = $this->customerContext->getCustomer();
-
-        if ($orderCustomer->getId() !== $customer->getId()) {
-            return new Response(Response::HTTP_UNAUTHORIZED);
+        try {
+            $this->creditMemoCustomerRelationChecker->check(strval($id));
+        } catch (\InvalidArgumentException $exception) {
+            return $this->creditMemoFileResponseBuilder->build(Response::HTTP_UNAUTHORIZED);
         }
 
         $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($id);
 
-        $response = new Response($creditMemoPdfFile->content(), Response::HTTP_OK, ['Content-Type' => 'application/pdf']);
-        $response->headers->add([
-            'Content-Disposition' => $response->headers->makeDisposition('attachment', $creditMemoPdfFile->filename()),
-        ]);
-
-        return $response;
+        return $this->creditMemoFileResponseBuilder->build(Response::HTTP_OK, $creditMemoPdfFile);
     }
 }
