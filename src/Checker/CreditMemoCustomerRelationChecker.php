@@ -10,7 +10,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Webmozart\Assert\Assert;
+use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelationCheckerInterface
 {
@@ -47,6 +47,8 @@ final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelat
         /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
 
-        Assert::eq($orderCustomer->getId(), $customer->getId());
+        if ($orderCustomer->getId() !== $customer->getId()) {
+            throw CreditMemoNotAccessible::withUserId($creditMemoId, $customer->getId());
+        }
     }
 }

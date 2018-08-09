@@ -11,6 +11,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
 use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,8 +42,8 @@ final class DownloadCreditMemoAction
     {
         try {
             $this->creditMemoCustomerRelationChecker->check(strval($id));
-        } catch (\InvalidArgumentException $exception) {
-            return $this->creditMemoFileResponseBuilder->build(Response::HTTP_UNAUTHORIZED);
+        } catch (CreditMemoNotAccessible $exception) {
+            return new Response($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
 
         $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($id);

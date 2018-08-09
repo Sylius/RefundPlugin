@@ -13,6 +13,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationChecker;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
 {
@@ -29,7 +30,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         $this->shouldHaveType(CreditMemoCustomerRelationChecker::class);
     }
 
-    function it_implements_credit_memo_file_response_builder_interface(): void
+    function it_implements_credit_memo_customer_relation_checker_interface(): void
     {
         $this->shouldImplement(CreditMemoCustomerRelationCheckerInterface::class);
     }
@@ -77,6 +78,6 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         $firstCustomer->getId()->willReturn(1);
         $secondCustomer->getId()->willReturn(2);
 
-        $this->shouldThrow(\InvalidArgumentException::class)->during('check', ['00001']);
+        $this->shouldThrow(CreditMemoNotAccessible::class)->during('check', ['00001']);
     }
 }

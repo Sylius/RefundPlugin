@@ -22,14 +22,6 @@ final class CreditMemoFileResponseBuilderSpec extends ObjectBehavior
         $this->shouldImplement(CreditMemoFileResponseBuilderInterface::class);
     }
 
-    function it_returns_response_with_no_content_when_pdf_file_is_not_provided(): void
-    {
-        $response = $this->build(Response::HTTP_UNAUTHORIZED);
-
-        $response->getContent()->shouldBeEqualTo('');
-        $response->getStatusCode()->shouldBeEqualTo(Response::HTTP_UNAUTHORIZED);
-    }
-
     function it_returns_response_containing_pdf_file_when_its_provided(): void
     {
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'credit_memo_content');

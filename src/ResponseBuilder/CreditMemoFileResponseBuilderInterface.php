@@ -9,5 +9,5 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface CreditMemoFileResponseBuilderInterface
 {
-    public function build(int $status, CreditMemoPdf $creditMemoPdfFile = null): Response;
+    public function build(int $status, CreditMemoPdf $creditMemoPdfFile): Response;
 }
