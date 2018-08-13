@@ -80,6 +80,6 @@ sylius_grid:
                         icon: download
                         options:
                             link:
-                                route: sylius_refund_credit_memo_download
+                                route: sylius_refund_admin_credit_memo_download
                                 parameters:
                                     id: resource.id

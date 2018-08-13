@@ -1,4 +1,5 @@
 {% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
 
 {% if credit_memos|length > 0 %}
     <div class="ui segment" id="credit-memos">
@@ -8,6 +9,7 @@
             <tr>
                 <th>{{ 'sylius.ui.number'|trans }}</th>
                 <th>{{ 'sylius.ui.total'|trans }}</th>
+                <th>{{ 'sylius.ui.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
@@ -15,6 +17,11 @@
                 <tr>
                     <td>{{ credit_memo.number }}</td>
                     <td>{{ credit_memo.total|sylius_format_money(credit_memo.currencyCode, credit_memo.localeCode) }}</td>
+                    <td>
+                        {% set path = path('sylius_refund_shop_credit_memo_download', { 'id': credit_memo.id }) %}
+
+                        {{ buttons.default(path, 'sylius_refund.ui.download'|trans, credit_memo.id, 'download') }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
