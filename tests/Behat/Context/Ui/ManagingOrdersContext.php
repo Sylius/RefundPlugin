@@ -53,4 +53,20 @@ final class ManagingOrdersContext implements Context
     {
         Assert::false($this->showPage->hasRefundsButton());
     }
+
+    /**
+     * @Then I should see :count refund payment(s) with status :status
+     */
+    public function shouldSeeRefundPaymentWithStatus(int $count, string $status): void
+    {
+        Assert::true($this->showPage->hasRefundPaymentsWithStatus($count, $status));
+    }
+
+    /**
+     * @When I mark the first refund payment as :status
+     */
+    public function markTheFirstRefundPaymentAs(string $status): void
+    {
+        $this->showPage->markTheFirstRefundPaymentAs($status);
+    }
 }
