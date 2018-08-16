@@ -28,6 +28,6 @@ final class UnitsRefundedEventListenerSpec extends ObjectBehavior
 
         $orderFullyRefundedStateResolver->resolve('000222')->shouldBeCalled();
 
-        $this(new UnitsRefunded('000222', [1, 2], [1], 1000));
+        $this(new UnitsRefunded('000222', [1, 2], [1], 1, 1000));
     }
 }

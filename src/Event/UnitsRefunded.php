@@ -11,14 +11,20 @@ final class UnitsRefunded extends DomainEvent
 {
     use PayloadTrait;
 
-    public function __construct(string $orderNumber, array $unitIds, array $shipmentIds, int $amount)
-    {
+    public function __construct(
+        string $orderNumber,
+        array $unitIds,
+        array $shipmentIds,
+        int $paymentMethodId,
+        int $amount
+    ) {
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
             'unit_ids' => $unitIds,
             'shipment_ids' => $shipmentIds,
             'amount' => $amount,
+            'payment_method_id' => $paymentMethodId,
         ]);
     }
 
@@ -40,5 +46,10 @@ final class UnitsRefunded extends DomainEvent
     public function amount(): int
     {
         return $this->payload['amount'];
+    }
+
+    public function paymentMethodId(): int
+    {
+        return $this->payload['payment_method_id'];
     }
 }

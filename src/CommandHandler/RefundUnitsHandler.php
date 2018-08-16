@@ -53,6 +53,7 @@ final class RefundUnitsHandler
             $orderNumber,
             $command->unitIds(),
             $command->shipmentIds(),
+            $command->paymentMethodId(),
             $refundedTotal
         ));
     }
