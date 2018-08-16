@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-interface RefundPaymentInterface
+use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
+
+interface RefundPaymentInterface extends ResourceInterface
 {
     public const STATE_NEW = 'New';
     public const STATE_PAID = 'Paid';
@@ -16,4 +19,6 @@ interface RefundPaymentInterface
     public function getCurrencyCode(): string;
 
     public function getState(): string;
+
+    public function getPaymentMethod(): PaymentMethodInterface;
 }

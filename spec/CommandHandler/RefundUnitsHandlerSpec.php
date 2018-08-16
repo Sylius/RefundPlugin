@@ -7,6 +7,8 @@ namespace spec\Sylius\RefundPlugin\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -19,13 +21,15 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus
+        EventBus $eventBus,
+        OrderRepositoryInterface $orderRepository
     ): void {
         $this->beConstructedWith(
             $orderItemUnitsRefunder,
             $orderShipmentsRefunder,
             $orderRefundingAvailabilityChecker,
-            $eventBus
+            $eventBus,
+            $orderRepository
         );
     }
 
@@ -33,12 +37,17 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus
+        EventBus $eventBus,
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
         $orderItemUnitsRefunder->refundFromOrder([1, 3], '000222')->willReturn(3000);
         $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(4000);
+
+        $orderRepository->findOneByNumber('000222')->willReturn($order);
+        $order->getCurrencyCode()->willReturn('USD');
 
         $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
             return
@@ -57,12 +66,17 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus
+        EventBus $eventBus,
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
         $orderItemUnitsRefunder->refundFromOrder([1, 3], '000222')->willReturn(1000);
         $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(500);
+
+        $orderRepository->findOneByNumber('000222')->willReturn($order);
+        $order->getCurrencyCode()->willReturn('USD');
 
         $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
             return

@@ -16,7 +16,8 @@ final class UnitsRefunded extends DomainEvent
         array $unitIds,
         array $shipmentIds,
         int $paymentMethodId,
-        int $amount
+        int $amount,
+        string $currencyCode
     ) {
         $this->init();
         $this->setPayload([
@@ -24,6 +25,7 @@ final class UnitsRefunded extends DomainEvent
             'unit_ids' => $unitIds,
             'shipment_ids' => $shipmentIds,
             'amount' => $amount,
+            'currency_code' => $currencyCode,
             'payment_method_id' => $paymentMethodId,
         ]);
     }
@@ -51,5 +53,10 @@ final class UnitsRefunded extends DomainEvent
     public function paymentMethodId(): int
     {
         return $this->payload['payment_method_id'];
+    }
+
+    public function currencyCode(): string
+    {
+        return $this->payload['currency_code'];
     }
 }

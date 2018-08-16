@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 
 /** @final */
 class RefundPayment implements RefundPaymentInterface
@@ -22,16 +23,21 @@ class RefundPayment implements RefundPaymentInterface
     /** @var string */
     private $state;
 
+    /** @var PaymentMethodInterface */
+    private $paymentMethod;
+
     public function __construct(
         string $number,
         int $amount,
         string $currencyCode,
-        string $state
+        string $state,
+        PaymentMethodInterface $paymentMethod
     ) {
         $this->number = $number;
         $this->amount = $amount;
         $this->currencyCode = $currencyCode;
         $this->state = $state;
+        $this->paymentMethod = $paymentMethod;
     }
 
     public function getNumber(): string
@@ -52,5 +58,15 @@ class RefundPayment implements RefundPaymentInterface
     public function getState(): string
     {
         return $this->state;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getPaymentMethod(): PaymentMethodInterface
+    {
+        return $this->paymentMethod;
     }
 }

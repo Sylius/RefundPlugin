@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Prooph\ServiceBus\EventBus;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -25,16 +26,21 @@ final class RefundUnitsHandler
     /** @var EventBus */
     private $eventBus;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     public function __construct(
         RefunderInterface $orderUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus
+        EventBus $eventBus,
+        OrderRepositoryInterface $orderRepository
     ) {
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->orderUnitsRefunder = $orderUnitsRefunder;
         $this->orderShipmentsRefunder = $orderShipmentsRefunder;
         $this->eventBus = $eventBus;
+        $this->orderRepository = $orderRepository;
     }
 
     public function __invoke(RefundUnits $command): void
@@ -45,6 +51,8 @@ final class RefundUnitsHandler
 
         $orderNumber = $command->orderNumber();
 
+        $currencyCode = $this->orderRepository->findOneByNumber($orderNumber)->getCurrencyCode();
+
         $refundedTotal = 0;
         $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->unitIds(), $orderNumber);
         $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipmentIds(), $orderNumber);
@@ -54,7 +62,8 @@ final class RefundUnitsHandler
             $command->unitIds(),
             $command->shipmentIds(),
             $command->paymentMethodId(),
-            $refundedTotal
+            $refundedTotal,
+            $currencyCode
         ));
     }
 }
