@@ -56,6 +56,15 @@ Feature: Refunding a single order unit
         When I view the summary of the order "#00000022"
         Then I should not be able to see refunds button
 
+    @ui
+    Scenario: Being able to choose refund payment method
+        Given the order "#00000022" is already paid
+        And the store allows paying with "Another offline payment method"
+        When I want to refund some units of order "#00000022"
+        Then I should be able to choose refund payment method
+        And there should be "Space Money" payment method
+        And there should be "Another offline payment method" payment method
+
     @application
     Scenario: Not being able to refund unit from an order that is unpaid
         When I want to refund some units of order "#00000022"

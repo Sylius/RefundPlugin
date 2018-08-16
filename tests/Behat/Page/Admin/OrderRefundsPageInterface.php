@@ -25,4 +25,10 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
     public function isOrderShipmentAvailableToRefund(): bool;
 
     public function hasBackButton(): bool;
+
+    public function choosePaymentMethod(string $paymentMethodName): void;
+
+    public function canChoosePaymentMethod(): bool;
+
+    public function isPaymentMethodVisible(string $paymentMethodName): bool;
 }
