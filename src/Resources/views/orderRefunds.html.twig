@@ -95,6 +95,15 @@
                         </tbody>
                     </table>
 
+                    <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown">
+                        <option value="" disabled>Payment methods</option>
+                        {% for payment_method in payment_methods %}
+                            <option value="{{ payment_method.id }}">{{ payment_method.name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <br/>
+
                     <div class="ui buttons">
                         <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">{{ 'sylius.ui.back'|trans }}</a>
                         <div class="or"></div>

@@ -17,6 +17,7 @@
         </id>
 
         <field name="number"/>
+        <field name="orderNumber" column="order_number"/>
         <field name="amount" type="integer" />
         <field name="currencyCode" column="currency_code"/>
         <field name="state" />

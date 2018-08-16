@@ -10,9 +10,10 @@ interface RefundPaymentFactoryInterface
 {
     public function createWithData(
         string $number,
+        string $orderNumber,
         int $amount,
         string $currencyCode,
         string $state,
-        int $paymentMethodId
+        string $paymentMethodId
     ): RefundPaymentInterface;
 }

@@ -62,9 +62,14 @@
             <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
         </service>
 
-        <service id="sylius_refund_plugin.block_event_listener.order_show" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+        <service id="sylius_refund_plugin.block_event_listener.order_show.credit_memos" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
             <argument>@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig</argument>
             <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
+        </service>
+
+        <service id="sylius_refund_plugin.block_event_listener.order_show.refund_payments" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+            <argument>@SyliusRefundPlugin/Order/Admin/refundPayments.html.twig</argument>
+            <tag name="kernel.event_listener" event="sonata.block.event.sylius.shop.account.order.show.after_summary" method="onBlockEvent" />
         </service>
 
         <service id="sylius_refund_plugin.repository.credit_memo_sequence" class="Doctrine\ORM\EntityRepository">
@@ -84,6 +89,10 @@
         </service>
 
         <service id="Sylius\RefundPlugin\File\TemporaryFileManager" />
+
+        <service id="Sylius\RefundPlugin\Factory\RefundPaymentFactory">
+            <argument type="service" id="sylius.repository.payment_method"/>
+        </service>
 
         <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" />
 

@@ -10,6 +10,9 @@ sylius_resource:
         sylius_refund.credit_memo:
             classes:
                 model: Sylius\RefundPlugin\Entity\CreditMemo
+        sylius_refund.refund_payment:
+            classes:
+                model: Sylius\RefundPlugin\Entity\RefundPayment
 
 sylius_mailer:
     sender:

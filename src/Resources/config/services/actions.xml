@@ -18,6 +18,7 @@
         <service id="Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker" />
+            <argument type="service" id="sylius.repository.payment_method" />
             <argument type="service" id="twig" />
         </service>
 

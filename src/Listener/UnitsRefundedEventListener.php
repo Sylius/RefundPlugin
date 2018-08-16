@@ -47,6 +47,7 @@ final class UnitsRefundedEventListener
     {
         $refundPayment = $this->refundPaymentFactory->createWithData(
             $this->numberGenerator->generate(),
+            $event->orderNumber(),
             $event->amount(),
             $event->currencyCode(),
             RefundPaymentInterface::STATE_NEW,

@@ -1,0 +1,34 @@
+{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+{% import "@SyliusUi/Macro/buttons.html.twig" as buttons %}
+
+{% if refund_payments|length > 0 %}
+    <div class="ui segment" id="refund-payments">
+        <h3 class="ui dividing header">{{ 'sylius_refund.ui.refund_payments'|trans }}</h3>
+        <table class="ui celled compact small table fixed">
+            <thead>
+            <tr>
+                <th>{{ 'sylius.ui.number'|trans }}</th>
+                <th>{{ 'sylius.ui.total'|trans }}</th>
+                <th>{{ 'sylius.ui.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for refund_payment in refund_payments %}
+                <tr>
+                    <td>{{ refund_payment.number }}</td>
+                    <td>{{ money.format(refund_payment.total, refund_payment.currencyCode) }}</td>
+                    <td class="aligned collapsing">
+                        {{ buttons.default(
+                            path('sylius_refund_complete_refund_payment', {'orderNumber': refund_payment.orderNumber, 'id': refund_payment.id}),
+                            'sylius.ui.show',
+                            null,
+                            'check',
+                            'green'
+                        ) }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

@@ -15,7 +15,7 @@ final class UnitsRefunded extends DomainEvent
         string $orderNumber,
         array $unitIds,
         array $shipmentIds,
-        int $paymentMethodId,
+        string $paymentMethodId,
         int $amount,
         string $currencyCode
     ) {
@@ -50,7 +50,7 @@ final class UnitsRefunded extends DomainEvent
         return $this->payload['amount'];
     }
 
-    public function paymentMethodId(): int
+    public function paymentMethodId(): string
     {
         return $this->payload['payment_method_id'];
     }

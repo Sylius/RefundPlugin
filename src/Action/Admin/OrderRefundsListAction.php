@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Action\Admin;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +26,18 @@ final class OrderRefundsListAction
     /** @var Environment */
     private $twig;
 
+    /** @var PaymentMethodRepositoryInterface */
+    private $paymentMethodRepository;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        PaymentMethodRepositoryInterface $paymentMethodRepository,
         Environment $twig
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
+        $this->paymentMethodRepository = $paymentMethodRepository;
         $this->twig = $twig;
     }
 
@@ -44,8 +50,13 @@ final class OrderRefundsListAction
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($request->attributes->get('orderNumber'));
 
+        $paymentMethods = $this->paymentMethodRepository->findAll();
+
         return new Response(
-            $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', ['order' => $order])
+            $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', [
+                'order' => $order,
+                'payment_methods' => $paymentMethods
+            ])
         );
     }
 

@@ -13,7 +13,7 @@ final class RefundPaymentSpec extends ObjectBehavior
 {
     function let(PaymentMethodInterface $paymentMethod): void
     {
-        $this->beConstructedWith('000001', 100, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod);
+        $this->beConstructedWith('000001', '000002', 100, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod);
     }
 
     function it_is_initializable(): void
@@ -29,6 +29,11 @@ final class RefundPaymentSpec extends ObjectBehavior
     function it_has_number(): void
     {
         $this->getNumber()->shouldReturn('000001');
+    }
+
+    function it_has_order_number(): void
+    {
+        $this->getOrderNumber()->shouldReturn('000002');
     }
 
     function it_has_amount(): void

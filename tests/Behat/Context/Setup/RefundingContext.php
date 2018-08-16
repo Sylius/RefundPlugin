@@ -43,7 +43,7 @@ final class RefundingContext implements Context
 
         $unit = $unitsWithProduct[$unitNumber-1];
 
-        $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], []));
+        $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], [], '1'));
     }
 
     /**
