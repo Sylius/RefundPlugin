@@ -19,14 +19,16 @@
                     <td>{{ refund_payment.number }}</td>
                     <td>{{ money.format(refund_payment.amount, refund_payment.currencyCode) }}</td>
                     <td>{{ refund_payment.state }}</td>
-                    <td class="aligned collapsing">
-                        <form action="{{ path('sylius_refund_complete_refund_payment', {'orderNumber': refund_payment.orderNumber, 'id': refund_payment.id}) }}" method="POST">
-                            <button class="button ui labeled icon yellow" {% if refund_payment.state == 'Completed'%} disabled {% endif %}>
-                                <i class="icon check"></i>
-                                {{ 'sylius.ui.complete'|trans }}
-                            </button>
-                        </form>
-                    </td>
+                    {% if refund_payment.state != 'Completed'%}
+                        <td class="aligned collapsing">
+                            <form action="{{ path('sylius_refund_complete_refund_payment', {'orderNumber': refund_payment.orderNumber, 'id': refund_payment.id}) }}" method="POST">
+                                <button class="button ui labeled icon yellow">
+                                    <i class="icon check"></i>
+                                    {{ 'sylius.ui.complete'|trans }}
+                                </button>
+                            </form>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

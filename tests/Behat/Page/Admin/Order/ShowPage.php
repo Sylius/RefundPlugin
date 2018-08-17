@@ -59,6 +59,6 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         /** @var NodeElement $refundPayment */
         $refundPayment = $refundPayments[$number];
 
-        return !$refundPayment->findButton('Complete')->hasAttribute('disabled');
+        return $refundPayment->hasButton('Complete');
     }
 }

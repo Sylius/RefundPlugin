@@ -14,8 +14,7 @@ Feature: Seeing refund payments on admin order view
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
         And the order "#00000022" is already paid
-        And I want to refund some units of order "#00000022"
-        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
+        And I decided to refund 1st "Mr. Meeseeks T-Shirt" product of the order "00000022" with "Space money" payment
 
     @ui
     Scenario: Seeing refund payment on order view

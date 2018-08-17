@@ -65,15 +65,15 @@ final class ManagingOrdersContext implements Context
     /**
      * @When I complete the first refund payment
      */
-    public function markTheFirstRefundPaymentAs(): void
+    public function completeTheFirstRefundPayment(): void
     {
         $this->showPage->completeRefundPayment(0);
     }
 
     /**
-     * @Then I should not be able to complete the first refund payment
+     * @Then I should not be able to complete the first refund payment again
      */
-    public function shouldNotBeAbleToCompleteTheFirstRefundPayment(): void
+    public function shouldNotBeAbleToCompleteTheFirstRefundPaymentAgain(): void
     {
         Assert::false($this->showPage->canCompleteRefundPayment(0));
     }

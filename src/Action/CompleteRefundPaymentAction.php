@@ -35,9 +35,9 @@ final class CompleteRefundPaymentAction
     public function __construct(
         Session $session,
         ObjectRepository $refundPaymentInterface,
+        OrderRepositoryInterface $orderRepository,
         RefundPaymentCompletedStateApplierInterface $refundPaymentCompletedStateApplier,
-        RouterInterface $router,
-        OrderRepositoryInterface $orderRepository
+        RouterInterface $router
     ) {
         $this->session = $session;
         $this->refundPaymentRepository = $refundPaymentInterface;

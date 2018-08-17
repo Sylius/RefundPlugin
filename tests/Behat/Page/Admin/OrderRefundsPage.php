@@ -85,8 +85,8 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
     protected function getDefinedElements(): array
     {
         return [
-            'refunded_total' => '#refunded-total',
             'payment_methods' => '#payment-methods',
+            'refunded_total' => '#refunded-total',
         ];
     }
 

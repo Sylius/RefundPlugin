@@ -19,12 +19,12 @@ Feature: Completing refund payment
 
     @ui
     Scenario: Completing refund payment
-        Given I view the summary of the order "#00000022"
-        When I complete the first refund payment
+        When I view the summary of the order "#00000022"
+        And I complete the first refund payment
         Then I should see 1 refund payment with status "Completed"
 
     @ui
     Scenario: Being unable to complete already completed payment
-        Given I view the summary of the order "#00000022"
-        When I complete the first refund payment
-        Then I should not be able to complete the first refund payment
+        When I view the summary of the order "#00000022"
+        And I complete the first refund payment
+        Then I should not be able to complete the first refund payment again

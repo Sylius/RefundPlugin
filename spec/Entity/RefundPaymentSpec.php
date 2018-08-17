@@ -21,7 +21,7 @@ final class RefundPaymentSpec extends ObjectBehavior
         $this->shouldHaveType(RefundPayment::class);
     }
 
-    function it_impleents_refund_payment_interface(): void
+    function it_implements_refund_payment_interface(): void
     {
         $this->shouldImplement(RefundPaymentInterface::class);
     }

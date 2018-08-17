@@ -8,10 +8,6 @@
 >
 
     <entity name="Sylius\RefundPlugin\Entity\RefundPayment" table="sylius_refund_payment">
-        <many-to-one field="paymentMethod" target-entity="Sylius\Component\Payment\Model\PaymentMethodInterface">
-            <join-column name="payment_method_id" referenced-column-name="id" nullable="true" />
-        </many-to-one>
-
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
@@ -21,6 +17,10 @@
         <field name="amount" type="integer" />
         <field name="currencyCode" column="currency_code"/>
         <field name="state" />
+
+        <many-to-one field="paymentMethod" target-entity="Sylius\Component\Payment\Model\PaymentMethodInterface">
+            <join-column name="payment_method_id" referenced-column-name="id" nullable="true" />
+        </many-to-one>
     </entity>
 
 </doctrine-mapping>

@@ -15,6 +15,7 @@ class RefundPayment implements RefundPaymentInterface
     /** @var string */
     private $number;
 
+    /** @var string */
     private $orderNumber;
 
     /** @var int */
