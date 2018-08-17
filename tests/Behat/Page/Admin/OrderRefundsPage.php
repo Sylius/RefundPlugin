@@ -79,10 +79,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
     {
         $paymentMethods = $this->getElement('payment_methods');
 
-        // todo
-        $paymentMethods->getValue();
-
-        return false;
+        return strpos($paymentMethods->getText(), $paymentMethodName) !== false;
     }
 
     protected function getDefinedElements(): array

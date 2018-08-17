@@ -62,7 +62,7 @@ Feature: Refunding a single order unit
         And the store allows paying with "Another offline payment method"
         When I want to refund some units of order "#00000022"
         Then I should be able to choose refund payment method
-        And there should be "Space Money" payment method
+        And there should be "Space money" payment method
         And there should be "Another offline payment method" payment method
 
     @application

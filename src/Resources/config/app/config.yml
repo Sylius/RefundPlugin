@@ -43,8 +43,8 @@ winzou_state_machine:
         graph: sylius_refund_refund_payment
         state_machine_class: "%sylius.state_machine.class%"
         states:
-            new: ~
-            completed: ~
+            New: ~
+            Completed: ~
         transitions:
             complete:
                 from: [New]

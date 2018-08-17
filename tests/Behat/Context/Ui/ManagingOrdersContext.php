@@ -63,10 +63,10 @@ final class ManagingOrdersContext implements Context
     }
 
     /**
-     * @When I mark the first refund payment as :status
+     * @When I complete the first refund payment
      */
-    public function markTheFirstRefundPaymentAs(string $status): void
+    public function markTheFirstRefundPaymentAs(): void
     {
-        $this->showPage->markTheFirstRefundPaymentAs($status);
+        $this->showPage->completeRefundPayment(0);
     }
 }

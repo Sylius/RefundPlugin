@@ -41,22 +41,24 @@ final class UnitsRefundedEventListenerSpec extends ObjectBehavior
         EntityManagerInterface $entityManager,
         RefundPaymentInterface $refundPayment
     ): void {
-        $session->getFlashBag()->willReturn($flashBag);
-
-        $flashBag->add('success', 'sylius_refund.units_successfully_refunded')->shouldBeCalled();
-
-        $orderFullyRefundedStateResolver->resolve('000222')->shouldBeCalled();
-
         $numberGenerator->generate()->willReturn('0000001');
 
         $refundPaymentFactory->createWithData(
             '0000001',
+            '000222',
             1000,
             'USD',
             RefundPaymentInterface::STATE_NEW, 1
         )->willReturn($refundPayment);
 
         $entityManager->persist($refundPayment)->shouldBeCalled();
+        $entityManager->flush()->shouldBeCalled();
+
+        $orderFullyRefundedStateResolver->resolve('000222')->shouldBeCalled();
+
+        $session->getFlashBag()->willReturn($flashBag);
+
+        $flashBag->add('success', 'sylius_refund.units_successfully_refunded')->shouldBeCalled();
 
         $this(new UnitsRefunded('000222', [1, 2], [1], 1, 1000, 'USD'));
     }

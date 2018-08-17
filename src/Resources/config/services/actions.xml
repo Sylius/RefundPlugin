@@ -32,6 +32,8 @@
             <argument type="service" id="session" />
             <argument type="service" id="sylius_refund.repository.refund_payment" />
             <argument type="service" id="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplier" />
+            <argument type="service" id="router" />
+            <argument type="service" id="sylius.repository.order" />
         </service>
     </services>
 </container>

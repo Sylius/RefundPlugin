@@ -47,7 +47,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @When /^I decide to refund (\d)st "([^"]+)" product using "([^"]+)" payment method$/
+     * @When /^I decide to refund (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
     public function decideToRefundProduct(int $unitNumber, string $productName, string $paymentMethod): void
     {
@@ -67,7 +67,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @When I decide to refund order shipment using :paymentMethod payment
+     * @When I decide to refund order shipment with "([^"]+)" payment
      */
     public function decideToRefundOrderShipment(string $paymentMethod): void
     {
@@ -158,7 +158,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/
+     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
      */
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
@@ -174,10 +174,10 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then there should be :paymentMethod payment method
+     * @Then there should be :payment payment method
      */
-    public function thereShouldBePaymentMethod(string $paymentMethod): void
+    public function thereShouldBePaymentMethod(string $payment): void
     {
-        Assert::true($this->orderRefundsPage->isPaymentMethodVisible($paymentMethod));
+        Assert::true($this->orderRefundsPage->isPaymentMethodVisible($payment));
     }
 }

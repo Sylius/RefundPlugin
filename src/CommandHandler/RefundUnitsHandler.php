@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Prooph\ServiceBus\EventBus;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
@@ -51,7 +52,8 @@ final class RefundUnitsHandler
 
         $orderNumber = $command->orderNumber();
 
-        $currencyCode = $this->orderRepository->findOneByNumber($orderNumber)->getCurrencyCode();
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
 
         $refundedTotal = 0;
         $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->unitIds(), $orderNumber);
@@ -63,7 +65,7 @@ final class RefundUnitsHandler
             $command->shipmentIds(),
             $command->paymentMethodId(),
             $refundedTotal,
-            $currencyCode
+            $order->getCurrencyCode()
         ));
     }
 }

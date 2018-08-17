@@ -17,7 +17,8 @@ Feature: Marking refund payment as paid
         And I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
 
+    @ui
     Scenario: Marking refund payment as paid
         Given I view the summary of the order "#00000022"
-        When I mark the first refund payment as "Paid"
-        Then I should see 1 refund payment with status "Paid"
+        When I complete the first refund payment
+        Then I should see 1 refund payment with status "Completed"

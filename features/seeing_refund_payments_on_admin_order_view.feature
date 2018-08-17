@@ -17,6 +17,7 @@ Feature: Seeing refund payments on admin order view
         And I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
 
+    @ui
     Scenario: Seeing refund payment on order view
         When I view the summary of the order "#00000022"
         Then I should see 1 refund payment with status "New"

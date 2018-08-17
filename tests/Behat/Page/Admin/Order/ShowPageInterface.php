@@ -16,5 +16,5 @@ interface ShowPageInterface extends BaseOrderShowPageInterface
 
     public function hasRefundPaymentsWithStatus(int $count, string $status): bool;
 
-    public function markTheFirstRefundPaymentAs(string $status): void;
+    public function completeRefundPayment(int $number): void;
 }

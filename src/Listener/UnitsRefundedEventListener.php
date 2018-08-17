@@ -55,6 +55,7 @@ final class UnitsRefundedEventListener
         );
 
         $this->entityManager->persist($refundPayment);
+        $this->entityManager->flush();
 
         $this->orderFullyRefundedStateResolver->resolve($event->orderNumber());
         $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
