@@ -49,38 +49,41 @@ final class RefundingContext implements Context
     /**
      * @When /^I decide to refund (\d)st "([^"]+)" product using "([^"]+)" payment method$/
      */
-    public function decideToRefundProduct(int $unitNumber, string $productName, string $paymentMethodName): void
+    public function decideToRefundProduct(int $unitNumber, string $productName, string $paymentMethod): void
     {
         $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
-        $this->orderRefundsPage->choosePaymentMethod($paymentMethodName);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
     /**
-     * @When I decide to refund all units of this order
+     * @When I decide to refund all units of this order with :paymentMethod payment
      */
-    public function decideToRefundAllUnits(): void
+    public function decideToRefundAllUnits(string $paymentMethod): void
     {
         $this->orderRefundsPage->pickAllUnitsToRefund();
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
     /**
-     * @When I decide to refund order shipment
+     * @When I decide to refund order shipment using :paymentMethod payment
      */
-    public function decideToRefundOrderShipment(): void
+    public function decideToRefundOrderShipment(string $paymentMethod): void
     {
         $this->orderRefundsPage->pickOrderShipment();
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
     /**
-     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
+     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
-    public function decideToRefundProductAndShipment(int $unitNumber, string $productName): void
+    public function decideToRefundProductAndShipment(int $unitNumber, string $productName, string $paymentMethod): void
     {
         $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
         $this->orderRefundsPage->pickOrderShipment();
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 

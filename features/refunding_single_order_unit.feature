@@ -25,16 +25,16 @@ Feature: Refunding a single order unit
     Scenario: Refunding one of the order unit
         Given the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
-        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
+        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$10.00"
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
-        But I should still be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
+        But I should still be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt" with "Space money" payment
 
     @application
     Scenario: Not being able to refund already refunded unit
         Given the order "#00000022" is already paid
-        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
+        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
         When I want to refund some units of order "#00000022"
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
 

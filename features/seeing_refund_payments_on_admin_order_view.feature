@@ -15,7 +15,7 @@ Feature: Seeing refund payments on admin order view
         And I am logged in as an administrator
         And the order "#00000022" is already paid
         And I want to refund some units of order "#00000022"
-        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
+        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
 
     Scenario: Seeing refund payment on order view
         When I view the summary of the order "#00000022"

@@ -37,6 +37,18 @@ winzou_state_machine:
             refund:
                 from: [new, fulfilled]
                 to: fully_refunded
+    sylius_refund_refund_payment:
+        class: Sylius\RefundPlugin\Entity\RefundPayment
+        property_path: state
+        graph: sylius_refund_refund_payment
+        state_machine_class: "%sylius.state_machine.class%"
+        states:
+            new: ~
+            completed: ~
+        transitions:
+            complete:
+                from: [New]
+                to: Completed
 
 knp_snappy:
     pdf:

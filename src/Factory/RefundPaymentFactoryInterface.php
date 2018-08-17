@@ -14,6 +14,6 @@ interface RefundPaymentFactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        string $paymentMethodId
+        int $paymentMethodId
     ): RefundPaymentInterface;
 }

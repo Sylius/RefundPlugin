@@ -23,7 +23,7 @@ Feature: Having credit memo generated
     @ui @application
     Scenario: Having credit memo generated after refund process
         When I want to refund some units of order "#00000022"
-        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
+        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And I should have 1 credit memo generated for order "#00000022"
 

@@ -9,6 +9,7 @@ use Prooph\ServiceBus\CommandBus;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Webmozart\Assert\Assert;
@@ -28,10 +29,14 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already been refunded$/
+     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already been refunded with ("[^"]+" payment)$/
      */
-    public function productFromOrderHasAlreadyBeenRefunded(int $unitNumber, string $productName, string $orderNumber): void
-    {
+    public function productFromOrderHasAlreadyBeenRefunded(
+        int $unitNumber,
+        string $productName,
+        string $orderNumber,
+        PaymentMethodInterface $paymentMethod
+    ): void {
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
@@ -43,14 +48,16 @@ final class RefundingContext implements Context
 
         $unit = $unitsWithProduct[$unitNumber-1];
 
-        $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], [], '1'));
+        $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], [], $paymentMethod->getId()));
     }
 
     /**
-     * @Given all units and shipment from the order :orderNumber are refunded
+     * @Given /^all units and shipment from the order :orderNumber are refunded with ("[^"]+" payment)$/
      */
-    public function allUnitsAndShipmentFromOrderAreRefunded(string $orderNumber): void
-    {
+    public function allUnitsAndShipmentFromOrderAreRefunded(
+        string $orderNumber,
+        PaymentMethodInterface $paymentMethod
+    ): void {
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
@@ -61,6 +68,11 @@ final class RefundingContext implements Context
 
         $shipment = $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
-        $this->commandBus->dispatch(new RefundUnits($orderNumber, $orderItemUnits, [$shipment->getId()]));
+        $this->commandBus->dispatch(new RefundUnits(
+            $orderNumber,
+            $orderItemUnits,
+            [$shipment->getId()],
+            $paymentMethod->getId())
+        );
     }
 }

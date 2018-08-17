@@ -70,6 +70,11 @@ class RefundPayment implements RefundPaymentInterface
         return $this->state;
     }
 
+    public function setState(string $state): void
+    {
+        $this->state = $state;
+    }
+
     public function getId(): int
     {
         return $this->id;

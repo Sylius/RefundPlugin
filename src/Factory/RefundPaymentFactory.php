@@ -25,7 +25,7 @@ final class RefundPaymentFactory implements RefundPaymentFactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        string $paymentMethodId
+        int $paymentMethodId
     ): RefundPaymentInterface {
         /** @var PaymentMethodInterface $paymentMethod */
         $paymentMethod = $this->paymentMethodRepository->find($paymentMethodId);

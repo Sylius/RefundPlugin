@@ -18,6 +18,6 @@ Feature: Having credit memo sent to customer
     @application
     Scenario: Having credit memo file sent to a customer
         When I want to refund some units of order "#00000022"
-        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product
+        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And email to "rick.sanchez@wubba-lubba-dub-dub.com" with credit memo should be sent
