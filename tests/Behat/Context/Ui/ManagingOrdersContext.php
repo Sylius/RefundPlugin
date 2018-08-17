@@ -69,4 +69,12 @@ final class ManagingOrdersContext implements Context
     {
         $this->showPage->completeRefundPayment(0);
     }
+
+    /**
+     * @Then I should not be able to complete the first refund payment
+     */
+    public function shouldNotBeAbleToCompleteTheFirstRefundPayment(): void
+    {
+        Assert::false($this->showPage->canCompleteRefundPayment(0));
+    }
 }

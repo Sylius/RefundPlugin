@@ -1,8 +1,8 @@
 @refunds
-Feature: Marking refund payment as paid
+Feature: Completing refund payment
     In order have consistent data on refund payments' status
     As an Administrator
-    I want to mark refund payment as paid
+    I want to complete refund payment
 
     Background:
         Given the store operates on a single channel in "United States"
@@ -18,7 +18,13 @@ Feature: Marking refund payment as paid
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
 
     @ui
-    Scenario: Marking refund payment as paid
+    Scenario: Completing refund payment
         Given I view the summary of the order "#00000022"
         When I complete the first refund payment
         Then I should see 1 refund payment with status "Completed"
+
+    @ui
+    Scenario: Being unable to complete already completed payment
+        Given I view the summary of the order "#00000022"
+        When I complete the first refund payment
+        Then I should not be able to complete the first refund payment
