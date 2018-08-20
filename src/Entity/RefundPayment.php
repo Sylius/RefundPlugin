@@ -13,9 +13,6 @@ class RefundPayment implements RefundPaymentInterface
     private $id;
 
     /** @var string */
-    private $number;
-
-    /** @var string */
     private $orderNumber;
 
     /** @var int */
@@ -31,24 +28,17 @@ class RefundPayment implements RefundPaymentInterface
     private $paymentMethod;
 
     public function __construct(
-        string $number,
         string $orderNumber,
         int $amount,
         string $currencyCode,
         string $state,
         PaymentMethodInterface $paymentMethod
     ) {
-        $this->number = $number;
         $this->orderNumber = $orderNumber;
         $this->amount = $amount;
         $this->currencyCode = $currencyCode;
         $this->state = $state;
         $this->paymentMethod = $paymentMethod;
-    }
-
-    public function getNumber(): string
-    {
-        return $this->number;
     }
 
     public function getOrderNumber(): string
