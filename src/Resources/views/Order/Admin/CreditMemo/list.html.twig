@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ credit_memo.number }}</td>
                 <td>{{ money.format(credit_memo.total, credit_memo.currencyCode) }}</td>
-                <td>{{ credit_memo.issuedAt }}</td>
+                <td>{{ credit_memo.issuedAt|date('d-m-Y') }}</td>
                 <td class="aligned collapsing">
                     {{ buttons.default(
                         path('sylius_refund_credit_memo_details', {'orderNumber': credit_memo.orderNumber, 'id': credit_memo.id}),

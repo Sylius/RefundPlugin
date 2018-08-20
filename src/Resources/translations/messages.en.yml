@@ -3,6 +3,7 @@ sylius_refund:
         credit_memo: Credit memo
         credit_memos: Credit memos
         download: Download
+        issued_at: Issued at
         issued_for_order: Issued for order
         manage_credit_memos: Manage credit memos
         order_number: Order number
@@ -11,6 +12,7 @@ sylius_refund:
         refund_payments: Refund payments
         refunded_total: Refunded total
         refunds: Refunds
+        state_completed: Completed
 
 sylius:
     ui:

@@ -77,6 +77,9 @@ sylius_grid:
                     sortable: total
                     options:
                         template: "@SyliusAdmin/Order/Grid/Field/total.html.twig"
+                issuedAt:
+                    type: datetime
+                    label: sylius_refund.ui.issued_at
             actions:
                 item:
                     show:
