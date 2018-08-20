@@ -21,7 +21,8 @@ final class CreditMemoSpec extends ObjectBehavior
             'USD',
             'en_US',
             [$creditMemoUnit->serialize()],
-            'Comment'
+            'Comment',
+            new \DateTime()
         );
     }
 
@@ -58,6 +59,11 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_units(): void
     {
         $this->getUnits()->shouldBeLike([new CreditMemoUnit('Portal gun', 1000, 50)]);
+    }
+
+    function it_has_date_of_creation(): void
+    {
+        $this->getIssuedAt()->shouldHaveType(\DateTime::class);
     }
 
     function it_has_comment(): void

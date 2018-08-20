@@ -13,6 +13,7 @@ use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
@@ -20,13 +21,15 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
-        NumberGenerator $creditMemoNumberGenerator
+        NumberGenerator $creditMemoNumberGenerator,
+        CurrentDateTimeProviderInterface $currentDateTimeProvider
     ): void {
         $this->beConstructedWith(
             $orderRepository,
             $orderItemUnitCreditMemoUnitGenerator,
             $shipmentCreditMemoUnitGenerator,
-            $creditMemoNumberGenerator
+            $creditMemoNumberGenerator,
+            $currentDateTimeProvider
         );
     }
 
@@ -40,7 +43,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         NumberGenerator $creditMemoNumberGenerator,
         OrderInterface $order,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
-        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator
+        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        \DateTime $dateTime
     ): void {
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
@@ -57,7 +62,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
-        $this->generate('000666', 1400, [1, 2], [3], 'Comment')->shouldBeLike(new CreditMemo(
+        $currentDateTimeProvider->now()->willReturn($dateTime);
+
+        $this->generate('000666', 1400, [1, 2], [3])->shouldBeLike(new CreditMemo(
             '2018/07/00001111',
             '000666',
             1400,
@@ -68,7 +75,8 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 $secondCreditMemoUnit->serialize(),
                 $shipmentCreditMemoUnit->serialize(),
             ],
-            'Comment'
+            'Comment',
+            $dateTime->getWrappedObject(),
         ));
     }
 

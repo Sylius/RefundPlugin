@@ -45,7 +45,10 @@ swiftmailer:
 
 doctrine:
     dbal:
-        driver: "pdo_sqlite"
+        driver: "pdo_mysql"
+        dbname: "sylius_test"
+        user: "root"
+        password: "pass"
         path: "%kernel.project_dir%/var/db.sql"
         charset: UTF8
 

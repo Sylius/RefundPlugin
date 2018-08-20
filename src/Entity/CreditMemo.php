@@ -28,6 +28,8 @@ class CreditMemo implements CreditMemoInterface
     /** @var array */
     private $units;
 
+    private $issuedAt;
+
     /** @var string */
     private $comment;
 
@@ -38,7 +40,8 @@ class CreditMemo implements CreditMemoInterface
         string $currencyCode,
         string $localeCode,
         array $units,
-        string $comment
+        string $comment,
+        \DateTimeInterface $issuedAt
     ) {
         $this->number = $number;
         $this->orderNumber = $orderNumber;
@@ -47,6 +50,7 @@ class CreditMemo implements CreditMemoInterface
         $this->localeCode = $localeCode;
         $this->units = $units;
         $this->comment = $comment;
+        $this->issuedAt = $issuedAt;
     }
 
     public function getId(): int
@@ -87,6 +91,11 @@ class CreditMemo implements CreditMemoInterface
         }
 
         return $units;
+    }
+
+    public function getIssuedAt(): \DateTimeInterface
+    {
+        return $this->issuedAt;
     }
 
     public function getComment(): string

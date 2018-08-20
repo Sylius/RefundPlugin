@@ -23,6 +23,7 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator">
