@@ -28,6 +28,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var array */
     private $units;
 
+    /** @var \DateTimeInterface */
     private $issuedAt;
 
     /** @var string */
