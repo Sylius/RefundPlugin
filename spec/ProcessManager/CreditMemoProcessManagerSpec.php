@@ -28,6 +28,6 @@ final class CreditMemoProcessManagerSpec extends ObjectBehavior
             ;
         }));
 
-        $this(new UnitsRefunded('000222', [1, 2, 3], [1, 2], 3000));
+        $this(new UnitsRefunded('000222', [1, 2, 3], [1, 2], 1, 3000, 'USD'));
     }
 }

@@ -18,7 +18,8 @@ final class RefundUnitsRequest
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
             self::parseIdsToIntegers($request->request->get('sylius_refund_units', [])),
-            self::parseIdsToIntegers($request->request->get('sylius_refund_shipments', []))
+            self::parseIdsToIntegers($request->request->get('sylius_refund_shipments', [])),
+            (int) $request->request->get('sylius_refund_payment_method')
         );
     }
 

@@ -47,39 +47,58 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @When /^I decide to refund (\d)st "([^"]+)" product$/
+     * @When /^I decide to refund (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
-    public function decideToRefundProduct(int $unitNumber, string $productName): void
+    public function decideToRefundProduct(int $unitNumber, string $productName, string $paymentMethod): void
     {
         $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
     /**
-     * @When I decide to refund all units of this order
+     * @When /^I decided to refund (\d)st "([^"]+)" product of the order "([^"]+)" with "([^"]+)" payment$/
      */
-    public function decideToRefundAllUnits(): void
+    public function decidedToRefundProduct(
+        int $unitNumber,
+        string $productName,
+        string $orderNumber,
+        string $paymentMethod
+    ): void {
+        $this->orderRefundsPage->open(['orderNumber' => $orderNumber]);
+        $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
+     * @When I decide to refund all units of this order with :paymentMethod payment
+     */
+    public function decideToRefundAllUnits(string $paymentMethod): void
     {
         $this->orderRefundsPage->pickAllUnitsToRefund();
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
     /**
-     * @When I decide to refund order shipment
+     * @When I decide to refund order shipment with "([^"]+)" payment
      */
-    public function decideToRefundOrderShipment(): void
+    public function decideToRefundOrderShipment(string $paymentMethod): void
     {
         $this->orderRefundsPage->pickOrderShipment();
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
     /**
-     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
+     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
-    public function decideToRefundProductAndShipment(int $unitNumber, string $productName): void
+    public function decideToRefundProductAndShipment(int $unitNumber, string $productName, string $paymentMethod): void
     {
         $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
         $this->orderRefundsPage->pickOrderShipment();
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }
 
@@ -154,10 +173,26 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/
+     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
      */
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         Assert::true($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
+    }
+
+    /**
+     * @Then I should be able to choose refund payment method
+     */
+    public function shouldBeAbleToChooseRefundPaymentMethod(): void
+    {
+        Assert::true($this->orderRefundsPage->canChoosePaymentMethod());
+    }
+
+    /**
+     * @Then there should be :payment payment method
+     */
+    public function thereShouldBePaymentMethod(string $payment): void
+    {
+        Assert::true($this->orderRefundsPage->isPaymentMethodVisible($payment));
     }
 }

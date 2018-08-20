@@ -50,3 +50,19 @@ sylius_refund_admin_credit_memo_download:
     methods: [GET]
     defaults:
         _controller: Sylius\RefundPlugin\Action\Admin\DownloadCreditMemoAction
+
+sylius_refund_order_refund_payment_list:
+    path: /orders/{orderNumber}/refund-payments
+    methods: [GET]
+    defaults:
+        _controller: sylius_refund.controller.refund_payment:indexAction
+        _sylius:
+            template: "@SyliusRefundPlugin/Order/Admin/RefundPayment/list.html.twig"
+            criteria:
+                orderNumber: $orderNumber
+
+sylius_refund_complete_refund_payment:
+    path: /orders/{orderNumber}/refund-payments/{id}/complete
+    methods: [POST]
+    defaults:
+        _controller: Sylius\RefundPlugin\Action\CompleteRefundPaymentAction

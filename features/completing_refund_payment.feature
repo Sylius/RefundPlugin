@@ -1,8 +1,8 @@
 @refunds
-Feature: Having credit memo sent to customer
-    In order to provide refund details to customer immediately after refund
+Feature: Completing refund payment
+    In order have consistent data on refund payments' status
     As an Administrator
-    I want to be have credit memo file sent automatically to a customer
+    I want to complete refund payment
 
     Background:
         Given the store operates on a single channel in "United States"
@@ -14,10 +14,17 @@ Feature: Having credit memo sent to customer
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And I am logged in as an administrator
         And the order "#00000022" is already paid
-
-    @application
-    Scenario: Having credit memo file sent to a customer
-        When I want to refund some units of order "#00000022"
+        And I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
-        Then I should be notified that selected order units have been successfully refunded
-        And email to "rick.sanchez@wubba-lubba-dub-dub.com" with credit memo should be sent
+
+    @ui
+    Scenario: Completing refund payment
+        When I view the summary of the order "#00000022"
+        And I complete the first refund payment
+        Then I should see 1 refund payment with status "Completed"
+
+    @ui
+    Scenario: Being unable to complete already completed payment
+        When I view the summary of the order "#00000022"
+        And I complete the first refund payment
+        Then I should not be able to complete the first refund payment again

@@ -11,13 +11,14 @@ final class RefundUnits extends Command
 {
     use PayloadTrait;
 
-    public function __construct(string $orderNumber, array $unitIds, array $shipmentIds)
+    public function __construct(string $orderNumber, array $unitIds, array $shipmentIds, int $paymentMethodId)
     {
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
             'unit_ids' => $unitIds,
             'shipment_ids' => $shipmentIds,
+            'payment_method_id' => $paymentMethodId,
         ]);
     }
 
@@ -34,5 +35,10 @@ final class RefundUnits extends Command
     public function shipmentIds(): array
     {
         return $this->payload()['shipment_ids'];
+    }
+
+    public function paymentMethodId(): int
+    {
+        return $this->payload()['payment_method_id'];
     }
 }

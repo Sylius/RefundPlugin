@@ -18,14 +18,14 @@ Feature: Refunding an order shipping cost
     @ui @application
     Scenario: Refunding an order shipment
         When I want to refund some units of order "#00000022"
-        And I decide to refund order shipment
+        And I decide to refund order shipment with "Space money" payment
         And this order refunded total should be "$20.00"
         And I should not be able to refund order shipment
 
     @ui @application
     Scenario: Refunding and order shipment along with order unit
         When I want to refund some units of order "#00000022"
-        And I decide to refund order shipment and 1st "Mr. Meeseeks T-Shirt" product
+        And I decide to refund order shipment and 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$30.00"
         And I should not be able to refund order shipment

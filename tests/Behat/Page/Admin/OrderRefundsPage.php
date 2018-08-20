@@ -63,9 +63,29 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return null !== $this->getDocument()->find('css', 'a:contains("Back")');
     }
 
+    public function choosePaymentMethod(string $paymentMethodName): void
+    {
+        $paymentMethods = $this->getElement('payment_methods');
+
+        $paymentMethods->selectOption($paymentMethodName);
+    }
+
+    public function canChoosePaymentMethod(): bool
+    {
+        return null !== $this->getElement('payment_methods');
+    }
+
+    public function isPaymentMethodVisible(string $paymentMethodName): bool
+    {
+        $paymentMethods = $this->getElement('payment_methods');
+
+        return strpos($paymentMethods->getText(), $paymentMethodName) !== false;
+    }
+
     protected function getDefinedElements(): array
     {
         return [
+            'payment_methods' => '#payment-methods',
             'refunded_total' => '#refunded-total',
         ];
     }

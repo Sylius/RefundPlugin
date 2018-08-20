@@ -10,6 +10,7 @@ use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -55,35 +56,43 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @When /^I decide to refund (\d)st "([^"]+)" product$/
+     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment)$/
      */
-    public function decideToRefundProduct(int $unitNumber, string $productName): void
+    public function decideToRefundProduct(int $unitNumber, string $productName, PaymentMethodInterface $paymentMethod): void
     {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
-        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], []));
+        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], $paymentMethod->getId()));
     }
 
     /**
-     * @When I decide to refund order shipment
+     * @When /^I decide to refund order shipment with ("[^"]+" payment)$/
      */
-    public function decideToRefundOrderShipment(): void
+    public function decideToRefundOrderShipment(PaymentMethodInterface $paymentMethod): void
     {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
-        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()]));
+        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()], $paymentMethod->getId()));
     }
 
     /**
-     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product$/
+     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with ("[^"]+" payment)$/
      */
-    public function decideToRefundProductAndShipment(int $unitNumber, string $productName): void
-    {
+    public function decideToRefundProductAndShipment(
+        int $unitNumber,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         $this->commandBus->dispatch(
-            new RefundUnits($this->order->getNumber(), [$unit->getId()], [$shippingAdjustment->getId()])
+            new RefundUnits(
+                $this->order->getNumber(),
+                [$unit->getId()],
+                [$shippingAdjustment->getId()],
+                $paymentMethod->getId()
+            )
         );
     }
 
@@ -109,7 +118,7 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], []));
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], 1));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -125,7 +134,7 @@ final class RefundingContext implements Context
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()]));
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()], 1));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -134,14 +143,22 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/
+     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
      */
-    public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
-    {
+    public function shouldBeAbleToRefundUnitWithProduct(
+        int $unitNumber,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], []));
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [$unit->getId()],
+                [],
+                $paymentMethod->getId())
+            );
         } catch (CommandDispatchException $exception) {
             throw new \Exception('RefundUnits command should not fail');
         }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Prooph\ServiceBus\EventBus;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -25,16 +27,21 @@ final class RefundUnitsHandler
     /** @var EventBus */
     private $eventBus;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     public function __construct(
         RefunderInterface $orderUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        EventBus $eventBus
+        EventBus $eventBus,
+        OrderRepositoryInterface $orderRepository
     ) {
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->orderUnitsRefunder = $orderUnitsRefunder;
         $this->orderShipmentsRefunder = $orderShipmentsRefunder;
         $this->eventBus = $eventBus;
+        $this->orderRepository = $orderRepository;
     }
 
     public function __invoke(RefundUnits $command): void
@@ -45,6 +52,9 @@ final class RefundUnitsHandler
 
         $orderNumber = $command->orderNumber();
 
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+
         $refundedTotal = 0;
         $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->unitIds(), $orderNumber);
         $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipmentIds(), $orderNumber);
@@ -53,7 +63,9 @@ final class RefundUnitsHandler
             $orderNumber,
             $command->unitIds(),
             $command->shipmentIds(),
-            $refundedTotal
+            $command->paymentMethodId(),
+            $refundedTotal,
+            $order->getCurrencyCode()
         ));
     }
 }

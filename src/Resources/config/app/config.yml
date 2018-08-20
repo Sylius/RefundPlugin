@@ -10,6 +10,9 @@ sylius_resource:
         sylius_refund.credit_memo:
             classes:
                 model: Sylius\RefundPlugin\Entity\CreditMemo
+        sylius_refund.refund_payment:
+            classes:
+                model: Sylius\RefundPlugin\Entity\RefundPayment
 
 sylius_mailer:
     sender:
@@ -34,6 +37,18 @@ winzou_state_machine:
             refund:
                 from: [new, fulfilled]
                 to: fully_refunded
+    sylius_refund_refund_payment:
+        class: Sylius\RefundPlugin\Entity\RefundPayment
+        property_path: state
+        graph: sylius_refund_refund_payment
+        state_machine_class: "%sylius.state_machine.class%"
+        states:
+            New: ~
+            Completed: ~
+        transitions:
+            complete:
+                from: [New]
+                to: Completed
 
 knp_snappy:
     pdf:

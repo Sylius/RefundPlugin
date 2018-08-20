@@ -13,4 +13,10 @@ interface ShowPageInterface extends BaseOrderShowPageInterface
     public function downloadCreditMemo(int $index): void;
 
     public function hasRefundsButton(): bool;
+
+    public function hasRefundPaymentsWithStatus(int $count, string $status): bool;
+
+    public function canCompleteRefundPayment(int $number): bool;
+
+    public function completeRefundPayment(int $number): void;
 }
