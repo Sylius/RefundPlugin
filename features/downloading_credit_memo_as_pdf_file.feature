@@ -13,7 +13,7 @@ Feature: Downloading credit memo as pdf file
         And the customer bought a single "Mr. Meeseeks T-Shirt"
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And the order "#00000022" is already paid
-        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
+        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
         And I am logged in as an administrator
 
     @ui

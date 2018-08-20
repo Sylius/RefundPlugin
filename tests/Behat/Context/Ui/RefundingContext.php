@@ -82,7 +82,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @When I decide to refund order shipment with "([^"]+)" payment
+     * @When /^I decide to refund order shipment with "([^"]+)" payment$/
      */
     public function decideToRefundOrderShipment(string $paymentMethod): void
     {

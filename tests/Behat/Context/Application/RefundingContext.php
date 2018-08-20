@@ -58,8 +58,11 @@ final class RefundingContext implements Context
     /**
      * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment)$/
      */
-    public function decideToRefundProduct(int $unitNumber, string $productName, PaymentMethodInterface $paymentMethod): void
-    {
+    public function decideToRefundProduct(
+        int $unitNumber,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], $paymentMethod->getId()));

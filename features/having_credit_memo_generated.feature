@@ -29,7 +29,7 @@ Feature: Having credit memo generated
 
     @ui @application
     Scenario: Seeing the details of generated credit memo
-        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
+        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
         And I browse the details of the only credit memo generated for order "#00000022"
         And it should have sequential number generated from current date
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.90" tax applied
