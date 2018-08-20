@@ -11,7 +11,7 @@ final class TemporaryFileManager implements FileManagerInterface
 
     public function __construct()
     {
-        $this->baseDirectory = sys_get_temp_dir().'/';
+        $this->baseDirectory = sys_get_temp_dir() . '/';
     }
 
     public function createWithContent(string $fileName, string $content): void
@@ -26,6 +26,6 @@ final class TemporaryFileManager implements FileManagerInterface
 
     public function realPath(string $fileName): string
     {
-        return $this->baseDirectory.$fileName;
+        return $this->baseDirectory . $fileName;
     }
 }
