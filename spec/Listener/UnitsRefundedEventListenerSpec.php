@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -19,14 +18,12 @@ final class UnitsRefundedEventListenerSpec extends ObjectBehavior
     function let(
         Session $session,
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
-        NumberGenerator $numberGenerator,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager
     ): void {
         $this->beConstructedWith(
             $session,
             $orderFullyRefundedStateResolver,
-            $numberGenerator,
             $refundPaymentFactory,
             $entityManager
         );
@@ -36,15 +33,11 @@ final class UnitsRefundedEventListenerSpec extends ObjectBehavior
         Session $session,
         FlashBagInterface $flashBag,
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
-        NumberGenerator $numberGenerator,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         RefundPaymentInterface $refundPayment
     ): void {
-        $numberGenerator->generate()->willReturn('0000001');
-
         $refundPaymentFactory->createWithData(
-            '0000001',
             '000222',
             1000,
             'USD',

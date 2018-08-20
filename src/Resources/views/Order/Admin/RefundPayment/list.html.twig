@@ -7,7 +7,6 @@
         <table class="ui celled compact small table fixed">
             <thead>
             <tr>
-                <th>{{ 'sylius.ui.number'|trans }}</th>
                 <th>{{ 'sylius.ui.total'|trans }}</th>
                 <th>{{ 'sylius.ui.state'|trans }}</th>
                 <th>{{ 'sylius.ui.actions'|trans }}</th>
@@ -16,7 +15,6 @@
             <tbody>
             {% for refund_payment in refund_payments %}
                 <tr>
-                    <td>{{ refund_payment.number }}</td>
                     <td>{{ money.format(refund_payment.amount, refund_payment.currencyCode) }}</td>
                     <td>{{ refund_payment.state }}</td>
                     {% if refund_payment.state != 'Completed'%}
