@@ -6,8 +6,8 @@ namespace spec\Sylius\RefundPlugin\StateResolver;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
-use SM\StateMachine\StateMachineInterface;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
+use SM\StateMachine\StateMachineInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplier;
 use Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplierInterface;

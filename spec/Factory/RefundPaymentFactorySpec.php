@@ -36,14 +36,12 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
         $paymentMethodRepository->find(1)->willReturn($paymentMethod);
 
         $this->createWithData(
-            '0001',
             '0002',
             1000,
             'USD',
             RefundPaymentInterface::STATE_NEW,
             1
         )->shouldBeLike(new RefundPayment(
-            '0001',
             '0002',
             1000,
             'USD',

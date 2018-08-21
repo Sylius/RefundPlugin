@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -20,9 +19,6 @@ final class UnitsRefundedEventListener
     /** @var OrderFullyRefundedStateResolverInterface */
     private $orderFullyRefundedStateResolver;
 
-    /** @var NumberGenerator */
-    private $numberGenerator;
-
     /** @var RefundPaymentFactoryInterface */
     private $refundPaymentFactory;
 
@@ -32,13 +28,11 @@ final class UnitsRefundedEventListener
     public function __construct(
         Session $session,
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
-        NumberGenerator $numberGenerator,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager
     ) {
         $this->session = $session;
         $this->orderFullyRefundedStateResolver = $orderFullyRefundedStateResolver;
-        $this->numberGenerator = $numberGenerator;
         $this->refundPaymentFactory = $refundPaymentFactory;
         $this->entityManager = $entityManager;
     }
@@ -46,7 +40,6 @@ final class UnitsRefundedEventListener
     public function __invoke(UnitsRefunded $event): void
     {
         $refundPayment = $this->refundPaymentFactory->createWithData(
-            $this->numberGenerator->generate(),
             $event->orderNumber(),
             $event->amount(),
             $event->currencyCode(),

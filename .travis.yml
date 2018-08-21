@@ -32,6 +32,9 @@ install:
     - (cd tests/Application && yarn install)
 
 before_script:
+    - mv .env.test.dist .env.test
+    - set -a && source .env.test && set +a
+
     - (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
     - (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
     - (cd tests/Application && bin/console assets:install web --env=test -vvv)
@@ -72,7 +75,7 @@ script:
 
     - bin/phpspec run
     - bin/phpunit
-    - bin/behat -vvv --no-interaction || bin/behat -vvv --no-interaction --rerun
+    - bin/behat --strict -vvv --no-interaction || bin/behat --strict -vvv --no-interaction --rerun
 
 after_failure:
     - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"

@@ -15,7 +15,7 @@ Feature: Downloading credit memo on customer order view
         And I addressed it to "Lucifer Morningstar", "Seaside Fwy", "90802" "Los Angeles" in the "United States" with identical billing address
         And I chose "Free" shipping method with "Cash on Delivery" payment
         And this order is already paid
-        And 1st "Angel T-Shirt" product from order "#00000666" has already been refunded
+        And 1st "Angel T-Shirt" product from order "#00000666" has already been refunded with "Cash on Delivery" payment
 
     @ui
     Scenario: Downloading credit memo from customer order view

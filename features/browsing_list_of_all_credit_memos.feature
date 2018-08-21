@@ -15,8 +15,8 @@ Feature: Browsing list of all credit memos
         And the customer bought a single "Portal Gun"
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And the order "#00000022" is already paid
-        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded
-        And 1st "Portal Gun" product from order "#00000022" has already been refunded
+        And 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
+        And 1st "Portal Gun" product from order "#00000022" has already been refunded with "Space money" payment
         And I am logged in as an administrator
 
     @ui

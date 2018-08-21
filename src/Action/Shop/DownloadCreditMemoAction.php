@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Shop;
 
-use Sylius\Bundle\CoreBundle\Context\CustomerContext;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface;
-use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
 use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface;
@@ -41,7 +35,7 @@ final class DownloadCreditMemoAction
     public function __invoke(Request $request, int $id): Response
     {
         try {
-            $this->creditMemoCustomerRelationChecker->check(strval($id));
+            $this->creditMemoCustomerRelationChecker->check((string) $id);
         } catch (CreditMemoNotAccessible $exception) {
             return new Response($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
