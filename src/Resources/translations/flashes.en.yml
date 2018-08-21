@@ -1,4 +1,5 @@
 sylius_refund:
     at_least_one_unit_should_be_selected_to_refund: 'At least one unit should be selected to refund'
     order_should_be_paid: 'Order should be paid for the units to could be refunded'
+    refund_payment_completed: 'Refund payment has been successfully completed'
     units_successfully_refunded: 'Selected order units have been successfully refunded'

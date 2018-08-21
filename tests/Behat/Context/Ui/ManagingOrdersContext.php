@@ -71,6 +71,17 @@ final class ManagingOrdersContext implements Context
     }
 
     /**
+     * @Then I should be notified that refund payment has been successfully completed
+     */
+    public function shouldBeNotifiedThatRefundPaymentHasBeenSuccessfullyCompleted(): void
+    {
+        $this->notificationChecker->checkNotification(
+            'Refund payment has been successfully completed',
+            NotificationType::success()
+        );
+    }
+
+    /**
      * @Then I should not be able to complete the first refund payment again
      */
     public function shouldNotBeAbleToCompleteTheFirstRefundPaymentAgain(): void
