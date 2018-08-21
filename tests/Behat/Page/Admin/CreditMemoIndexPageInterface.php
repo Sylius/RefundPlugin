@@ -10,5 +10,10 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
 {
     public function downloadCreditMemo(int $index): void;
 
-    public function hasCreditMemoWithData(int $index, string $orderNumber, string $total): bool;
+    public function hasCreditMemoWithData(
+        int $index,
+        string $orderNumber,
+        string $total,
+        \DateTimeInterface $issuedAt
+    ): bool;
 }

@@ -19,4 +19,6 @@ interface CreditMemoInterface extends ResourceInterface
     public function getUnits(): array;
 
     public function getComment(): string;
+
+    public function getIssuedAt(): \DateTimeInterface;
 }

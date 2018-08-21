@@ -22,7 +22,7 @@ final class CreditMemoSpec extends ObjectBehavior
             'en_US',
             [$creditMemoUnit->serialize()],
             'Comment',
-            new \DateTime()
+            new \DateTime('01-01-2020 10:10:10')
         );
     }
 
@@ -63,7 +63,7 @@ final class CreditMemoSpec extends ObjectBehavior
 
     function it_has_date_of_creation(): void
     {
-        $this->getIssuedAt()->shouldHaveType(\DateTime::class);
+        $this->getIssuedAt()->shouldBeLike(new \DateTime('01-01-2020 10:10:10'));
     }
 
     function it_has_comment(): void

@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ money.format(refund_payment.amount, refund_payment.currencyCode) }}</td>
                     <td>{{ refund_payment.state }}</td>
-                    {% if refund_payment.state != 'sylius_refund.ui.state_completed'|trans %}
+                    {% if refund_payment.state != 'sylius_refund.ui.completed'|trans %}
                         <td class="aligned collapsing">
                             <form action="{{ path('sylius_refund_complete_refund_payment', {'orderNumber': refund_payment.orderNumber, 'id': refund_payment.id}) }}" method="POST">
                                 <button class="button ui labeled icon yellow">

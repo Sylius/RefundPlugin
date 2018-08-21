@@ -1,5 +1,6 @@
 sylius_refund:
     ui:
+        completed: Completed
         credit_memo: Credit memo
         credit_memos: Credit memos
         download: Download
@@ -12,7 +13,6 @@ sylius_refund:
         refund_payments: Refund payments
         refunded_total: Refunded total
         refunds: Refunds
-        state_completed: Completed
 
 sylius:
     ui:

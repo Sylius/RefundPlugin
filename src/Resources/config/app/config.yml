@@ -80,6 +80,8 @@ sylius_grid:
                 issuedAt:
                     type: datetime
                     label: sylius_refund.ui.issued_at
+                    options:
+                        format: 'Y-m-d H:i:s'
             actions:
                 item:
                     show:
