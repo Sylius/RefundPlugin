@@ -29,7 +29,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         EventBus $eventBus,
         CreditMemoInterface $creditMemo
     ): void {
-        $creditMemoGenerator->generate('000666', 1000, [1, 2], [3, 4])->willReturn($creditMemo);
+        $creditMemoGenerator->generate('000666', 1000, [1, 2], [3, 4], 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
 
@@ -43,6 +43,6 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this(new GenerateCreditMemo('000666', 1000, [1, 2], [3, 4]));
+        $this(new GenerateCreditMemo('000666', 1000, [1, 2], [3, 4], 'Comment'));
     }
 }

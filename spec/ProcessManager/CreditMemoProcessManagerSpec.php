@@ -24,7 +24,8 @@ final class CreditMemoProcessManagerSpec extends ObjectBehavior
                 $command->orderNumber() === '000222' &&
                 $command->total() === 3000 &&
                 $command->unitIds() === [1, 2, 3] &&
-                $command->shipmentIds() === [1, 2]
+                $command->shipmentIds() === [1, 2] &&
+                $command->comment() === ''
             ;
         }));
 

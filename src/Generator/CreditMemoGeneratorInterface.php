@@ -8,5 +8,11 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 
 interface CreditMemoGeneratorInterface
 {
-    public function generate(string $orderNumber, int $total, array $unitIds, array $shipmentIds): CreditMemoInterface;
+    public function generate(
+        string $orderNumber,
+        int $total,
+        array $unitIds,
+        array $shipmentIds,
+        string $comment
+    ): CreditMemoInterface;
 }

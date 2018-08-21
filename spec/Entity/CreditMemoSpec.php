@@ -20,7 +20,8 @@ final class CreditMemoSpec extends ObjectBehavior
             1000,
             'USD',
             'en_US',
-            [$creditMemoUnit->serialize()]
+            [$creditMemoUnit->serialize()],
+            'Comment'
         );
     }
 
@@ -57,5 +58,10 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_units(): void
     {
         $this->getUnits()->shouldBeLike([new CreditMemoUnit('Portal gun', 1000, 50)]);
+    }
+
+    function it_has_comment(): void
+    {
+        $this->getComment()->shouldReturn('Comment');
     }
 }

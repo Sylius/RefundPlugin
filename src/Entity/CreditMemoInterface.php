@@ -17,4 +17,6 @@ interface CreditMemoInterface extends ResourceInterface
     public function getCurrencyCode(): string;
 
     public function getUnits(): array;
+
+    public function getComment(): string;
 }

@@ -46,18 +46,18 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $order->getCurrencyCode()->willReturn('GBP');
         $order->getLocaleCode()->willReturn('en_US');
 
-        $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50, 0);
+        $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50);
         $orderItemUnitCreditMemoUnitGenerator->generate(1)->willReturn($firstCreditMemoUnit);
 
-        $secondCreditMemoUnit = new CreditMemoUnit('Broken Leg Serum', 500, 50, 50);
+        $secondCreditMemoUnit = new CreditMemoUnit('Broken Leg Serum', 500, 50);
         $orderItemUnitCreditMemoUnitGenerator->generate(2)->willReturn($secondCreditMemoUnit);
 
-        $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0, 0);
+        $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0);
         $shipmentCreditMemoUnitGenerator->generate(3)->willReturn($shipmentCreditMemoUnit);
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
-        $this->generate('000666', 1400, [1, 2], [3])->shouldBeLike(new CreditMemo(
+        $this->generate('000666', 1400, [1, 2], [3], 'Comment')->shouldBeLike(new CreditMemo(
             '2018/07/00001111',
             '000666',
             1400,
@@ -67,7 +67,8 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 $firstCreditMemoUnit->serialize(),
                 $secondCreditMemoUnit->serialize(),
                 $shipmentCreditMemoUnit->serialize(),
-            ]
+            ],
+            'Comment'
         ));
     }
 
@@ -77,7 +78,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(OrderNotFound::withNumber('000666'))
-            ->during('generate', ['000666', 1000, [], []])
+            ->during('generate', ['000666', 1000, [], [], 'Comment'])
         ;
     }
 }
