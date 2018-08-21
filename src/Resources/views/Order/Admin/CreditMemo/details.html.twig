@@ -58,6 +58,13 @@
                     </tr>
                 </tfoot>
             </table>
+
+            {% if credit_memo.comment != '' %}
+            <div class="ui sizer vertical segment">
+                <div class="ui tiny header">{{ 'sylius.ui.comment'|trans }}</div>
+                <p id="credit-memo-comment">{{ credit_memo.comment }}</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

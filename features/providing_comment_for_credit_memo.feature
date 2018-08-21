@@ -15,7 +15,7 @@ Feature: Providing comment for credit memo
         And I am logged in as an administrator
         And the order "#00000022" is already paid
 
-    @application
+    @ui @application
     Scenario: Providing comment for credit memo
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment and "Money for nothing" comment

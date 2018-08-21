@@ -104,6 +104,13 @@
 
                     <br/>
 
+                    <div class="ui labeled input fluid">
+                        <label for="sylius-refund-comment" class="ui label">{{ 'sylius.ui.comment'|trans }}</label>
+                        <input type="text" name="sylius_refund_comment" id="sylius-refund-comment">
+                    </div>
+
+                    <br/>
+
                     <div class="ui buttons">
                         <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">{{ 'sylius.ui.back'|trans }}</a>
                         <div class="or"></div>
