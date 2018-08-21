@@ -102,7 +102,8 @@ final class RefundingContext implements Context
                 $this->order->getNumber(),
                 [$unit->getId()],
                 [$shippingAdjustment->getId()],
-                $paymentMethod->getId()
+                $paymentMethod->getId(),
+                ''
             )
         );
     }
@@ -129,7 +130,7 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], 1));
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], 1, ''));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -145,7 +146,7 @@ final class RefundingContext implements Context
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()], 1));
+            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()], 1, ''));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -168,8 +169,9 @@ final class RefundingContext implements Context
                 $this->order->getNumber(),
                 [$unit->getId()],
                 [],
-                $paymentMethod->getId())
-            );
+                $paymentMethod->getId(),
+                ''
+            ));
         } catch (CommandDispatchException $exception) {
             throw new \Exception('RefundUnits command should not fail');
         }

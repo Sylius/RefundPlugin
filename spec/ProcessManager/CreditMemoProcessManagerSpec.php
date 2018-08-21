@@ -25,10 +25,10 @@ final class CreditMemoProcessManagerSpec extends ObjectBehavior
                 $command->total() === 3000 &&
                 $command->unitIds() === [1, 2, 3] &&
                 $command->shipmentIds() === [1, 2] &&
-                $command->comment() === ''
+                $command->comment() === 'Comment'
             ;
         }));
 
-        $this(new UnitsRefunded('000222', [1, 2, 3], [1, 2], 1, 3000, 'USD'));
+        $this(new UnitsRefunded('000222', [1, 2, 3], [1, 2], 1, 3000, 'USD', 'Comment'));
     }
 }

@@ -55,11 +55,12 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
                 $event->unitIds() === [1, 3] &&
                 $event->shipmentIds() === [3, 4] &&
                 $event->amount() === 7000 &&
-                $event->paymentMethodId() === 1
+                $event->paymentMethodId() === 1 &&
+                $event->comment() === 'Comment'
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', [1, 3], [3, 4], 1));
+        $this(new RefundUnits('000222', [1, 3], [3, 4], 1, 'Comment'));
     }
 
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
@@ -83,11 +84,12 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
                 $event->orderNumber() === '000222' &&
                 $event->unitIds() === [1, 3] &&
                 $event->amount() === 1500 &&
-                $event->paymentMethodId() === 1
+                $event->paymentMethodId() === 1 &&
+                $event->comment() === 'Comment'
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', [1, 3], [3, 4], 1));
+        $this(new RefundUnits('000222', [1, 3], [3, 4], 1, 'Comment'));
     }
 
     function it_throws_an_exception_if_order_is_not_available_for_refund(
@@ -97,7 +99,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(OrderNotAvailableForRefundingException::class)
-            ->during('__invoke', [new RefundUnits('000222', [1, 3], [3, 4], 1)])
+            ->during('__invoke', [new RefundUnits('000222', [1, 3], [3, 4], 1, 'Comment')])
         ;
     }
 }

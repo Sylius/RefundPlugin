@@ -65,7 +65,8 @@ final class RefundUnitsHandler
             $command->shipmentIds(),
             $command->paymentMethodId(),
             $refundedTotal,
-            $order->getCurrencyCode()
+            $order->getCurrencyCode(),
+            $command->comment()
         ));
     }
 }
