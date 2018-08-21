@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <style>
         table { width: 100%; }
-        td { border: 1px solid #000; }
+        tbody td { border: 1px solid #000; }
     </style>
 </head>
 <body>
@@ -27,22 +27,32 @@
                 {{ unit.productName }}
             </td>
             <td>
-                {{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, 'en_US') }}
+                {{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}
             </td>
             <td>
-                {{ unit.total|sylius_format_money(creditMemo.currencyCode, 'en_US') }}
+                {{ unit.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}
             </td>
         </tr>
     {% endfor %}
     </tbody>
     <tfoot>
+    {% if creditMemo.comment != '' %}
     <tr>
-        <th colspan="2" style="text-align: right;">
+        <td>
+            <strong>{{ 'sylius.ui.comment'|trans }}</strong>:
+        </td>
+        <td>
+            {{ creditMemo.comment }}
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td colspan="2" style="text-align: right;">
             <strong>{{ 'sylius.ui.total'|trans }}</strong>:
-        </th>
-        <th>
-            {{ creditMemo.total|sylius_format_money(creditMemo.currencyCode, 'en_US') }}
-        </th>
+        </td>
+        <td>
+            {{ creditMemo.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}
+        </td>
     </tr>
     </tfoot>
 </table>
