@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
@@ -79,5 +80,13 @@ final class CreditMemoContext implements Context
     public function creditMemoTotalShouldBe(int $total): void
     {
         Assert::same($this->creditMemo->getTotal(), $total);
+    }
+
+    /**
+     * @Then it should be commented with :comment
+     */
+    public function itShouldBeCommentedWith(string $comment): void
+    {
+        Assert::same($this->creditMemo->getComment(), $comment);
     }
 }

@@ -17,4 +17,6 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
     public function getNumber(): string;
 
     public function getTotal(): string;
+
+    public function getComment(): string;
 }

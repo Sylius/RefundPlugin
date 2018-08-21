@@ -41,6 +41,11 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         return $this->getDocument()->find('css', '#credit-memo-total')->getText();
     }
 
+    public function getComment(): string
+    {
+        return $this->getDocument()->find('css', '#credit-memo-comment')->getText();
+    }
+
     /** @return array|NodeElement[] */
     private function getCreditMemoUnitsWithProduct(string $productName): array
     {
