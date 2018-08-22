@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Prooph\ServiceBus\CommandBus;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -49,6 +50,19 @@ final class RefundingContext implements Context
         $unit = $unitsWithProduct[$unitNumber-1];
 
         $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], [], $paymentMethod->getId(), ''));
+    }
+
+    /**
+     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already "([^"]+)" refunded with ("[^"]+" payment)$/
+     */
+    public function partOfProductFromOrderHasAlreadyBeenRefunded(
+        int $unitNumber,
+        string $productName,
+        string $orderNumber,
+        int $partialTotal,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        throw new PendingException();
     }
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -77,6 +78,19 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/
+     */
+    public function decideToRefundPartFromProductWithPayment(
+        int $partialPrice,
+        int $unitNumber,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        $unit = $this->getOrderUnit($unitNumber, $productName);
+
+    }
+
+    /**
      * @When /^I decide to refund order shipment with ("[^"]+" payment)$/
      */
     public function decideToRefundOrderShipment(PaymentMethodInterface $paymentMethod): void
@@ -109,7 +123,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^this order refunded total should be ("[^"]+")$/
+     * @Then /^this order refunded total should(?:| still) be ("[^"]+")$/
      */
     public function refundedTotalShouldBe(int $refundedTotal): void
     {
@@ -187,6 +201,7 @@ final class RefundingContext implements Context
 
     /**
      * @Then I should be notified that selected order units have been successfully refunded
+     * @Then I should be notified that I cannot refund more money than the order unit total
      */
     public function notificationSteps(): void
     {

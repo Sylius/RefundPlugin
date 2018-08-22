@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\UnexpectedPageException;
 use Sylius\Behat\Service\NotificationCheckerInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -60,6 +62,18 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->comment($comment);
         $this->orderRefundsPage->refund();
+    }
+
+    /**
+     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/
+     */
+    public function decideToRefundPartFromProductWithPayment(
+        int $partialPrice,
+        int $number,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        throw new PendingException();
     }
 
     /**
@@ -144,6 +158,17 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Then I should be notified that I cannot refund more money than the order unit total
+     */
+    public function shouldBeNotifiedThatICannotRefundMoreMoneyThanTheOrderUnitTotal(): void
+    {
+        $this->notificationChecker->checkNotification(
+            'You cannot refund more money than the order unit total',
+            NotificationType::failure()
+        );
+    }
+
+    /**
      * @Then I should be notified that at least one unit should be selected to refund
      */
     public function shouldBeNotifiedThatAtLeastOneUnitShouldBeSelectedToRefund(): void
@@ -155,7 +180,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then this order refunded total should be :refundedTotal
+     * @Then this order refunded total should (still) be :refundedTotal
      */
     public function refundedTotalShouldBe(string $refundedTotal): void
     {
