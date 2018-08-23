@@ -18,6 +18,7 @@
         <field name="units" type="json" />
         <field name="currencyCode" />
         <field name="localeCode" />
+        <field name="comment" />
     </entity>
 
 </doctrine-mapping>

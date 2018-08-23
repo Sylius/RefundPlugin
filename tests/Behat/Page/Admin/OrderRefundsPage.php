@@ -43,6 +43,18 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         $orderShipment->find('css', '.checkbox input')->check();
     }
 
+    public function choosePaymentMethod(string $paymentMethodName): void
+    {
+        $paymentMethods = $this->getElement('payment_methods');
+
+        $paymentMethods->selectOption($paymentMethodName);
+    }
+
+    public function comment(string $comment): void
+    {
+        $this->getDocument()->fillField('Comment', $comment);
+    }
+
     public function refund(): void
     {
         $this->getDocument()->pressButton('Refund');
@@ -61,13 +73,6 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
     public function hasBackButton(): bool
     {
         return null !== $this->getDocument()->find('css', 'a:contains("Back")');
-    }
-
-    public function choosePaymentMethod(string $paymentMethodName): void
-    {
-        $paymentMethods = $this->getElement('payment_methods');
-
-        $paymentMethods->selectOption($paymentMethodName);
     }
 
     public function canChoosePaymentMethod(): bool

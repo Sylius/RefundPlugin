@@ -18,6 +18,10 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
 
     public function pickOrderShipment(): void;
 
+    public function choosePaymentMethod(string $paymentMethodName): void;
+
+    public function comment(string $comment): void;
+
     public function refund(): void;
 
     public function isUnitWithProductAvailableToRefund(string $productName, int $unitNumber): bool;
@@ -25,8 +29,6 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
     public function isOrderShipmentAvailableToRefund(): bool;
 
     public function hasBackButton(): bool;
-
-    public function choosePaymentMethod(string $paymentMethodName): void;
 
     public function canChoosePaymentMethod(): bool;
 

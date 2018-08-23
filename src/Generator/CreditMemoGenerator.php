@@ -36,8 +36,13 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
     }
 
-    public function generate(string $orderNumber, int $total, array $unitIds, array $shipmentIds): CreditMemoInterface
-    {
+    public function generate(
+        string $orderNumber,
+        int $total,
+        array $unitIds,
+        array $shipmentIds,
+        string $comment
+    ): CreditMemoInterface {
         /** @var OrderInterface|null $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         if ($order === null) {
@@ -60,7 +65,8 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $total,
             $order->getCurrencyCode(),
             $order->getLocaleCode(),
-            $creditMemoUnits
+            $creditMemoUnits,
+            $comment
         );
     }
 }

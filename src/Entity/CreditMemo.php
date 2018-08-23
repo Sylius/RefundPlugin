@@ -28,13 +28,17 @@ class CreditMemo implements CreditMemoInterface
     /** @var array */
     private $units;
 
+    /** @var string */
+    private $comment;
+
     public function __construct(
         string $number,
         string $orderNumber,
         int $total,
         string $currencyCode,
         string $localeCode,
-        array $units
+        array $units,
+        string $comment
     ) {
         $this->number = $number;
         $this->orderNumber = $orderNumber;
@@ -42,6 +46,7 @@ class CreditMemo implements CreditMemoInterface
         $this->currencyCode = $currencyCode;
         $this->localeCode = $localeCode;
         $this->units = $units;
+        $this->comment = $comment;
     }
 
     public function getId(): int
@@ -82,5 +87,10 @@ class CreditMemo implements CreditMemoInterface
         }
 
         return $units;
+    }
+
+    public function getComment(): string
+    {
+        return $this->comment;
     }
 }
