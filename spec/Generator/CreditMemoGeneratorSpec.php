@@ -64,7 +64,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $currentDateTimeProvider->now()->willReturn($dateTime);
 
-        $this->generate('000666', 1400, [1, 2], [3])->shouldBeLike(new CreditMemo(
+        $this->generate('000666', 1400, [1, 2], [3], 'Comment')->shouldBeLike(new CreditMemo(
             '2018/07/00001111',
             '000666',
             1400,
@@ -76,7 +76,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 $shipmentCreditMemoUnit->serialize(),
             ],
             'Comment',
-            $dateTime->getWrappedObject(),
+            $dateTime->getWrappedObject()
         ));
     }
 

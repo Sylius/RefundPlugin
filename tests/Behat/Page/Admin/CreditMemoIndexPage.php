@@ -30,7 +30,7 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
 
         return
             sprintf($creditMemoData, ['Number', 'Order number', 'Total', 'Issued at', 'Actions']) !== null &&
-            $creditMemo->find('css', 'td:nth-child(4)')->getText() !== '' &&
+            $creditMemo->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null &&
             $creditMemo->find('css', sprintf('td:contains("%s")', $issuedAt->format('Y-m-d H:i:s'))) !== null &&
             $creditMemo->find('css', sprintf('td:contains("%s")', $total)) !== null
         ;

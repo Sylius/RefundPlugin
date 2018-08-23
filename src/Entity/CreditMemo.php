@@ -28,11 +28,11 @@ class CreditMemo implements CreditMemoInterface
     /** @var array */
     private $units;
 
-    /** @var \DateTimeInterface */
-    private $issuedAt;
-
     /** @var string */
     private $comment;
+
+    /** @var \DateTimeInterface */
+    private $issuedAt;
 
     public function __construct(
         string $number,
@@ -94,13 +94,13 @@ class CreditMemo implements CreditMemoInterface
         return $units;
     }
 
-    public function getIssuedAt(): \DateTimeInterface
-    {
-        return $this->issuedAt;
-    }
-
     public function getComment(): string
     {
         return $this->comment;
+    }
+
+    public function getIssuedAt(): \DateTimeInterface
+    {
+        return $this->issuedAt;
     }
 }
