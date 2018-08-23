@@ -95,8 +95,8 @@
                         </tbody>
                     </table>
 
-                    <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown">
-                        <option value="" disabled>Payment methods</option>
+                    <label for="payment-methods" style="font-weight: bold;">{{ 'sylius.ui.payment_method'|trans }}</label>
+                    <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown" style="margin-top: 10px;">
                         {% for payment_method in payment_methods %}
                             <option value="{{ payment_method.id }}">{{ payment_method.name }}</option>
                         {% endfor %}
