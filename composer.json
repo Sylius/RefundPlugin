@@ -3,6 +3,20 @@
     "type": "sylius-plugin",
     "description": "Plugin provides basic refunds functionality for Sylius application.",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Mateusz Zalewski",
+            "homepage": "http://mpzalewski.com.pl"
+        },
+        {
+            "name": "Bartosz Pietrzak",
+            "homepage": "https://github.com/bartoszpietrzak1994"
+        },
+        {
+            "name": "Sylius Team",
+            "email": "team@sylius.com"
+        }
+    ],
     "require": {
         "php": "^7.2",
 
