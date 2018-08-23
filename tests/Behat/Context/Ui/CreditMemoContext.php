@@ -128,6 +128,14 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then it should be issued in :channelName channel
+     */
+    public function creditMemoShouldBeIssuedInChannel(string $channelName): void
+    {
+        Assert::same($this->creditMemoDetailsPage->getChannelName(), $channelName);
+    }
+
+    /**
      * @Then its total should be :total
      */
     public function creditMemoTotalShouldBe(string $total): void

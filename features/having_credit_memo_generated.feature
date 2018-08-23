@@ -33,4 +33,5 @@ Feature: Having credit memo generated
         And I browse the details of the only credit memo generated for order "#00000022"
         And it should have sequential number generated from current date
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.90" tax applied
+        And it should be issued in "United States" channel
         And its total should be "$9.90"

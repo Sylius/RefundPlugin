@@ -75,6 +75,14 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then it should be issued in :channelName channel
+     */
+    public function creditMemoShouldBeIssuedInChannel(string $channelName): void
+    {
+        Assert::same($this->creditMemo->getChannel()->getName(), $channelName);
+    }
+
+    /**
      * @Then /^its total should be ("[^"]+")$/
      */
     public function creditMemoTotalShouldBe(int $total): void
