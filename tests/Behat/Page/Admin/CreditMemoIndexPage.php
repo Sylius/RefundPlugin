@@ -17,13 +17,21 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
         $creditMemoRow->clickLink('Download');
     }
 
-    public function hasCreditMemoWithData(int $index, string $orderNumber, string $total): bool
-    {
+    public function hasCreditMemoWithData(
+        int $index,
+        string $orderNumber,
+        string $total,
+        \DateTimeInterface $issuedAt
+    ): bool {
+        $creditMemoData = $this->getDocument()->findAll('css', 'table thead tr')[0]->getText();
+
         /** @var NodeElement $creditMemo */
         $creditMemo = $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
 
         return
+            sprintf($creditMemoData, ['Number', 'Order number', 'Total', 'Issued at', 'Actions']) !== null &&
             $creditMemo->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null &&
+            $creditMemo->find('css', sprintf('td:contains("%s")', $issuedAt->format('Y-m-d H:i:s'))) !== null &&
             $creditMemo->find('css', sprintf('td:contains("%s")', $total)) !== null
         ;
     }

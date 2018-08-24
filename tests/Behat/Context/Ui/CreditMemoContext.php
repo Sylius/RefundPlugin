@@ -9,6 +9,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPageInterface;
@@ -151,11 +152,13 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "#([^"]+)" and has total "([^"]+)"$/
+     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "#([^"]+)", have total "([^"]+)" and date of being issued$/
      */
-    public function stepDefinition(int $index, string $orderNumber, string $total): void
+    public function creditMemoShouldBeGeneratedForOrderHasTotalAndDateOfBeingIssued(int $index, string $orderNumber, string $total): void
     {
-        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total));
+        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['issuedAt' => 'ASC']);
+
+        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total, $creditMemos[$index-1]->getIssuedAt()));
     }
 
     /**

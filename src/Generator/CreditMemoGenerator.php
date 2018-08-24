@@ -9,6 +9,7 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 {
@@ -24,16 +25,21 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     /** @var NumberGenerator */
     private $creditMemoNumberGenerator;
 
+    /** @var CurrentDateTimeProviderInterface */
+    private $currentDateTimeProvider;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
-        NumberGenerator $creditMemoNumberGenerator
+        NumberGenerator $creditMemoNumberGenerator,
+        CurrentDateTimeProviderInterface $currentDateTimeProvider
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderItemUnitCreditMemoUnitGenerator = $orderItemUnitCreditMemoUnitGenerator;
         $this->shipmentCreditMemoUnitGenerator = $shipmentCreditMemoUnitGenerator;
         $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
+        $this->currentDateTimeProvider = $currentDateTimeProvider;
     }
 
     public function generate(
@@ -66,7 +72,8 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $order->getCurrencyCode(),
             $order->getLocaleCode(),
             $creditMemoUnits,
-            $comment
+            $comment,
+            $this->currentDateTimeProvider->now()
         );
     }
 }

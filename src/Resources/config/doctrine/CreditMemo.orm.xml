@@ -19,6 +19,11 @@
         <field name="currencyCode" />
         <field name="localeCode" />
         <field name="comment" />
+        <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
+
+        <indexes>
+            <index columns="orderNumber" />
+        </indexes>
     </entity>
 
 </doctrine-mapping>

@@ -23,5 +23,5 @@ Feature: Browsing list of all credit memos
     Scenario: Having all credit memos listed in the system
         When I browse credit memos
         Then there should be 2 credit memos generated
-        And 1st credit memo should be generated for order "#00000022" and has total "$10.00"
-        And 2nd credit memo should be generated for order "#00000022" and has total "$20.00"
+        And 1st credit memo should be generated for order "#00000022", have total "$10.00" and date of being issued
+        And 2nd credit memo should be generated for order "#00000022", have total "$20.00" and date of being issued

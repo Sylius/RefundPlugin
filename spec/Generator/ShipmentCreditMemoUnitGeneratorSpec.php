@@ -34,7 +34,7 @@ final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
         $shippingAdjustment->getAmount()->willReturn(1000);
 
-        $this->generate(1)->shouldBeLike(new CreditMemoUnit('Galaxy post', 1000, 0, 0));
+        $this->generate(1)->shouldBeLike(new CreditMemoUnit('Galaxy post', 1000, 0));
     }
 
     function it_throws_exception_if_there_is_no_shipping_adjustment_with_given_id(
