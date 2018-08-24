@@ -25,6 +25,9 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     private $localeCode;
 
+    /** @var CreditMemoChannel */
+    private $channel;
+
     /** @var array */
     private $units;
 
@@ -40,6 +43,7 @@ class CreditMemo implements CreditMemoInterface
         int $total,
         string $currencyCode,
         string $localeCode,
+        CreditMemoChannel $channel,
         array $units,
         string $comment,
         \DateTimeInterface $issuedAt
@@ -49,6 +53,7 @@ class CreditMemo implements CreditMemoInterface
         $this->total = $total;
         $this->currencyCode = $currencyCode;
         $this->localeCode = $localeCode;
+        $this->channel = $channel;
         $this->units = $units;
         $this->comment = $comment;
         $this->issuedAt = $issuedAt;
@@ -82,6 +87,11 @@ class CreditMemo implements CreditMemoInterface
     public function getLocaleCode(): string
     {
         return $this->localeCode;
+    }
+
+    public function getChannel(): CreditMemoChannel
+    {
+        return $this->channel;
     }
 
     public function getUnits(): array
