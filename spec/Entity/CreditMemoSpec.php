@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
-use Sylius\RefundPlugin\Model\CreditMemoChannel;
 
 final class CreditMemoSpec extends ObjectBehavior
 {

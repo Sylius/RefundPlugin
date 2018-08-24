@@ -79,7 +79,7 @@ final class CreditMemoContext implements Context
      */
     public function creditMemoShouldBeIssuedInChannel(string $channelName): void
     {
-        Assert::same($this->creditMemo->getChannel()->getName(), $channelName);
+        Assert::same($this->creditMemo->getChannel()->name(), $channelName);
     }
 
     /**

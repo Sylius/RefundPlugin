@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Generator;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
@@ -42,6 +44,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         NumberGenerator $creditMemoNumberGenerator,
         OrderInterface $order,
+        ChannelInterface $channel,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
@@ -50,6 +53,10 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
         $order->getLocaleCode()->willReturn('en_US');
+
+        $order->getChannel()->willReturn($channel);
+        $channel->getCode()->willReturn('WEB-US');
+        $channel->getName()->willReturn('United States');
 
         $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50);
         $orderItemUnitCreditMemoUnitGenerator->generate(1)->willReturn($firstCreditMemoUnit);
@@ -70,6 +77,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             1400,
             'GBP',
             'en_US',
+            new CreditMemoChannel('WEB-US', 'United States'),
             [
                 $firstCreditMemoUnit->serialize(),
                 $secondCreditMemoUnit->serialize(),
