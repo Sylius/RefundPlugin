@@ -128,6 +128,14 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then it should be issued in :channelName channel
+     */
+    public function creditMemoShouldBeIssuedInChannel(string $channelName): void
+    {
+        Assert::same($this->creditMemoDetailsPage->getChannelName(), $channelName);
+    }
+
+    /**
      * @Then its total should be :total
      */
     public function creditMemoTotalShouldBe(string $total): void
@@ -159,6 +167,14 @@ final class CreditMemoContext implements Context
         $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['issuedAt' => 'ASC']);
 
         Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total, $creditMemos[$index-1]->getIssuedAt()));
+    }
+
+    /**
+     * @Then /^(\d+)(?:st|nd|rd) credit memo should be issued in "([^"]+)" channel$/
+     */
+    public function specificCreditMemoShouldBeIssuedInChannel(int $index, string $channelName): void
+    {
+        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithChannel($index, $channelName));
     }
 
     /**

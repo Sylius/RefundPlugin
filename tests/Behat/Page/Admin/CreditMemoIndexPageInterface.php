@@ -16,4 +16,6 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
         string $total,
         \DateTimeInterface $issuedAt
     ): bool;
+
+    public function hasCreditMemoWithChannel(int $index, string $channelName): bool;
 }

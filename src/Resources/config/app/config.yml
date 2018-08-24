@@ -70,6 +70,10 @@ sylius_grid:
                 orderNumber:
                     type: string
                     label: sylius_refund.ui.order_number
+                channel:
+                    type: string
+                    label: sylius.ui.channel
+                    path: channel.name
                 total:
                     type: twig
                     label: sylius.ui.total

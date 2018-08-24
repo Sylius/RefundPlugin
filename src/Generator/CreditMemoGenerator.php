@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
@@ -55,6 +57,9 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             throw OrderNotFound::withNumber($orderNumber);
         }
 
+        /** @var ChannelInterface $channel */
+        $channel = $order->getChannel();
+
         $creditMemoUnits = [];
 
         foreach ($unitIds as $unitId) {
@@ -71,6 +76,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $total,
             $order->getCurrencyCode(),
             $order->getLocaleCode(),
+            new CreditMemoChannel($channel->getCode(), $channel->getName()),
             $creditMemoUnits,
             $comment,
             $this->currentDateTimeProvider->now()

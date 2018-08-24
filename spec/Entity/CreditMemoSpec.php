@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 
@@ -20,6 +21,7 @@ final class CreditMemoSpec extends ObjectBehavior
             1000,
             'USD',
             'en_US',
+            new CreditMemoChannel('WEB-US', 'United States'),
             [$creditMemoUnit->serialize()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10')
@@ -54,6 +56,11 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_locale_code(): void
     {
         $this->getLocaleCode()->shouldReturn('en_US');
+    }
+
+    function it_has_channel(): void
+    {
+        $this->getChannel()->shouldBeLike(new CreditMemoChannel('WEB-US', 'United States'));
     }
 
     function it_has_units(): void

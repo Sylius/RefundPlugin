@@ -6,6 +6,7 @@ sylius_refund:
         download: Download
         issued_at: Issued at
         issued_for_order: Issued for order
+        issued_from: Issued from
         manage_credit_memos: Manage credit memos
         order_number: Order number
         refund_all: Refund all

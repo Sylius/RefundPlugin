@@ -8,18 +8,20 @@
         <thead>
             <tr>
                 <th>{{ 'sylius.ui.number'|trans }}</th>
+                <th>{{ 'sylius.ui.channel'|trans }}</th>
                 <th>{{ 'sylius.ui.total'|trans }}</th>
                 <th>{{ 'sylius_refund.ui.issued_at'|trans }}</th>
-                <th>{{ 'sylius.ui.actions'|trans }}</th>
+                <th class="six wide">{{ 'sylius.ui.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
         {% for credit_memo in credit_memos %}
             <tr>
                 <td>{{ credit_memo.number }}</td>
+                <td>{{ credit_memo.channel.name }}</td>
                 <td>{{ money.format(credit_memo.total, credit_memo.currencyCode) }}</td>
                 <td>{{ credit_memo.issuedAt|date('d-m-Y') }}</td>
-                <td class="aligned collapsing">
+                <td>
                     {{ buttons.default(
                         path('sylius_refund_credit_memo_details', {'orderNumber': credit_memo.orderNumber, 'id': credit_memo.id}),
                         'sylius.ui.show',

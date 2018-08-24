@@ -21,9 +21,10 @@
         <field name="comment" />
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
+        <embedded name="channel" class="Sylius\RefundPlugin\Entity\CreditMemoChannel" />
+
         <indexes>
             <index columns="orderNumber" />
         </indexes>
     </entity>
-
 </doctrine-mapping>
