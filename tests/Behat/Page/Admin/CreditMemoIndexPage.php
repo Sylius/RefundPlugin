@@ -35,4 +35,12 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
             $creditMemo->find('css', sprintf('td:contains("%s")', $total)) !== null
         ;
     }
+
+    public function hasCreditMemoWithChannel(int $index, string $channelName): bool
+    {
+        /** @var NodeElement $creditMemo */
+        $creditMemo = $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
+
+        return $creditMemo->find('css', sprintf('td:contains("%s")', $channelName)) !== null;
+    }
 }

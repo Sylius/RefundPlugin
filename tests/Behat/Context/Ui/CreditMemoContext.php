@@ -170,6 +170,14 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then /^(\d+)(?:st|nd|rd) credit memo should be issued in "([^"]+)" channel$/
+     */
+    public function specificCreditMemoShouldBeIssuedInChannel(int $index, string $channelName): void
+    {
+        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithChannel($index, $channelName));
+    }
+
+    /**
      * @Then a pdf file should be successfully downloaded
      */
     public function pdfFileShouldBeSuccessfullyDownloaded(): void
