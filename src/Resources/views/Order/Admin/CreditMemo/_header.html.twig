@@ -7,6 +7,10 @@
                 <div class="item">
                     {{ 'sylius_refund.ui.issued_for_order'|trans }}: #{{ credit_memo.orderNumber }}
                 </div>
+                <div class="item">
+                    {{ 'sylius_refund.ui.issued_from'|trans }}
+                    <span class="ui large empty horizontal circular label"></span> <strong id="credit-memo-channel-name">{{ credit_memo.channel.name }}</strong>
+                </div>
             </div>
         </div>
     </div>
