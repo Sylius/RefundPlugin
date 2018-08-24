@@ -109,5 +109,14 @@
         <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider" />
         </service>
+
+        <service id="Sylius\RefundPlugin\Form\Type\ChannelFilterType">
+            <argument type="service" id="sylius.repository.channel" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Grid\Filter\ChannelFilter">
+            <tag name="sylius.grid_filter" type="channel" form_type="Sylius\RefundPlugin\Form\Type\ChannelFilterType" />
+        </service>
     </services>
 </container>
