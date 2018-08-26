@@ -23,7 +23,7 @@ final class CreditMemoProcessManager
         $this->commandBus->dispatch(new GenerateCreditMemo(
             $event->orderNumber(),
             $event->amount(),
-            $event->unitIds(),
+            $event->units(),
             $event->shipmentIds(),
             $event->comment()
         ));

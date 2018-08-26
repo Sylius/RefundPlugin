@@ -31,10 +31,10 @@ final class OrderShipmentsRefunder implements RefunderInterface
         $this->eventBus = $eventBus;
     }
 
-    public function refundFromOrder(array $unitIds, string $orderNumber): int
+    public function refundFromOrder(array $units, string $orderNumber): int
     {
         $refundedTotal = 0;
-        foreach ($unitIds as $shipmentUnitId) {
+        foreach ($units as $shipmentUnitId) {
             $refundAmount = $this->refundedShipmentFeeProvider->getFeeOfShipment($shipmentUnitId);
 
             $this->refundCreator->__invoke($orderNumber, $shipmentUnitId, $refundAmount, RefundType::shipment());

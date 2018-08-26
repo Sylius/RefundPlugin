@@ -10,6 +10,7 @@ use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
@@ -17,10 +18,9 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 {
     function let(
         RefundCreatorInterface $refundCreator,
-        RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
         EventBus $eventBus
     ): void {
-        $this->beConstructedWith($refundCreator, $refundedUnitTotalProvider, $eventBus);
+        $this->beConstructedWith($refundCreator, $eventBus);
     }
 
     function it_implements_refunder_interface(): void
@@ -33,8 +33,8 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
         RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
         EventBus $eventBus
     ): void {
-        $refundedUnitTotalProvider->getTotalOfUnitWithId(1)->willReturn(1500);
-        $refundedUnitTotalProvider->getTotalOfUnitWithId(3)->willReturn(1000);
+        $firstUnitRefund = new UnitRefund(1, 1500);
+        $secondUnitRefund = new UnitRefund(3, 1000);
 
         $refundCreator->__invoke('000222', 1, 1500, RefundType::orderItemUnit())->shouldBeCalled();
 
@@ -56,6 +56,6 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this->refundFromOrder([1, 3], '000222')->shouldReturn(2500);
+        $this->refundFromOrder([$firstUnitRefund, $secondUnitRefund], '000222')->shouldReturn(2500);
     }
 }

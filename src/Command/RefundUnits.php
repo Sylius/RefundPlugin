@@ -33,7 +33,7 @@ final class RefundUnits extends Command
         return $this->payload()['order_number'];
     }
 
-    public function unitIds(): array
+    public function units(): array
     {
         return $this->payload()['unit_ids'];
     }

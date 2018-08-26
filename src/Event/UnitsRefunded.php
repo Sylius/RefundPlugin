@@ -23,7 +23,7 @@ final class UnitsRefunded extends DomainEvent
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
-            'unit_ids' => $unitIds,
+            'units' => $unitIds,
             'shipment_ids' => $shipmentIds,
             'amount' => $amount,
             'currency_code' => $currencyCode,
@@ -37,9 +37,9 @@ final class UnitsRefunded extends DomainEvent
         return $this->payload['order_number'];
     }
 
-    public function unitIds(): array
+    public function units(): array
     {
-        return $this->payload['unit_ids'];
+        return $this->payload['units'];
     }
 
     public function shipmentIds(): array

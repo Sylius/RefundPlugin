@@ -15,6 +15,7 @@ use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
@@ -50,6 +51,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         \DateTime $dateTime
     ): void {
+        $firstUnitRefund = new UnitRefund(1, 500);
+        $secondUnitRefund = new UnitRefund(3, 500);
+
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
         $order->getLocaleCode()->willReturn('en_US');
@@ -59,10 +63,10 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $channel->getName()->willReturn('United States');
 
         $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50);
-        $orderItemUnitCreditMemoUnitGenerator->generate(1)->willReturn($firstCreditMemoUnit);
+        $orderItemUnitCreditMemoUnitGenerator->generate(1, 500)->willReturn($firstCreditMemoUnit);
 
         $secondCreditMemoUnit = new CreditMemoUnit('Broken Leg Serum', 500, 50);
-        $orderItemUnitCreditMemoUnitGenerator->generate(2)->willReturn($secondCreditMemoUnit);
+        $orderItemUnitCreditMemoUnitGenerator->generate(3, 500)->willReturn($secondCreditMemoUnit);
 
         $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0);
         $shipmentCreditMemoUnitGenerator->generate(3)->willReturn($shipmentCreditMemoUnit);
@@ -71,7 +75,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $currentDateTimeProvider->now()->willReturn($dateTime);
 
-        $this->generate('000666', 1400, [1, 2], [3], 'Comment')->shouldBeLike(new CreditMemo(
+        $this->generate('000666', 1400, [$firstUnitRefund, $secondUnitRefund], [3], 'Comment')->shouldBeLike(new CreditMemo(
             '2018/07/00001111',
             '000666',
             1400,

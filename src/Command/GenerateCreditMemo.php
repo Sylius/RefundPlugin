@@ -17,7 +17,7 @@ final class GenerateCreditMemo extends Command
         $this->setPayload([
             'order_number' => $orderNumber,
             'total' => $total,
-            'unit_ids' => $unitIds,
+            'units' => $unitIds,
             'shipment_ids' => $shipmentIds,
             'comment' => $comment,
         ]);
@@ -33,9 +33,9 @@ final class GenerateCreditMemo extends Command
         return $this->payload['total'];
     }
 
-    public function unitIds(): array
+    public function units(): array
     {
-        return $this->payload['unit_ids'];
+        return $this->payload['units'];
     }
 
     public function shipmentIds(): array

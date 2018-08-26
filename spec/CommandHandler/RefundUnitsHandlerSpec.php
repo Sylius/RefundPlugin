@@ -13,6 +13,7 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
@@ -52,7 +53,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
             return
                 $event->orderNumber() === '000222' &&
-                $event->unitIds() === [1, 3] &&
+                $event->units() === [1, 3] &&
                 $event->shipmentIds() === [3, 4] &&
                 $event->amount() === 7000 &&
                 $event->paymentMethodId() === 1 &&
@@ -60,7 +61,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', [1, 3], [3, 4], 1, 'Comment'));
+        $this(new RefundUnits('000222', [new UnitRefund(1, 3000), new UnitRefund(3, 4000)], [3, 4], 1, 'Comment'));
     }
 
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
@@ -82,14 +83,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::that(function (UnitsRefunded $event): bool {
             return
                 $event->orderNumber() === '000222' &&
-                $event->unitIds() === [1, 3] &&
+                $event->units() === [1, 3] &&
                 $event->amount() === 1500 &&
                 $event->paymentMethodId() === 1 &&
                 $event->comment() === 'Comment'
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', [1, 3], [3, 4], 1, 'Comment'));
+        $this(new RefundUnits('000222', [new UnitRefund(1, 1000), new UnitRefund(3, 500)], [3, 4], 1, 'Comment'));
     }
 
     function it_throws_an_exception_if_order_is_not_available_for_refund(
@@ -99,7 +100,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(OrderNotAvailableForRefundingException::class)
-            ->during('__invoke', [new RefundUnits('000222', [1, 3], [3, 4], 1, 'Comment')])
+            ->during('__invoke', [new RefundUnits('000222', [new UnitRefund(1, 3000), new UnitRefund(3, 4000)], [3, 4], 1, 'Comment')])
         ;
     }
 }

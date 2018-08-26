@@ -9,5 +9,5 @@ interface RefunderInterface
     /**
      * @return int refunded units total
      */
-    public function refundFromOrder(array $unitIds, string $orderNumber): int;
+    public function refundFromOrder(array $units, string $orderNumber): int;
 }

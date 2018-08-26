@@ -33,10 +33,26 @@ final class OrderItemUnitCreditMemoUnitGeneratorSpec extends ObjectBehavior
 
         $orderItem->getProductName()->willReturn('Portal gun');
 
-        $orderItemUnit->getTotal()->willReturn(1500);
-        $orderItemUnit->getTaxTotal()->willReturn(500);
+        $orderItemUnit->getTotal()->willReturn(500);
+        $orderItemUnit->getTaxTotal()->willReturn(50);
 
-        $this->generate(1)->shouldBeLike(new CreditMemoUnit('Portal gun', 1500, 500));
+        $this->generate(1, 500)->shouldBeLike(new CreditMemoUnit('Portal gun', 500, 50));
+    }
+
+    function it_generates_credit_memo_unit_from_order_item_unit_with_partial_total_and_tax_total(
+        RepositoryInterface $orderItemUnitRepository,
+        OrderItemInterface $orderItem,
+        OrderItemUnitInterface $orderItemUnit
+    ): void {
+        $orderItemUnitRepository->find(1)->willReturn($orderItemUnit);
+        $orderItemUnit->getOrderItem()->willReturn($orderItem);
+
+        $orderItem->getProductName()->willReturn('Portal gun');
+
+        $orderItemUnit->getTotal()->willReturn(1500);
+        $orderItemUnit->getTaxTotal()->willReturn(300);
+
+        $this->generate(1, 500)->shouldBeLike(new CreditMemoUnit('Portal gun', 500, 100));
     }
 
     function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(
@@ -46,7 +62,20 @@ final class OrderItemUnitCreditMemoUnitGeneratorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('generate', [1])
+            ->during('generate', [1, 500])
+        ;
+    }
+
+    function it_throws_exception_if_passed_amount_is_more_than_order_item_unit_total(
+        RepositoryInterface $orderItemUnitRepository,
+        OrderItemUnitInterface $orderItemUnit
+    ): void {
+        $orderItemUnitRepository->find(1)->willReturn($orderItemUnit);
+        $orderItemUnit->getTotal()->willReturn(500);
+
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('generate', [1, 1000])
         ;
     }
 }

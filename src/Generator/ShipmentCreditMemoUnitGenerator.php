@@ -20,7 +20,7 @@ final class ShipmentCreditMemoUnitGenerator implements CreditMemoUnitGeneratorIn
         $this->adjustmentRepository = $adjustmentRepository;
     }
 
-    public function generate(int $unitId): CreditMemoUnitInterface
+    public function generate(int $unitId, int $amount = null): CreditMemoUnitInterface
     {
         /** @var AdjustmentInterface $shippingAdjustment */
         $shippingAdjustment = $this

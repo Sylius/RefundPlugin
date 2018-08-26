@@ -11,7 +11,7 @@ interface CreditMemoGeneratorInterface
     public function generate(
         string $orderNumber,
         int $total,
-        array $unitIds,
+        array $units,
         array $shipmentIds,
         string $comment
     ): CreditMemoInterface;

@@ -17,6 +17,7 @@ use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\UnitRefund;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -70,7 +71,7 @@ final class RefundingContext implements Context
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [$unit->getId()],
+            [new UnitRefund($unit->getId(), $unit->getTotal())],
             [],
             $paymentMethod->getId(),
             $comment
@@ -114,7 +115,7 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(
             new RefundUnits(
                 $this->order->getNumber(),
-                [$unit->getId()],
+                [new UnitRefund($unit->getId(), $unit->getTotal())],
                 [$shippingAdjustment->getId()],
                 $paymentMethod->getId(),
                 ''
@@ -144,7 +145,13 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], 1, ''));
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [new UnitRefund($unit->getId(), $unit->getTotal())],
+                [],
+                1,
+                ''
+            ));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -181,7 +188,7 @@ final class RefundingContext implements Context
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
-                [$unit->getId()],
+                [new UnitRefund($unit->getId(), $unit->getTotal())],
                 [],
                 $paymentMethod->getId(),
                 ''

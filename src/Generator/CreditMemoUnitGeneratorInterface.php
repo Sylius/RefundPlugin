@@ -8,5 +8,5 @@ use Sylius\RefundPlugin\Entity\CreditMemoUnitInterface;
 
 interface CreditMemoUnitGeneratorInterface
 {
-    public function generate(int $unitId): CreditMemoUnitInterface;
+    public function generate(int $unitId, int $amount = null): CreditMemoUnitInterface;
 }
