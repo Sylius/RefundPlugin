@@ -11,7 +11,6 @@ use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefund;
-use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class OrderItemUnitsRefunderSpec extends ObjectBehavior
@@ -30,7 +29,6 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 
     function it_creates_refund_for_each_unit_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
-        RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
         EventBus $eventBus
     ): void {
         $firstUnitRefund = new UnitRefund(1, 1500);

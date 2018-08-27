@@ -7,7 +7,6 @@ namespace Sylius\RefundPlugin\Action\Admin;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
-use Sylius\RefundPlugin\Request\RefundUnitsRequest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -107,7 +107,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
-            <argument type="service" id="sylius.repository.order_item_unit" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider" />
         </service>
     </services>
 </container>
