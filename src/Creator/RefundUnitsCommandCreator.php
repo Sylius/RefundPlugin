@@ -46,11 +46,11 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
     /** @return array|UnitRefund[] */
     private function parseIdsToUnitRefunds(array $units): array
     {
-        return array_map(function (string $unitId): UnitRefund {
+        return array_map(function (array $refundUnit): UnitRefund {
             /** @var OrderItemUnitInterface $unit */
-            $unit = $this->orderItemUnitRepository->find($unitId);
+            $unit = $this->orderItemUnitRepository->find($refundUnit['id']);
 
-            return new UnitRefund((int) $unitId, $unit->getTotal());
+            return new UnitRefund((int) $refundUnit['id'], $unit->getTotal());
         }, $units);
     }
 

@@ -25,7 +25,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         $this->shouldImplement(CommandCreatorInterface::class);
     }
 
-    function it_creates_refund_units_command_from_request(
+    function it_creates_refund_units_command_from_request_with_full_prices(
         RepositoryInterface $orderItemUnitRepository,
         Request $request,
         OrderItemUnitInterface $firstOrderItemUnit,
@@ -33,7 +33,10 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
     ): void {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
         $request->request = new ParameterBag([
-            'sylius_refund_units' => [1, 2],
+            'sylius_refund_units' => [
+                ['id' => 1],
+                ['id' => 2]
+            ],
             'sylius_refund_shipments' => [1],
             'sylius_refund_payment_method' => 1,
             'sylius_refund_comment' => 'Comment',

@@ -89,6 +89,13 @@ final class RefundingContext implements Context
     ): void {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(),
+            [new UnitRefund($unit->getId(), $partialPrice)],
+            [],
+            $paymentMethod->getId(),
+            ''
+        ));
     }
 
     /**
