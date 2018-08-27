@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Action\Admin;
 
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
+use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
 use Sylius\RefundPlugin\Request\RefundUnitsRequest;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,17 +25,25 @@ final class RefundUnitsAction
     /** @var UrlGeneratorInterface */
     private $router;
 
-    public function __construct(CommandBus $commandBus, Session $session, UrlGeneratorInterface $router)
-    {
+    /** @var CommandCreatorInterface */
+    private $commandCreator;
+
+    public function __construct(
+        CommandBus $commandBus,
+        Session $session,
+        UrlGeneratorInterface $router,
+        CommandCreatorInterface $commandCreator
+    ) {
         $this->commandBus = $commandBus;
         $this->session = $session;
         $this->router = $router;
+        $this->commandCreator = $commandCreator;
     }
 
     public function __invoke(Request $request): Response
     {
         try {
-            $this->commandBus->dispatch(RefundUnitsRequest::getCommand($request));
+            $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
         } catch (CommandDispatchException $exception) {
             $this->session->getFlashBag()->add('error', $exception->getPrevious()->getMessage());
         } catch (\InvalidArgumentException $exception) {

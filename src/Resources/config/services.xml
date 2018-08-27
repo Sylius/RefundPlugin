@@ -105,5 +105,9 @@
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
             <argument type="service" id="sylius.repository.order"/>
         </service>
+
+        <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
+            <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
     </services>
 </container>

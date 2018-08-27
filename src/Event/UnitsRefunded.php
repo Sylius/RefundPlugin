@@ -13,7 +13,7 @@ final class UnitsRefunded extends DomainEvent
 
     public function __construct(
         string $orderNumber,
-        array $unitIds,
+        array $units,
         array $shipmentIds,
         int $paymentMethodId,
         int $amount,
@@ -23,7 +23,7 @@ final class UnitsRefunded extends DomainEvent
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
-            'units' => $unitIds,
+            'units' => $units,
             'shipment_ids' => $shipmentIds,
             'amount' => $amount,
             'currency_code' => $currencyCode,
