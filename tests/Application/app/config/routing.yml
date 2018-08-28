@@ -1,16 +1,5 @@
-sylius_admin:
-    resource: "../../../../vendor/sylius/sylius/config/routes/sylius_admin.yaml"
-
-sylius_admin_api:
-    resource: "../../../../vendor/sylius/sylius/config/routes/sylius_admin_api.yaml"
-
-sylius_shop:
-    resource: "../../../../vendor/sylius/sylius/config/routes/sylius_shop.yaml"
-
-liip_imagine:
-    resource: "../../../../vendor/sylius/sylius/config/routes/liip_imagine.yaml"
-
-# Put your own routes here
+sylius_core:
+    resource: "../../../../vendor/sylius/sylius/app/config/routing.yml"
 
 sylius_refund:
     resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
