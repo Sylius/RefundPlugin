@@ -27,7 +27,7 @@ final class UnitRefundingAvailabilityChecker implements UnitRefundingAvailabilit
     public function __invoke(int $unitId, RefundType $refundType): bool
     {
         // temporary solution until providing the possibility to refund partial shipment as well
-        if ($refundType->__toString() === RefundType::SHIPMENT) {
+        if ($refundType->equals(RefundType::shipment())) {
             return null == $this
                 ->refundRepository
                 ->findOneBy(['refundedUnitId' => $unitId, 'type' => $refundType->__toString()])

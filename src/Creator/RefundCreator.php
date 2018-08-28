@@ -45,7 +45,7 @@ final class RefundCreator implements RefundCreatorInterface
         }
 
         if (
-            $refundType->__toString() === RefundType::orderItemUnit()->__toString() &&
+            $refundType->equals(RefundType::orderItemUnit()) &&
             $this->remainingTotalProvider->getTotalLeftToRefund($unitId) < $amount
         ) {
             throw new UnitRefundExceededException();
