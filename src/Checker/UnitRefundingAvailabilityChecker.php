@@ -5,23 +5,36 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Checker;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Exception\RefundTypeNotResolved;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundingAvailabilityChecker implements UnitRefundingAvailabilityCheckerInterface
 {
     /** @var RepositoryInterface */
     private $refundRepository;
 
-    public function __construct(RepositoryInterface $refundRepository)
-    {
+    /** @var RemainingTotalProviderInterface */
+    private $remainingOrderItemUnitTotalProvider;
+
+    public function __construct(
+        RepositoryInterface $refundRepository,
+        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider
+    ) {
         $this->refundRepository = $refundRepository;
+        $this->remainingOrderItemUnitTotalProvider = $remainingOrderItemUnitTotalProvider;
     }
 
     public function __invoke(int $unitId, RefundType $refundType): bool
     {
-        return null == $this
-            ->refundRepository
-            ->findOneBy(['refundedUnitId' => $unitId, 'type' => $refundType->__toString()])
-        ;
+        // temporary solution until providing the possibility to refund partial shipment as well
+        if ($refundType->__toString() === RefundType::SHIPMENT) {
+            return null == $this
+                ->refundRepository
+                ->findOneBy(['refundedUnitId' => $unitId, 'type' => $refundType->__toString()])
+            ;
+        }
+
+        return $this->remainingOrderItemUnitTotalProvider->getTotalLeftToRefund($unitId) > 0;
     }
 }

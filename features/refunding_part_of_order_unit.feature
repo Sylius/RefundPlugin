@@ -18,14 +18,14 @@ Feature: Refunding a part of an order unit
         And I am logged in as an administrator
         And the order "#00000022" is already paid
 
-    @ui @application @todo
+    @application
     Scenario: Refunding one of the order unit with tax applied
         When I want to refund some units of order "#00000022"
         And I decide to refund "$8.00" from 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$8.00"
 
-    @ui @application @todo
+    @application
     Scenario: Refunding the whole order unit price after partial refund
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already "$5.00" refunded with "Space money" payment
         When I want to refund some units of order "#00000022"
@@ -33,15 +33,15 @@ Feature: Refunding a part of an order unit
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$12.30"
 
-    @ui @application @todo
-    Scenario: Refunding the whole order price after partial refund
-        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already "$5.00" refunded with "Space money" payment
-        When I want to refund some units of order "#00000022"
-        And I decide to refund all units of this order with "Space money" payment
-        Then I should be notified that selected order units have been successfully refunded
-        And this order refunded total should be "$24.60"
+#    @ui
+#    Scenario: Refunding the whole order price after partial refund
+#        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already "$5.00" refunded with "Space money" payment
+#        When I want to refund some units of order "#00000022"
+#        And I decide to refund all units of this order with "Space money" payment
+#        Then I should be notified that selected order units have been successfully refunded
+#        And this order refunded total should be "$24.60"
 
-    @ui @application @todo
+    @application
     Scenario: Not being able to refund more money than order unit total
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already "$5.00" refunded with "Space money" payment
         When I want to refund some units of order "#00000022"

@@ -8,10 +8,6 @@
 >
 
     <entity name="Sylius\RefundPlugin\Entity\Refund" table="sylius_refund_refund">
-        <unique-constraints>
-            <unique-constraint columns="refunded_unit_id,type" />
-        </unique-constraints>
-
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>

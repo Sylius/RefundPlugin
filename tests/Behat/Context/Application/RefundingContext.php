@@ -18,6 +18,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -27,6 +28,9 @@ final class RefundingContext implements Context
 
     /** @var RepositoryInterface */
     private $refundRepository;
+
+    /** @var RemainingTotalProviderInterface */
+    private $remainingOrderItemUnitTotalProvider;
 
     /** @var CommandBus */
     private $commandBus;
@@ -40,11 +44,13 @@ final class RefundingContext implements Context
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundRepository,
+        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
         CommandBus $commandBus,
         EmailCheckerInterface $emailChecker
     ) {
         $this->orderRepository = $orderRepository;
         $this->refundRepository = $refundRepository;
+        $this->remainingOrderItemUnitTotalProvider = $remainingOrderItemUnitTotalProvider;
         $this->commandBus = $commandBus;
         $this->emailChecker = $emailChecker;
     }
@@ -67,11 +73,11 @@ final class RefundingContext implements Context
         PaymentMethodInterface $paymentMethod,
         string $comment = ''
     ): void {
-        $unit = $this->getOrderUnit($unitNumber, $productName);
+        $unitId = $this->getOrderUnit($unitNumber, $productName)->getId();
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [new UnitRefund($unit->getId(), $unit->getTotal())],
+            [new UnitRefund($unitId, $this->remainingOrderItemUnitTotalProvider->getTotalLeftToRefund($unitId))],
             [],
             $paymentMethod->getId(),
             $comment
@@ -89,13 +95,17 @@ final class RefundingContext implements Context
     ): void {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
-        $this->commandBus->dispatch(new RefundUnits(
-            $this->order->getNumber(),
-            [new UnitRefund($unit->getId(), $partialPrice)],
-            [],
-            $paymentMethod->getId(),
-            ''
-        ));
+        try {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [new UnitRefund($unit->getId(), $partialPrice)],
+                [],
+                $paymentMethod->getId(),
+                ''
+            ));
+        } catch (CommandDispatchException $exception) {
+            return;
+        }
     }
 
     /**
