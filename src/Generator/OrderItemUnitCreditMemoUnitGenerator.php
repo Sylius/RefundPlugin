@@ -32,7 +32,7 @@ final class OrderItemUnitCreditMemoUnitGenerator implements CreditMemoUnitGenera
         $orderItem = $orderItemUnit->getOrderItem();
         $total = $orderItemUnit->getTotal();
 
-        if ($amount !== null && $amount === $total) {
+        if ($amount === $total) {
             return new CreditMemoUnit(
                 $orderItem->getProductName(),
                 $total,
