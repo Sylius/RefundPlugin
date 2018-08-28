@@ -24,6 +24,7 @@ Feature: Refunding a part of an order unit
         And I decide to refund "$8.00" from 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$8.00"
+        And 1st "Mr. Meeseeks T-Shirt" product should have "$8.00" refunded
 
     @ui @application
     Scenario: Refunding the whole order unit price after partial refund

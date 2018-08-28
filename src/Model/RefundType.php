@@ -33,7 +33,7 @@ final class RefundType
         return new self(self::SHIPMENT);
     }
 
-    public function equals(RefundType $refundType): bool
+    public function equals(self $refundType): bool
     {
         return $this->__toString() === $refundType->__toString();
     }

@@ -70,6 +70,10 @@
                                     </td>
                                     <td class="right aligned total">
                                         {{ money.format(unit.total, order.currencyCode) }}
+                                        {% set refundedTotal = unit_refunded_total(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}
+                                        {% if refundedTotal != 0 %}
+                                        <br/><strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong> <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
+                                        {% endif %}
                                     </td>
                                     <td class="aligned collapsing partial-refund">
                                         {% set inputName = "sylius_refund_units["~loop.index0~"][amount]" %}

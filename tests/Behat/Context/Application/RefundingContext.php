@@ -17,6 +17,7 @@ use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
@@ -152,6 +153,26 @@ final class RefundingContext implements Context
         }, $orderRefunds));
 
         Assert::same($orderRefundedTotal, $refundedTotal);
+    }
+
+    /**
+     * @Then /^(\d+)st "([^"]+)" product should have ("[^"]+") refunded$/
+     */
+    public function productShouldHaveSomeAmountRefunded(int $unitNumber, string $productName, int $amount): void
+    {
+        $unit = $this->getOrderUnit($unitNumber, $productName);
+
+        $refunds = $this->refundRepository->findBy(
+            ['refundedUnitId' => $unit->getId(), 'type' => RefundType::orderItemUnit()->__toString()]
+        );
+
+        $refundedTotal = 0;
+        /** @var RefundInterface $refund */
+        foreach ($refunds as $refund) {
+            $refundedTotal += $refund->getAmount();
+        }
+
+        Assert::eq($amount, $refundedTotal);
     }
 
     /**

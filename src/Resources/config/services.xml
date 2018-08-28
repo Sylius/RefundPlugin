@@ -41,6 +41,7 @@
 
         <service id="Sylius\RefundPlugin\Twig\OrderRefundsExtension">
             <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
             <tag name="twig.extension"/>
         </service>
