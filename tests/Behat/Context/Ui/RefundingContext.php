@@ -65,15 +65,17 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/
+     * @Given /^I decide to refund "\$([^"]+)" from (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
     public function decideToRefundPartFromProductWithPayment(
-        int $partialPrice,
-        int $number,
+        string $partialPrice,
+        int $unitNumber,
         string $productName,
-        PaymentMethodInterface $paymentMethod
+        string $paymentMethod
     ): void {
-        throw new PendingException();
+        $this->orderRefundsPage->pickPartOfUnitWithProductToRefund($productName, $unitNumber-1, $partialPrice);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
+        $this->orderRefundsPage->refund();
     }
 
     /**

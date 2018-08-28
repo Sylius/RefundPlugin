@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Checker;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Exception\RefundTypeNotResolved;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 

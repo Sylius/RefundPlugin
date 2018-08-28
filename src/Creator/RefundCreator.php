@@ -44,8 +44,11 @@ final class RefundCreator implements RefundCreatorInterface
             throw UnitAlreadyRefundedException::withIdAndOrderNumber($unitId, $orderNumber);
         }
 
-        if ($this->remainingTotalProvider->getTotalLeftToRefund($unitId) < $amount) {
-            throw UnitRefundExceededException::withIdAndOrderNumber($unitId, $orderNumber);
+        if (
+            $refundType->__toString() === RefundType::orderItemUnit()->__toString() &&
+            $this->remainingTotalProvider->getTotalLeftToRefund($unitId) < $amount
+        ) {
+            throw new UnitRefundExceededException();
         }
 
         $refund = $this->refundFactory->createWithData($orderNumber, $unitId, $amount, $refundType);

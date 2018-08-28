@@ -36,7 +36,7 @@ Feature: Having credit memo generated
         And it should be issued in "United States" channel
         And its total should be "$9.90"
 
-    @application
+    @ui @application
     Scenario: Seeing the details of generated credit memo with partial price
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already "$5.50" refunded with "Space money" payment
         And I browse the details of the only credit memo generated for order "#00000022"

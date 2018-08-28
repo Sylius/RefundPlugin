@@ -9,6 +9,7 @@ sylius_refund:
         issued_from: Issued from
         manage_credit_memos: Manage credit memos
         order_number: Order number
+        partial_refund: Partial refund
         refund_all: Refund all
         refund_payment_completed: Refund payment completed sucessfully
         refund_payments: Refund payments

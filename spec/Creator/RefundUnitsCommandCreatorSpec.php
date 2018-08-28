@@ -32,8 +32,8 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
         $request->request = new ParameterBag([
             'sylius_refund_units' => [
-                ['id' => 1],
-                ['id' => 2],
+                ['id' => '1'],
+                ['id' => '2'],
             ],
             'sylius_refund_shipments' => [1],
             'sylius_refund_payment_method' => 1,
@@ -41,6 +41,32 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ]);
 
         $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(1)->willReturn(1000);
+        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(2)->willReturn(3000);
+
+        $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
+            '00001111',
+            [new UnitRefund(1, 1000), new UnitRefund(2, 3000)],
+            [1],
+            1,
+            'Comment'
+        ));
+    }
+
+    function it_creates_refund_units_command_from_request_with_partial_prices(
+        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
+        Request $request
+    ): void {
+        $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
+        $request->request = new ParameterBag([
+            'sylius_refund_units' => [
+                ['partial-id' => '1', 'amount' => '10.00'],
+                ['id' => '2'],
+            ],
+            'sylius_refund_shipments' => [1],
+            'sylius_refund_payment_method' => 1,
+            'sylius_refund_comment' => 'Comment',
+        ]);
+
         $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(2)->willReturn(3000);
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(

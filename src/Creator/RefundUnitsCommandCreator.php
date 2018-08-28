@@ -26,8 +26,10 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
             throw new \InvalidArgumentException('Refunded order number not provided');
         }
 
+        $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
+
         if (
-            $request->request->get('sylius_refund_units') === null &&
+            count($units) === 0 &&
             $request->request->get('sylius_refund_shipments') === null
         ) {
             throw new \InvalidArgumentException('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
@@ -35,7 +37,7 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
-            $this->parseIdsToUnitRefunds($request->request->get('sylius_refund_units', [])),
+            $this->parseIdsToUnitRefunds($units),
             $this->parseIdsToIntegers($request->request->get('sylius_refund_shipments', [])),
             (int) $request->request->get('sylius_refund_payment_method'),
             $request->request->get('sylius_refund_comment', '')
@@ -46,6 +48,13 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
     private function parseIdsToUnitRefunds(array $units): array
     {
         return array_map(function (array $refundUnit): UnitRefund {
+            if (isset($refundUnit['amount']) && $refundUnit['amount'] !== '') {
+                $id = (int) $refundUnit['partial-id'];
+                $total = (int) (((float) $refundUnit['amount']) * 100);
+
+                return new UnitRefund($id, $total);
+            }
+
             $id = (int) $refundUnit['id'];
             $total = $this->remainingOrderItemUnitTotalProvider->getTotalLeftToRefund($id);
 
@@ -59,5 +68,15 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         return array_map(function (string $element): int {
             return (int) $element;
         }, $elements);
+    }
+
+    private function filterEmptyRefundUnits(array $units): array
+    {
+        return array_filter($units, function (array $refundUnit): bool {
+            return
+                (isset($refundUnit['amount']) && $refundUnit['amount'] !== '')
+                || isset($refundUnit['id'])
+            ;
+        });
     }
 }

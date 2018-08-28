@@ -73,7 +73,7 @@ final class RefundCreatorSpec extends ObjectBehavior
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
-        $refundType = RefundType::shipment();
+        $refundType = RefundType::orderItemUnit();
 
         $unitRefundingAvailabilityChecker->__invoke(1, $refundType)->willReturn(true);
         $remainingTotalProvider->getTotalLeftToRefund(1)->willReturn(500);

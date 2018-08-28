@@ -8,7 +8,6 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
-use Sylius\RefundPlugin\Exception\RefundTypeNotResolved;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
