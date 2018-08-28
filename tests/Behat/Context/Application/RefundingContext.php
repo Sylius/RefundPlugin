@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -16,6 +17,7 @@ use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\UnitRefund;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -69,10 +71,30 @@ final class RefundingContext implements Context
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [$unit->getId()],
+            [new UnitRefund($unit->getId(), $unit->getTotal())],
             [],
             $paymentMethod->getId(),
             $comment
+        ));
+    }
+
+    /**
+     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/
+     */
+    public function decideToRefundPartFromProductWithPayment(
+        int $partialPrice,
+        int $unitNumber,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        $unit = $this->getOrderUnit($unitNumber, $productName);
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(),
+            [new UnitRefund($unit->getId(), $partialPrice)],
+            [],
+            $paymentMethod->getId(),
+            ''
         ));
     }
 
@@ -100,7 +122,7 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(
             new RefundUnits(
                 $this->order->getNumber(),
-                [$unit->getId()],
+                [new UnitRefund($unit->getId(), $unit->getTotal())],
                 [$shippingAdjustment->getId()],
                 $paymentMethod->getId(),
                 ''
@@ -109,7 +131,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Then /^this order refunded total should be ("[^"]+")$/
+     * @Then /^this order refunded total should(?:| still) be ("[^"]+")$/
      */
     public function refundedTotalShouldBe(int $refundedTotal): void
     {
@@ -130,7 +152,13 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [$unit->getId()], [], 1, ''));
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [new UnitRefund($unit->getId(), $unit->getTotal())],
+                [],
+                1,
+                ''
+            ));
         } catch (CommandDispatchException $exception) {
             return;
         }
@@ -167,7 +195,7 @@ final class RefundingContext implements Context
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
-                [$unit->getId()],
+                [new UnitRefund($unit->getId(), $unit->getTotal())],
                 [],
                 $paymentMethod->getId(),
                 ''
@@ -187,6 +215,7 @@ final class RefundingContext implements Context
 
     /**
      * @Then I should be notified that selected order units have been successfully refunded
+     * @Then I should be notified that I cannot refund more money than the order unit total
      */
     public function notificationSteps(): void
     {

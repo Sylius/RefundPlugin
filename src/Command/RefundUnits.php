@@ -13,7 +13,7 @@ final class RefundUnits extends Command
 
     public function __construct(
         string $orderNumber,
-        array $unitIds,
+        array $units,
         array $shipmentIds,
         int $paymentMethodId,
         string $comment
@@ -21,7 +21,7 @@ final class RefundUnits extends Command
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
-            'unit_ids' => $unitIds,
+            'units' => $units,
             'shipment_ids' => $shipmentIds,
             'payment_method_id' => $paymentMethodId,
             'comment' => $comment,
@@ -33,9 +33,9 @@ final class RefundUnits extends Command
         return $this->payload()['order_number'];
     }
 
-    public function unitIds(): array
+    public function units(): array
     {
-        return $this->payload()['unit_ids'];
+        return $this->payload()['units'];
     }
 
     public function shipmentIds(): array

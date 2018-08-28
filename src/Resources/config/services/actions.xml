@@ -27,6 +27,7 @@
             <argument type="service" id="prooph_service_bus.sylius_refund_command_bus" />
             <argument type="service" id="session" />
             <argument type="service" id="router" />
+            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator" />
         </service>
 
         <service id="Sylius\RefundPlugin\Action\CompleteRefundPaymentAction">

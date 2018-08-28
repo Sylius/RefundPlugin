@@ -12,6 +12,7 @@ use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
+use Sylius\RefundPlugin\Model\UnitRefund;
 
 final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 {
@@ -29,7 +30,9 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         EventBus $eventBus,
         CreditMemoInterface $creditMemo
     ): void {
-        $creditMemoGenerator->generate('000666', 1000, [1, 2], [3, 4], 'Comment')->willReturn($creditMemo);
+        $unitRefunds = [new UnitRefund(1, 1000), new UnitRefund(3, 2000), new UnitRefund(5, 3000)];
+
+        $creditMemoGenerator->generate('000666', 1000, $unitRefunds, [3, 4], 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
 
@@ -43,6 +46,6 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this(new GenerateCreditMemo('000666', 1000, [1, 2], [3, 4], 'Comment'));
+        $this(new GenerateCreditMemo('000666', 1000, $unitRefunds, [3, 4], 'Comment'));
     }
 }

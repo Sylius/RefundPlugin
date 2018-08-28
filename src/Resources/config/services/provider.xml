@@ -4,10 +4,6 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Provider\RefundedUnitTotalProvider">
-            <argument type="service" id="sylius.repository.order_item_unit" />
-        </service>
-
         <service id="Sylius\RefundPlugin\Provider\RefundedShipmentFeeProvider">
             <argument type="service" id="sylius.repository.adjustment" />
         </service>
@@ -21,5 +17,10 @@
             id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface"
             class="Sylius\RefundPlugin\Provider\CurrentDateTimeProvider"
         />
+
+        <service id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider">
+            <argument type="service" id="sylius.repository.order_item_unit" />
+            <argument type="service" id="sylius_refund.repository.refund" />
+        </service>
     </services>
 </container>

@@ -21,19 +21,31 @@ final class OrderItemUnitCreditMemoUnitGenerator implements CreditMemoUnitGenera
         $this->orderItemUnitRepository = $orderItemUnitRepository;
     }
 
-    public function generate(int $unitId): CreditMemoUnitInterface
+    public function generate(int $unitId, int $amount = null): CreditMemoUnitInterface
     {
         /** @var OrderItemUnitInterface $orderItemUnit */
         $orderItemUnit = $this->orderItemUnitRepository->find($unitId);
         Assert::notNull($orderItemUnit);
+        Assert::lessThanEq($amount, $orderItemUnit->getTotal());
 
         /** @var OrderItemInterface $orderItem */
         $orderItem = $orderItemUnit->getOrderItem();
+        $total = $orderItemUnit->getTotal();
+
+        if ($amount === $total) {
+            return new CreditMemoUnit(
+                $orderItem->getProductName(),
+                $total,
+                $orderItemUnit->getTaxTotal()
+            );
+        }
+
+        $taxTotal = (int) ($orderItemUnit->getTaxTotal() * ($amount / $total));
 
         return new CreditMemoUnit(
             $orderItem->getProductName(),
-            $orderItemUnit->getTotal(),
-            $orderItemUnit->getTaxTotal()
+            $amount,
+            $taxTotal
         );
     }
 }

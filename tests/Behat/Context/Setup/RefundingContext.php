@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Prooph\ServiceBus\CommandBus;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -12,6 +13,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Model\UnitRefund;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -46,9 +48,29 @@ final class RefundingContext implements Context
         });
         $unitsWithProduct = array_values($unitsWithProduct->toArray());
 
+        /** @var OrderItemUnitInterface $unit */
         $unit = $unitsWithProduct[$unitNumber-1];
 
-        $this->commandBus->dispatch(new RefundUnits($orderNumber, [$unit->getId()], [], $paymentMethod->getId(), ''));
+        $this->commandBus->dispatch(new RefundUnits(
+            $orderNumber,
+            [new UnitRefund($unit->getId(), $unit->getTotal())],
+            [],
+            $paymentMethod->getId(),
+            ''
+        ));
+    }
+
+    /**
+     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already "([^"]+)" refunded with ("[^"]+" payment)$/
+     */
+    public function partOfProductFromOrderHasAlreadyBeenRefunded(
+        int $unitNumber,
+        string $productName,
+        string $orderNumber,
+        int $partialTotal,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        throw new PendingException();
     }
 
     /**
@@ -62,15 +84,15 @@ final class RefundingContext implements Context
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
 
-        $orderItemUnits = array_map(function(OrderItemUnitInterface $unit) {
-            return $unit->getId();
+        $units = array_map(function(OrderItemUnitInterface $unit) {
+            return new UnitRefund($unit->getId(), $unit->getTotal());
         }, $order->getItemUnits()->getValues());
 
         $shipment = $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         $this->commandBus->dispatch(new RefundUnits(
             $orderNumber,
-            $orderItemUnits,
+            $units,
             [$shipment->getId()],
             $paymentMethod->getId(),
             ''

@@ -8,40 +8,35 @@ use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
-use Sylius\RefundPlugin\Provider\RefundedUnitTotalProviderInterface;
+use Sylius\RefundPlugin\Model\UnitRefund;
 
 final class OrderItemUnitsRefunder implements RefunderInterface
 {
     /** @var RefundCreatorInterface */
     private $refundCreator;
 
-    /** @var RefundedUnitTotalProviderInterface */
-    private $refundedUnitTotalProvider;
-
     /** @var EventBus */
     private $eventBus;
 
     public function __construct(
         RefundCreatorInterface $refundCreator,
-        RefundedUnitTotalProviderInterface $refundedUnitTotalProvider,
         EventBus $eventBus
     ) {
         $this->refundCreator = $refundCreator;
-        $this->refundedUnitTotalProvider = $refundedUnitTotalProvider;
         $this->eventBus = $eventBus;
     }
 
-    public function refundFromOrder(array $unitIds, string $orderNumber): int
+    public function refundFromOrder(array $units, string $orderNumber): int
     {
         $refundedTotal = 0;
-        foreach ($unitIds as $unitId) {
-            $refundAmount = $this->refundedUnitTotalProvider->getTotalOfUnitWithId($unitId);
 
-            $this->refundCreator->__invoke($orderNumber, $unitId, $refundAmount, RefundType::orderItemUnit());
+        /** @var UnitRefund $unit */
+        foreach ($units as $unit) {
+            $this->refundCreator->__invoke($orderNumber, $unit->unitId(), $unit->total(), RefundType::orderItemUnit());
 
-            $refundedTotal += $refundAmount;
+            $refundedTotal += $unit->total();
 
-            $this->eventBus->dispatch(new UnitRefunded($orderNumber, $unitId, $refundAmount));
+            $this->eventBus->dispatch(new UnitRefunded($orderNumber, $unit->unitId(), $unit->total()));
         }
 
         return $refundedTotal;

@@ -19,7 +19,6 @@
 
         <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RefundedUnitTotalProvider" />
             <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
         </service>
         <service id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder">
@@ -105,6 +104,10 @@
             <argument type="service" id="sylius.context.customer"/>
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
             <argument type="service" id="sylius.repository.order"/>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider" />
         </service>
     </services>
 </container>
