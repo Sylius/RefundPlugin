@@ -31,7 +31,7 @@ final class RefundingContext implements Context
     private $refundRepository;
 
     /** @var RemainingTotalProviderInterface */
-    private $remainingOrderItemUnitTotalProvider;
+    private $remainingTotalProvider;
 
     /** @var CommandBus */
     private $commandBus;
@@ -45,13 +45,13 @@ final class RefundingContext implements Context
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundRepository,
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
+        RemainingTotalProviderInterface $remainingTotalProvider,
         CommandBus $commandBus,
         EmailCheckerInterface $emailChecker
     ) {
         $this->orderRepository = $orderRepository;
         $this->refundRepository = $refundRepository;
-        $this->remainingOrderItemUnitTotalProvider = $remainingOrderItemUnitTotalProvider;
+        $this->remainingTotalProvider = $remainingTotalProvider;
         $this->commandBus = $commandBus;
         $this->emailChecker = $emailChecker;
     }
@@ -78,7 +78,7 @@ final class RefundingContext implements Context
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [new UnitRefund($unitId, $this->remainingOrderItemUnitTotalProvider->getTotalLeftToRefund($unitId))],
+            [new UnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId))],
             [],
             $paymentMethod->getId(),
             $comment

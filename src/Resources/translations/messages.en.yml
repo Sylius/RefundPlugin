@@ -11,9 +11,9 @@ sylius_refund:
         order_number: Order number
         partial_refund: Partial refund
         refund_all: Refund all
-        refunded: Refunded
         refund_payment_completed: Refund payment completed sucessfully
         refund_payments: Refund payments
+        refunded: Refunded
         refunded_total: Refunded total
         refunds: Refunds
 

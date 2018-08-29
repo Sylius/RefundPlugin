@@ -69,7 +69,7 @@ final class RefundCreatorSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_exception_if_order_item_unit_refund_amount_it_too_big(
+    function it_throws_exception_if_order_item_unit_refund_amount_is_too_big(
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
