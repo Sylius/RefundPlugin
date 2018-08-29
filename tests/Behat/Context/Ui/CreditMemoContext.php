@@ -80,6 +80,15 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @When I filter credit memos by :channelName channel
+     */
+    public function filterCreditMemosByChannel(string $channelName): void
+    {
+        $this->creditMemoIndexPage->filterByChannel($channelName);
+        $this->creditMemoIndexPage->filter();
+    }
+
+    /**
      * @When /^I download (\d+)(?:|st|nd|rd) order's credit memo$/
      */
     public function downloadCreditMemoFromOrderShow(int $index): void
@@ -152,7 +161,7 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then there should be :count credit memos generated
+     * @Then there should be :count credit memo(s) generated
      */
     public function thereShouldBeCreditMemosGenerated(int $count): void
     {
@@ -167,6 +176,14 @@ final class CreditMemoContext implements Context
         $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['issuedAt' => 'ASC']);
 
         Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total, $creditMemos[$index-1]->getIssuedAt()));
+    }
+
+    /**
+     * @Then /^the only credit memo should be generated for order "#([^"]+)"$/
+     */
+    public function theOnlyCreditMemoShouldBeGeneratedForOrder(string $orderNumber): void
+    {
+        Assert::true($this->creditMemoIndexPage->hasSingleCreditMemoForOrder($orderNumber));
     }
 
     /**

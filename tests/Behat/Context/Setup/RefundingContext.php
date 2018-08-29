@@ -74,6 +74,30 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Given /^all units from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/
+     */
+    public function allUnitsFromOrderAreRefunded(
+        string $orderNumber,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+        Assert::notNull($order);
+
+        $units = array_map(function(OrderItemUnitInterface $unit) {
+            return new UnitRefund($unit->getId(), $unit->getTotal());
+        }, $order->getItemUnits()->getValues());
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $orderNumber,
+            $units,
+            [],
+            $paymentMethod->getId(),
+            ''
+        ));
+    }
+
+    /**
      * @Given /^all units and shipment from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/
      */
     public function allUnitsAndShipmentFromOrderAreRefunded(
