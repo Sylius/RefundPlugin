@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Prooph\ServiceBus\CommandBus;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -43,11 +42,7 @@ final class RefundingContext implements Context
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
 
-        $unitsWithProduct = $order->getItemUnits()->filter(function(OrderItemUnitInterface $unit) use ($productName): bool {
-            return $unit->getOrderItem()->getProductName() === $productName;
-        });
-        $unitsWithProduct = array_values($unitsWithProduct->toArray());
-
+        $unitsWithProduct = $this->getUnitsWithProduct($order, $productName);
         /** @var OrderItemUnitInterface $unit */
         $unit = $unitsWithProduct[$unitNumber-1];
 
@@ -61,7 +56,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already "([^"]+)" refunded with ("[^"]+" payment)$/
+     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already ("[^"]+") refunded with ("[^"]+" payment)$/
      */
     public function partOfProductFromOrderHasAlreadyBeenRefunded(
         int $unitNumber,
@@ -70,7 +65,17 @@ final class RefundingContext implements Context
         int $partialTotal,
         PaymentMethodInterface $paymentMethod
     ): void {
-        throw new PendingException();
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+        Assert::notNull($order);
+
+        $unitsWithProduct = $this->getUnitsWithProduct($order, $productName);
+        /** @var OrderItemUnitInterface $unit */
+        $unit = $unitsWithProduct[$unitNumber-1];
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $orderNumber, [new UnitRefund($unit->getId(), $partialTotal)], [], $paymentMethod->getId(), ''
+        ));
     }
 
     /**
@@ -121,5 +126,14 @@ final class RefundingContext implements Context
             $paymentMethod->getId(),
             ''
         ));
+    }
+
+    private function getUnitsWithProduct(OrderInterface $order, string $productName): array
+    {
+        $unitsWithProduct = $order->getItemUnits()->filter(function(OrderItemUnitInterface $unit) use ($productName): bool {
+            return $unit->getOrderItem()->getProductName() === $productName;
+        });
+
+        return array_values($unitsWithProduct->toArray());
     }
 }

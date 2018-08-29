@@ -17,7 +17,9 @@ use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -27,6 +29,9 @@ final class RefundingContext implements Context
 
     /** @var RepositoryInterface */
     private $refundRepository;
+
+    /** @var RemainingTotalProviderInterface */
+    private $remainingTotalProvider;
 
     /** @var CommandBus */
     private $commandBus;
@@ -40,11 +45,13 @@ final class RefundingContext implements Context
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundRepository,
+        RemainingTotalProviderInterface $remainingTotalProvider,
         CommandBus $commandBus,
         EmailCheckerInterface $emailChecker
     ) {
         $this->orderRepository = $orderRepository;
         $this->refundRepository = $refundRepository;
+        $this->remainingTotalProvider = $remainingTotalProvider;
         $this->commandBus = $commandBus;
         $this->emailChecker = $emailChecker;
     }
@@ -67,11 +74,11 @@ final class RefundingContext implements Context
         PaymentMethodInterface $paymentMethod,
         string $comment = ''
     ): void {
-        $unit = $this->getOrderUnit($unitNumber, $productName);
+        $unitId = $this->getOrderUnit($unitNumber, $productName)->getId();
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [new UnitRefund($unit->getId(), $unit->getTotal())],
+            [new UnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId))],
             [],
             $paymentMethod->getId(),
             $comment
@@ -89,13 +96,17 @@ final class RefundingContext implements Context
     ): void {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
-        $this->commandBus->dispatch(new RefundUnits(
-            $this->order->getNumber(),
-            [new UnitRefund($unit->getId(), $partialPrice)],
-            [],
-            $paymentMethod->getId(),
-            ''
-        ));
+        try {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [new UnitRefund($unit->getId(), $partialPrice)],
+                [],
+                $paymentMethod->getId(),
+                ''
+            ));
+        } catch (CommandDispatchException $exception) {
+            return;
+        }
     }
 
     /**
@@ -142,6 +153,26 @@ final class RefundingContext implements Context
         }, $orderRefunds));
 
         Assert::same($orderRefundedTotal, $refundedTotal);
+    }
+
+    /**
+     * @Then /^(\d+)st "([^"]+)" product should have ("[^"]+") refunded$/
+     */
+    public function productShouldHaveSomeAmountRefunded(int $unitNumber, string $productName, int $amount): void
+    {
+        $unit = $this->getOrderUnit($unitNumber, $productName);
+
+        $refunds = $this->refundRepository->findBy(
+            ['refundedUnitId' => $unit->getId(), 'type' => RefundType::orderItemUnit()->__toString()]
+        );
+
+        $refundedTotal = 0;
+        /** @var RefundInterface $refund */
+        foreach ($refunds as $refund) {
+            $refundedTotal += $refund->getAmount();
+        }
+
+        Assert::eq($amount, $refundedTotal);
     }
 
     /**

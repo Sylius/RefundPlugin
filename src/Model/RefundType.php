@@ -23,11 +23,6 @@ final class RefundType
         $this->value = $value;
     }
 
-    public function __toString(): string
-    {
-        return $this->value;
-    }
-
     public static function orderItemUnit(): self
     {
         return new self(self::ORDER_ITEM_UNIT);
@@ -36,5 +31,15 @@ final class RefundType
     public static function shipment(): self
     {
         return new self(self::SHIPMENT);
+    }
+
+    public function equals(self $refundType): bool
+    {
+        return $this->__toString() === $refundType->__toString();
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }

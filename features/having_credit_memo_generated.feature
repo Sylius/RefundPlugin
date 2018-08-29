@@ -8,7 +8,7 @@ Feature: Having credit memo generated
         Given the store operates on a single channel in "United States"
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
-        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10"
+        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"
@@ -35,3 +35,12 @@ Feature: Having credit memo generated
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.90" tax applied
         And it should be issued in "United States" channel
         And its total should be "$9.90"
+
+    @ui @application
+    Scenario: Seeing the details of generated credit memo with partial price
+        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already "$5.50" refunded with "Space money" payment
+        When I browse the details of the only credit memo generated for order "#00000022"
+        And it should have sequential number generated from current date
+        Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.50" tax applied
+        And it should be issued in "United States" channel
+        And its total should be "$5.50"

@@ -12,7 +12,11 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
 
     public function getRefundedTotal(): string;
 
+    public function getUnitWithProductRefundedTotal(int $unitNumber, string $productName): string;
+
     public function pickUnitWithProductToRefund(string $productName, int $unitNumber): void;
+
+    public function pickPartOfUnitWithProductToRefund(string $productName, int $unitNumber, string $amount): void;
 
     public function pickAllUnitsToRefund(): void;
 

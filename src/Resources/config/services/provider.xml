@@ -22,5 +22,9 @@
             <argument type="service" id="sylius.repository.order_item_unit" />
             <argument type="service" id="sylius_refund.repository.refund" />
         </service>
+
+        <service id="Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider">
+            <argument type="service" id="sylius_refund.repository.refund" />
+        </service>
     </services>
 </container>

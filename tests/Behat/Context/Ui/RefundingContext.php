@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\UnexpectedPageException;
 use Sylius\Behat\Service\NotificationCheckerInterface;
-use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -65,15 +63,17 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/
+     * @Given /^I decide to refund "\$([^"]+)" from (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
     public function decideToRefundPartFromProductWithPayment(
-        int $partialPrice,
-        int $number,
+        string $partialPrice,
+        int $unitNumber,
         string $productName,
-        PaymentMethodInterface $paymentMethod
+        string $paymentMethod
     ): void {
-        throw new PendingException();
+        $this->orderRefundsPage->pickPartOfUnitWithProductToRefund($productName, $unitNumber-1, $partialPrice);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
+        $this->orderRefundsPage->refund();
     }
 
     /**
@@ -185,6 +185,14 @@ final class RefundingContext implements Context
     public function refundedTotalShouldBe(string $refundedTotal): void
     {
         Assert::same($this->orderRefundsPage->getRefundedTotal(), $refundedTotal);
+    }
+
+    /**
+     * @Then /^(\d+)st "([^"]+)" product should have "([^"]+)" refunded$/
+     */
+    public function productShouldHaveSomeAmountRefunded(int $unitNumber, string $productName, string $amount): void
+    {
+        Assert::same($this->orderRefundsPage->getUnitWithProductRefundedTotal($unitNumber-1, $productName), $amount);
     }
 
     /**

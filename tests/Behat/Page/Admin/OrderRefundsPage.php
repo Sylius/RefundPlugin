@@ -24,11 +24,25 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return str_replace('Refunded total: ', '', $this->getElement('refunded_total')->getText());
     }
 
+    public function getUnitWithProductRefundedTotal(int $unitNumber, string $productName): string
+    {
+        $units = $this->getUnitsWithProduct($productName);
+
+        return $units[$unitNumber]->find('css', '.unit-refunded-total')->getText();
+    }
+
     public function pickUnitWithProductToRefund(string $productName, int $unitNumber): void
     {
         $units = $this->getUnitsWithProduct($productName);
 
         $units[$unitNumber]->find('css', '.checkbox input')->check();
+    }
+
+    public function pickPartOfUnitWithProductToRefund(string $productName, int $unitNumber, string $amount): void
+    {
+        $units = $this->getUnitsWithProduct($productName);
+
+        $units[$unitNumber]->find('css', '.partial-refund input')->setValue($amount);
     }
 
     public function pickAllUnitsToRefund(): void
