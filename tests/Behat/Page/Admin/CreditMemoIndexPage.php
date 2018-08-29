@@ -17,6 +17,11 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
         $creditMemoRow->clickLink('Download');
     }
 
+    public function filterByChannel(string $channelName): void
+    {
+        $this->getDocument()->find('css', '#criteria_channel_channel')->selectOption($channelName);
+    }
+
     public function hasCreditMemoWithData(
         int $index,
         string $orderNumber,
@@ -42,5 +47,15 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
         $creditMemo = $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
 
         return $creditMemo->find('css', sprintf('td:contains("%s")', $channelName)) !== null;
+    }
+
+    public function hasSingleCreditMemoForOrder(string $orderNumber): bool
+    {
+        $creditMemos = $this->getDocument()->findAll('css', 'table tbody tr');
+
+        return
+            count($creditMemos) === 1 &&
+            $creditMemos[0]->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null
+        ;
     }
 }

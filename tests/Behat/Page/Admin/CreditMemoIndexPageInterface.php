@@ -10,6 +10,8 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
 {
     public function downloadCreditMemo(int $index): void;
 
+    public function filterByChannel(string $channelName): void;
+
     public function hasCreditMemoWithData(
         int $index,
         string $orderNumber,
@@ -18,4 +20,6 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
     ): bool;
 
     public function hasCreditMemoWithChannel(int $index, string $channelName): bool;
+
+    public function hasSingleCreditMemoForOrder(string $orderNumber): bool;
 }

@@ -65,6 +65,11 @@
             <tag name="fob.context_service" />
         </service>
 
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderContext">
+            <argument type="service" id="__symfony__.sylius.manager.order" />
+            <tag name="fob.context_service" />
+        </service>
+
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext">
             <argument type="service" id="sylius.behat.page.shop.order.show" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement" />
