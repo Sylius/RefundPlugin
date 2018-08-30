@@ -12,6 +12,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Webmozart\Assert\Assert;
 
@@ -123,6 +124,33 @@ final class RefundingContext implements Context
             $orderNumber,
             $units,
             [$shipment->getId()],
+            $paymentMethod->getId(),
+            ''
+        ));
+    }
+
+    /**
+     * @Given /^shipment from order "#([^"]+)" has already ("[^"]+") refunded with ("[^"]+" payment)$/
+     */
+    public function shipmentFromOrderHasAlreadyRefundedWithPayment(
+        string $orderNumber,
+        int $amount,
+        PaymentMethodInterface $paymentMethod
+    ) {
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+        Assert::notNull($order);
+
+        $units = array_map(function(OrderItemUnitInterface $unit) {
+            return new UnitRefund($unit->getId(), $unit->getTotal());
+        }, $order->getItemUnits()->getValues());
+
+        $shipment = $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $orderNumber,
+            $units,
+            [new ShipmentRefund($shipment->getId(), $amount)],
             $paymentMethod->getId(),
             ''
         ));

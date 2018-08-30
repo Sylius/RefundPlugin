@@ -18,6 +18,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
@@ -120,6 +121,18 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When /^I decide to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
+     */
+    public function decideToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
+        ));
+    }
+
+    /**
      * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with ("[^"]+" payment)$/
      */
     public function decideToRefundProductAndShipment(
@@ -214,6 +227,23 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Then I should still be able to refund order shipment
+     */
+    public function shouldStillBeAbleToRefundOrderShipment(): void
+    {
+        /** @var AdjustmentInterface $shippingAdjustment */
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $shippingAdjustment->getAmount())], 1, ''
+            ));
+        } catch (CommandDispatchException $exception) {
+            throw new \Exception('RefundUnits command should not fail');
+        }
+    }
+
+    /**
      * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
      */
     public function shouldBeAbleToRefundUnitWithProduct(
@@ -247,6 +277,7 @@ final class RefundingContext implements Context
     /**
      * @Then I should be notified that selected order units have been successfully refunded
      * @Then I should be notified that I cannot refund more money than the order unit total
+     * @Then I should be notified that I cannot refund more money than the shipment total
      */
     public function notificationSteps(): void
     {
