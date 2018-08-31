@@ -119,7 +119,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Grid\Filter\ChannelFilter">
-            <tag name="sylius.grid_filter" type="channel" form_type="Sylius\RefundPlugin\Form\Type\ChannelFilterType" />
+            <tag name="sylius.grid_filter" type="credit_memo_channel" form_type="Sylius\RefundPlugin\Form\Type\ChannelFilterType" />
         </service>
     </services>
 </container>

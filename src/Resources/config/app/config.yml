@@ -59,7 +59,7 @@ knp_snappy:
 sylius_grid:
     templates:
         filter:
-            channel: '@SyliusRefundPlugin/Grid/Filter/channel.html.twig'
+            credit_memo_channel: '@SyliusRefundPlugin/Grid/Filter/channel.html.twig'
     grids:
         sylius_refund_credit_memo:
             driver:
@@ -121,5 +121,5 @@ sylius_grid:
                     type: date
                     label: sylius_refund.ui.issued_at
                 channel:
-                    type: channel
+                    type: credit_memo_channel
                     label: sylius.ui.channel
