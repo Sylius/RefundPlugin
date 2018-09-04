@@ -11,14 +11,14 @@ final class GenerateCreditMemo extends Command
 {
     use PayloadTrait;
 
-    public function __construct(string $orderNumber, int $total, array $unitIds, array $shipmentIds, string $comment)
+    public function __construct(string $orderNumber, int $total, array $unitIds, array $shipments, string $comment)
     {
         $this->init();
         $this->setPayload([
             'order_number' => $orderNumber,
             'total' => $total,
             'units' => $unitIds,
-            'shipment_ids' => $shipmentIds,
+            'shipments' => $shipments,
             'comment' => $comment,
         ]);
     }
@@ -38,9 +38,9 @@ final class GenerateCreditMemo extends Command
         return $this->payload['units'];
     }
 
-    public function shipmentIds(): array
+    public function shipments(): array
     {
-        return $this->payload['shipment_ids'];
+        return $this->payload['shipments'];
     }
 
     public function comment(): string

@@ -15,6 +15,7 @@ use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
@@ -53,6 +54,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     ): void {
         $firstUnitRefund = new UnitRefund(1, 500);
         $secondUnitRefund = new UnitRefund(3, 500);
+        $shipmentRefund = new ShipmentRefund(3, 400);
 
         $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
@@ -69,13 +71,13 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $orderItemUnitCreditMemoUnitGenerator->generate(3, 500)->willReturn($secondCreditMemoUnit);
 
         $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0);
-        $shipmentCreditMemoUnitGenerator->generate(3)->willReturn($shipmentCreditMemoUnit);
+        $shipmentCreditMemoUnitGenerator->generate(3, 400)->willReturn($shipmentCreditMemoUnit);
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
         $currentDateTimeProvider->now()->willReturn($dateTime);
 
-        $this->generate('000666', 1400, [$firstUnitRefund, $secondUnitRefund], [3], 'Comment')->shouldBeLike(new CreditMemo(
+        $this->generate('000666', 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldBeLike(new CreditMemo(
             '2018/07/00001111',
             '000666',
             1400,

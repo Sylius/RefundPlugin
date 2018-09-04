@@ -8,40 +8,33 @@ use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
-use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class OrderShipmentsRefunder implements RefunderInterface
 {
     /** @var RefundCreatorInterface */
     private $refundCreator;
 
-    /** @var RefundedShipmentFeeProviderInterface */
-    private $refundedShipmentFeeProvider;
-
     /** @var EventBus */
     private $eventBus;
 
-    public function __construct(
-        RefundCreatorInterface $refundCreator,
-        RefundedShipmentFeeProviderInterface $refundedShipmentFeeProvider,
-        EventBus $eventBus
-    ) {
+    public function __construct(RefundCreatorInterface $refundCreator, EventBus $eventBus)
+    {
         $this->refundCreator = $refundCreator;
-        $this->refundedShipmentFeeProvider = $refundedShipmentFeeProvider;
         $this->eventBus = $eventBus;
     }
 
     public function refundFromOrder(array $units, string $orderNumber): int
     {
         $refundedTotal = 0;
-        foreach ($units as $shipmentUnitId) {
-            $refundAmount = $this->refundedShipmentFeeProvider->getFeeOfShipment($shipmentUnitId);
 
-            $this->refundCreator->__invoke($orderNumber, $shipmentUnitId, $refundAmount, RefundType::shipment());
+        /** @var ShipmentRefund $shipmentUnit */
+        foreach ($units as $shipmentUnit) {
+            $this->refundCreator->__invoke($orderNumber, $shipmentUnit->shipmentId(), $shipmentUnit->total(), RefundType::shipment());
 
-            $refundedTotal += $refundAmount;
+            $refundedTotal += $shipmentUnit->total();
 
-            $this->eventBus->dispatch(new ShipmentRefunded($orderNumber, $shipmentUnitId, $refundAmount));
+            $this->eventBus->dispatch(new ShipmentRefunded($orderNumber, $shipmentUnit->shipmentId(), $shipmentUnit->total()));
         }
 
         return $refundedTotal;

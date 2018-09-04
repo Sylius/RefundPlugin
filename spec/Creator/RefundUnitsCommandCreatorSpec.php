@@ -106,7 +106,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
                 return
                     $command->orderNumber() === $expectedCommand->orderNumber() &&
                     $command->units() == $expectedCommand->units() &&
-                    $command->shipmentIds() === $expectedCommand->shipmentIds() &&
+                    $command->shipments() === $expectedCommand->shipments() &&
                     $command->paymentMethodId() === $expectedCommand->paymentMethodId() &&
                     $command->comment() === $expectedCommand->comment()
                 ;

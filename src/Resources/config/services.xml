@@ -24,7 +24,6 @@
         </service>
         <service id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RefundedShipmentFeeProvider" />
             <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
         </service>
 

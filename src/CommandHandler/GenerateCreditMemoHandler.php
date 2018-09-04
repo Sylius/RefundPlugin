@@ -39,7 +39,7 @@ final class GenerateCreditMemoHandler
             $orderNumber,
             $command->total(),
             $command->units(),
-            $command->shipmentIds(),
+            $command->shipments(),
             $command->comment()
         );
 

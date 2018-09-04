@@ -57,12 +57,12 @@ final class RefundUnitsHandler
 
         $refundedTotal = 0;
         $refundedTotal += $this->orderUnitsRefunder->refundFromOrder($command->units(), $orderNumber);
-        $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipmentIds(), $orderNumber);
+        $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder($command->shipments(), $orderNumber);
 
         $this->eventBus->dispatch(new UnitsRefunded(
             $orderNumber,
             $command->units(),
-            $command->shipmentIds(),
+            $command->shipments(),
             $command->paymentMethodId(),
             $refundedTotal,
             $order->getCurrencyCode(),
