@@ -18,8 +18,9 @@
             class="Sylius\RefundPlugin\Provider\CurrentDateTimeProvider"
         />
 
-        <service id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider">
+        <service id="Sylius\RefundPlugin\Provider\RemainingTotalProvider">
             <argument type="service" id="sylius.repository.order_item_unit" />
+            <argument type="service" id="sylius.repository.adjustment" />
             <argument type="service" id="sylius_refund.repository.refund" />
         </service>
 

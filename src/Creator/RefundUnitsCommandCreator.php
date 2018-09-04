@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Prooph\Common\Messaging\Command;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 final class RefundUnitsCommandCreator implements CommandCreatorInterface
 {
     /** @var RemainingTotalProviderInterface */
-    private $remainingOrderItemUnitTotalProvider;
+    private $remainingTotalProvider;
 
-    public function __construct(RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider)
+    public function __construct(RemainingTotalProviderInterface $remainingTotalProvider)
     {
-        $this->remainingOrderItemUnitTotalProvider = $remainingOrderItemUnitTotalProvider;
+        $this->remainingTotalProvider = $remainingTotalProvider;
     }
 
     public function fromRequest(Request $request): Command
@@ -56,7 +57,7 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
             }
 
             $id = (int) $refundUnit['id'];
-            $total = $this->remainingOrderItemUnitTotalProvider->getTotalLeftToRefund($id);
+            $total = $this->remainingTotalProvider->getTotalLeftToRefund($id, RefundType::orderItemUnit());
 
             return new UnitRefund($id, $total);
         }, $units);

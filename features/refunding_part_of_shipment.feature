@@ -21,7 +21,7 @@ Feature: Refunding a part of an shipment
         And I decide to refund "$8.00" from order shipment with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
         And this order refunded total should be "$8.00"
-        And I should still be able to refund order shipment
+        And I should still be able to refund order shipment with "Space money" payment
 
     @application
     Scenario: Refunding the whole order unit price after partial refund
@@ -36,4 +36,4 @@ Feature: Refunding a part of an shipment
         When I want to refund some units of order "#00000022"
         And I decide to refund "$18.00" from order shipment with "Space money" payment
         Then I should be notified that I cannot refund more money than the shipment total
-        And this order refunded total should still be "$8.00"
+        And this order refunded total should still be "$5.00"

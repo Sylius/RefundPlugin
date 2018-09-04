@@ -7,6 +7,7 @@ namespace spec\Sylius\RefundPlugin\Creator;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -15,9 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 {
     function let(
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider
+        RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
-        $this->beConstructedWith($remainingOrderItemUnitTotalProvider);
+        $this->beConstructedWith($remainingTotalProvider);
     }
 
     function it_implements_command_creator_interface(): void
@@ -26,7 +27,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
     }
 
     function it_creates_refund_units_command_from_request_with_full_prices(
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
+        RemainingTotalProviderInterface $remainingTotalProvider,
         Request $request
     ): void {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
@@ -40,8 +41,8 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
             'sylius_refund_comment' => 'Comment',
         ]);
 
-        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(1)->willReturn(1000);
-        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(2)->willReturn(3000);
+        $remainingTotalProvider->getTotalLeftToRefund(1, RefundType::orderItemUnit())->willReturn(1000);
+        $remainingTotalProvider->getTotalLeftToRefund(2, RefundType::orderItemUnit())->willReturn(3000);
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',
@@ -53,7 +54,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
     }
 
     function it_creates_refund_units_command_from_request_with_partial_prices(
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
+        RemainingTotalProviderInterface $remainingTotalProvider,
         Request $request
     ): void {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
@@ -67,7 +68,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
             'sylius_refund_comment' => 'Comment',
         ]);
 
-        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(2)->willReturn(3000);
+        $remainingTotalProvider->getTotalLeftToRefund(2, RefundType::orderItemUnit())->willReturn(3000);
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',

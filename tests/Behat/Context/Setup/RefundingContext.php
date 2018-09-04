@@ -141,15 +141,11 @@ final class RefundingContext implements Context
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
 
-        $units = array_map(function(OrderItemUnitInterface $unit) {
-            return new UnitRefund($unit->getId(), $unit->getTotal());
-        }, $order->getItemUnits()->getValues());
-
         $shipment = $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         $this->commandBus->dispatch(new RefundUnits(
             $orderNumber,
-            $units,
+            [],
             [new ShipmentRefund($shipment->getId(), $amount)],
             $paymentMethod->getId(),
             ''
