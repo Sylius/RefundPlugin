@@ -113,7 +113,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
                 [new UnitRefund(1, 3000), new UnitRefund(3, 4000)],
                 [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
                 1,
-                'Comment')
+                'Comment'),
             ])
         ;
     }

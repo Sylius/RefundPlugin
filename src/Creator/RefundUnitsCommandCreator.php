@@ -47,7 +47,11 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         );
     }
 
-    /** @return array|UnitRefund[] */
+    /**
+     * Parse unit id's to UnitRefund with id and remaining total or amount passed in request
+     *
+     * @return array|UnitRefund[]
+     */
     private function parseIdsToUnitRefunds(array $units): array
     {
         return array_map(function (array $refundUnit): UnitRefund {
@@ -65,18 +69,22 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         }, $units);
     }
 
-    /** @return array|UnitRefund[] */
+    /**
+     * Parse shipment id's to ShipmentRefund with id and remaining total or amount passed in request
+     *
+     * @return array|ShipmentRefund[]
+     */
     private function parseIdsToShipmentRefunds(array $units): array
     {
-        return array_map(function (array $refundUnit): ShipmentRefund {
-            if (isset($refundUnit['amount']) && $refundUnit['amount'] !== '') {
-                $id = (int) $refundUnit['partial-id'];
-                $total = (int) (((float) $refundUnit['amount']) * 100);
+        return array_map(function (array $refundShipment): ShipmentRefund {
+            if (isset($refundShipment['amount']) && $refundShipment['amount'] !== '') {
+                $id = (int) $refundShipment['partial-id'];
+                $total = (int) (((float) $refundShipment['amount']) * 100);
 
                 return new ShipmentRefund($id, $total);
             }
 
-            $id = (int) $refundUnit['id'];
+            $id = (int) $refundShipment['id'];
             $total = $this->remainingTotalProvider->getTotalLeftToRefund($id, RefundType::shipment());
 
             return new ShipmentRefund($id, $total);

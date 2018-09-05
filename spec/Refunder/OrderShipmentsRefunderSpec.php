@@ -11,7 +11,6 @@ use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class OrderShipmentsRefunderSpec extends ObjectBehavior
