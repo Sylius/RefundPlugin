@@ -18,7 +18,7 @@ final class GenerateCreditMemoSpec extends ObjectBehavior
         $this->orderNumber()->shouldReturn('000222');
         $this->total()->shouldReturn(1000);
         $this->units()->shouldReturn($unitRefunds);
-        $this->shipmentIds()->shouldReturn([3, 4]);
+        $this->shipments()->shouldReturn([3, 4]);
         $this->comment()->shouldReturn('Comment');
     }
 }

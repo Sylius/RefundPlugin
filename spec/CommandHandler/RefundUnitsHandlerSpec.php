@@ -13,6 +13,7 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
@@ -42,28 +43,29 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
-        $refundUnits = [new UnitRefund(1, 3000), new UnitRefund(3, 4000)];
+        $unitRefunds = [new UnitRefund(1, 3000), new UnitRefund(3, 4000)];
+        $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
 
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
-        $orderItemUnitsRefunder->refundFromOrder($refundUnits, '000222')->willReturn(3000);
-        $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(4000);
+        $orderItemUnitsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(3000);
+        $orderShipmentsRefunder->refundFromOrder($shipmentRefunds, '000222')->willReturn(4000);
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $order->getCurrencyCode()->willReturn('USD');
 
-        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event) use ($refundUnits): bool {
+        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event) use ($unitRefunds, $shipmentRefunds): bool {
             return
                 $event->orderNumber() === '000222' &&
-                $event->units() === $refundUnits &&
-                $event->shipmentIds() === [3, 4] &&
+                $event->units() === $unitRefunds &&
+                $event->shipments() === $shipmentRefunds &&
                 $event->amount() === 7000 &&
                 $event->paymentMethodId() === 1 &&
                 $event->comment() === 'Comment'
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', $refundUnits, [3, 4], 1, 'Comment'));
+        $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
     }
 
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
@@ -74,27 +76,29 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
-        $refundUnits = [new UnitRefund(1, 1000), new UnitRefund(3, 500)];
+        $unitRefunds = [new UnitRefund(1, 1000), new UnitRefund(3, 500)];
+        $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
 
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
 
-        $orderItemUnitsRefunder->refundFromOrder($refundUnits, '000222')->willReturn(1000);
-        $orderShipmentsRefunder->refundFromOrder([3, 4], '000222')->willReturn(500);
+        $orderItemUnitsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(1000);
+        $orderShipmentsRefunder->refundFromOrder($shipmentRefunds, '000222')->willReturn(500);
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $order->getCurrencyCode()->willReturn('USD');
 
-        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event) use ($refundUnits): bool {
+        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event) use ($unitRefunds, $shipmentRefunds): bool {
             return
                 $event->orderNumber() === '000222' &&
-                $event->units() === $refundUnits &&
+                $event->units() === $unitRefunds &&
+                $event->shipments() === $shipmentRefunds &&
                 $event->amount() === 1500 &&
                 $event->paymentMethodId() === 1 &&
                 $event->comment() === 'Comment'
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', $refundUnits, [3, 4], 1, 'Comment'));
+        $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
     }
 
     function it_throws_an_exception_if_order_is_not_available_for_refund(
@@ -104,7 +108,13 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(OrderNotAvailableForRefundingException::class)
-            ->during('__invoke', [new RefundUnits('000222', [new UnitRefund(1, 3000), new UnitRefund(3, 4000)], [3, 4], 1, 'Comment')])
+            ->during('__invoke', [new RefundUnits(
+                '000222',
+                [new UnitRefund(1, 3000), new UnitRefund(3, 4000)],
+                [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
+                1,
+                'Comment'),
+            ])
         ;
     }
 }

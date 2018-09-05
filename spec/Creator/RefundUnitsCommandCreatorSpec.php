@@ -7,6 +7,8 @@ namespace spec\Sylius\RefundPlugin\Creator;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
+use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -15,9 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 {
     function let(
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider
+        RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
-        $this->beConstructedWith($remainingOrderItemUnitTotalProvider);
+        $this->beConstructedWith($remainingTotalProvider);
     }
 
     function it_implements_command_creator_interface(): void
@@ -26,7 +28,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
     }
 
     function it_creates_refund_units_command_from_request_with_full_prices(
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
+        RemainingTotalProviderInterface $remainingTotalProvider,
         Request $request
     ): void {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
@@ -35,25 +37,26 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
                 ['id' => '1'],
                 ['id' => '2'],
             ],
-            'sylius_refund_shipments' => [1],
+            'sylius_refund_shipments' => [['id' => 1]],
             'sylius_refund_payment_method' => 1,
             'sylius_refund_comment' => 'Comment',
         ]);
 
-        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(1)->willReturn(1000);
-        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(2)->willReturn(3000);
+        $remainingTotalProvider->getTotalLeftToRefund(1, RefundType::orderItemUnit())->willReturn(1000);
+        $remainingTotalProvider->getTotalLeftToRefund(2, RefundType::orderItemUnit())->willReturn(3000);
+        $remainingTotalProvider->getTotalLeftToRefund(1, RefundType::shipment())->willReturn(5000);
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',
             [new UnitRefund(1, 1000), new UnitRefund(2, 3000)],
-            [1],
+            [new ShipmentRefund(1, 5000)],
             1,
             'Comment'
         ));
     }
 
     function it_creates_refund_units_command_from_request_with_partial_prices(
-        RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider,
+        RemainingTotalProviderInterface $remainingTotalProvider,
         Request $request
     ): void {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
@@ -62,17 +65,17 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
                 ['partial-id' => '1', 'amount' => '10.00'],
                 ['id' => '2'],
             ],
-            'sylius_refund_shipments' => [1],
+            'sylius_refund_shipments' => [['partial-id' => 1, 'amount' => '5.00']],
             'sylius_refund_payment_method' => 1,
             'sylius_refund_comment' => 'Comment',
         ]);
 
-        $remainingOrderItemUnitTotalProvider->getTotalLeftToRefund(2)->willReturn(3000);
+        $remainingTotalProvider->getTotalLeftToRefund(2, RefundType::orderItemUnit())->willReturn(3000);
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',
             [new UnitRefund(1, 1000), new UnitRefund(2, 3000)],
-            [1],
+            [new ShipmentRefund(1, 500)],
             1,
             'Comment'
         ));
@@ -106,7 +109,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
                 return
                     $command->orderNumber() === $expectedCommand->orderNumber() &&
                     $command->units() == $expectedCommand->units() &&
-                    $command->shipmentIds() === $expectedCommand->shipmentIds() &&
+                    $command->shipments() == $expectedCommand->shipments() &&
                     $command->paymentMethodId() === $expectedCommand->paymentMethodId() &&
                     $command->comment() === $expectedCommand->comment()
                 ;

@@ -18,6 +18,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
@@ -78,7 +79,7 @@ final class RefundingContext implements Context
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [new UnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId))],
+            [new UnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId, RefundType::orderItemUnit()))],
             [],
             $paymentMethod->getId(),
             $comment
@@ -115,8 +116,39 @@ final class RefundingContext implements Context
     public function decideToRefundOrderShipment(PaymentMethodInterface $paymentMethod): void
     {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($shippingAdjustment->getId(), RefundType::shipment());
 
-        $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()], $paymentMethod->getId(), ''));
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
+        ));
+    }
+
+    /**
+     * @When /^I decide to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
+     */
+    public function decideToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
+        ));
+    }
+
+    /**
+     * @When /^I try to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
+     */
+    public function tryToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
+            ));
+        } catch (CommandDispatchException $exception) {
+            return;
+        }
     }
 
     /**
@@ -127,14 +159,15 @@ final class RefundingContext implements Context
         string $productName,
         PaymentMethodInterface $paymentMethod
     ): void {
-        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        /** @var AdjustmentInterface $shipment */
+        $shipment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         $this->commandBus->dispatch(
             new RefundUnits(
                 $this->order->getNumber(),
                 [new UnitRefund($unit->getId(), $unit->getTotal())],
-                [$shippingAdjustment->getId()],
+                [new ShipmentRefund($shipment->getId(), $shipment->getAmount())],
                 $paymentMethod->getId(),
                 ''
             )
@@ -214,6 +247,24 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Then /^I should still be able to refund order shipment with ("[^"]+" payment)$/
+     */
+    public function shouldStillBeAbleToRefundOrderShipment(PaymentMethodInterface $paymentMethod): void
+    {
+        /** @var AdjustmentInterface $shippingAdjustment */
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($shippingAdjustment->getId(), RefundType::shipment());
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
+            ));
+        } catch (CommandDispatchException $exception) {
+            throw new \Exception('RefundUnits command should not fail');
+        }
+    }
+
+    /**
      * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
      */
     public function shouldBeAbleToRefundUnitWithProduct(
@@ -247,6 +298,7 @@ final class RefundingContext implements Context
     /**
      * @Then I should be notified that selected order units have been successfully refunded
      * @Then I should be notified that I cannot refund more money than the order unit total
+     * @Then I should be notified that I cannot refund more money than the shipment total
      */
     public function notificationSteps(): void
     {

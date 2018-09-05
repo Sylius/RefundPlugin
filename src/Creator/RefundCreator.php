@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Creator;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
 use Sylius\RefundPlugin\Exception\UnitRefundExceededException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
@@ -17,9 +16,6 @@ final class RefundCreator implements RefundCreatorInterface
     /** @var RefundFactoryInterface */
     private $refundFactory;
 
-    /** @var UnitRefundingAvailabilityCheckerInterface */
-    private $unitRefundingAvailabilityChecker;
-
     /** @var RemainingTotalProviderInterface */
     private $remainingTotalProvider;
 
@@ -28,26 +24,23 @@ final class RefundCreator implements RefundCreatorInterface
 
     public function __construct(
         RefundFactoryInterface $refundFactory,
-        UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         RemainingTotalProviderInterface $remainingTotalProvider,
         ObjectManager $refundManager
     ) {
         $this->refundFactory = $refundFactory;
-        $this->unitRefundingAvailabilityChecker = $unitRefundingAvailabilityChecker;
         $this->remainingTotalProvider = $remainingTotalProvider;
         $this->refundManager = $refundManager;
     }
 
     public function __invoke(string $orderNumber, int $unitId, int $amount, RefundType $refundType): void
     {
-        if (!$this->unitRefundingAvailabilityChecker->__invoke($unitId, $refundType)) {
+        $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($unitId, $refundType);
+
+        if ($remainingTotal === 0) {
             throw UnitAlreadyRefundedException::withIdAndOrderNumber($unitId, $orderNumber);
         }
 
-        if (
-            $refundType->equals(RefundType::orderItemUnit()) &&
-            $this->remainingTotalProvider->getTotalLeftToRefund($unitId) < $amount
-        ) {
+        if ($remainingTotal < $amount) {
             throw new UnitRefundExceededException();
         }
 

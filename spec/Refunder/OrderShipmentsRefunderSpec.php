@@ -10,17 +10,14 @@ use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
-use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class OrderShipmentsRefunderSpec extends ObjectBehavior
 {
-    function let(
-        RefundCreatorInterface $refundCreator,
-        RefundedShipmentFeeProviderInterface $refundedShipmentFeeProvider,
-        EventBus $eventBus
-    ): void {
-        $this->beConstructedWith($refundCreator, $refundedShipmentFeeProvider, $eventBus);
+    function let(RefundCreatorInterface $refundCreator, EventBus $eventBus): void
+    {
+        $this->beConstructedWith($refundCreator, $eventBus);
     }
 
     function it_implements_refunder_interface(): void
@@ -30,10 +27,9 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
 
     function it_creates_refund_for_each_shipment_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
-        RefundedShipmentFeeProviderInterface $refundedShipmentFeeProvider,
         EventBus $eventBus
     ): void {
-        $refundedShipmentFeeProvider->getFeeOfShipment(4)->willReturn(2500);
+        $shipmentRefunds = [new ShipmentRefund(4, 2500)];
 
         $refundCreator->__invoke('000222', 4, 2500, RefundType::shipment())->shouldBeCalled();
 
@@ -45,6 +41,6 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this->refundFromOrder([4], '000222')->shouldReturn(2500);
+        $this->refundFromOrder($shipmentRefunds, '000222')->shouldReturn(2500);
     }
 }

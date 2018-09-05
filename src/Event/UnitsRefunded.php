@@ -14,7 +14,7 @@ final class UnitsRefunded extends DomainEvent
     public function __construct(
         string $orderNumber,
         array $units,
-        array $shipmentIds,
+        array $shipments,
         int $paymentMethodId,
         int $amount,
         string $currencyCode,
@@ -24,7 +24,7 @@ final class UnitsRefunded extends DomainEvent
         $this->setPayload([
             'order_number' => $orderNumber,
             'units' => $units,
-            'shipment_ids' => $shipmentIds,
+            'shipments' => $shipments,
             'amount' => $amount,
             'currency_code' => $currencyCode,
             'payment_method_id' => $paymentMethodId,
@@ -42,9 +42,9 @@ final class UnitsRefunded extends DomainEvent
         return $this->payload['units'];
     }
 
-    public function shipmentIds(): array
+    public function shipments(): array
     {
-        return $this->payload['shipment_ids'];
+        return $this->payload['shipments'];
     }
 
     public function amount(): int

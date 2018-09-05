@@ -6,6 +6,8 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Prooph\Common\Messaging\Command;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,11 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 final class RefundUnitsCommandCreator implements CommandCreatorInterface
 {
     /** @var RemainingTotalProviderInterface */
-    private $remainingOrderItemUnitTotalProvider;
+    private $remainingTotalProvider;
 
-    public function __construct(RemainingTotalProviderInterface $remainingOrderItemUnitTotalProvider)
+    public function __construct(RemainingTotalProviderInterface $remainingTotalProvider)
     {
-        $this->remainingOrderItemUnitTotalProvider = $remainingOrderItemUnitTotalProvider;
+        $this->remainingTotalProvider = $remainingTotalProvider;
     }
 
     public function fromRequest(Request $request): Command
@@ -27,24 +29,26 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         }
 
         $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
+        $shipments = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_shipments', []));
 
-        if (
-            count($units) === 0 &&
-            $request->request->get('sylius_refund_shipments') === null
-        ) {
+        if (count($units) === 0 && count($shipments) === 0) {
             throw new \InvalidArgumentException('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
         }
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
             $this->parseIdsToUnitRefunds($units),
-            $this->parseIdsToIntegers($request->request->get('sylius_refund_shipments', [])),
+            $this->parseIdsToShipmentRefunds($shipments),
             (int) $request->request->get('sylius_refund_payment_method'),
             $request->request->get('sylius_refund_comment', '')
         );
     }
 
-    /** @return array|UnitRefund[] */
+    /**
+     * Parse unit id's to UnitRefund with id and remaining total or amount passed in request
+     *
+     * @return array|UnitRefund[]
+     */
     private function parseIdsToUnitRefunds(array $units): array
     {
         return array_map(function (array $refundUnit): UnitRefund {
@@ -56,18 +60,32 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
             }
 
             $id = (int) $refundUnit['id'];
-            $total = $this->remainingOrderItemUnitTotalProvider->getTotalLeftToRefund($id);
+            $total = $this->remainingTotalProvider->getTotalLeftToRefund($id, RefundType::orderItemUnit());
 
             return new UnitRefund($id, $total);
         }, $units);
     }
 
-    /** @return array|int[] */
-    private function parseIdsToIntegers(array $elements): array
+    /**
+     * Parse shipment id's to ShipmentRefund with id and remaining total or amount passed in request
+     *
+     * @return array|ShipmentRefund[]
+     */
+    private function parseIdsToShipmentRefunds(array $units): array
     {
-        return array_map(function (string $element): int {
-            return (int) $element;
-        }, $elements);
+        return array_map(function (array $refundShipment): ShipmentRefund {
+            if (isset($refundShipment['amount']) && $refundShipment['amount'] !== '') {
+                $id = (int) $refundShipment['partial-id'];
+                $total = (int) (((float) $refundShipment['amount']) * 100);
+
+                return new ShipmentRefund($id, $total);
+            }
+
+            $id = (int) $refundShipment['id'];
+            $total = $this->remainingTotalProvider->getTotalLeftToRefund($id, RefundType::shipment());
+
+            return new ShipmentRefund($id, $total);
+        }, $units);
     }
 
     private function filterEmptyRefundUnits(array $units): array

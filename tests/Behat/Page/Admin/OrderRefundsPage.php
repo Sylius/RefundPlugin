@@ -57,6 +57,13 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         $orderShipment->find('css', '.checkbox input')->check();
     }
 
+    public function pickPartOfOrderShipmentToRefund(string $amount): void
+    {
+        $orderShipment = $this->getOrderShipment();
+
+        $orderShipment->find('css', '.partial-refund input')->setValue($amount);
+    }
+
     public function choosePaymentMethod(string $paymentMethodName): void
     {
         $paymentMethods = $this->getElement('payment_methods');

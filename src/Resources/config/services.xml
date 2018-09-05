@@ -13,8 +13,7 @@
 
         <service id="Sylius\RefundPlugin\Creator\RefundCreator">
             <argument type="service" id="sylius_refund.factory.refund" />
-            <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
             <argument type="service" id="sylius_refund.manager.refund" />
         </service>
 
@@ -24,7 +23,6 @@
         </service>
         <service id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RefundedShipmentFeeProvider" />
             <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
         </service>
 
@@ -35,8 +33,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker">
-            <argument type="service" id="sylius_refund.repository.refund" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
         </service>
 
         <service id="Sylius\RefundPlugin\Twig\OrderRefundsExtension">
@@ -110,7 +107,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingOrderItemUnitTotalProvider" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
         </service>
 
         <service id="Sylius\RefundPlugin\Form\Type\ChannelFilterType">
