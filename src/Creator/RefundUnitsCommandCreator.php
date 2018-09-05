@@ -7,6 +7,7 @@ namespace Sylius\RefundPlugin\Creator;
 use Prooph\Common\Messaging\Command;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         }
 
         $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
+        $shipments = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_shipments', []));
 
         if (
             count($units) === 0 &&
@@ -39,7 +41,7 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
             $this->parseIdsToUnitRefunds($units),
-            $this->parseIdsToIntegers($request->request->get('sylius_refund_shipments', [])),
+            $this->parseIdsToShipmentRefunds($shipments),
             (int) $request->request->get('sylius_refund_payment_method'),
             $request->request->get('sylius_refund_comment', '')
         );
@@ -63,12 +65,22 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         }, $units);
     }
 
-    /** @return array|int[] */
-    private function parseIdsToIntegers(array $elements): array
+    /** @return array|UnitRefund[] */
+    private function parseIdsToShipmentRefunds(array $units): array
     {
-        return array_map(function (string $element): int {
-            return (int) $element;
-        }, $elements);
+        return array_map(function (array $refundUnit): ShipmentRefund {
+            if (isset($refundUnit['amount']) && $refundUnit['amount'] !== '') {
+                $id = (int) $refundUnit['partial-id'];
+                $total = (int) (((float) $refundUnit['amount']) * 100);
+
+                return new ShipmentRefund($id, $total);
+            }
+
+            $id = (int) $refundUnit['id'];
+            $total = $this->remainingTotalProvider->getTotalLeftToRefund($id, RefundType::shipment());
+
+            return new ShipmentRefund($id, $total);
+        }, $units);
     }
 
     private function filterEmptyRefundUnits(array $units): array

@@ -8,6 +8,6 @@ final class UnitRefundExceededException extends \InvalidArgumentException
 {
     public function __construct()
     {
-        parent::__construct('You cannot refund more money than the order unit total');
+        parent::__construct('You cannot refund more money than the refunded unit total');
     }
 }

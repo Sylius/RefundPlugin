@@ -98,9 +98,15 @@
                                 <td class="right aligned total">
                                     {{ money.format(shipment.amount, order.currencyCode) }}
                                 </td>
-                                <td class="aligned collapsing" colspan="2">
+                                <td class="aligned collapsing partial-refund">
+                                    {% set inputName = "sylius_refund_shipments[0][amount]" %}
+                                    {% set hiddenInputName = "sylius_refund_shipments[0][partial-id]" %}
+                                    <input type="number" name="{{ inputName }}" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}/>
+                                    <input type="hidden" name="{{ hiddenInputName }}" value="{{ shipment.id }}"/>
+                                </td>
+                                <td class="aligned collapsing">
                                     <div class="ui checkbox {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}">
-                                        <input type="checkbox" name="sylius_refund_shipments[]" value="{{ shipment.id }}">
+                                        <input type="checkbox" name="sylius_refund_shipments[0][id]" value="{{ shipment.id }}">
                                     </div>
                                 </td>
                             </tr>

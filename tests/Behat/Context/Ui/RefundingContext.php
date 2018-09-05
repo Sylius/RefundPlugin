@@ -112,6 +112,16 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When /^I decide to refund "\$([^"]+)" from order shipment with "([^"]+)" payment$/
+     */
+    public function decideToRefundPartOfOrderShipment(string $amount, string $paymentMethod): void
+    {
+        $this->orderRefundsPage->pickPartOfOrderShipmentToRefund($amount);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
     public function decideToRefundProductAndShipment(int $unitNumber, string $productName, string $paymentMethod): void
@@ -159,11 +169,12 @@ final class RefundingContext implements Context
 
     /**
      * @Then I should be notified that I cannot refund more money than the order unit total
+     * @Then I should be notified that I cannot refund more money than the shipment total
      */
-    public function shouldBeNotifiedThatICannotRefundMoreMoneyThanTheOrderUnitTotal(): void
+    public function shouldBeNotifiedThatICannotRefundMoreMoneyThanTheRefundedUnitTotal(): void
     {
         $this->notificationChecker->checkNotification(
-            'You cannot refund more money than the order unit total',
+            'You cannot refund more money than the refunded unit total',
             NotificationType::failure()
         );
     }
@@ -201,6 +212,14 @@ final class RefundingContext implements Context
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         Assert::false($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
+    }
+
+    /**
+     * @Then I should still be able to refund order shipment with :paymentMethodName payment
+     */
+    public function shouldStillBeAbleToRefundOrderShipment(): void
+    {
+        Assert::true($this->orderRefundsPage->isOrderShipmentAvailableToRefund());
     }
 
     /**

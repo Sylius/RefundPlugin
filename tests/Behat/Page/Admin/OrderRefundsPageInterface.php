@@ -22,6 +22,8 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
 
     public function pickOrderShipment(): void;
 
+    public function pickPartOfOrderShipmentToRefund(string $amount): void;
+
     public function choosePaymentMethod(string $paymentMethodName): void;
 
     public function comment(string $comment): void;
