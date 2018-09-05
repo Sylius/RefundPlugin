@@ -31,10 +31,7 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
         $shipments = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_shipments', []));
 
-        if (
-            count($units) === 0 &&
-            $request->request->get('sylius_refund_shipments') === null
-        ) {
+        if (count($units) === 0 && count($shipments) === 0) {
             throw new \InvalidArgumentException('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
         }
 

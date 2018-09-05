@@ -130,6 +130,18 @@ final class RefundingContext implements Context
     {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
+        ));
+    }
+
+    /**
+     * @When /^I try to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
+     */
+    public function tryToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
+    {
+        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
@@ -147,14 +159,15 @@ final class RefundingContext implements Context
         string $productName,
         PaymentMethodInterface $paymentMethod
     ): void {
-        $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        /** @var AdjustmentInterface $shipment */
+        $shipment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         $this->commandBus->dispatch(
             new RefundUnits(
                 $this->order->getNumber(),
                 [new UnitRefund($unit->getId(), $unit->getTotal())],
-                [$shippingAdjustment->getId()],
+                [new ShipmentRefund($shipment->getId(), $shipment->getAmount())],
                 $paymentMethod->getId(),
                 ''
             )

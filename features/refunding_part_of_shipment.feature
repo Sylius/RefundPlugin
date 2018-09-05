@@ -34,6 +34,6 @@ Feature: Refunding a part of an shipment
     Scenario: Not being able to refund more money than shipment total
         Given shipment from order "#00000022" has already "$5.00" refunded with "Space money" payment
         When I want to refund some units of order "#00000022"
-        And I decide to refund "$18.00" from order shipment with "Space money" payment
+        And I try to refund "$18.00" from order shipment with "Space money" payment
         Then I should be notified that I cannot refund more money than the shipment total
         And this order refunded total should still be "$5.00"
