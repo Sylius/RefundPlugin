@@ -32,10 +32,10 @@ final class DownloadCreditMemoAction
         $this->creditMemoFileResponseBuilder = $creditMemoFileResponseBuilder;
     }
 
-    public function __invoke(Request $request, int $id): Response
+    public function __invoke(Request $request, string $id): Response
     {
         try {
-            $this->creditMemoCustomerRelationChecker->check((string) $id);
+            $this->creditMemoCustomerRelationChecker->check($id);
         } catch (CreditMemoNotAccessible $exception) {
             return new Response($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         }

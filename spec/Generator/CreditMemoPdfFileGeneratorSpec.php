@@ -34,7 +34,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         GeneratorInterface $pdfGenerator,
         CreditMemoInterface $creditMemo
     ): void {
-        $creditMemoRepository->find(1)->willReturn($creditMemo);
+        $creditMemoRepository->find('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->willReturn($creditMemo);
         $creditMemo->getNumber()->willReturn('2015/05/00004444');
 
         $twig
@@ -44,17 +44,20 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
 
         $pdfGenerator->getOutputFromHtml('<html>I am a credit memo pdf file content</html>')->willReturn('PDF FILE');
 
-        $this->generate(1)->shouldBeLike(new CreditMemoPdf('2015_05_00004444.pdf', 'PDF FILE'));
+        $this
+            ->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
+            ->shouldBeLike(new CreditMemoPdf('2015_05_00004444.pdf', 'PDF FILE'))
+        ;
     }
 
     function it_throws_exception_if_credit_memo_with_given_id_has_not_been_found(
         RepositoryInterface $creditMemoRepository
     ): void {
-        $creditMemoRepository->find(1)->willReturn(null);
+        $creditMemoRepository->find('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->willReturn(null);
 
         $this
-            ->shouldThrow(CreditMemoNotFound::withId(1))
-            ->during('generate', [1])
+            ->shouldThrow(CreditMemoNotFound::withId('7903c83a-4c5e-4bcf-81d8-9dc304c6a353'))
+            ->during('generate', ['7903c83a-4c5e-4bcf-81d8-9dc304c6a353'])
         ;
     }
 }

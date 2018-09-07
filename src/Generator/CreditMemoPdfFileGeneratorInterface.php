@@ -8,5 +8,5 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 
 interface CreditMemoPdfFileGeneratorInterface
 {
-    public function generate(int $creditMemoId): CreditMemoPdf;
+    public function generate(string $creditMemoId): CreditMemoPdf;
 }
