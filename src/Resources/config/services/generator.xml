@@ -24,6 +24,7 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator">
@@ -32,5 +33,7 @@
             <argument type="service" id="knp_snappy.pdf" />
             <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
         </service>
+
+        <service id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
     </services>
 </container>

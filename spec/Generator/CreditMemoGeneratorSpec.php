@@ -13,6 +13,7 @@ use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
+use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
@@ -26,14 +27,16 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider
+        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
     ): void {
         $this->beConstructedWith(
             $orderRepository,
             $orderItemUnitCreditMemoUnitGenerator,
             $shipmentCreditMemoUnitGenerator,
             $creditMemoNumberGenerator,
-            $currentDateTimeProvider
+            $currentDateTimeProvider,
+            $creditMemoIdentifierGenerator
         );
     }
 
@@ -50,6 +53,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         \DateTime $dateTime
     ): void {
         $firstUnitRefund = new UnitRefund(1, 500);
@@ -77,7 +81,10 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $currentDateTimeProvider->now()->willReturn($dateTime);
 
+        $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
+
         $this->generate('000666', 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldBeLike(new CreditMemo(
+            '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
             '2018/07/00001111',
             '000666',
             1400,

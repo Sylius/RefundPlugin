@@ -16,6 +16,7 @@ final class CreditMemoSpec extends ObjectBehavior
         $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50);
 
         $this->beConstructedWith(
+            '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
             '2018/07/00003333',
             '0000222',
             1000,
@@ -31,6 +32,11 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_implements_credit_memo_interface(): void
     {
         $this->shouldImplement(CreditMemoInterface::class);
+    }
+
+    function it_has_id(): void
+    {
+        $this->getId()->shouldReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
     }
 
     function it_has_number(): void

@@ -32,18 +32,23 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     /** @var CurrentDateTimeProviderInterface */
     private $currentDateTimeProvider;
 
+    /** @var CreditMemoIdentifierGeneratorInterface */
+    private $uuidCreditMemoIdentifierGenerator;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider
+        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CreditMemoIdentifierGeneratorInterface $uuidCreditMemoIdentifierGenerator
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderItemUnitCreditMemoUnitGenerator = $orderItemUnitCreditMemoUnitGenerator;
         $this->shipmentCreditMemoUnitGenerator = $shipmentCreditMemoUnitGenerator;
         $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
         $this->currentDateTimeProvider = $currentDateTimeProvider;
+        $this->uuidCreditMemoIdentifierGenerator = $uuidCreditMemoIdentifierGenerator;
     }
 
     public function generate(
@@ -81,6 +86,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         }
 
         return new CreditMemo(
+            $this->uuidCreditMemoIdentifierGenerator->generate(),
             $this->creditMemoNumberGenerator->generate(),
             $orderNumber,
             $total,
