@@ -8,9 +8,7 @@
 >
 
     <entity name="Sylius\RefundPlugin\Entity\CreditMemo" table="sylius_refund_credit_memo">
-        <id name="id" column="id" type="integer">
-            <generator strategy="AUTO" />
-        </id>
+        <id name="id" column="id" type="string" />
 
         <field name="number" />
         <field name="orderNumber" />

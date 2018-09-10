@@ -7,7 +7,7 @@ namespace Sylius\RefundPlugin\Entity;
 /** @final */
 class CreditMemo implements CreditMemoInterface
 {
-    /** @var int */
+    /** @var string */
     private $id;
 
     /** @var string */
@@ -38,6 +38,7 @@ class CreditMemo implements CreditMemoInterface
     private $issuedAt;
 
     public function __construct(
+        string $id,
         string $number,
         string $orderNumber,
         int $total,
@@ -48,6 +49,7 @@ class CreditMemo implements CreditMemoInterface
         string $comment,
         \DateTimeInterface $issuedAt
     ) {
+        $this->id = $id;
         $this->number = $number;
         $this->orderNumber = $orderNumber;
         $this->total = $total;
@@ -59,7 +61,7 @@ class CreditMemo implements CreditMemoInterface
         $this->issuedAt = $issuedAt;
     }
 
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }

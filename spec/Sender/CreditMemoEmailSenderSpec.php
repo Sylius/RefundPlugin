@@ -33,10 +33,13 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         FileManagerInterface $fileManager,
         CreditMemoInterface $creditMemo
     ): void {
-        $creditMemo->getId()->willReturn(1);
+        $creditMemo->getId()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $creditMemoPdf = new CreditMemoPdf('credit-memo.pdf', 'I am credit memo number #2018/10/000444');
-        $creditMemoPdfFileGenerator->generate(1)->willReturn($creditMemoPdf);
+        $creditMemoPdfFileGenerator
+            ->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
+            ->willReturn($creditMemoPdf)
+        ;
 
         $fileManager->createWithContent('credit-memo.pdf', 'I am credit memo number #2018/10/000444')->shouldBeCalled();
 

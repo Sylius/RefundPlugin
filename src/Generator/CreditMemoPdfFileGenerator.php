@@ -39,7 +39,7 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
         $this->template = $template;
     }
 
-    public function generate(int $creditMemoId): CreditMemoPdf
+    public function generate(string $creditMemoId): CreditMemoPdf
     {
         /** @var CreditMemoInterface|null $creditMemo */
         $creditMemo = $this->creditMemoRepository->find($creditMemoId);

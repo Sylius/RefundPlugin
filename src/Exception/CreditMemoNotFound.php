@@ -6,9 +6,9 @@ namespace Sylius\RefundPlugin\Exception;
 
 final class CreditMemoNotFound extends \InvalidArgumentException
 {
-    public static function withId(int $id): self
+    public static function withId(string $id): self
     {
-        return new self(sprintf('Credit memo with id "%d" has not been found', $id));
+        return new self(sprintf('Credit memo with id "%s" has not been found', $id));
     }
 
     public static function withNumber(string $number): self
