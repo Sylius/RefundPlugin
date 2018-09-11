@@ -171,11 +171,27 @@ final class CreditMemoContext implements Context
     /**
      * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "#([^"]+)", have total "([^"]+)" and date of being issued$/
      */
-    public function creditMemoShouldBeGeneratedForOrderHasTotalAndDateOfBeingIssued(int $index, string $orderNumber, string $total): void
-    {
-        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['issuedAt' => 'ASC']);
+    public function creditMemoShouldBeGeneratedForOrderHasTotalAndDateOfBeingIssued(
+        int $index,
+        string $orderNumber,
+        string $total
+    ): void {
+        Assert::true(
+            $this->creditMemoIndexPage->hasCreditMemoWithOrderNumber($index, $orderNumber),
+            sprintf('Order number for %d credit memo should be %s', $index, $orderNumber)
+        );
 
-        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithData($index, $orderNumber, $total, $creditMemos[$index-1]->getIssuedAt()));
+        Assert::true(
+            $this->creditMemoIndexPage->hasCreditMemoWithTotal($index, $total),
+            sprintf('Total for %d credit memo should be %s', $index, $total)
+        );
+
+        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['issuedAt' => 'ASC']);
+        $issuedAt = $creditMemos[$index - 1]->getIssuedAt();
+
+        Assert::true($this->creditMemoIndexPage->hasCreditMemoWithDateOfBeingIssued($index, $issuedAt),
+            sprintf('Date of being issued for %d credit memo should be %s', $index, $issuedAt->format('Y-m-d H:i:s'))
+        );
     }
 
     /**

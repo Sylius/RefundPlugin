@@ -12,12 +12,11 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
 
     public function filterByChannel(string $channelName): void;
 
-    public function hasCreditMemoWithData(
-        int $index,
-        string $orderNumber,
-        string $total,
-        \DateTimeInterface $issuedAt
-    ): bool;
+    public function hasCreditMemoWithOrderNumber(int $index, string $orderNumber): bool;
+
+    public function hasCreditMemoWithDateOfBeingIssued(int $index, \DateTimeInterface $issuedAt): bool;
+
+    public function hasCreditMemoWithTotal(int $index, string $total): bool;
 
     public function hasCreditMemoWithChannel(int $index, string $channelName): bool;
 
