@@ -13,8 +13,8 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 final class OrderRefundsListAction
@@ -34,28 +34,38 @@ final class OrderRefundsListAction
     /** @var ChannelContextInterface */
     private $channelContext;
 
+    /** @var Session */
+    private $session;
+
+    /** @var UrlGeneratorInterface */
+    private $router;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         Environment $twig,
-        ChannelContextInterface $channelContext
+        ChannelContextInterface $channelContext,
+        Session $session,
+        UrlGeneratorInterface $router
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->paymentMethodRepository = $paymentMethodRepository;
         $this->twig = $twig;
         $this->channelContext = $channelContext;
+        $this->session = $session;
+        $this->router = $router;
     }
 
     public function __invoke(Request $request): Response
     {
-        if (!$this->orderRefundingAvailabilityChecker->__invoke($request->attributes->get('orderNumber'))) {
-            return $this->redirectToReferer($request);
-        }
-
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($request->attributes->get('orderNumber'));
+
+        if (!$this->orderRefundingAvailabilityChecker->__invoke($request->attributes->get('orderNumber'))) {
+            return $this->redirectToReferer($order);
+        }
 
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
@@ -69,19 +79,10 @@ final class OrderRefundsListAction
         );
     }
 
-    private function redirectToReferer(Request $request): Response
+    private function redirectToReferer(OrderInterface $order): Response
     {
-        /** @var SessionInterface|null $session */
-        $session = $request->getSession();
-        if (null !== $session) {
-            /** @var FlashBagInterface $flashBag */
-            $flashBag = $session->getBag('flashes');
-            $flashBag->add('error', 'sylius_refund.order_should_be_paid');
-        }
+        $this->session->getFlashBag()->add('error', 'sylius_refund.order_should_be_paid');
 
-        /** @var string $referer */
-        $referer = $request->headers->get('referer');
-
-        return new RedirectResponse($referer);
+        return new RedirectResponse($this->router->generate('sylius_admin_order_show', ['id' => $order->getId()]));
     }
 }
