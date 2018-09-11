@@ -59,6 +59,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {% set unitNumber = 0 %}
                         {% for item in order.items %}
                             {% for unit in item.units %}
                                 {% set variant = item.variant %}
@@ -76,18 +77,19 @@
                                         {% endif %}
                                     </td>
                                     <td class="aligned collapsing partial-refund">
-                                        {% set inputName = "sylius_refund_units["~loop.index0~"][amount]" %}
-                                        {% set hiddenInputName = "sylius_refund_units["~loop.index0~"][partial-id]" %}
+                                        {% set inputName = "sylius_refund_units["~unitNumber~"][amount]" %}
+                                        {% set hiddenInputName = "sylius_refund_units["~unitNumber~"][partial-id]" %}
                                         <input type="number" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
                                         <input type="hidden" name="{{ hiddenInputName }}" value="{{ unit.id }}"/>
                                     </td>
                                     <td class="aligned collapsing">
                                         <div class="ui checkbox {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}">
-                                            {% set checkboxName = "sylius_refund_units["~loop.index0~"][id]" %}
+                                            {% set checkboxName = "sylius_refund_units["~unitNumber~"][id]" %}
                                             <input type="checkbox" name="{{ checkboxName }}" value="{{ unit.id }}">
                                         </div>
                                     </td>
                                 </tr>
+                                {% set unitNumber = unitNumber + 1 %}
                             {% endfor %}
                         {% endfor %}
                         {% if order.getAdjustments('shipping')|length > 0 %}
