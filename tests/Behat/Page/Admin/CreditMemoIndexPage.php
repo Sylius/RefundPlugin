@@ -22,29 +22,34 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
         $this->getDocument()->find('css', '#criteria_channel_channel')->selectOption($channelName);
     }
 
-    public function hasCreditMemoWithData(
-        int $index,
-        string $orderNumber,
-        string $total,
-        \DateTimeInterface $issuedAt
-    ): bool {
-        $creditMemoData = $this->getDocument()->findAll('css', 'table thead tr')[0]->getText();
-
+    public function hasCreditMemoWithOrderNumber(int $index, string $orderNumber): bool
+    {
         /** @var NodeElement $creditMemo */
-        $creditMemo = $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
+        $creditMemo = $this->getCreditMemoElement($index);
 
-        return
-            sprintf($creditMemoData, ['Number', 'Order number', 'Total', 'Issued at', 'Actions']) !== null &&
-            $creditMemo->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null &&
-            $creditMemo->find('css', sprintf('td:contains("%s")', $issuedAt->format('Y-m-d H:i:s'))) !== null &&
-            $creditMemo->find('css', sprintf('td:contains("%s")', $total)) !== null
-        ;
+        return $creditMemo->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null;
+    }
+
+    public function hasCreditMemoWithDateOfBeingIssued(int $index, \DateTimeInterface $issuedAt): bool
+    {
+        /** @var NodeElement $creditMemo */
+        $creditMemo = $this->getCreditMemoElement($index);
+
+        return $creditMemo->find('css', sprintf('td:contains("%s")', $issuedAt->format('Y-m-d H:i:s'))) !== null;
+    }
+
+    public function hasCreditMemoWithTotal(int $index, string $total): bool
+    {
+        /** @var NodeElement $creditMemo */
+        $creditMemo = $this->getCreditMemoElement($index);
+
+        return $creditMemo->find('css', sprintf('td:contains("%s")', $total)) !== null;
     }
 
     public function hasCreditMemoWithChannel(int $index, string $channelName): bool
     {
         /** @var NodeElement $creditMemo */
-        $creditMemo = $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
+        $creditMemo = $this->getCreditMemoElement($index);
 
         return $creditMemo->find('css', sprintf('td:contains("%s")', $channelName)) !== null;
     }
@@ -57,5 +62,10 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
             count($creditMemos) === 1 &&
             $creditMemos[0]->find('css', sprintf('td:contains("%s")', $orderNumber)) !== null
         ;
+    }
+
+    private function getCreditMemoElement(int $index): NodeElement
+    {
+        return $this->getDocument()->findAll('css', 'table tbody tr')[$index-1];
     }
 }
