@@ -186,7 +186,7 @@ final class CreditMemoContext implements Context
             sprintf('Total for %d credit memo should be %s', $index, $total)
         );
 
-        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['issuedAt' => 'ASC']);
+        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['number' => 'ASC']);
         $issuedAt = $creditMemos[$index - 1]->getIssuedAt();
 
         Assert::true($this->creditMemoIndexPage->hasCreditMemoWithDateOfBeingIssued($index, $issuedAt),
