@@ -66,6 +66,8 @@ sylius_grid:
                 name: doctrine/orm
                 options:
                     class: Sylius\RefundPlugin\Entity\CreditMemo
+            sorting:
+                number: desc
             fields:
                 number:
                     type: string
