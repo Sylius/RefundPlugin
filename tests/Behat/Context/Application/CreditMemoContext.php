@@ -49,6 +49,16 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then there should be no credit memos generated for order :orderNumber
+     */
+    public function thereShouldBeNoCreditMemosGeneratedForThisOrder(string $orderNumber): void
+    {
+        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber]);
+
+        Assert::count($creditMemos, 0);
+    }
+
+    /**
      * @Then it should have sequential number generated from current date
      */
     public function shouldHaveSequentialNumberGeneratedFromCurrentDate(): void

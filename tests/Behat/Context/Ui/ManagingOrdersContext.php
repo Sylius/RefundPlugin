@@ -6,9 +6,9 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
-use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\Order\ShowPageInterface;
 use Webmozart\Assert\Assert;
 
 final class ManagingOrdersContext implements Context
@@ -60,6 +60,24 @@ final class ManagingOrdersContext implements Context
     public function shouldSeeRefundPaymentWithStatus(int $count, string $status): void
     {
         Assert::true($this->showPage->hasRefundPaymentsWithStatus($count, $status));
+    }
+
+    /**
+     * @Then there should be no refund payments for order :order
+     */
+    public function thereShouldBeNoRefundPaymentForOrder(OrderInterface $order): void
+    {
+        $this->showPage->open(['id' => $order->getId()]);
+        Assert::eq($this->showPage->countRefundPayment(), 0);
+    }
+
+    /**
+     * @Then there should be no credit memos generated for order :order
+     */
+    public function shouldHaveNoCreditMemosGeneratedForOrder(OrderInterface $order): void
+    {
+        $this->showPage->open(['id' => $order->getId()]);
+        Assert::same($this->showPage->countCreditMemos(), 0);
     }
 
     /**

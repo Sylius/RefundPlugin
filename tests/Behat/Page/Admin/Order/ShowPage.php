@@ -22,6 +22,21 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         $creditMemoRow->clickLink('Download');
     }
 
+    public function completeRefundPayment(int $number): void
+    {
+        $refundPayments = $this->getDocument()->findAll('css', '#refund-payments tbody tr');
+
+        /** @var NodeElement $refundPayment */
+        $refundPayment = $refundPayments[$number];
+
+        $refundPayment->pressButton('Complete');
+    }
+
+    public function countRefundPayment(): int
+    {
+        return count($this->getDocument()->findAll('css', '#refund-payments tbody tr'));
+    }
+
     public function hasRefundsButton(): bool
     {
         return $this->getDocument()->hasButton('Refunds');
@@ -40,16 +55,6 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         }
 
         return $count === $refundPaymentsWithStatus;
-    }
-
-    public function completeRefundPayment(int $number): void
-    {
-        $refundPayments = $this->getDocument()->findAll('css', '#refund-payments tbody tr');
-
-        /** @var NodeElement $refundPayment */
-        $refundPayment = $refundPayments[$number];
-
-        $refundPayment->pressButton('Complete');
     }
 
     public function canCompleteRefundPayment(int $number): bool
