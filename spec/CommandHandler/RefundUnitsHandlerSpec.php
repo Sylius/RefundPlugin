@@ -9,34 +9,34 @@ use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
+use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
     function let(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
         EventBus $eventBus,
         OrderRepositoryInterface $orderRepository
     ): void {
         $this->beConstructedWith(
             $orderItemUnitsRefunder,
             $orderShipmentsRefunder,
-            $orderRefundingAvailabilityChecker,
+            $refundUnitsCommandValidator,
             $eventBus,
             $orderRepository
         );
     }
 
     function it_handles_command_and_create_refund_for_each_refunded_unit(
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         EventBus $eventBus,
@@ -46,7 +46,9 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $unitRefunds = [new UnitRefund(1, 3000), new UnitRefund(3, 4000)];
         $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
 
-        $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
+        $command = new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment');
+
+        $refundUnitsCommandValidator->validate($command)->shouldBeCalled();
 
         $orderItemUnitsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(3000);
         $orderShipmentsRefunder->refundFromOrder($shipmentRefunds, '000222')->willReturn(4000);
@@ -65,13 +67,13 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
+        $this($command);
     }
 
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus,
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
@@ -79,7 +81,9 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $unitRefunds = [new UnitRefund(1, 1000), new UnitRefund(3, 500)];
         $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
 
-        $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
+        $command = new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment');
+
+        $refundUnitsCommandValidator->validate($command)->shouldBeCalled();
 
         $orderItemUnitsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(1000);
         $orderShipmentsRefunder->refundFromOrder($shipmentRefunds, '000222')->willReturn(500);
@@ -98,23 +102,27 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ;
         }))->shouldBeCalled();
 
-        $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
+        $this($command);
     }
 
-    function it_throws_an_exception_if_order_is_not_available_for_refund(
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker
+    function it_does_nothing_if_command_is_not_valid(
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
+        RefunderInterface $orderItemUnitsRefunder
     ): void {
-        $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(false);
+        $command = new RefundUnits(
+            '000222',
+            [new UnitRefund(1, 3000), new UnitRefund(3, 4000)],
+            [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
+            1,
+            'Comment')
+        ;
+
+        $refundUnitsCommandValidator->validate($command)->willThrow(\Exception::class);
+        $orderItemUnitsRefunder->refundFromOrder(Argument::any())->shouldNotBeCalled();
 
         $this
-            ->shouldThrow(OrderNotAvailableForRefundingException::class)
-            ->during('__invoke', [new RefundUnits(
-                '000222',
-                [new UnitRefund(1, 3000), new UnitRefund(3, 4000)],
-                [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
-                1,
-                'Comment'),
-            ])
+            ->shouldThrow(\Exception::class)
+            ->during('__invoke', [$command])
         ;
     }
 }

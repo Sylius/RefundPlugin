@@ -9,6 +9,7 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Exception\CreditMemoCommentTooLongException;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
 
 final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 {
@@ -16,6 +17,11 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker
     ): void {
         $this->beConstructedWith($orderRefundingAvailabilityChecker);
+    }
+
+    function it_implements_refund_units_command_validator_interface(): void
+    {
+        $this->shouldImplement(RefundUnitsCommandValidatorInterface::class);
     }
 
     function it_throws_exception_if_order_cannot_be_refunded(
@@ -36,7 +42,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(CreditMemoCommentTooLongException::class)
-            ->during('validate', [new RefundUnits('00001111', [], [], 1, $this->getCorrectString().'123')])
+            ->during('validate', [new RefundUnits('00001111', [], [], 1, $this->getCorrectString() . '123')])
         ;
     }
 

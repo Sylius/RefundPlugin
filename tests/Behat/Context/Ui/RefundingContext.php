@@ -229,7 +229,7 @@ final class RefundingContext implements Context
     public function shouldBeNotifiedThatCreditMemoCommentIsTooLong(): void
     {
         $this->notificationChecker->checkNotification(
-            'Credit memo comment is too long',
+            'Credit memo comment is too long!',
             NotificationType::failure()
         );
     }

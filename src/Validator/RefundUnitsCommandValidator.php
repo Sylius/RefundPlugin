@@ -9,7 +9,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Exception\CreditMemoCommentTooLongException;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 
-final class RefundUnitsCommandValidator
+final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorInterface
 {
     private const MAX_COMMENT_LENGTH = 256;
 
