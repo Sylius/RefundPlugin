@@ -16,7 +16,7 @@
         <field name="units" type="json" />
         <field name="currencyCode" />
         <field name="localeCode" />
-        <field name="comment" />
+        <field name="comment" type="text" />
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
         <embedded name="channel" class="Sylius\RefundPlugin\Entity\CreditMemoChannel" />

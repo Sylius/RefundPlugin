@@ -23,3 +23,11 @@ Feature: Providing comment for credit memo
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.00" tax applied
         And its total should be "$10.00"
         And it should be commented with "Money for nothing"
+
+    @ui
+    Scenario: Providing comment for credit memo
+        When I want to refund some units of order "#00000022"
+        And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment and a very long comment
+        Then I should be notified that selected order units have been successfully refunded
+        And I should have 1 credit memo generated for order "#00000022"
+        And I should see 1 refund payment with status "New"
