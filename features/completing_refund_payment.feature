@@ -22,7 +22,7 @@ Feature: Completing refund payment
         When I view the summary of the order "#00000022"
         And I complete the first refund payment
         Then I should be notified that refund payment has been successfully completed
-        Then I should see 1 refund payment with status "Completed"
+        And I should see 1 refund payment with status "Completed"
 
     @ui
     Scenario: Being unable to complete already completed payment

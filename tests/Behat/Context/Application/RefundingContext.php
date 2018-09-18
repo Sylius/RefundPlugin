@@ -31,6 +31,9 @@ final class RefundingContext implements Context
     /** @var RepositoryInterface */
     private $refundRepository;
 
+    /** @var RepositoryInterface */
+    private $refundPaymentRepository;
+
     /** @var RemainingTotalProviderInterface */
     private $remainingTotalProvider;
 
@@ -46,12 +49,14 @@ final class RefundingContext implements Context
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundRepository,
+        RepositoryInterface $refundPaymentRepository,
         RemainingTotalProviderInterface $remainingTotalProvider,
         CommandBus $commandBus,
         EmailCheckerInterface $emailChecker
     ) {
         $this->orderRepository = $orderRepository;
         $this->refundRepository = $refundRepository;
+        $this->refundPaymentRepository = $refundPaymentRepository;
         $this->remainingTotalProvider = $remainingTotalProvider;
         $this->commandBus = $commandBus;
         $this->emailChecker = $emailChecker;
@@ -84,6 +89,28 @@ final class RefundingContext implements Context
             $paymentMethod->getId(),
             $comment
         ));
+    }
+
+    /**
+     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and very long comment$/
+     */
+    public function decideToRefundProductWithVeryLongComment(
+        int $unitNumber,
+        string $productName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        $unitId = $this->getOrderUnit($unitNumber, $productName)->getId();
+
+        try {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [new UnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId, RefundType::orderItemUnit()))],
+                [],
+                $paymentMethod->getId(),
+                $this->provideLongComment()
+            ));
+        } catch (CommandDispatchException $exception) {
+        }
     }
 
     /**
@@ -296,9 +323,20 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Then there should be no refund payments for order :order
+     */
+    public function thereShouldBeNoRefundPaymentsForThisOrder(string $orderNumber): void
+    {
+        $refundPayments = $this->refundPaymentRepository->findBy(['orderNumber' => $orderNumber]);
+
+        Assert::count($refundPayments, 0);
+    }
+
+    /**
      * @Then I should be notified that selected order units have been successfully refunded
      * @Then I should be notified that I cannot refund more money than the order unit total
      * @Then I should be notified that I cannot refund more money than the shipment total
+     * @Then I should be notified that credit memo comment is too long
      */
     public function notificationSteps(): void
     {
@@ -312,5 +350,10 @@ final class RefundingContext implements Context
         });
 
         return $unitsWithProduct->get($unitNumber-1);
+    }
+
+    private function provideLongComment(): string
+    {
+        return 'Tu ne quaesieris scire nefas, quem mihi quem tibi finem di dederint, Leuconoe, nec Babylonios temptaris numeros. Ut melius quidquid erit pati. Seu plures hiemes sue tribuit Iuppiter ultimam. Qae nunc oppositis debilitat pumicibus mare Tyrrenum: sapias vina liques et spatio brevi. Spem longam resecens. Dum loquimur fugerit invida Aetas: CARPE DIEM, quam minimum credula postero.';
     }
 }
