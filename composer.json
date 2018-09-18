@@ -61,5 +61,11 @@
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "scripts": {
+        "analyse": [
+            "bin/phpstan.phar analyse -c phpstan.neon -l max src/",
+            "bin/ecs check src/ spec/"
+        ]
     }
 }
