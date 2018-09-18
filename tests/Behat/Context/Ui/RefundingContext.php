@@ -63,6 +63,20 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and a very long comment$/
+     */
+    public function decideToRefundProductWithVeryLongComment(
+        int $unitNumber,
+        string $productName,
+        string $paymentMethod
+    ): void {
+        $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
+        $this->orderRefundsPage->comment($this->provideLongComment());
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When /^I decide to refund (\d)st "([^"]+)" and (\d)st "([^"]+)" products with "([^"]+)" payment$/
      */
     public function decideToRefundMultipleProduct(
@@ -271,5 +285,10 @@ final class RefundingContext implements Context
     public function thereShouldBePaymentMethod(string $payment): void
     {
         Assert::true($this->orderRefundsPage->isPaymentMethodVisible($payment));
+    }
+
+    private function provideLongComment(): string
+    {
+        return 'Tu ne quaesieris scire nefas, quem mihi quem tibi finem di dederint, Leuconoe, nec Babylonios temptaris numeros. Ut melius quidquid erit pati. Seu plures hiemes sue tribuit Iuppiter ultimam. Qae nunc oppositis debilitat pumicibus mare Tyrrenum: sapias vina liques et spatio brevi. Spem longam resecens. Dum loquimur fugerit invida Aetas: CARPE DIEM, quam minimum credula postero.';
     }
 }
