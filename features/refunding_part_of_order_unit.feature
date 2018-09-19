@@ -49,3 +49,10 @@ Feature: Refunding a part of an order unit
         And I decide to refund "$10.00" from 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that I cannot refund more money than the order unit total
         And this order refunded total should still be "$5.00"
+
+    @ui @application
+    Scenario: Not being able to refund less than allowed amount
+        When I want to refund some units of order "#00000022"
+        And I decide to refund "$-8.00" from 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
+        Then I should be notified that refunded amount should be greater than 0
+        And this order refunded total should be "$0.00"

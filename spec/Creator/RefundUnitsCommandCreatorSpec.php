@@ -9,7 +9,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +48,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',
-            [new UnitRefund(1, 1000), new UnitRefund(2, 3000)],
+            [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)],
             [new ShipmentRefund(1, 5000)],
             1,
             'Comment'
@@ -74,7 +74,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',
-            [new UnitRefund(1, 1000), new UnitRefund(2, 3000)],
+            [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)],
             [new ShipmentRefund(1, 500)],
             1,
             'Comment'

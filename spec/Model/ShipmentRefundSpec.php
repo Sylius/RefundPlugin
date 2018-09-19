@@ -15,7 +15,7 @@ final class ShipmentRefundSpec extends ObjectBehavior
 
     function it_has_shipment_id(): void
     {
-        $this->shipmentId()->shouldReturn(1);
+        $this->id()->shouldReturn(1);
     }
 
     function it_has_total(): void

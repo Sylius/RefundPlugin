@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="true" />
+
+        <service id="Sylius\RefundPlugin\Validator\RefundUnitsCommandValidator">
+            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker"/>
+            <argument type="service" id="Sylius\RefundPlugin\Validator\RefundAmountValidator" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Validator\RefundAmountValidator">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
+            <argument type="service" id="Sylius\RefundPlugin\Normalizer\MultipleMessagesNormalizer" />
+        </service>
+
+    </services>
+</container>

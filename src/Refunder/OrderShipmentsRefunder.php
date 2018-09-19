@@ -30,11 +30,11 @@ final class OrderShipmentsRefunder implements RefunderInterface
 
         /** @var ShipmentRefund $shipmentUnit */
         foreach ($units as $shipmentUnit) {
-            $this->refundCreator->__invoke($orderNumber, $shipmentUnit->shipmentId(), $shipmentUnit->total(), RefundType::shipment());
+            $this->refundCreator->__invoke($orderNumber, $shipmentUnit->id(), $shipmentUnit->total(), RefundType::shipment());
 
             $refundedTotal += $shipmentUnit->total();
 
-            $this->eventBus->dispatch(new ShipmentRefunded($orderNumber, $shipmentUnit->shipmentId(), $shipmentUnit->total()));
+            $this->eventBus->dispatch(new ShipmentRefunded($orderNumber, $shipmentUnit->id(), $shipmentUnit->total()));
         }
 
         return $refundedTotal;

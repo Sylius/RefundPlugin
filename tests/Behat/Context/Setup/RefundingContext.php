@@ -13,7 +13,7 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -49,7 +49,7 @@ final class RefundingContext implements Context
 
         $this->commandBus->dispatch(new RefundUnits(
             $orderNumber,
-            [new UnitRefund($unit->getId(), $unit->getTotal())],
+            [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
             [],
             $paymentMethod->getId(),
             ''
@@ -75,7 +75,7 @@ final class RefundingContext implements Context
         $unit = $unitsWithProduct[$unitNumber-1];
 
         $this->commandBus->dispatch(new RefundUnits(
-            $orderNumber, [new UnitRefund($unit->getId(), $partialTotal)], [], $paymentMethod->getId(), ''
+            $orderNumber, [new OrderItemUnitRefund($unit->getId(), $partialTotal)], [], $paymentMethod->getId(), ''
         ));
     }
 
@@ -91,7 +91,7 @@ final class RefundingContext implements Context
         Assert::notNull($order);
 
         $units = array_map(function(OrderItemUnitInterface $unit) {
-            return new UnitRefund($unit->getId(), $unit->getTotal());
+            return new OrderItemUnitRefund($unit->getId(), $unit->getTotal());
         }, $order->getItemUnits()->getValues());
 
         $this->commandBus->dispatch(new RefundUnits(
@@ -115,7 +115,7 @@ final class RefundingContext implements Context
         Assert::notNull($order);
 
         $units = array_map(function(OrderItemUnitInterface $unit) {
-            return new UnitRefund($unit->getId(), $unit->getTotal());
+            return new OrderItemUnitRefund($unit->getId(), $unit->getTotal());
         }, $order->getItemUnits()->getValues());
 
         /** @var AdjustmentInterface $shipment */

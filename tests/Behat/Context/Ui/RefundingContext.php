@@ -187,6 +187,17 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Then I should be notified that refunded amount should be greater than 0
+     */
+    public function shouldBeNotifiedThatRefundedAmountShouldBeGreaterThan(): void
+    {
+        $this->notificationChecker->checkNotification(
+            'Refund amount must be greater than 0',
+            NotificationType::failure()
+        );
+    }
+
+    /**
      * @Then I should be notified that I cannot refund more money than the order unit total
      * @Then I should be notified that I cannot refund more money than the shipment total
      */

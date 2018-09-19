@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -79,7 +79,7 @@ final class RefundingContext implements Context
 
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
-            [new UnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId, RefundType::orderItemUnit()))],
+            [new OrderItemUnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId, RefundType::orderItemUnit()))],
             [],
             $paymentMethod->getId(),
             $comment
@@ -100,7 +100,7 @@ final class RefundingContext implements Context
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
-                [new UnitRefund($unit->getId(), $partialPrice)],
+                [new OrderItemUnitRefund($unit->getId(), $partialPrice)],
                 [],
                 $paymentMethod->getId(),
                 ''
@@ -166,7 +166,7 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(
             new RefundUnits(
                 $this->order->getNumber(),
-                [new UnitRefund($unit->getId(), $unit->getTotal())],
+                [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
                 [new ShipmentRefund($shipment->getId(), $shipment->getAmount())],
                 $paymentMethod->getId(),
                 ''
@@ -218,7 +218,7 @@ final class RefundingContext implements Context
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
-                [new UnitRefund($unit->getId(), $unit->getTotal())],
+                [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
                 [],
                 1,
                 ''
@@ -277,7 +277,7 @@ final class RefundingContext implements Context
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
-                [new UnitRefund($unit->getId(), $unit->getTotal())],
+                [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
                 [],
                 $paymentMethod->getId(),
                 ''
@@ -301,6 +301,14 @@ final class RefundingContext implements Context
      * @Then I should be notified that I cannot refund more money than the shipment total
      */
     public function notificationSteps(): void
+    {
+        // intentionally left blank - not relevant in application scope
+    }
+
+    /**
+     * @Then I should be notified that refunded amount should be greater than 0
+     */
+    public function shouldBeNotifiedThatRefundedAmountShouldBeGreaterThan(): void
     {
         // intentionally left blank - not relevant in application scope
     }

@@ -17,7 +17,7 @@ use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
@@ -56,8 +56,8 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         \DateTime $dateTime
     ): void {
-        $firstUnitRefund = new UnitRefund(1, 500);
-        $secondUnitRefund = new UnitRefund(3, 500);
+        $firstUnitRefund = new OrderItemUnitRefund(1, 500);
+        $secondUnitRefund = new OrderItemUnitRefund(3, 500);
         $shipmentRefund = new ShipmentRefund(3, 400);
 
         $orderRepository->findOneByNumber('000666')->willReturn($order);

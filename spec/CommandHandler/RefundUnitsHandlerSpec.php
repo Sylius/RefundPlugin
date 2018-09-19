@@ -14,7 +14,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
@@ -43,7 +43,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
-        $unitRefunds = [new UnitRefund(1, 3000), new UnitRefund(3, 4000)];
+        $unitRefunds = [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)];
         $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
 
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
@@ -76,7 +76,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
-        $unitRefunds = [new UnitRefund(1, 1000), new UnitRefund(3, 500)];
+        $unitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 500)];
         $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
 
         $orderRefundingAvailabilityChecker->__invoke('000222')->willReturn(true);
@@ -110,7 +110,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
             ->shouldThrow(OrderNotAvailableForRefundingException::class)
             ->during('__invoke', [new RefundUnits(
                 '000222',
-                [new UnitRefund(1, 3000), new UnitRefund(3, 4000)],
+                [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)],
                 [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
                 1,
                 'Comment'),
