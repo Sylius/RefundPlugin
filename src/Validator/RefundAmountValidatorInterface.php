@@ -8,5 +8,5 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 interface RefundAmountValidatorInterface
 {
-    public function validateUnits(array $refunds, RefundType $refundType): void;
+    public function validateUnits(array $unitRefunds, RefundType $refundType): void;
 }

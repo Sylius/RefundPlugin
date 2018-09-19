@@ -63,17 +63,4 @@ final class RefundCreatorSpec extends ObjectBehavior
             ->during('__invoke', ['000222', 1, 1000, $refundType])
         ;
     }
-
-    function it_throws_exception_if_unit_refund_amount_is_too_big(
-        RemainingTotalProviderInterface $remainingTotalProvider
-    ): void {
-        $refundType = RefundType::orderItemUnit();
-
-        $remainingTotalProvider->getTotalLeftToRefund(1, $refundType)->willReturn(500);
-
-        $this
-            ->shouldThrow(UnitRefundExceededException::class)
-            ->during('__invoke', ['000222', 1, 1000, $refundType])
-        ;
-    }
 }

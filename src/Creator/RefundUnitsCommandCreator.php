@@ -9,6 +9,7 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -47,11 +48,11 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
     /**
      * Parse unit id's to UnitRefund with id and remaining total or amount passed in request
      *
-     * @return array|OrderItemUnitRefund[]
+     * @return array|UnitRefundInterface[]
      */
     private function parseIdsToUnitRefunds(array $units): array
     {
-        return array_map(function (array $refundUnit): OrderItemUnitRefund {
+        return array_map(function (array $refundUnit): UnitRefundInterface {
             if (isset($refundUnit['amount']) && $refundUnit['amount'] !== '') {
                 $id = (int) $refundUnit['partial-id'];
                 $total = (int) (((float) $refundUnit['amount']) * 100);
@@ -69,11 +70,11 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
     /**
      * Parse shipment id's to ShipmentRefund with id and remaining total or amount passed in request
      *
-     * @return array|ShipmentRefund[]
+     * @return array|UnitRefundInterface[]
      */
     private function parseIdsToShipmentRefunds(array $units): array
     {
-        return array_map(function (array $refundShipment): ShipmentRefund {
+        return array_map(function (array $refundShipment): UnitRefundInterface {
             if (isset($refundShipment['amount']) && $refundShipment['amount'] !== '') {
                 $id = (int) $refundShipment['partial-id'];
                 $total = (int) (((float) $refundShipment['amount']) * 100);

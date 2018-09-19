@@ -7,7 +7,7 @@ namespace spec\Sylius\RefundPlugin\Model;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
-final class ShipmentRefundSpec extends ObjectBehavior
+final class OrderItemUnitRefundSpec extends ObjectBehavior
 {
     function let(): void
     {

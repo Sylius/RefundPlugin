@@ -11,7 +11,6 @@
 
         <service id="Sylius\RefundPlugin\Validator\RefundAmountValidator">
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
-            <argument type="service" id="Sylius\RefundPlugin\Normalizer\MultipleMessagesNormalizer" />
         </service>
 
     </services>

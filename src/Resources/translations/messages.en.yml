@@ -10,8 +10,6 @@ sylius_refund:
         manage_credit_memos: Manage credit memos
         order_number: Order number
         partial_refund: Partial refund
-        refund_amount_must_be_greater: Refund amount must be greater than 0
-        refund_amount_must_be_less: Refund amount must be less than amount available for refund
         refund_all: Refund all
         refund_payment_completed: Refund payment completed sucessfully
         refund_payments: Refund payments

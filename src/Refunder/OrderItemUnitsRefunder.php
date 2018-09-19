@@ -8,7 +8,7 @@ use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 final class OrderItemUnitsRefunder implements RefunderInterface
 {
@@ -30,7 +30,7 @@ final class OrderItemUnitsRefunder implements RefunderInterface
     {
         $refundedTotal = 0;
 
-        /** @var OrderItemUnitRefund $unit */
+        /** @var UnitRefundInterface $unit */
         foreach ($units as $unit) {
             $this->refundCreator->__invoke($orderNumber, $unit->id(), $unit->total(), RefundType::orderItemUnit());
 
