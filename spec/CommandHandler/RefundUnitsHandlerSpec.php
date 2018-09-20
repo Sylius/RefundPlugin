@@ -9,15 +9,13 @@ use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
-use Sylius\RefundPlugin\Validator\RefundUnitsValidationConstraintMessages;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {

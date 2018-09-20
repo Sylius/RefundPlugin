@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
-use Sylius\RefundPlugin\Exception\UnitRefundExceededException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;

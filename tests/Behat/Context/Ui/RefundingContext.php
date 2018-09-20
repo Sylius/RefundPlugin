@@ -81,7 +81,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^I decide to refund "\$([^"]+)" from (\d)st "([^"]+)" product with "([^"]+)" payment$/
+     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with "([^"]+)" payment$/
      */
     public function decideToRefundPartFromProductWithPayment(
         string $partialPrice,
@@ -131,7 +131,7 @@ final class RefundingContext implements Context
 
     /**
      * @When /^I decide to refund "\$([^"]+)" from order shipment with "([^"]+)" payment$/
-     * @When /^I try to refund "\$([^"]+)" from order shipment with "([^"]+)" payment$/
+     * @When /^I try to refund ("[^"]+") from order shipment with "([^"]+)" payment$/
      */
     public function decideToRefundPartOfOrderShipment(string $amount, string $paymentMethod): void
     {

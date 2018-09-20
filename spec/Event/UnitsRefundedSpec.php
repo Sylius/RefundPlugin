@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Event;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class UnitsRefundedSpec extends ObjectBehavior
 {

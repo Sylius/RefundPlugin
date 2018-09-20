@@ -7,5 +7,6 @@ namespace Sylius\RefundPlugin\Model;
 interface UnitRefundInterface
 {
     public function id(): int;
+
     public function total(): int;
 }

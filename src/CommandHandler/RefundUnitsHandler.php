@@ -7,14 +7,9 @@ namespace Sylius\RefundPlugin\CommandHandler;
 use Prooph\ServiceBus\EventBus;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
-use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
-use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface;
 use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
 
 final class RefundUnitsHandler

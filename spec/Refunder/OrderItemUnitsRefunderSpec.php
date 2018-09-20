@@ -9,8 +9,8 @@ use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class OrderItemUnitsRefunderSpec extends ObjectBehavior

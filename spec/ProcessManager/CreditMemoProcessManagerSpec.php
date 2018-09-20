@@ -9,8 +9,8 @@ use Prooph\ServiceBus\CommandBus;
 use Prophecy\Argument;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class CreditMemoProcessManagerSpec extends ObjectBehavior
 {

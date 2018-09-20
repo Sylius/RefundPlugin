@@ -16,8 +16,8 @@ use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
