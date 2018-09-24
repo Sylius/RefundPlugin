@@ -19,7 +19,7 @@ final class OrderItemUnitRefundSpec extends ObjectBehavior
         $this->shouldImplement(UnitRefundInterface::class);
     }
 
-    function it_has_shipment_id(): void
+    function it_has_id(): void
     {
         $this->id()->shouldReturn(1);
     }

@@ -25,11 +25,17 @@ final class RefundAmountValidatorSpec extends ObjectBehavior
 
     function it_throws_exception_if_total_of_at_least_one_unit_is_below_zero(): void
     {
-        $orderItemUnitRefund = new OrderItemUnitRefund(1, -10);
+        $incorrectOrderItemUnitRefund = new OrderItemUnitRefund(1, -10);
+        $correctOrderItemUnitRefund = new OrderItemUnitRefund(2, 10);
 
         $this
             ->shouldThrow(InvalidRefundAmountException::class)
-            ->during('validateUnits', [[$orderItemUnitRefund], RefundType::orderItemUnit()])
+            ->during(
+                'validateUnits',
+                [
+                    [$incorrectOrderItemUnitRefund, $correctOrderItemUnitRefund],
+                    RefundType::orderItemUnit(),
+                ])
         ;
     }
 }

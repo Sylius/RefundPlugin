@@ -89,7 +89,12 @@ final class RefundingContext implements Context
         string $productName,
         string $paymentMethod
     ): void {
-        $this->orderRefundsPage->pickPartOfUnitWithProductToRefund($productName, $unitNumber-1, $partialPrice);
+        $this->orderRefundsPage->pickPartOfUnitWithProductToRefund(
+            $productName,
+            $unitNumber-1,
+            sprintf("%f.2", $partialPrice / 100)
+        );
+
         $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
         $this->orderRefundsPage->refund();
     }

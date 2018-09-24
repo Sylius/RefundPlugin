@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -17,9 +16,9 @@ use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -274,17 +273,13 @@ final class RefundingContext implements Context
     ): void {
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
-        try {
-            $this->commandBus->dispatch(new RefundUnits(
-                $this->order->getNumber(),
-                [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
-                [],
-                $paymentMethod->getId(),
-                ''
-            ));
-        } catch (CommandDispatchException $exception) {
-            throw new \Exception('RefundUnits command should not fail');
-        }
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(),
+            [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
+            [],
+            $paymentMethod->getId(),
+            ''
+        ));
     }
 
     /**
@@ -299,16 +294,9 @@ final class RefundingContext implements Context
      * @Then I should be notified that selected order units have been successfully refunded
      * @Then I should be notified that I cannot refund more money than the order unit total
      * @Then I should be notified that I cannot refund more money than the shipment total
-     */
-    public function notificationSteps(): void
-    {
-        // intentionally left blank - not relevant in application scope
-    }
-
-    /**
      * @Then I should be notified that refunded amount should be greater than 0
      */
-    public function shouldBeNotifiedThatRefundedAmountShouldBeGreaterThan(): void
+    public function notificationSteps(): void
     {
         // intentionally left blank - not relevant in application scope
     }
