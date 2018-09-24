@@ -1,6 +1,7 @@
 {
     "name": "sylius/refund-plugin",
-    "type": "sylius-plugin",
+    "type": "symfony-bundle",
+    "keywords": ["sylius", "sylius-plugin", "symfony", "e-commerce", "refunds"],
     "description": "Plugin provides basic refunds functionality for Sylius application.",
     "license": "MIT",
     "authors": [
