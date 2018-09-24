@@ -10,6 +10,10 @@
 
 <p align="center">This plugin provides basic refunds functionality for Sylius application.</p>
 
+![Screenshot showing order's refund section](docs/refunds.png)
+
+![Screenshot showing order's credit memos and refund payments](docs/credit_memo.png)
+
 ## Business value
 
 In contrast to basic Refund functionality delivered by core Sylius bundles, Refund Plugin offers much wider range of 
