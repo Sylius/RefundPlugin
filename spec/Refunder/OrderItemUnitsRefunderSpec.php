@@ -9,8 +9,8 @@ use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
-use Sylius\RefundPlugin\Model\UnitRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 
 final class OrderItemUnitsRefunderSpec extends ObjectBehavior
@@ -31,8 +31,8 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
         RefundCreatorInterface $refundCreator,
         EventBus $eventBus
     ): void {
-        $firstUnitRefund = new UnitRefund(1, 1500);
-        $secondUnitRefund = new UnitRefund(3, 1000);
+        $firstUnitRefund = new OrderItemUnitRefund(1, 1500);
+        $secondUnitRefund = new OrderItemUnitRefund(3, 1000);
 
         $refundCreator->__invoke('000222', 1, 1500, RefundType::orderItemUnit())->shouldBeCalled();
 

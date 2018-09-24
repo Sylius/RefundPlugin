@@ -9,9 +9,9 @@
         <service id="Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler">
             <argument type="service" id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder" />
             <argument type="service" id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder" />
-            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker" />
             <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
             <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="Sylius\RefundPlugin\Validator\RefundUnitsCommandValidator" />
             <tag name="prooph_service_bus.sylius_refund_command_bus.route_target" message-detection="true" />
         </service>
 

@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
-use Sylius\RefundPlugin\Exception\UnitRefundExceededException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
@@ -60,19 +59,6 @@ final class RefundCreatorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(UnitAlreadyRefundedException::class)
-            ->during('__invoke', ['000222', 1, 1000, $refundType])
-        ;
-    }
-
-    function it_throws_exception_if_unit_refund_amount_is_too_big(
-        RemainingTotalProviderInterface $remainingTotalProvider
-    ): void {
-        $refundType = RefundType::orderItemUnit();
-
-        $remainingTotalProvider->getTotalLeftToRefund(1, $refundType)->willReturn(500);
-
-        $this
-            ->shouldThrow(UnitRefundExceededException::class)
             ->during('__invoke', ['000222', 1, 1000, $refundType])
         ;
     }

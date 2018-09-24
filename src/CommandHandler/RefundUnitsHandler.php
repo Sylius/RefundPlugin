@@ -7,11 +7,10 @@ namespace Sylius\RefundPlugin\CommandHandler;
 use Prooph\ServiceBus\EventBus;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
+use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
 
 final class RefundUnitsHandler
 {
@@ -21,34 +20,32 @@ final class RefundUnitsHandler
     /** @var RefunderInterface */
     private $orderShipmentsRefunder;
 
-    /** @var OrderRefundingAvailabilityCheckerInterface */
-    private $orderRefundingAvailabilityChecker;
-
     /** @var EventBus */
     private $eventBus;
 
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
+    /** @var RefundUnitsCommandValidatorInterface */
+    private $refundUnitsCommandValidator;
+
     public function __construct(
         RefunderInterface $orderUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         EventBus $eventBus,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
     ) {
-        $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->orderUnitsRefunder = $orderUnitsRefunder;
         $this->orderShipmentsRefunder = $orderShipmentsRefunder;
         $this->eventBus = $eventBus;
         $this->orderRepository = $orderRepository;
+        $this->refundUnitsCommandValidator = $refundUnitsCommandValidator;
     }
 
     public function __invoke(RefundUnits $command): void
     {
-        if (!$this->orderRefundingAvailabilityChecker->__invoke($command->orderNumber())) {
-            throw OrderNotAvailableForRefundingException::withOrderNumber($command->orderNumber());
-        }
+        $this->refundUnitsCommandValidator->validate($command);
 
         $orderNumber = $command->orderNumber();
 

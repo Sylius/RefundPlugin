@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -54,6 +54,6 @@ final class UnitsRefundedEventListenerSpec extends ObjectBehavior
 
         $flashBag->add('success', 'sylius_refund.units_successfully_refunded')->shouldBeCalled();
 
-        $this(new UnitsRefunded('000222', [new UnitRefund(1, 500), new UnitRefund(2, 500)], [1], 1, 1000, 'USD', 'Comment'));
+        $this(new UnitsRefunded('000222', [new OrderItemUnitRefund(1, 500), new OrderItemUnitRefund(2, 500)], [1], 1, 1000, 'USD', 'Comment'));
     }
 }

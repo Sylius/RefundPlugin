@@ -6,7 +6,6 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
-use Sylius\RefundPlugin\Exception\UnitRefundExceededException;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
@@ -38,10 +37,6 @@ final class RefundCreator implements RefundCreatorInterface
 
         if ($remainingTotal === 0) {
             throw UnitAlreadyRefundedException::withIdAndOrderNumber($unitId, $orderNumber);
-        }
-
-        if ($remainingTotal < $amount) {
-            throw new UnitRefundExceededException();
         }
 
         $refund = $this->refundFactory->createWithData($orderNumber, $unitId, $amount, $refundType);

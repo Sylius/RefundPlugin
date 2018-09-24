@@ -7,6 +7,7 @@
         <import resource="services/event_bus.xml" />
         <import resource="services/generator.xml" />
         <import resource="services/provider.xml" />
+        <import resource="services/validator.xml" />
     </imports>
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />

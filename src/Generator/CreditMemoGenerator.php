@@ -11,8 +11,7 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
@@ -69,18 +68,18 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 
         $creditMemoUnits = [];
 
-        /** @var UnitRefund $unit */
+        /** @var UnitRefundInterface $unit */
         foreach ($units as $unit) {
             $creditMemoUnits[] = $this->orderItemUnitCreditMemoUnitGenerator
-                ->generate($unit->unitId(), $unit->total())
+                ->generate($unit->id(), $unit->total())
                 ->serialize()
             ;
         }
 
-        /** @var ShipmentRefund $shipment */
+        /** @var UnitRefundInterface $shipment */
         foreach ($shipments as $shipment) {
             $creditMemoUnits[] = $this->shipmentCreditMemoUnitGenerator
-                ->generate($shipment->shipmentId(), $shipment->total())
+                ->generate($shipment->id(), $shipment->total())
                 ->serialize()
             ;
         }

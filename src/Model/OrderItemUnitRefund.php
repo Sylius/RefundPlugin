@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Model;
 
-final class UnitRefund
+final class OrderItemUnitRefund implements UnitRefundInterface
 {
     /** @var int */
     private $unitId;
@@ -18,7 +18,7 @@ final class UnitRefund
         $this->total = $total;
     }
 
-    public function unitId(): int
+    public function id(): int
     {
         return $this->unitId;
     }
