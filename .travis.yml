@@ -73,9 +73,9 @@ script:
     - composer validate --strict
     - composer analyse
 
-    - bin/phpspec run
-    - bin/phpunit
-    - bin/behat --strict -vvv --no-interaction --tags="~@todo" || bin/behat --strict -vvv --no-interaction --rerun --tags="~@todo"
+    - vendor/bin/phpspec run
+    - vendor/bin/phpunit
+    - vendor/bin/behat --strict -vvv --no-interaction --tags="~@todo" || bin/behat --strict -vvv --no-interaction --rerun --tags="~@todo"
 
 after_failure:
     - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
