@@ -1,6 +1,3 @@
-imports:
-    - { resource: '@SyliusRefundPlugin/Resources/config/services.xml' }
-
 sylius_resource:
     resources:
         sylius_refund.refund:
