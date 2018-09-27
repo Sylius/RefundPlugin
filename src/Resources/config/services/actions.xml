@@ -20,7 +20,6 @@
             <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker" />
             <argument type="service" id="sylius.repository.payment_method" />
             <argument type="service" id="twig" />
-            <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="session" />
             <argument type="service" id="router" />
         </service>
