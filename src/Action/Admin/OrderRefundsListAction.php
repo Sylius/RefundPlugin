@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
-use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
@@ -31,9 +29,6 @@ final class OrderRefundsListAction
     /** @var Environment */
     private $twig;
 
-    /** @var ChannelContextInterface */
-    private $channelContext;
-
     /** @var Session */
     private $session;
 
@@ -45,7 +40,6 @@ final class OrderRefundsListAction
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         Environment $twig,
-        ChannelContextInterface $channelContext,
         Session $session,
         UrlGeneratorInterface $router
     ) {
@@ -53,7 +47,6 @@ final class OrderRefundsListAction
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->paymentMethodRepository = $paymentMethodRepository;
         $this->twig = $twig;
-        $this->channelContext = $channelContext;
         $this->session = $session;
         $this->router = $router;
     }
@@ -67,9 +60,7 @@ final class OrderRefundsListAction
             return $this->redirectToReferer($order);
         }
 
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-        $paymentMethods = $this->paymentMethodRepository->findEnabledForChannel($channel);
+        $paymentMethods = $this->paymentMethodRepository->findEnabledForChannel($order->getChannel());
 
         return new Response(
             $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', [
