@@ -1,5 +1,0 @@
-sylius_core:
-    resource: "../../../../vendor/sylius/sylius/app/config/routing.yml"
-
-sylius_refund:
-    resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
