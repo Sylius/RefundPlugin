@@ -11,13 +11,9 @@ use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 final class RefundPaymentProcessManager
 {
-    /** @var Session */
-    private $session;
-
     /** @var OrderFullyRefundedStateResolverInterface */
     private $orderFullyRefundedStateResolver;
 
@@ -31,13 +27,11 @@ final class RefundPaymentProcessManager
     private $eventBus;
 
     public function __construct(
-        Session $session,
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         EventBus $eventBus
     ) {
-        $this->session = $session;
         $this->orderFullyRefundedStateResolver = $orderFullyRefundedStateResolver;
         $this->refundPaymentFactory = $refundPaymentFactory;
         $this->entityManager = $entityManager;
@@ -66,6 +60,5 @@ final class RefundPaymentProcessManager
         ));
 
         $this->orderFullyRefundedStateResolver->resolve($event->orderNumber());
-        $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
     }
 }

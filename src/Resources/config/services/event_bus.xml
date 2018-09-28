@@ -19,10 +19,10 @@
         </service>
 
         <service id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager">
-            <argument type="service" id="session" />
             <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" />
             <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
             <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
         </service>
     </services>

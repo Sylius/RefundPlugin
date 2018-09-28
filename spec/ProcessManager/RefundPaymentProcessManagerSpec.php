@@ -14,20 +14,16 @@ use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 {
     function let(
-        Session $session,
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         EventBus $eventBus
     ): void {
         $this->beConstructedWith(
-            $session,
             $orderFullyRefundedStateResolver,
             $refundPaymentFactory,
             $entityManager,
@@ -36,8 +32,6 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
     }
 
     function it_reacts_on_units_refunded_event_and_creates_refund_payment(
-        Session $session,
-        FlashBagInterface $flashBag,
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
@@ -61,7 +55,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         $refundPayment->getOrderNumber()->willReturn('000222');
         $refundPayment->getAmount()->willReturn(1000);
 
-        $eventBus->dispatch(Argument::that(function(RefundPaymentGenerated $event): bool {
+        $eventBus->dispatch(Argument::that(function (RefundPaymentGenerated $event): bool {
             return
                 $event->id() === 10 &&
                 $event->orderNumber() === '000222' &&
@@ -70,10 +64,6 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
                 $event->paymentMethodId() === 1
             ;
         }))->shouldBeCalled();
-
-        $session->getFlashBag()->willReturn($flashBag);
-
-        $flashBag->add('success', 'sylius_refund.units_successfully_refunded')->shouldBeCalled();
 
         $this(new UnitsRefunded('000222', [new OrderItemUnitRefund(1, 500), new OrderItemUnitRefund(2, 500)], [1], 1, 1000, 'USD', 'Comment'));
     }
