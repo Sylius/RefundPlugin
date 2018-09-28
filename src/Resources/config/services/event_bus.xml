@@ -6,14 +6,6 @@
 
         <service id="Prooph\ServiceBus\EventBus" alias="prooph_service_bus.sylius_refund_event_bus" />
 
-        <service id="Sylius\RefundPlugin\Listener\UnitsRefundedEventListener">
-            <argument type="service" id="session" />
-            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" />
-            <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" />
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
-            <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
-        </service>
-
         <service id="Sylius\RefundPlugin\Listener\CreditMemoGeneratedEventListener">
             <argument type="service" id="sylius_refund.repository.credit_memo" />
             <argument type="service" id="sylius.repository.order" />
@@ -23,6 +15,14 @@
 
         <service id="Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager">
             <argument type="service" id="prooph_service_bus.sylius_refund_command_bus" />
+            <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager">
+            <argument type="service" id="session" />
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
             <tag name="prooph_service_bus.sylius_refund_event_bus.route_target" message-detection="true" />
         </service>
     </services>

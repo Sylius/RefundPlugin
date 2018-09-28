@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace spec\Sylius\RefundPlugin\Listener;
+namespace spec\Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
@@ -14,7 +14,7 @@ use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class UnitsRefundedEventListenerSpec extends ObjectBehavior
+final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 {
     function let(
         Session $session,

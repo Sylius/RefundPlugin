@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Listener;
+namespace Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
@@ -11,7 +11,7 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-final class UnitsRefundedEventListener
+final class RefundPaymentProcessManager
 {
     /** @var Session */
     private $session;
