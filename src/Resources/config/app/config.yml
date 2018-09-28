@@ -64,11 +64,12 @@ sylius_grid:
                 options:
                     class: Sylius\RefundPlugin\Entity\CreditMemo
             sorting:
-                number: desc
+                number: asc
             fields:
                 number:
                     type: string
                     label: sylius.ui.number
+                    sortable: ~
                 orderNumber:
                     type: string
                     label: sylius_refund.ui.order_number
