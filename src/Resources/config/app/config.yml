@@ -47,12 +47,6 @@ winzou_state_machine:
                 from: [New]
                 to: Completed
 
-knp_snappy:
-    pdf:
-        enabled: true
-        binary: /usr/local/bin/wkhtmltopdf
-        options: []
-
 sylius_grid:
     templates:
         filter:

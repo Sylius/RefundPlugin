@@ -58,7 +58,17 @@ From Administrator's point of view, every Refund request results in creating two
         resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
     ````
 
-5. Clear cache:
+5. Configure `KnpSnappyBundle` (if you don't have it configured yet):
+
+    ````yaml
+    knp_snappy:
+        pdf:
+            enabled: true
+            binary: #path to your wkhtmltopdf binary file
+            options: []
+    ````
+
+6. Clear cache:
 
     ```bash
     bin/console cache:clear
