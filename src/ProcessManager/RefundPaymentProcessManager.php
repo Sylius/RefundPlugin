@@ -10,12 +10,16 @@ use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
+use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 
 final class RefundPaymentProcessManager
 {
     /** @var OrderFullyRefundedStateResolverInterface */
     private $orderFullyRefundedStateResolver;
+
+    /** @var RelatedPaymentIdProviderInterface */
+    private $relatedPaymentIdProvider;
 
     /** @var RefundPaymentFactoryInterface */
     private $refundPaymentFactory;
@@ -28,11 +32,13 @@ final class RefundPaymentProcessManager
 
     public function __construct(
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
+        RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         EventBus $eventBus
     ) {
         $this->orderFullyRefundedStateResolver = $orderFullyRefundedStateResolver;
+        $this->relatedPaymentIdProvider = $relatedPaymentIdProvider;
         $this->refundPaymentFactory = $refundPaymentFactory;
         $this->entityManager = $entityManager;
         $this->eventBus = $eventBus;
@@ -57,7 +63,7 @@ final class RefundPaymentProcessManager
             $event->amount(),
             $event->currencyCode(),
             $event->paymentMethodId(),
-            1
+            $this->relatedPaymentIdProvider->getForRefundPayment($refundPayment)
         ));
 
         $this->orderFullyRefundedStateResolver->resolve($event->orderNumber());

@@ -13,18 +13,21 @@ use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 
 final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 {
     function let(
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
+        RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         EventBus $eventBus
     ): void {
         $this->beConstructedWith(
             $orderFullyRefundedStateResolver,
+            $relatedPaymentIdProvider,
             $refundPaymentFactory,
             $entityManager,
             $eventBus
@@ -33,6 +36,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 
     function it_reacts_on_units_refunded_event_and_creates_refund_payment(
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
+        RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         RefundPaymentInterface $refundPayment,
@@ -55,13 +59,16 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         $refundPayment->getOrderNumber()->willReturn('000222');
         $refundPayment->getAmount()->willReturn(1000);
 
+        $relatedPaymentIdProvider->getForRefundPayment($refundPayment)->willReturn(3);
+
         $eventBus->dispatch(Argument::that(function (RefundPaymentGenerated $event): bool {
             return
                 $event->id() === 10 &&
                 $event->orderNumber() === '000222' &&
                 $event->amount() === 1000 &&
                 $event->currencyCode() === 'USD' &&
-                $event->paymentMethodId() === 1
+                $event->paymentMethodId() === 1 &&
+                $event->paymentId() === 3
             ;
         }))->shouldBeCalled();
 
