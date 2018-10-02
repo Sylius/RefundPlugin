@@ -6,8 +6,8 @@ namespace Sylius\RefundPlugin\Action\Admin;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
+use Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +23,8 @@ final class OrderRefundsListAction
     /** @var OrderRefundingAvailabilityCheckerInterface */
     private $orderRefundingAvailabilityChecker;
 
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
+    /** @var RefundPaymentMethodsProviderInterface */
+    private $refundPaymentMethodsProvider;
 
     /** @var Environment */
     private $twig;
@@ -38,14 +38,14 @@ final class OrderRefundsListAction
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
+        RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider,
         Environment $twig,
         Session $session,
         UrlGeneratorInterface $router
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
-        $this->paymentMethodRepository = $paymentMethodRepository;
+        $this->refundPaymentMethodsProvider = $refundPaymentMethodsProvider;
         $this->twig = $twig;
         $this->session = $session;
         $this->router = $router;
@@ -60,12 +60,10 @@ final class OrderRefundsListAction
             return $this->redirectToReferer($order);
         }
 
-        $paymentMethods = $this->paymentMethodRepository->findEnabledForChannel($order->getChannel());
-
         return new Response(
             $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', [
                 'order' => $order,
-                'payment_methods' => $paymentMethods,
+                'payment_methods' => $this->refundPaymentMethodsProvider->findForChannel($order->getChannel()),
             ])
         );
     }
