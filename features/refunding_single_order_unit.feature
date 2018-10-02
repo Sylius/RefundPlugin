@@ -57,13 +57,15 @@ Feature: Refunding a single order unit
         Then I should not be able to see refunds button
 
     @ui
-    Scenario: Being able to choose refund payment method
+    Scenario: Being able to choose only offline payment methods
         Given the order "#00000022" is already paid
         And the store allows paying with "Another offline payment method"
+        And the store has a payment method "ElonPay" with a code "IN_THRUST_WE_TRUST" and Paypal Express Checkout gateway
         When I want to refund some units of order "#00000022"
         Then I should be able to choose refund payment method
         And there should be "Space money" payment method
         And there should be "Another offline payment method" payment method
+        And there should not be "ElonPay" payment method
 
     @application
     Scenario: Not being able to refund unit from an order that is unpaid
