@@ -21,13 +21,23 @@ final class RefundPaymentGenerated
     /** @var int */
     private $paymentMethodId;
 
-    public function __construct(int $id, string $orderNumber, int $amount, string $currencyCode, int $paymentMethodId)
-    {
+    /** @var int */
+    private $paymentId;
+
+    public function __construct(
+        int $id,
+        string $orderNumber,
+        int $amount,
+        string $currencyCode,
+        int $paymentMethodId,
+        int $paymentId
+    ) {
         $this->id = $id;
         $this->orderNumber = $orderNumber;
         $this->amount = $amount;
         $this->currencyCode = $currencyCode;
         $this->paymentMethodId = $paymentMethodId;
+        $this->paymentId = $paymentId;
     }
 
     public function id(): int
@@ -53,5 +63,10 @@ final class RefundPaymentGenerated
     public function paymentMethodId(): int
     {
         return $this->paymentMethodId;
+    }
+
+    public function paymentId(): int
+    {
+        return $this->paymentId;
     }
 }

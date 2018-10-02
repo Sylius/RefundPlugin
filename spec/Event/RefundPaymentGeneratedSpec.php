@@ -10,12 +10,13 @@ final class RefundPaymentGeneratedSpec extends ObjectBehavior
 {
     function it_represents_an_immutable_fact_that_refund_payment_has_been_generated(): void
     {
-        $this->beConstructedWith(1, '000222', 10000, 'GBP', 2);
+        $this->beConstructedWith(1, '000222', 10000, 'GBP', 2, 3);
 
         $this->id()->shouldReturn(1);
         $this->orderNumber()->shouldReturn('000222');
         $this->amount()->shouldReturn(10000);
         $this->currencyCode()->shouldReturn('GBP');
         $this->paymentMethodId()->shouldReturn(2);
+        $this->paymentId()->shouldReturn(3);
     }
 }

@@ -56,7 +56,8 @@ final class RefundPaymentProcessManager
             $event->orderNumber(),
             $event->amount(),
             $event->currencyCode(),
-            $event->paymentMethodId()
+            $event->paymentMethodId(),
+            1
         ));
 
         $this->orderFullyRefundedStateResolver->resolve($event->orderNumber());
