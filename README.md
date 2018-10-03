@@ -34,51 +34,28 @@ From Administrator's point of view, every Refund request results in creating two
     ```bash
     composer require sylius/refund-plugin
     ```
+    
+    > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
 
-2. Add plugin class and other required bundles to your `AppKernel`:
-
-    ```php
-    $bundles = [
-       new Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
-       new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-       new \Sylius\RefundPlugin\SyliusRefundPlugin(),
-    ];
-    ```
-
-3. Import configuration:
-
-    ```yaml
-    imports:
-        - { resource: "@SyliusRefundPlugin/Resources/config/app/config.yml" }
-    ```
-4. Import routing:
-
-    ````yaml
-    sylius_refund:
-        resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
-    ````
-
-5. Configure `KnpSnappyBundle` (if you don't have it configured yet):
-
-    ````yaml
-    knp_snappy:
-        pdf:
-            enabled: true
-            binary: #path to your wkhtmltopdf binary file
-            options: []
-    ````
-
-6. Clear cache:
+2. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
 
     ```bash
-    bin/console cache:clear
+    cp -R vendor/sylius/refund-plugin/migrations/* src/Migrations
+    bin/console doctrine:migrations:migrate
     ```
-    
-6. Copy migrations from `vendor/sylius/refund-plugin/migrations/`
-to your migrations directory and run `bin/console doctrine:migrations:migrate`
 
-7. Copy templates from `vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/`
-to `app/Resources/SyliusAdminBundle/views/`
+3. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
+
+    ```bash
+    mkdir -p templates/bundles/SyliusAdminBundle/
+    cp -R vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
+    ```
+
+#### Beware!
+
+This installation instruction assumes that you're using Symfony Flex. If you don't, take a look at the
+[legacy installation instruction](docs/legacy_installation.md). However, we strongly encourage you to use
+Symfony Flex, it's much quicker! :)
 
 ## Extension points
 
