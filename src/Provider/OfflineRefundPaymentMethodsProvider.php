@@ -7,6 +7,7 @@ namespace Sylius\RefundPlugin\Provider;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
+use Webmozart\Assert\Assert;
 
 final class OfflineRefundPaymentMethodsProvider implements RefundPaymentMethodsProviderInterface
 {
@@ -24,6 +25,7 @@ final class OfflineRefundPaymentMethodsProvider implements RefundPaymentMethodsP
 
         /** @var PaymentMethodInterface $paymentMethod */
         foreach ($paymentMethods as $key => $paymentMethod) {
+            Assert::notNull($paymentMethod->getGatewayConfig());
             if ($paymentMethod->getGatewayConfig()->getFactoryName() !== 'offline') {
                 unset($paymentMethods[$key]);
             }
