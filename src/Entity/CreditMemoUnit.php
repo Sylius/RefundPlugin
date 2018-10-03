@@ -46,7 +46,11 @@ class CreditMemoUnit implements CreditMemoUnitInterface
             'taxes_total' => $this->taxesTotal,
         ]);
 
-        return ($serialized !== false) ? $serialized : '';
+        if ($serialized === false) {
+            throw new \Exception('Credit memo unit could have not been serialized');
+        }
+
+        return $serialized;
     }
 
     public static function unserialize(string $serialized): self

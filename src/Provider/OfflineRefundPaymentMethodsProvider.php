@@ -21,16 +21,13 @@ final class OfflineRefundPaymentMethodsProvider implements RefundPaymentMethodsP
 
     public function findForChannel(ChannelInterface $channel): array
     {
-        $paymentMethods = $this->paymentMethodRepository->findEnabledForChannel($channel);
+        return array_filter(
+            $this->paymentMethodRepository->findEnabledForChannel($channel),
+            function (PaymentMethodInterface $paymentMethod): bool {
+                Assert::notNull($paymentMethod->getGatewayConfig());
 
-        /** @var PaymentMethodInterface $paymentMethod */
-        foreach ($paymentMethods as $key => $paymentMethod) {
-            Assert::notNull($paymentMethod->getGatewayConfig());
-            if ($paymentMethod->getGatewayConfig()->getFactoryName() !== 'offline') {
-                unset($paymentMethods[$key]);
+                return $paymentMethod->getGatewayConfig()->getFactoryName() === 'offline';
             }
-        }
-
-        return $paymentMethods;
+        );
     }
 }
