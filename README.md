@@ -34,51 +34,26 @@ From Administrator's point of view, every Refund request results in creating two
     ```bash
     composer require sylius/refund-plugin
     ```
+    
+    > Remember to allow not official recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
 
-2. Add plugin class and other required bundles to your `AppKernel`:
+2. Copy migrations from `vendor/sylius/refund-plugin/migrations/` to your migrations directory (e.g. `src/Migrations`)
+and run `bin/console doctrine:migrations:migrate`
 
-    ```php
-    $bundles = [
-       new Prooph\Bundle\ServiceBus\ProophServiceBusBundle(),
-       new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
-       new \Sylius\RefundPlugin\SyliusRefundPlugin(),
-    ];
-    ```
+3. Copy templates from `vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/`
+to your templates directory (e.g `templates/bundles/SyliusAdminBundle/`)
 
-3. Import configuration:
-
-    ```yaml
-    imports:
-        - { resource: "@SyliusRefundPlugin/Resources/config/app/config.yml" }
-    ```
-4. Import routing:
-
-    ````yaml
-    sylius_refund:
-        resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
-    ````
-
-5. Configure `KnpSnappyBundle` (if you don't have it configured yet):
-
-    ````yaml
-    knp_snappy:
-        pdf:
-            enabled: true
-            binary: #path to your wkhtmltopdf binary file
-            options: []
-    ````
-
-6. Clear cache:
+4. Clear cache:
 
     ```bash
     bin/console cache:clear
     ```
-    
-6. Copy migrations from `vendor/sylius/refund-plugin/migrations/`
-to your migrations directory and run `bin/console doctrine:migrations:migrate`
 
-7. Copy templates from `vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/`
-to `app/Resources/SyliusAdminBundle/views/`
+#### Beware!
+
+This installation instruction assumes that you're using SymfonyFlex. If you don't, take a look at the
+[legacy installation instruction](docs/legacy_installation.md). However, we strongly encourage you to use
+SymfonyFlex, it's much quicker! :)
 
 ## Extension points
 
