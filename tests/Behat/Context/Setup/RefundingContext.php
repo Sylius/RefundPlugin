@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
-use Prooph\ServiceBus\CommandBus;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -21,10 +21,10 @@ final class RefundingContext implements Context
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
-    /** @var CommandBus */
+    /** @var MessageBusInterface */
     private $commandBus;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, CommandBus $commandBus)
+    public function __construct(OrderRepositoryInterface $orderRepository, MessageBusInterface $commandBus)
     {
         $this->orderRepository = $orderRepository;
         $this->commandBus = $commandBus;

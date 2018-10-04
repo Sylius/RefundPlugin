@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
-use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundUnitsAction
 {
-    /** @var CommandBus */
+    /** @var MessageBusInterface */
     private $commandBus;
 
     /** @var Session */
@@ -29,7 +29,7 @@ final class RefundUnitsAction
     private $commandCreator;
 
     public function __construct(
-        CommandBus $commandBus,
+        MessageBusInterface $commandBus,
         Session $session,
         UrlGeneratorInterface $router,
         CommandCreatorInterface $commandCreator

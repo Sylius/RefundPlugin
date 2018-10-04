@@ -23,7 +23,8 @@
 
         "sylius/sylius": "^1.3",
         "prooph/service-bus-symfony-bundle": "^0.7.0",
-        "knplabs/knp-snappy-bundle": "^1.5"
+        "knplabs/knp-snappy-bundle": "^1.5",
+        "symfony/messenger": "^4.1"
     },
     "require-dev": {
         "behat/behat": "^3.4",

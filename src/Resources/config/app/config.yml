@@ -26,6 +26,13 @@ prooph_service_bus:
     event_buses:
         sylius_refund_event_bus: ~
 
+framework:
+    messenger:
+        default_bus: messenger.bus.sylius_refund_command_bus
+        buses:
+            messenger.bus.sylius_refund_command_bus: ~
+            messenger.bus.sylius_refund_event_bus: ~
+
 winzou_state_machine:
     sylius_order:
         states:
