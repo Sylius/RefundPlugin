@@ -25,7 +25,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Action\Admin\RefundUnitsAction">
-            <argument type="service" id="messenger.bus.sylius_refund_command_bus" />
+            <argument type="service" id="sylius_refund_plugin.command_bus" />
             <argument type="service" id="session" />
             <argument type="service" id="router" />
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator" />

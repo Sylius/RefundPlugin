@@ -20,11 +20,11 @@
 
         <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
-            <argument type="service" id="messenger.bus.sylius_refund_event_bus" />
+            <argument type="service" id="sylius_refund_plugin.event_bus" />
         </service>
         <service id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
-            <argument type="service" id="messenger.bus.sylius_refund_event_bus" />
+            <argument type="service" id="sylius_refund_plugin.event_bus" />
         </service>
 
         <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />

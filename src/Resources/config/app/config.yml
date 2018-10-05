@@ -22,10 +22,10 @@ sylius_mailer:
 
 framework:
     messenger:
-        default_bus: messenger.bus.sylius_refund_command_bus
+        default_bus: sylius_refund_plugin.command_bus
         buses:
-            messenger.bus.sylius_refund_command_bus: ~
-            messenger.bus.sylius_refund_event_bus:
+            sylius_refund_plugin.command_bus: ~
+            sylius_refund_plugin.event_bus:
                 middleware:
                     - messenger.middleware.allow_no_handler
 
