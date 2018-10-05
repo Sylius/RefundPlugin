@@ -20,12 +20,6 @@ sylius_mailer:
             subject: Units refunded
             template: "@SyliusRefundPlugin/Email/unitsRefunded.html.twig"
 
-prooph_service_bus:
-    command_buses:
-        sylius_refund_command_bus: ~
-    event_buses:
-        sylius_refund_event_bus: ~
-
 framework:
     messenger:
         default_bus: messenger.bus.sylius_refund_command_bus

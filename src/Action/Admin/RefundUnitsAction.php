@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
-use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,10 +45,7 @@ final class RefundUnitsAction
             $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
 
             $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
-        } catch (CommandDispatchException $exception) {
-            Assert::notNull($exception->getPrevious());
-            $this->session->getFlashBag()->add('error', $exception->getPrevious()->getMessage());
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\Exception $exception) {
             $this->session->getFlashBag()->add('error', $exception->getMessage());
         }
 

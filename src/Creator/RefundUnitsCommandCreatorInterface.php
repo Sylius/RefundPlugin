@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Creator;
 
-use Prooph\Common\Messaging\Command;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Symfony\Component\HttpFoundation\Request;
 
