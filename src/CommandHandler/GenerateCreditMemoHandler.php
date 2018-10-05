@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GenerateCreditMemoHandler
 {
@@ -18,13 +18,13 @@ final class GenerateCreditMemoHandler
     /** @var ObjectManager */
     private $creditMemoManager;
 
-    /** @var EventBus */
+    /** @var MessageBusInterface */
     private $eventBus;
 
     public function __construct(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
-        EventBus $eventBus
+        MessageBusInterface $eventBus
     ) {
         $this->creditMemoGenerator = $creditMemoGenerator;
         $this->creditMemoManager = $creditMemoManager;

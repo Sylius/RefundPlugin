@@ -31,7 +31,9 @@ framework:
         default_bus: messenger.bus.sylius_refund_command_bus
         buses:
             messenger.bus.sylius_refund_command_bus: ~
-            messenger.bus.sylius_refund_event_bus: ~
+            messenger.bus.sylius_refund_event_bus:
+                middleware:
+                    - messenger.middleware.allow_no_handler
 
 winzou_state_machine:
     sylius_order:

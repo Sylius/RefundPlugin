@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\CommandHandler;
 
 use PhpSpec\ObjectBehavior;
-use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
@@ -16,13 +15,14 @@ use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
     function let(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus,
+        MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
     ): void {
@@ -38,7 +38,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
     function it_handles_command_and_create_refund_for_each_refunded_unit(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus,
+        MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
         OrderInterface $order
@@ -71,7 +71,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
     function it_changes_order_state_to_fully_refunded_when_whole_order_total_is_refunded(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus,
+        MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
         OrderInterface $order

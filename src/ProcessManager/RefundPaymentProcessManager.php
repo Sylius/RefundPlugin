@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Prooph\ServiceBus\EventBus;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundPaymentProcessManager
 {
@@ -27,7 +27,7 @@ final class RefundPaymentProcessManager
     /** @var EntityManagerInterface */
     private $entityManager;
 
-    /** @var EventBus */
+    /** @var MessageBusInterface */
     private $eventBus;
 
     public function __construct(
@@ -35,7 +35,7 @@ final class RefundPaymentProcessManager
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
-        EventBus $eventBus
+        MessageBusInterface $eventBus
     ) {
         $this->orderFullyRefundedStateResolver = $orderFullyRefundedStateResolver;
         $this->relatedPaymentIdProvider = $relatedPaymentIdProvider;
