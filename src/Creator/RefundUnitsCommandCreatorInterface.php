@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Creator;
 
 use Prooph\Common\Messaging\Command;
+use Sylius\RefundPlugin\Command\RefundUnits;
 use Symfony\Component\HttpFoundation\Request;
 
-interface CommandCreatorInterface
+interface RefundUnitsCommandCreatorInterface
 {
-    public function fromRequest(Request $request): Command;
+    public function fromRequest(Request $request): RefundUnits;
 }

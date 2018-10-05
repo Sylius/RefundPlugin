@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Action\Admin;
 
 use Prooph\ServiceBus\Exception\CommandDispatchException;
-use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
+use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,14 +25,14 @@ final class RefundUnitsAction
     /** @var UrlGeneratorInterface */
     private $router;
 
-    /** @var CommandCreatorInterface */
+    /** @var RefundUnitsCommandCreatorInterface */
     private $commandCreator;
 
     public function __construct(
         MessageBusInterface $commandBus,
         Session $session,
         UrlGeneratorInterface $router,
-        CommandCreatorInterface $commandCreator
+        RefundUnitsCommandCreatorInterface $commandCreator
     ) {
         $this->commandBus = $commandBus;
         $this->session = $session;

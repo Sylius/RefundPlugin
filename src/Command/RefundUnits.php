@@ -4,52 +4,59 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
-use Prooph\Common\Messaging\Command;
-use Prooph\Common\Messaging\PayloadTrait;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
-final class RefundUnits extends Command
+final class RefundUnits
 {
-    use PayloadTrait;
+    /** @var string */
+    private $orderNumber;
 
-    public function __construct(
-        string $orderNumber,
-        array $units,
-        array $shipments,
-        int $paymentMethodId,
-        string $comment
-    ) {
-        $this->init();
-        $this->setPayload([
-            'order_number' => $orderNumber,
-            'units' => $units,
-            'shipments' => $shipments,
-            'payment_method_id' => $paymentMethodId,
-            'comment' => $comment,
-        ]);
+    /** @var array|OrderItemUnitRefund[] */
+    private $units;
+
+    /** @var array|ShipmentRefund[] */
+    private $shipments;
+
+    /** @var int */
+    private $paymentMethodId;
+
+    /** @var string */
+    private $comment;
+
+    public function __construct(string $orderNumber, array $units, array $shipments, int $paymentMethodId, string $comment)
+    {
+        $this->orderNumber = $orderNumber;
+        $this->units = $units;
+        $this->shipments = $shipments;
+        $this->paymentMethodId = $paymentMethodId;
+        $this->comment = $comment;
     }
 
     public function orderNumber(): string
     {
-        return $this->payload()['order_number'];
+        return $this->orderNumber;
     }
 
+    /** @return array|OrderItemUnitRefund[] */
     public function units(): array
     {
-        return $this->payload()['units'];
+        return $this->units;
     }
 
+    /** @return array|ShipmentRefund[] */
     public function shipments(): array
     {
-        return $this->payload()['shipments'];
+        return $this->shipments;
     }
 
     public function paymentMethodId(): int
     {
-        return $this->payload()['payment_method_id'];
+        return $this->paymentMethodId;
     }
 
     public function comment(): string
     {
-        return $this->payload()['comment'];
+        return $this->comment;
     }
 }

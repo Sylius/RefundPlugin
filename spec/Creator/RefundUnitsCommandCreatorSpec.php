@@ -6,7 +6,7 @@ namespace spec\Sylius\RefundPlugin\Creator;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Command\RefundUnits;
-use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
+use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
@@ -22,9 +22,9 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         $this->beConstructedWith($remainingTotalProvider);
     }
 
-    function it_implements_command_creator_interface(): void
+    function it_implements_refund_units_command_creator_interface(): void
     {
-        $this->shouldImplement(CommandCreatorInterface::class);
+        $this->shouldImplement(RefundUnitsCommandCreatorInterface::class);
     }
 
     function it_creates_refund_units_command_from_request_with_full_prices(
