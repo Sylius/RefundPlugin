@@ -68,9 +68,10 @@ sylius_grid:
                     type: string
                     label: sylius_refund.ui.order_number
                 channel:
-                    type: string
+                    type: twig
                     label: sylius.ui.channel
-                    path: channel.name
+                    options:
+                        template: "@SyliusAdmin/Order/Grid/Field/channel.html.twig"
                 total:
                     type: twig
                     label: sylius.ui.total

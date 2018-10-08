@@ -91,7 +91,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $total,
             $order->getCurrencyCode(),
             $order->getLocaleCode(),
-            new CreditMemoChannel($channel->getCode(), $channel->getName()),
+            new CreditMemoChannel($channel->getCode(), $channel->getName(), $channel->getColor()),
             $creditMemoUnits,
             $comment,
             $this->currentDateTimeProvider->now()
