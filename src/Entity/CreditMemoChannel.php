@@ -20,7 +20,7 @@ class CreditMemoChannel
     {
         $this->code = $code;
         $this->name = $name;
-        $this->color= $color;
+        $this->color = $color;
     }
 
     public function code(): string
