@@ -67,6 +67,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $order->getChannel()->willReturn($channel);
         $channel->getCode()->willReturn('WEB-US');
         $channel->getName()->willReturn('United States');
+        $channel->getColor()->willReturn('Linen');
 
         $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50);
         $orderItemUnitCreditMemoUnitGenerator->generate(1, 500)->willReturn($firstCreditMemoUnit);
@@ -90,7 +91,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             1400,
             'GBP',
             'en_US',
-            new CreditMemoChannel('WEB-US', 'United States'),
+            new CreditMemoChannel('WEB-US', 'United States', 'Linen'),
             [
                 $firstCreditMemoUnit->serialize(),
                 $secondCreditMemoUnit->serialize(),
