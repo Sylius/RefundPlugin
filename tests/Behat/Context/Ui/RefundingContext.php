@@ -303,6 +303,14 @@ final class RefundingContext implements Context
         Assert::true($this->orderRefundsPage->isPaymentMethodVisible($payment));
     }
 
+    /**
+     * @Then there should not be :payment payment method
+     */
+    public function thereShouldNotBePaymentMethod(string $payment): void
+    {
+        Assert::false($this->orderRefundsPage->isPaymentMethodVisible($payment));
+    }
+
     private function provideLongComment(): string
     {
         return 'Tu ne quaesieris scire nefas, quem mihi quem tibi finem di dederint, Leuconoe, nec Babylonios temptaris numeros. Ut melius quidquid erit pati. Seu plures hiemes sue tribuit Iuppiter ultimam. Qae nunc oppositis debilitat pumicibus mare Tyrrenum: sapias vina liques et spatio brevi. Spem longam resecens. Dum loquimur fugerit invida Aetas: CARPE DIEM, quam minimum credula postero.';

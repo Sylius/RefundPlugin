@@ -31,5 +31,9 @@
         <service id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface" class="Sylius\RefundPlugin\Provider\DefaultRelatedPaymentIdProvider">
             <argument type="service" id="sylius.repository.order" />
         </service>
+
+        <service id="Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface" class="Sylius\RefundPlugin\Provider\OfflineRefundPaymentMethodsProvider">
+            <argument type="service" id="sylius.repository.payment_method" />
+        </service>
     </services>
 </container>

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundUnitsAction
 {
@@ -46,6 +47,7 @@ final class RefundUnitsAction
 
             $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
         } catch (CommandDispatchException $exception) {
+            Assert::notNull($exception->getPrevious());
             $this->session->getFlashBag()->add('error', $exception->getPrevious()->getMessage());
         } catch (\InvalidArgumentException $exception) {
             $this->session->getFlashBag()->add('error', $exception->getMessage());

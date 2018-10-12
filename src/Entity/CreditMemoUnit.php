@@ -40,11 +40,17 @@ class CreditMemoUnit implements CreditMemoUnitInterface
 
     public function serialize(): string
     {
-        return json_encode([
+        $serialized = json_encode([
             'product_name' => $this->productName,
             'total' => $this->total,
             'taxes_total' => $this->taxesTotal,
         ]);
+
+        if ($serialized === false) {
+            throw new \Exception('Credit memo unit could have not been serialized');
+        }
+
+        return $serialized;
     }
 
     public static function unserialize(string $serialized): self
