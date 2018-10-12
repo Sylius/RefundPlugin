@@ -27,5 +27,9 @@
         <service id="Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider">
             <argument type="service" id="sylius_refund.repository.refund" />
         </service>
+
+        <service id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface" class="Sylius\RefundPlugin\Provider\DefaultRelatedPaymentIdProvider">
+            <argument type="service" id="sylius.repository.order" />
+        </service>
     </services>
 </container>

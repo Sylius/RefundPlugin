@@ -20,6 +20,7 @@
 
         <service id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager">
             <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />
             <argument type="service" id="prooph_service_bus.sylius_refund_event_bus" />
