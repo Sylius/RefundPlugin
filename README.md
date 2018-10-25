@@ -79,3 +79,8 @@ Apart from Events and Commands Refund Plugin is also based on mechanisms derived
 * [State Machine](https://docs.sylius.com/en/1.2/book/architecture/state_machine.html)
 
 Configuration of all elements mentioned above can be found and customized in `config.yml` file.
+
+## Security issues
+
+If you think that you have found a security issue, please do not use the issue tracker and do not post it publicly. 
+Instead, all security issues must be sent to `security@sylius.com`.
