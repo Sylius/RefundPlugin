@@ -16,17 +16,19 @@
             {% for refund_payment in refund_payments %}
                 <tr>
                     <td>{{ money.format(refund_payment.amount, refund_payment.currencyCode) }}</td>
-                    <td>{{ refund_payment.state }}</td>
-                    {% if refund_payment.state != 'sylius_refund.ui.completed'|trans %}
-                        <td class="aligned collapsing">
+                    <td>
+                        {% include [('@SyliusRefundPlugin/RefundPayment/Label/State/' ~ refund_payment.state ~ '.html.twig'), '@SyliusUi/Label/_default.html.twig'] with {'value': refund_payment.state} %}
+                    </td>
+                    <td class="aligned collapsing">
+                        {% if refund_payment.state != 'sylius_refund.ui.completed'|trans %}
                             <form action="{{ path('sylius_refund_complete_refund_payment', {'orderNumber': refund_payment.orderNumber, 'id': refund_payment.id}) }}" method="POST">
                                 <button class="button ui labeled icon yellow">
                                     <i class="icon check"></i>
                                     {{ 'sylius.ui.complete'|trans }}
                                 </button>
                             </form>
-                        </td>
-                    {% endif %}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
