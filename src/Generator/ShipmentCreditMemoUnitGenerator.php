@@ -28,7 +28,9 @@ final class ShipmentCreditMemoUnitGenerator implements CreditMemoUnitGeneratorIn
             ->findOneBy(['id' => $unitId, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
         ;
         Assert::notNull($shippingAdjustment);
+        Assert::lessThanEq($amount, $shippingAdjustment->getAmount());
+        $creditMemoUnitTotal = null === $amount ? $shippingAdjustment->getAmount() : $amount;
 
-        return new CreditMemoUnit($shippingAdjustment->getLabel(), $shippingAdjustment->getAmount(), 0);
+        return new CreditMemoUnit($shippingAdjustment->getLabel(), $creditMemoUnitTotal, 0);
     }
 }
