@@ -9,11 +9,9 @@ jobs:
     include:
         -   &test
             stage: test
-            name: "Symfony 3.4.* build"
+            name: "Symfony 4.1.* build"
 
             sudo: false
-
-            env: SYMFONY_VERSION="3.4.*" SYLIUS_CACHE_DIR=$HOME/.sylius-cache SYLIUS_BUILD_DIR=etc/build
 
             cache:
                 yarn: true
@@ -35,8 +33,6 @@ jobs:
                 - set -a && source tests/Application/.env.test && set +a
 
             install:
-                - if [ ! -z "${SYMFONY_VERSION}" ]; then tests/Application/bin/require-symfony-version composer.json "${SYMFONY_VERSION}"; fi
-                - composer require symfony/messenger:^4.1 --no-update
                 - composer update --no-interaction --prefer-dist
                 - (cd tests/Application && yarn install)
 
@@ -83,10 +79,4 @@ jobs:
                 - vendor/bin/behat --strict -vvv --no-interaction --tags="~@todo" || vendor/bin/behat --strict -vvv --no-interaction --rerun --tags="~@todo"
 
             after_failure:
-                - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
-
-        -   <<: *test
-
-            name: "Symfony 4.1.* build"
-
-            env: SYMFONY_VERSION="4.1.*" SYLIUS_CACHE_DIR=$HOME/.sylius-cache SYLIUS_BUILD_DIR=etc/build
+                - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"s
