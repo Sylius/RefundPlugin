@@ -13,6 +13,8 @@ jobs:
 
             sudo: false
 
+            env: SYLIUS_CACHE_DIR=$HOME/.sylius-cache SYLIUS_BUILD_DIR=etc/build
+
             cache:
                 yarn: true
                 directories:

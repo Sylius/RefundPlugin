@@ -104,7 +104,7 @@ final class RefundingContext implements Context
                 $paymentMethod->getId(),
                 ''
             ));
-        } catch (\Exception $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
     }
@@ -145,7 +145,7 @@ final class RefundingContext implements Context
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
             ));
-        } catch (\Exception $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
     }
@@ -222,7 +222,7 @@ final class RefundingContext implements Context
                 1,
                 ''
             ));
-        } catch (\Exception $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
 
@@ -245,7 +245,7 @@ final class RefundingContext implements Context
                 1,
                 ''
             ));
-        } catch (\Exception $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
 
@@ -265,7 +265,7 @@ final class RefundingContext implements Context
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
             ));
-        } catch (\Exception $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             throw new \Exception('RefundUnits command should not fail');
         }
     }

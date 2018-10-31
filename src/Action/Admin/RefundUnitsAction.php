@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Action\Admin;
 
 use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
+use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +45,7 @@ final class RefundUnitsAction
             $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
 
             $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
-        } catch (\Exception $exception) {
+        } catch (\InvalidArgumentException | OrderNotFound $exception) {
             $this->session->getFlashBag()->add('error', $exception->getMessage());
         }
 
