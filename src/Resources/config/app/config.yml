@@ -12,9 +12,6 @@ sylius_resource:
                 model: Sylius\RefundPlugin\Entity\RefundPayment
 
 sylius_mailer:
-    sender:
-        name: Admin
-        address: admin@example.com
     emails:
         units_refunded:
             subject: Units refunded
