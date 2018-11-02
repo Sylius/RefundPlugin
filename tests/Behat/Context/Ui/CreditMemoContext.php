@@ -126,6 +126,18 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then this credit memo should contain :count :shipmentName shipment with :total total
+     */
+    public function thisCreditMemoShouldContainShipmentWithTotal(
+        int $count,
+        string $shipmentName,
+        string $total
+    ): void {
+        Assert::same($this->creditMemoDetailsPage->countUnitsWithProduct($shipmentName), $count);
+        Assert::same($this->creditMemoDetailsPage->getUnitTotal($count, $shipmentName), $total);
+    }
+
+    /**
      * @Then it should have sequential number generated from current date
      */
     public function shouldHaveSequentialNumberGeneratedFromCurrentDate(): void

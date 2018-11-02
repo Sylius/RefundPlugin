@@ -50,4 +50,21 @@ final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
             ->during('generate', [1])
         ;
     }
+
+    function it_throws_exception_if_refund_amount_is_higher_than_shipping_amount(
+        RepositoryInterface $adjustmentRepository,
+        AdjustmentInterface $shippingAdjustment
+    ): void {
+        $adjustmentRepository
+            ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
+            ->willReturn($shippingAdjustment)
+        ;
+
+        $shippingAdjustment->getAmount()->willReturn(1000);
+
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('generate', [1, 1001])
+        ;
+    }
 }

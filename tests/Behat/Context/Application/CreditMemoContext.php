@@ -75,6 +75,21 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then /^this credit memo should contain (\d+) "([^"]+)" shipment with ("[^"]+") total$/
+     */
+    public function thisCreditMemoShouldContainShipmentWithTotal(
+        int $count,
+        string $shipmentName,
+        int $total
+    ): void {
+        $units = $this->creditMemo->getUnits();
+
+        Assert::same(count($units), $count);
+        Assert::same($units[0]->getProductName(), $shipmentName);
+        Assert::same($units[0]->getTotal(), $total);
+    }
+
+    /**
      * @Then it should be issued in :channelName channel
      */
     public function creditMemoShouldBeIssuedInChannel(string $channelName): void

@@ -17,6 +17,10 @@ Feature: Having credit memo generated
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And there is a customer "morty.smith@look-at-me.com" that placed an order "#00000023"
+        And the customer bought 2 "Mr. Meeseeks T-Shirt" products
+        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000023" is already paid
         And I am logged in as an administrator
         And the order "#00000022" is already paid
 
@@ -44,3 +48,13 @@ Feature: Having credit memo generated
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.50" tax applied
         And it should be issued in "United States" channel
         And its total should be "$5.50"
+
+
+    @ui @application
+    Scenario: Seeing the details of generated credit memo with partial shipment price
+        Given shipment from order "#00000023" has already "$4.50" refunded with "Space money" payment
+        When I browse the details of the only credit memo generated for order "#00000023"
+        And it should have sequential number generated from current date
+        Then this credit memo should contain 1 "Galaxy Post" shipment with "$4.50" total
+        And it should be issued in "United States" channel
+        And its total should be "$4.50"

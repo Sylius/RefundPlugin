@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Generator;
 
 use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Order\Model\AdjustmentInterface as OrderAdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CreditMemoUnitInterface;
@@ -22,13 +23,23 @@ final class ShipmentCreditMemoUnitGenerator implements CreditMemoUnitGeneratorIn
 
     public function generate(int $unitId, int $amount = null): CreditMemoUnitInterface
     {
-        /** @var AdjustmentInterface $shippingAdjustment */
+        /** @var OrderAdjustmentInterface $shippingAdjustment */
         $shippingAdjustment = $this
             ->adjustmentRepository
             ->findOneBy(['id' => $unitId, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
         ;
         Assert::notNull($shippingAdjustment);
 
-        return new CreditMemoUnit($shippingAdjustment->getLabel(), $shippingAdjustment->getAmount(), 0);
+        $creditMemoUnitTotal = $this->getCreditMemoUnitTotal($shippingAdjustment, $amount);
+
+        return new CreditMemoUnit($shippingAdjustment->getLabel(), $creditMemoUnitTotal, 0);
+    }
+
+    private function getCreditMemoUnitTotal(OrderAdjustmentInterface $shippingAdjustment, int $amount = null): int
+    {
+        Assert::lessThanEq($amount, $shippingAdjustment->getAmount());
+        $creditMemoUnitTotal = null === $amount ? $shippingAdjustment->getAmount() : $amount;
+
+        return $creditMemoUnitTotal;
     }
 }
