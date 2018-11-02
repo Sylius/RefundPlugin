@@ -17,11 +17,13 @@ sylius_mailer:
             subject: Units refunded
             template: "@SyliusRefundPlugin/Email/unitsRefunded.html.twig"
 
-prooph_service_bus:
-    command_buses:
-        sylius_refund_command_bus: ~
-    event_buses:
-        sylius_refund_event_bus: ~
+framework:
+    messenger:
+        buses:
+            sylius_refund_plugin.command_bus: ~
+            sylius_refund_plugin.event_bus:
+                middleware:
+                    - messenger.middleware.allow_no_handler
 
 winzou_state_machine:
     sylius_order:

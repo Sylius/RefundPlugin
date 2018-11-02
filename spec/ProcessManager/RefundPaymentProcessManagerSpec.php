@@ -6,7 +6,6 @@ namespace spec\Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
-use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
@@ -15,6 +14,7 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 {
@@ -23,7 +23,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
-        EventBus $eventBus
+        MessageBusInterface $eventBus
     ): void {
         $this->beConstructedWith(
             $orderFullyRefundedStateResolver,
@@ -40,7 +40,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         RefundPaymentFactoryInterface $refundPaymentFactory,
         EntityManagerInterface $entityManager,
         RefundPaymentInterface $refundPayment,
-        EventBus $eventBus
+        MessageBusInterface $eventBus
     ): void {
         $refundPaymentFactory->createWithData(
             '000222',

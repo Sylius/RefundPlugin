@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\ProcessManager;
 
-use Prooph\ServiceBus\CommandBus;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoProcessManager
 {
-    /** @var CommandBus */
+    /** @var MessageBusInterface */
     private $commandBus;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(MessageBusInterface $commandBus)
     {
         $this->commandBus = $commandBus;
     }

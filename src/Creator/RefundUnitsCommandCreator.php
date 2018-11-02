@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Creator;
 
-use Prooph\Common\Messaging\Command;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
@@ -13,7 +12,7 @@ use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-final class RefundUnitsCommandCreator implements CommandCreatorInterface
+final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterface
 {
     /** @var RemainingTotalProviderInterface */
     private $remainingTotalProvider;
@@ -23,7 +22,7 @@ final class RefundUnitsCommandCreator implements CommandCreatorInterface
         $this->remainingTotalProvider = $remainingTotalProvider;
     }
 
-    public function fromRequest(Request $request): Command
+    public function fromRequest(Request $request): RefundUnits
     {
         if (!$request->attributes->has('orderNumber')) {
             throw new \InvalidArgumentException('Refunded order number not provided');

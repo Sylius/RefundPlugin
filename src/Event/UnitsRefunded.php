@@ -4,12 +4,31 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Event;
 
-use Prooph\Common\Messaging\DomainEvent;
-use Prooph\Common\Messaging\PayloadTrait;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
-final class UnitsRefunded extends DomainEvent
+final class UnitsRefunded
 {
-    use PayloadTrait;
+    /** @var string */
+    private $orderNumber;
+
+    /** @var array|OrderItemUnitRefund[] */
+    private $units;
+
+    /** @var array|ShipmentRefund[] */
+    private $shipments;
+
+    /** @var int */
+    private $paymentMethodId;
+
+    /** @var int */
+    private $amount;
+
+    /** @var string */
+    private $currencyCode;
+
+    /** @var string */
+    private $comment;
 
     public function __construct(
         string $orderNumber,
@@ -20,50 +39,49 @@ final class UnitsRefunded extends DomainEvent
         string $currencyCode,
         string $comment
     ) {
-        $this->init();
-        $this->setPayload([
-            'order_number' => $orderNumber,
-            'units' => $units,
-            'shipments' => $shipments,
-            'amount' => $amount,
-            'currency_code' => $currencyCode,
-            'payment_method_id' => $paymentMethodId,
-            'comment' => $comment,
-        ]);
+        $this->orderNumber = $orderNumber;
+        $this->units = $units;
+        $this->shipments = $shipments;
+        $this->paymentMethodId = $paymentMethodId;
+        $this->amount = $amount;
+        $this->currencyCode = $currencyCode;
+        $this->comment = $comment;
     }
 
     public function orderNumber(): string
     {
-        return $this->payload['order_number'];
+        return $this->orderNumber;
     }
 
+    /** @return array|OrderItemUnitRefund[] */
     public function units(): array
     {
-        return $this->payload['units'];
+        return $this->units;
     }
 
+    /** @return array|ShipmentRefund[] */
     public function shipments(): array
     {
-        return $this->payload['shipments'];
-    }
-
-    public function amount(): int
-    {
-        return $this->payload['amount'];
+        return $this->shipments;
     }
 
     public function paymentMethodId(): int
     {
-        return $this->payload['payment_method_id'];
+        return $this->paymentMethodId;
+    }
+
+    public function amount(): int
+    {
+        return $this->amount;
     }
 
     public function currencyCode(): string
     {
-        return $this->payload['currency_code'];
+        return $this->currencyCode;
     }
 
     public function comment(): string
     {
-        return $this->payload['comment'];
+        return $this->comment;
     }
 }

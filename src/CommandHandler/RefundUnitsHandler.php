@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\CommandHandler;
 
-use Prooph\ServiceBus\EventBus;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundUnitsHandler
 {
@@ -20,7 +20,7 @@ final class RefundUnitsHandler
     /** @var RefunderInterface */
     private $orderShipmentsRefunder;
 
-    /** @var EventBus */
+    /** @var MessageBusInterface */
     private $eventBus;
 
     /** @var OrderRepositoryInterface */
@@ -32,7 +32,7 @@ final class RefundUnitsHandler
     public function __construct(
         RefunderInterface $orderUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
-        EventBus $eventBus,
+        MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
     ) {

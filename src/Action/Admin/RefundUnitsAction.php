@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
-use Prooph\ServiceBus\CommandBus;
-use Prooph\ServiceBus\Exception\CommandDispatchException;
-use Sylius\RefundPlugin\Creator\CommandCreatorInterface;
+use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
+use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Webmozart\Assert\Assert;
 
 final class RefundUnitsAction
 {
-    /** @var CommandBus */
+    /** @var MessageBusInterface */
     private $commandBus;
 
     /** @var Session */
@@ -25,14 +24,14 @@ final class RefundUnitsAction
     /** @var UrlGeneratorInterface */
     private $router;
 
-    /** @var CommandCreatorInterface */
+    /** @var RefundUnitsCommandCreatorInterface */
     private $commandCreator;
 
     public function __construct(
-        CommandBus $commandBus,
+        MessageBusInterface $commandBus,
         Session $session,
         UrlGeneratorInterface $router,
-        CommandCreatorInterface $commandCreator
+        RefundUnitsCommandCreatorInterface $commandCreator
     ) {
         $this->commandBus = $commandBus;
         $this->session = $session;
@@ -46,10 +45,7 @@ final class RefundUnitsAction
             $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
 
             $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
-        } catch (CommandDispatchException $exception) {
-            Assert::notNull($exception->getPrevious());
-            $this->session->getFlashBag()->add('error', $exception->getPrevious()->getMessage());
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException | OrderNotFound $exception) {
             $this->session->getFlashBag()->add('error', $exception->getMessage());
         }
 

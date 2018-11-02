@@ -4,47 +4,59 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
-use Prooph\Common\Messaging\Command;
-use Prooph\Common\Messaging\PayloadTrait;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
-final class GenerateCreditMemo extends Command
+final class GenerateCreditMemo
 {
-    use PayloadTrait;
+    /** @var string */
+    private $orderNumber;
 
-    public function __construct(string $orderNumber, int $total, array $unitIds, array $shipments, string $comment)
+    /** @var int */
+    private $total;
+
+    /** @var array|OrderItemUnitRefund[] */
+    private $units;
+
+    /** @var array|ShipmentRefund[] */
+    private $shipments;
+
+    /** @var string */
+    private $comment;
+
+    public function __construct(string $orderNumber, int $total, array $units, array $shipments, string $comment)
     {
-        $this->init();
-        $this->setPayload([
-            'order_number' => $orderNumber,
-            'total' => $total,
-            'units' => $unitIds,
-            'shipments' => $shipments,
-            'comment' => $comment,
-        ]);
+        $this->orderNumber = $orderNumber;
+        $this->total = $total;
+        $this->units = $units;
+        $this->shipments = $shipments;
+        $this->comment = $comment;
     }
 
     public function orderNumber(): string
     {
-        return $this->payload['order_number'];
+        return $this->orderNumber;
     }
 
     public function total(): int
     {
-        return $this->payload['total'];
+        return $this->total;
     }
 
+    /** @return array|OrderItemUnitRefund[] */
     public function units(): array
     {
-        return $this->payload['units'];
+        return $this->units;
     }
 
+    /** @return array|ShipmentRefund[] */
     public function shipments(): array
     {
-        return $this->payload['shipments'];
+        return $this->shipments;
     }
 
     public function comment(): string
     {
-        return $this->payload['comment'];
+        return $this->comment;
     }
 }

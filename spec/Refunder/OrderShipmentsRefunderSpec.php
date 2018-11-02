@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Refunder;
 
 use PhpSpec\ObjectBehavior;
-use Prooph\ServiceBus\EventBus;
 use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderShipmentsRefunderSpec extends ObjectBehavior
 {
-    function let(RefundCreatorInterface $refundCreator, EventBus $eventBus): void
+    function let(RefundCreatorInterface $refundCreator, MessageBusInterface $eventBus): void
     {
         $this->beConstructedWith($refundCreator, $eventBus);
     }
@@ -27,7 +27,7 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
 
     function it_creates_refund_for_each_shipment_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
-        EventBus $eventBus
+        MessageBusInterface $eventBus
     ): void {
         $shipmentRefunds = [new ShipmentRefund(4, 2500)];
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
-use Prooph\ServiceBus\CommandBus;
 use Prooph\ServiceBus\Exception\CommandDispatchException;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -20,6 +19,7 @@ use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -33,7 +33,7 @@ final class RefundingContext implements Context
     /** @var RemainingTotalProviderInterface */
     private $remainingTotalProvider;
 
-    /** @var CommandBus */
+    /** @var MessageBusInterface */
     private $commandBus;
 
     /** @var EmailCheckerInterface */
@@ -46,7 +46,7 @@ final class RefundingContext implements Context
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundRepository,
         RemainingTotalProviderInterface $remainingTotalProvider,
-        CommandBus $commandBus,
+        MessageBusInterface $commandBus,
         EmailCheckerInterface $emailChecker
     ) {
         $this->orderRepository = $orderRepository;
@@ -104,7 +104,7 @@ final class RefundingContext implements Context
                 $paymentMethod->getId(),
                 ''
             ));
-        } catch (CommandDispatchException $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
     }
@@ -145,7 +145,7 @@ final class RefundingContext implements Context
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
             ));
-        } catch (CommandDispatchException $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
     }
@@ -222,7 +222,7 @@ final class RefundingContext implements Context
                 1,
                 ''
             ));
-        } catch (CommandDispatchException $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
 
@@ -234,11 +234,18 @@ final class RefundingContext implements Context
      */
     public function shouldNotBeAbleToRefundOrderShipment(): void
     {
+        /** @var AdjustmentInterface $shippingAdjustment */
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         try {
-            $this->commandBus->dispatch(new RefundUnits($this->order->getNumber(), [], [$shippingAdjustment->getId()], 1, ''));
-        } catch (CommandDispatchException $exception) {
+            $this->commandBus->dispatch(new RefundUnits(
+                $this->order->getNumber(),
+                [],
+                [new ShipmentRefund($shippingAdjustment->getId(), $shippingAdjustment->getAmount())],
+                1,
+                ''
+            ));
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             return;
         }
 
@@ -258,7 +265,7 @@ final class RefundingContext implements Context
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
             ));
-        } catch (CommandDispatchException $exception) {
+        } catch(\InvalidArgumentException | OrderNotFound $exception) {
             throw new \Exception('RefundUnits command should not fail');
         }
     }

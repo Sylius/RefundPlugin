@@ -27,7 +27,7 @@
             <argument type="service" id="__symfony__.sylius.repository.order" />
             <argument type="service" id="__symfony__.sylius_refund.repository.refund" />
             <argument type="service" id="__symfony__.Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
-            <argument type="service" id="__symfony__.prooph_service_bus.sylius_refund_command_bus" />
+            <argument type="service" id="__symfony__.message_bus" />
             <argument type="service" id="__symfony__.sylius.behat.email_checker" />
             <tag name="fob.context_service" />
         </service>
@@ -62,7 +62,7 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext">
             <argument type="service" id="__symfony__.sylius.repository.order" />
-            <argument type="service" id="__symfony__.prooph_service_bus.sylius_refund_command_bus" />
+            <argument type="service" id="__symfony__.message_bus" />
             <tag name="fob.context_service" />
         </service>
 
