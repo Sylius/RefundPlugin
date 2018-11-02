@@ -31,6 +31,13 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         return $unit->find('css', '.credit-memo-unit-taxes-total')->getText();
     }
 
+    public function getUnitTotal(int $number, string $unitName): string
+    {
+        $unit = $this->getCreditMemoUnitsWithProduct($unitName)[0];
+
+        return $unit->find('css', '.credit-memo-unit-total')->getText();
+    }
+
     public function getNumber(): string
     {
         return $this->getDocument()->find('css', '#credit-memo-number')->getText();
