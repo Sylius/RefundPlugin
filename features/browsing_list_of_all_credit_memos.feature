@@ -5,7 +5,7 @@ Feature: Browsing list of all credit memos
     I want to have credit memo generated for each order refund action
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single green channel in "United States"
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And the store has a product "Portal Gun" priced at "$20.00"
         And the store allows shipping with "Galaxy Post"

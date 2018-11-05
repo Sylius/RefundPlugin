@@ -5,7 +5,7 @@ Feature: Refunding a single order unit with promotion applied
     I want to be able to refund a single order unit
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single green channel in "United States"
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"

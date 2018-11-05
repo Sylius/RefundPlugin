@@ -5,8 +5,8 @@ Feature: Filtering credit memos
     I want to be able to filter credit memos list
 
     Background:
-        Given the store operates on a channel named "Web-US" in "USD" currency
-        And the store operates on a channel named "Web-UK" in "GBP" currency
+        Given the store operates on a channel named "Web-US" in "USD" currency with green color
+        And the store operates on a channel named "Web-UK" in "GBP" currency with green color
         And the store has country "United States"
         And the store has country "United Kingdom"
         And the store has a zone "United States + United Kingdom" with code "US + UK"

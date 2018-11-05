@@ -5,7 +5,7 @@ Feature: Refunding a part of an shipment
     I want to be able to refund an order shipment
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single green channel in "United States"
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And the store has "Galaxy Post" shipping method with "$20.00" fee
         And the store allows paying with "Space money"

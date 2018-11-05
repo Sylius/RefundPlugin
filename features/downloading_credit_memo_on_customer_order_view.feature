@@ -5,7 +5,7 @@ Feature: Downloading credit memo on customer order view
     I want to be able to download credit memos on single order view
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single green channel in "United States"
         And the store has a product "Angel T-Shirt"
         And the store ships everywhere for free
         And the store allows paying with "Cash on Delivery"
