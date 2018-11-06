@@ -41,6 +41,7 @@ default:
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext
+                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\ChannelContext
             filters:
                 tags: "@refunds && @ui"
         application_refunds:
@@ -76,6 +77,7 @@ default:
 
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext
+                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\ChannelContext
             filters:
                 tags: "@refunds && @application"
         customer_credit_memos:
@@ -110,5 +112,6 @@ default:
 
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
+                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\ChannelContext
             filters:
                 tags: "@customer_credit_memos && @ui"
