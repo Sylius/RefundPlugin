@@ -46,12 +46,12 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
         return $creditMemo->find('css', sprintf('td:contains("%s")', $total)) !== null;
     }
 
-    public function hasCreditMemoWithChannel(int $index, string $channelName): bool
+    public function hasCreditMemoWithChannel(int $index, string $channelCode): bool
     {
         /** @var NodeElement $creditMemo */
         $creditMemo = $this->getCreditMemoElement($index);
 
-        return $creditMemo->find('css', sprintf('td:contains("%s")', $channelName)) !== null;
+        return $creditMemo->find('css', sprintf('td:contains("%s")', $channelCode)) !== null;
     }
 
     public function hasSingleCreditMemoForOrder(string $orderNumber): bool
