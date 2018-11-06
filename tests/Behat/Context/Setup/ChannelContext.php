@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Formatter\StringInflector;
 use Sylius\Component\Core\Test\Services\DefaultChannelFactoryInterface;
@@ -20,14 +21,19 @@ final class ChannelContext implements Context
     /** @var DefaultChannelFactoryInterface */
     private $defaultChannelFactory;
 
+    /** @var ObjectManager */
+    private $channelManager;
+
     public function __construct(
         SharedStorageInterface $sharedStorage,
         DefaultChannelFactoryInterface $unitedStatesChannelFactory,
-        DefaultChannelFactoryInterface $defaultChannelFactory
+        DefaultChannelFactoryInterface $defaultChannelFactory,
+        ObjectManager $channelManager
     ) {
         $this->sharedStorage = $sharedStorage;
         $this->unitedStatesChannelFactory = $unitedStatesChannelFactory;
         $this->defaultChannelFactory = $defaultChannelFactory;
+        $this->channelManager = $channelManager;
     }
 
     /**
@@ -40,6 +46,7 @@ final class ChannelContext implements Context
 
         $this->sharedStorage->setClipboard($defaultData);
         $this->sharedStorage->set('channel', $defaultData['channel']);
+        $this->channelManager->flush();
     }
 
     /**
@@ -53,5 +60,6 @@ final class ChannelContext implements Context
 
         $this->sharedStorage->setClipboard($defaultData);
         $this->sharedStorage->set('channel', $defaultData['channel']);
+        $this->channelManager->flush();
     }
 }

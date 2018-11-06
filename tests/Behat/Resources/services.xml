@@ -81,6 +81,7 @@
             <argument type="service" id="sylius.behat.shared_storage" />
             <argument type="service" id="__symfony__.sylius.behat.factory.default_united_states_channel" />
             <argument type="service" id="__symfony__.sylius.behat.factory.default_channel" />
+            <argument type="service" id="__symfony__.sylius.manager.channel" />
             <tag name="fob.context_service" />
         </service>
     </services>
