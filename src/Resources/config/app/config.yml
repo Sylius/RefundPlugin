@@ -71,7 +71,7 @@ sylius_grid:
                     type: twig
                     label: sylius.ui.channel
                     options:
-                        template: "@SyliusAdmin/Order/Grid/Field/channel.html.twig"
+                        template: "@SyliusRefundPlugin/Order/Grid/Field/channel.html.twig"
                 total:
                     type: twig
                     label: sylius.ui.total
