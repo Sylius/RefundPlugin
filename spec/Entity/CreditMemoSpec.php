@@ -22,7 +22,7 @@ final class CreditMemoSpec extends ObjectBehavior
             1000,
             'USD',
             'en_US',
-            new CreditMemoChannel('WEB-US', 'United States'),
+            new CreditMemoChannel('WEB-US', 'United States', 'Linen'),
             [$creditMemoUnit->serialize()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10')
@@ -66,7 +66,7 @@ final class CreditMemoSpec extends ObjectBehavior
 
     function it_has_channel(): void
     {
-        $this->getChannel()->shouldBeLike(new CreditMemoChannel('WEB-US', 'United States'));
+        $this->getChannel()->shouldBeLike(new CreditMemoChannel('WEB-US', 'United States', 'Linen'));
     }
 
     function it_has_units(): void

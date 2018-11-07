@@ -13,10 +13,14 @@ class CreditMemoChannel
     /** @var string */
     private $name;
 
-    public function __construct(string $code, string $name)
+    /** @var string */
+    private $color;
+
+    public function __construct(string $code, string $name, string $color)
     {
         $this->code = $code;
         $this->name = $name;
+        $this->color = $color;
     }
 
     public function code(): string
@@ -27,5 +31,10 @@ class CreditMemoChannel
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function color(): string
+    {
+        return $this->color;
     }
 }

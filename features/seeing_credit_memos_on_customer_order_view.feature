@@ -5,7 +5,7 @@ Feature: Seeing credit memos on customer order view
     I want to be able to browse them on the order view
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single green channel in "United States"
         And the store has a product "Angel T-Shirt"
         And the store has a product "Mr. Meeseeks T-Shirt"
         And the store ships everywhere for free

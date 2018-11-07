@@ -5,7 +5,7 @@ Feature: Refunding a single order unit with taxes applied
     I want to be able to refund a single order unit
 
     Background:
-        Given the store operates on a single channel in "United States"
+        Given the store operates on a single green channel in "United States"
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"

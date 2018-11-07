@@ -10,7 +10,7 @@ final class CreditMemoChannelSpec extends ObjectBehavior
 {
     function let(): void
     {
-        $this->beConstructedWith('WEB_US', 'United States');
+        $this->beConstructedWith('WEB_US', 'United States', 'Linen');
     }
 
     function it_has_code(): void
@@ -21,5 +21,10 @@ final class CreditMemoChannelSpec extends ObjectBehavior
     function it_has_name(): void
     {
         $this->name()->shouldReturn('United States');
+    }
+
+    function it_has_color(): void
+    {
+        $this->color()->shouldReturn('Linen');
     }
 }
