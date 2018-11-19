@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Behat\Page\Admin;
 
-use Sylius\Behat\Page\SymfonyPageInterface;
+use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 
 interface OrderRefundsPageInterface extends SymfonyPageInterface
 {
