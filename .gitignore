@@ -11,6 +11,3 @@
 /tests/Application/yarn.lock
 
 .env.test
-
-# PHP-Storm
-.idea/
