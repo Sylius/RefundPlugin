@@ -129,10 +129,11 @@
                         </tbody>
                     </table>
 
-                    <label for="payment-methods" style="font-weight: bold;">{{ 'sylius.ui.payment_method'|trans }}</label>
+                    {% set original_payment_method = order.payments.first().method %}
+                    <label for="payment-methods" style="font-weight: bold;">{{ 'sylius.ui.payment_method'|trans }} ({{ 'sylius.ui.original_payment_method'|trans }}: {{ original_payment_method }})</label>
                     <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown" style="margin-top: 10px;">
                         {% for payment_method in payment_methods %}
-                            <option value="{{ payment_method.id }}">{{ payment_method.name }}</option>
+                            <option value="{{ payment_method.id }}" {{ (payment_method.code == original_payment_method.code) ? 'selected' : '' }}>{{ payment_method.name }}</option>
                         {% endfor %}
                     </select>
 
