@@ -38,14 +38,14 @@
             options: []
     ````
     
-2. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
+6. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
 
     ```bash
     cp -R vendor/sylius/refund-plugin/migrations/* src/Migrations
     bin/console doctrine:migrations:migrate
     ```
 
-3. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
+7. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
 
     ```bash
     mkdir -p templates/bundles/SyliusAdminBundle/
@@ -56,4 +56,12 @@
 
     ```bash
     bin/console cache:clear
+    ```
+
+9. (optional) If you don't use `symfony/messenger` component yet, it is required to configure one of the message buses as a default bus:
+
+    ```yaml
+    framework:
+        messenger:
+            default_bus: sylius_refund_plugin.command_bus
     ```
