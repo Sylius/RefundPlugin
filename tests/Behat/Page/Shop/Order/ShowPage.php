@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Behat\Page\Shop\Order;
 
-use Behat\Mink\Element\NodeElement;
 use Sylius\Behat\Page\Shop\Order\ShowPage as BaseOrderShowPage;
 
 final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
