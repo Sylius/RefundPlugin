@@ -312,7 +312,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @And the selected refund payment method should be :paymentMethod
+     * @Then the selected refund payment method should be :paymentMethod
      */
     public function theSelectedRefundPaymentMethodShouldBe(string $paymentMethod)
     {
