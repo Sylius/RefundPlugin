@@ -314,7 +314,7 @@ final class RefundingContext implements Context
     /**
      * @Then the selected refund payment method should be :paymentMethod
      */
-    public function theSelectedRefundPaymentMethodShouldBe(string $paymentMethod)
+    public function theSelectedRefundPaymentMethodShouldBe(string $paymentMethod): void
     {
         Assert::true($this->orderRefundsPage->isPaymentMethodSelected($paymentMethod));
     }
