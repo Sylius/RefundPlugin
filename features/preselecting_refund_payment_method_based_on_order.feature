@@ -1,8 +1,8 @@
 @refunds
-Feature: Refunding all order units
-    In order to give back money for all of the bought products to Customer
+Feature: Preselecting refund payment method based on order's payment
     As an Administrator
-    I want to be able to refund all order units
+    In order to speed up refunding process
+    I want to have refund payment method preselected
 
     Background:
         Given the store operates on a single green channel in "United States"
@@ -15,13 +15,7 @@ Feature: Refunding all order units
         And I am logged in as an administrator
         And the order "#00000022" is already paid
 
-    @ui @javascript
-    Scenario: Refunding all order units
+    @ui
+    Scenario: When refunding, the selected payment should be the first one of the corresponding order
         When I want to refund some units of order "#00000022"
-        And the selected refund payment method should be "Space money"
-        Then I should be notified that selected order units have been successfully refunded
-        And this order refunded total should be "$40.00"
-        But I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
-        And I should not be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
-        And I should not be able to refund 3rd unit with product "Mr. Meeseeks T-Shirt"
-        And I should not be able to refund order shipment
+        Then the selected refund payment method should be "Space money"
