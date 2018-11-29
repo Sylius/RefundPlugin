@@ -30,6 +30,7 @@ From Administrator's point of view, every Refund request results in creating two
 ## Pre - requirements
 
 In order to be able to generate PDF files of refunds, [wkhtmltopdf](https://wkhtmltopdf.org/) must be installed.
+It is used by `KnpSnappyBundle` and can be configured according to [their docummentation](https://github.com/KnpLabs/KnpSnappyBundle#configuration). 
 
 ## Installation
 
