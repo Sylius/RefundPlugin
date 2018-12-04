@@ -27,6 +27,11 @@ From Administrator's point of view, every Refund request results in creating two
 * Credit Memo - a document representing a list of refunded items (downloadable and sent to Customer via .pdf file)
 * Refund Payment - entity representing payment in favour of the Customer
 
+## Pre - requirements
+
+In order to be able to generate PDF files of refunds, [wkhtmltopdf](https://wkhtmltopdf.org/) must be installed.
+It is used by `KnpSnappyBundle` and can be configured according to [their docummentation](https://github.com/KnpLabs/KnpSnappyBundle#configuration). 
+
 ## Installation
 
 1. Require plugin with composer:
