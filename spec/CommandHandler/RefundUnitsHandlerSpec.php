@@ -15,6 +15,7 @@ use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
@@ -54,16 +55,8 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $refundUnitsCommandValidator->validate(Argument::type(RefundUnits::class))->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event) use ($unitRefunds, $shipmentRefunds): bool {
-            return
-                $event->orderNumber() === '000222' &&
-                $event->units() === $unitRefunds &&
-                $event->shipments() === $shipmentRefunds &&
-                $event->amount() === 7000 &&
-                $event->paymentMethodId() === 1 &&
-                $event->comment() === 'Comment'
-            ;
-        }))->shouldBeCalled();
+        $event = new UnitsRefunded('000222', $unitRefunds, $shipmentRefunds, 1, 7000, 'USD', 'Comment');
+        $eventBus->dispatch($event)->willReturn(new Envelope($event));
 
         $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
     }
@@ -87,16 +80,8 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $refundUnitsCommandValidator->validate(Argument::type(RefundUnits::class))->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function (UnitsRefunded $event) use ($unitRefunds, $shipmentRefunds): bool {
-            return
-                $event->orderNumber() === '000222' &&
-                $event->units() === $unitRefunds &&
-                $event->shipments() === $shipmentRefunds &&
-                $event->amount() === 1500 &&
-                $event->paymentMethodId() === 1 &&
-                $event->comment() === 'Comment'
-            ;
-        }))->shouldBeCalled();
+        $event = new UnitsRefunded('000222', $unitRefunds, $shipmentRefunds, 1, 1500, 'USD', 'Comment');
+        $eventBus->dispatch($event)->willReturn(new Envelope($event));
 
         $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
     }

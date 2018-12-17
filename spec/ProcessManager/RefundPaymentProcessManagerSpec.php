@@ -6,7 +6,6 @@ namespace spec\Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -14,6 +13,7 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundPaymentProcessManagerSpec extends ObjectBehavior
@@ -61,16 +61,8 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 
         $relatedPaymentIdProvider->getForRefundPayment($refundPayment)->willReturn(3);
 
-        $eventBus->dispatch(Argument::that(function (RefundPaymentGenerated $event): bool {
-            return
-                $event->id() === 10 &&
-                $event->orderNumber() === '000222' &&
-                $event->amount() === 1000 &&
-                $event->currencyCode() === 'USD' &&
-                $event->paymentMethodId() === 1 &&
-                $event->paymentId() === 3
-            ;
-        }))->shouldBeCalled();
+        $event = new RefundPaymentGenerated(10, '000222', 1000, 'USD', 1, 3);
+        $eventBus->dispatch($event)->willReturn(new Envelope($event));
 
         $this(new UnitsRefunded('000222', [new OrderItemUnitRefund(1, 500), new OrderItemUnitRefund(2, 500)], [1], 1, 1000, 'USD', 'Comment'));
     }
