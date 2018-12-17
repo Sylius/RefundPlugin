@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Refunder;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderShipmentsRefunderSpec extends ObjectBehavior
@@ -33,13 +33,8 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
 
         $refundCreator->__invoke('000222', 4, 2500, RefundType::shipment())->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function (ShipmentRefunded $event): bool {
-            return
-                $event->orderNumber() === '000222' &&
-                $event->shipmentUnitId() === 4 &&
-                $event->amount() === 2500
-            ;
-        }))->shouldBeCalled();
+        $event = new ShipmentRefunded('000222', 4, 2500);
+        $eventBus->dispatch($event)->willReturn(new Envelope($event));
 
         $this->refundFromOrder($shipmentRefunds, '000222')->shouldReturn(2500);
     }

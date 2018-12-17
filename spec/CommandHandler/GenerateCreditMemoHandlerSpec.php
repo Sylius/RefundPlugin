@@ -6,13 +6,13 @@ namespace spec\Sylius\RefundPlugin\CommandHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
@@ -41,12 +41,8 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $creditMemoManager->persist($creditMemo)->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
-        $eventBus->dispatch(Argument::that(function (CreditMemoGenerated $event): bool {
-            return
-                $event->number() === '2018/01/000001' &&
-                $event->orderNumber() === '000666'
-            ;
-        }))->shouldBeCalled();
+        $event = new CreditMemoGenerated('2018/01/000001', '000666');
+        $eventBus->dispatch($event)->willReturn(new Envelope($event));
 
         $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
     }
