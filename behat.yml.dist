@@ -41,7 +41,3 @@ default:
                 class: Tests\Sylius\RefundPlugin\Application\Kernel
 
         FriendsOfBehat\VariadicExtension: ~
-
-        FriendsOfBehat\SuiteSettingsExtension:
-            paths:
-                - "features"

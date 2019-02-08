@@ -35,7 +35,9 @@ jobs:
                 - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
                 - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
+                - mkdir -p tests/Application/public/media/image/
                 - cp migrations/* tests/Application/src/Migrations/
+
             install:
                 - composer update --no-interaction --prefer-dist
                 - (cd tests/Application && yarn install)
