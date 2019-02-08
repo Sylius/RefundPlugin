@@ -1,7 +1,7 @@
 default:
     suites:
         ui_refunds:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.transform.address
@@ -45,7 +45,7 @@ default:
             filters:
                 tags: "@refunds && @ui"
         application_refunds:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.transform.address
@@ -81,7 +81,7 @@ default:
             filters:
                 tags: "@refunds && @application"
         customer_credit_memos:
-            contexts_services:
+            contexts:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.transform.address
