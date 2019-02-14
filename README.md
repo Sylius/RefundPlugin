@@ -8,6 +8,8 @@
 
 <p align="center"><img src="https://travis-ci.org/Sylius/RefundPlugin.svg?branch=master"></p>
 
+<p align="center"><a href="https://sylius.com/plugins/" target="_blank"><img src="https://sylius.com/assets/badge-official-sylius-plugin.png" width="200"></a></p>
+
 <p align="center">This plugin provides basic refunds functionality for Sylius application.</p>
 
 ![Screenshot showing order's refund section](docs/refunds.png)
