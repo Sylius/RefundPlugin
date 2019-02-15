@@ -6,7 +6,7 @@ Feature: Having credit memo generated
 
     Background:
         Given the store operates on a single green channel in "United States"
-        And channel "United States" billing data is "Haas & Milan", "Pacific Coast Hwy", "223000" "Los Angeles", "United States" with "1100110011" tax ID
+        And channel "United States" billing data is "Haas & Milan", "Pacific Coast Hwy", "90003" "Los Angeles", "United States" with "1100110011" tax ID
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
@@ -42,7 +42,7 @@ Feature: Having credit memo generated
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.90" tax applied
         And it should be issued in "United States" channel
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
-        And it should be issued to "Haas & Milan", "Pacific Coast Hwy", "223000" "Los Angeles" in the "United States"
+        And it should be issued to "Haas & Milan", "Pacific Coast Hwy", "90003" "Los Angeles" in the "United States" with "1100110011" tax ID
         And its total should be "$9.90"
 
     @ui @application

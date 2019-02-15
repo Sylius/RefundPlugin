@@ -9,6 +9,8 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -124,19 +126,26 @@ final class CreditMemoContext implements Context
         string $city,
         CountryInterface $country
     ): void {
-        throw new PendingException();
+        Assert::same(
+            $this->creditMemo->getFrom(),
+            new CustomerBillingData($customerName, $street, $postcode, $country->getCode(), $city)
+        );
     }
 
     /**
-     * @Then it should be issued to :company, :street, :postcode :city in the :country
+     * @Then it should be issued to :company, :street, :postcode :city in the :country with :taxId tax ID
      */
     public function itShouldBeIssuedTo(
         string $company,
         string $street,
         string $postcode,
         string $city,
-        CountryInterface $country
+        CountryInterface $country,
+        string $taxId
     ): void {
-        throw new PendingException();
+        Assert::same(
+            $this->creditMemo->getTo(),
+            new ShopBillingData($company, $taxId, $country->getCode(), $street, $city, $postcode)
+        );
     }
 }
