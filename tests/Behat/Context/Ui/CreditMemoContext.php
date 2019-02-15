@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
+use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
@@ -154,6 +155,32 @@ final class CreditMemoContext implements Context
     public function creditMemoShouldBeIssuedInChannel(string $channelName): void
     {
         Assert::same($this->creditMemoDetailsPage->getChannelName(), $channelName);
+    }
+
+    /**
+     * @Then it should be issued from :customerName, :street, :postcode :city in the :country
+     */
+    public function itShouldBeIssuedFrom(
+        string $customerName,
+        string $street,
+        string $postcode,
+        string $city,
+        CountryInterface $country
+    ): void {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then it should be issued to :company, :street, :postcode :city in the :country
+     */
+    public function itShouldBeIssuedTo(
+        string $company,
+        string $street,
+        string $postcode,
+        string $city,
+        CountryInterface $country
+    ): void {
+        throw new PendingException();
     }
 
     /**

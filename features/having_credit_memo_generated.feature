@@ -6,6 +6,7 @@ Feature: Having credit memo generated
 
     Background:
         Given the store operates on a single green channel in "United States"
+        And channel "United States" billing data is "Haas & Milan", "Pacific Coast Hwy", "223000" "Los Angeles", "United States" with "1100110011" tax ID
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
@@ -16,9 +17,11 @@ Feature: Having credit memo generated
         And this promotion gives "$1.00" off on every product with minimum price at "$5.00"
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
+        And the customer "rick.sanchez@wubba-lubba-dub-dub.com" addressed it to "Seaside Fwy", "90802" "Los Angeles" in the "United States" with identical billing address
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And there is a customer "morty.smith@look-at-me.com" that placed an order "#00000023"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
+        And the customer "morty.smith@look-at-me.com" addressed it to "Main St.", "90100" "Los Angeles" in the "United States" with identical billing address
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
         And the order "#00000023" is already paid
         And I am logged in as an administrator
@@ -38,6 +41,8 @@ Feature: Having credit memo generated
         And it should have sequential number generated from current date
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.90" tax applied
         And it should be issued in "United States" channel
+        And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
+        And it should be issued to "Haas & Milan", "Pacific Coast Hwy", "223000" "Los Angeles" in the "United States"
         And its total should be "$9.90"
 
     @ui @application
@@ -48,7 +53,6 @@ Feature: Having credit memo generated
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.50" tax applied
         And it should be issued in "United States" channel
         And its total should be "$5.50"
-
 
     @ui @application
     Scenario: Seeing the details of generated credit memo with partial shipment price
