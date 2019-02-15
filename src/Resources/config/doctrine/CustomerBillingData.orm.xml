@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping
+        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                            http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <embeddable name="Sylius\RefundPlugin\Entity\CustomerBillingData">
+        <field name="customerName" />
+        <field name="street" />
+        <field name="postcode" />
+        <field name="countryCode" />
+        <field name="city" />
+        <field name="company" nullable="true" />
+        <field name="provinceName" nullable="true" />
+        <field name="provinceCode" nullable="true" />
+    </embeddable>
+</doctrine-mapping>

@@ -20,6 +20,8 @@
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
         <embedded name="channel" class="Sylius\RefundPlugin\Entity\CreditMemoChannel" />
+        <embedded name="from" class="Sylius\RefundPlugin\Entity\CustomerBillingData" />
+        <embedded name="to" class="Sylius\RefundPlugin\Entity\ShopBillingData" />
 
         <indexes>
             <index columns="orderNumber" />
