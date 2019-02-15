@@ -167,20 +167,27 @@ final class CreditMemoContext implements Context
         string $city,
         CountryInterface $country
     ): void {
-        throw new PendingException();
+        Assert::same(
+            $this->creditMemoDetailsPage->getFromAddress(),
+            $customerName . ' ' . $street . ' ' . $city . ' ' . strtoupper($country->getName()) . ' ' . $postcode
+        );
     }
 
     /**
-     * @Then it should be issued to :company, :street, :postcode :city in the :country
+     * @Then it should be issued to :company, :street, :postcode :city in the :country with :taxId tax ID
      */
     public function itShouldBeIssuedTo(
         string $company,
         string $street,
         string $postcode,
         string $city,
-        CountryInterface $country
+        CountryInterface $country,
+        string $taxId
     ): void {
-        throw new PendingException();
+        Assert::same(
+            $this->creditMemoDetailsPage->getToAddress(),
+            $company . ' ' . $taxId . ' ' . $city . ' ' . $street . ' ' . strtoupper($country->getName()) . ' ' . $postcode
+        );
     }
 
     /**
