@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
+use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingData;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
@@ -94,7 +98,35 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             new CreditMemoChannel($channel->getCode(), $channel->getName(), $channel->getColor()),
             $creditMemoUnits,
             $comment,
-            $this->currentDateTimeProvider->now()
+            $this->currentDateTimeProvider->now(),
+            $this->getFromAddress($order->getBillingAddress()),
+            $this->getToAddress($channel->getShopBillingData())
+        );
+    }
+
+    private function getFromAddress(AddressInterface $address): CustomerBillingData
+    {
+        return new CustomerBillingData(
+            $address->getFirstName() . ' ' . $address->getLastName(),
+            $address->getStreet(),
+            $address->getPostcode(),
+            $address->getCountryCode(),
+            $address->getCity(),
+            $address->getCompany(),
+            $address->getProvinceName(),
+            $address->getProvinceCode()
+        );
+    }
+
+    private function getToAddress(ChannelShopBillingData $channelShopBillingData): ShopBillingData
+    {
+        return new ShopBillingData(
+            $channelShopBillingData->getCompany(),
+            $channelShopBillingData->getTaxId(),
+            $channelShopBillingData->getCountryCode(),
+            $channelShopBillingData->getStreet(),
+            $channelShopBillingData->getCity(),
+            $channelShopBillingData->getPostcode()
         );
     }
 }

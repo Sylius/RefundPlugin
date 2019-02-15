@@ -8,8 +8,8 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
-use Sylius\RefundPlugin\Model\CustomerBillingData;
-use Sylius\RefundPlugin\Model\ShopBillingData;
+use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
 
 final class CreditMemoSpec extends ObjectBehavior
 {

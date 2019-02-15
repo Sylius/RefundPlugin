@@ -126,7 +126,7 @@ final class CreditMemoContext implements Context
         string $city,
         CountryInterface $country
     ): void {
-        Assert::same(
+        Assert::eq(
             $this->creditMemo->getFrom(),
             new CustomerBillingData($customerName, $street, $postcode, $country->getCode(), $city)
         );
@@ -143,7 +143,7 @@ final class CreditMemoContext implements Context
         CountryInterface $country,
         string $taxId
     ): void {
-        Assert::same(
+        Assert::eq(
             $this->creditMemo->getTo(),
             new ShopBillingData($company, $taxId, $country->getCode(), $street, $city, $postcode)
         );

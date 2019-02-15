@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Generator;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
+use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
@@ -50,6 +55,8 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         NumberGenerator $creditMemoNumberGenerator,
         OrderInterface $order,
         ChannelInterface $channel,
+        ShopBillingDataInterface $shopBillingData,
+        AddressInterface $customerBillingAddress,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
@@ -68,6 +75,25 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $channel->getCode()->willReturn('WEB-US');
         $channel->getName()->willReturn('United States');
         $channel->getColor()->willReturn('Linen');
+
+        $channel->getShopBillingData()->willReturn($shopBillingData);
+        $shopBillingData->getCompany()->willReturn('Needful Things');
+        $shopBillingData->getTaxId()->willReturn('000222');
+        $shopBillingData->getCountryCode()->willReturn('US');
+        $shopBillingData->getStreet()->willReturn('Main St. 123');
+        $shopBillingData->getCity()->willReturn('New York');
+        $shopBillingData->getPostcode()->willReturn('90222');
+
+        $order->getBillingAddress()->willReturn($customerBillingAddress);
+        $customerBillingAddress->getFirstName()->willReturn('Rick');
+        $customerBillingAddress->getLastName()->willReturn('Sanchez');
+        $customerBillingAddress->getPostcode()->willReturn('000333');
+        $customerBillingAddress->getCountryCode()->willReturn('US');
+        $customerBillingAddress->getStreet()->willReturn('Universe St. 444');
+        $customerBillingAddress->getCity()->willReturn('Los Angeles');
+        $customerBillingAddress->getCompany()->willReturn('Curse Purge Plus!');
+        $customerBillingAddress->getProvinceName()->willReturn(null);
+        $customerBillingAddress->getProvinceCode()->willReturn(null);
 
         $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50);
         $orderItemUnitCreditMemoUnitGenerator->generate(1, 500)->willReturn($firstCreditMemoUnit);
@@ -98,7 +124,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 $shipmentCreditMemoUnit->serialize(),
             ],
             'Comment',
-            $dateTime->getWrappedObject()
+            $dateTime->getWrappedObject(),
+            new CustomerBillingData('Rick Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
+            new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
         ));
     }
 

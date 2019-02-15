@@ -17,12 +17,12 @@ Feature: Having credit memo generated
         And this promotion gives "$1.00" off on every product with minimum price at "$5.00"
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
-        And the customer "rick.sanchez@wubba-lubba-dub-dub.com" addressed it to "Seaside Fwy", "90802" "Los Angeles" in the "United States" with identical billing address
-        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the customer "Rick Sanchez" addressed it to "Seaside Fwy", "90802" "Los Angeles" in the "United States" with identical billing address
+        And the customer chose "Galaxy Post" shipping method with "Space money" payment
         And there is a customer "morty.smith@look-at-me.com" that placed an order "#00000023"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
-        And the customer "morty.smith@look-at-me.com" addressed it to "Main St.", "90100" "Los Angeles" in the "United States" with identical billing address
-        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the customer "Morty Smith" addressed it to "Main St.", "90100" "Los Angeles" in the "United States" with identical billing address
+        And the customer chose "Galaxy Post" shipping method with "Space money" payment
         And the order "#00000023" is already paid
         And I am logged in as an administrator
         And the order "#00000022" is already paid
