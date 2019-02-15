@@ -12,6 +12,36 @@
 
 <br /><br />
 
+<p>
+    {% set from = creditMemo.from %}
+    <h4>{{ 'sylius_refund.ui.from'|trans }}</h4>
+    <address>
+        <strong>{{ from.customerName }}</strong>
+        {% if from.company %}
+            {{ from.company }}
+        {% endif %}
+        <br/>{{ from.street }}<br/>
+        {{ from.city }}<br/>
+        {% if from.provinceName is not empty %}
+            {{ from.provinceName }}<br/>
+        {% endif %}
+        <i class="{{ from.countryCode|lower }} flag"></i>
+        {{ from.countryCode|sylius_country_name|upper }} {{ from.postcode }}
+    </address>
+</p>
+<p>
+    {% set to = creditMemo.to %}
+    <h4>{{ 'sylius_refund.ui.to'|trans }}</h4>
+    <address>
+        <strong>{{ to.company }}</strong>
+        {{ to.taxId }}<br/>
+        {{ to.city }}<br/>
+        {{ to.street }}<br/>
+        <i class="{{ to.countryCode|lower }} flag"></i>
+        {{ to.countryCode|sylius_country_name|upper }} {{ to.postcode }}
+    </address>
+</p>
+
 <table>
     <thead>
     <tr>

@@ -24,7 +24,7 @@
 
     <div class="ui stackable grid">
         <div class="eight wide column">
-            <h4 class="ui top attached styled header">From</h4>
+            <h4 class="ui top attached styled header">{{ 'sylius_refund.ui.from'|trans }}</h4>
             <div class="ui attached segment" id="from-address">
                 {% set from = credit_memo.from %}
                 <address>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="eight wide column">
-            <h4 class="ui top attached styled header">To</h4>
+            <h4 class="ui top attached styled header">{{ 'sylius_refund.ui.to'|trans }}</h4>
             <div class="ui attached segment" id="to-address">
                 {% set to = credit_memo.to %}
                 <address>

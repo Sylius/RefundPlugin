@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
