@@ -6,31 +6,31 @@ namespace Sylius\RefundPlugin\Entity;
 
 final class ShopBillingData
 {
-    /** @var string */
+    /** @var string|null */
     private $company;
 
-    /** @var string */
+    /** @var string|null */
     private $taxId;
 
-    /** @var string */
+    /** @var string|null */
     private $countryCode;
 
-    /** @var string */
+    /** @var string|null */
     private $street;
 
-    /** @var string */
+    /** @var string|null */
     private $city;
 
-    /** @var string */
+    /** @var string|null */
     private $postcode;
 
     public function __construct(
-        string $company,
-        string $taxId,
-        string $countryCode,
-        string $street,
-        string $city,
-        string $postcode
+        ?string $company,
+        ?string $taxId,
+        ?string $countryCode,
+        ?string $street,
+        ?string $city,
+        ?string $postcode
     ) {
         $this->company = $company;
         $this->taxId = $taxId;
@@ -40,32 +40,32 @@ final class ShopBillingData
         $this->postcode = $postcode;
     }
 
-    public function company(): string
+    public function company(): ?string
     {
         return $this->company;
     }
 
-    public function taxId(): string
+    public function taxId(): ?string
     {
         return $this->taxId;
     }
 
-    public function countryCode(): string
+    public function countryCode(): ?string
     {
         return $this->countryCode;
     }
 
-    public function street(): string
+    public function street(): ?string
     {
         return $this->street;
     }
 
-    public function city(): string
+    public function city(): ?string
     {
         return $this->city;
     }
 
-    public function postcode(): string
+    public function postcode(): ?string
     {
         return $this->postcode;
     }

@@ -118,8 +118,15 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         );
     }
 
-    private function getToAddress(ChannelShopBillingData $channelShopBillingData): ShopBillingData
+    private function getToAddress(?ChannelShopBillingData $channelShopBillingData): ?ShopBillingData
     {
+        if (
+            $channelShopBillingData === null ||
+            ($channelShopBillingData->getStreet() === null && $channelShopBillingData->getCompany() === null)
+        ) {
+            return null;
+        }
+
         return new ShopBillingData(
             $channelShopBillingData->getCompany(),
             $channelShopBillingData->getTaxId(),

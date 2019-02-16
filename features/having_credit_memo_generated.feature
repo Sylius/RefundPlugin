@@ -11,7 +11,7 @@ Feature: Having credit memo generated
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
-        And the store allows shipping with "Galaxy Post"
+        And the store has "Galaxy Post" shipping method with "$10.00" fee
         And the store allows paying with "Space money"
         And there is a promotion "Anatomy Park Promotion"
         And this promotion gives "$1.00" off on every product with minimum price at "$5.00"

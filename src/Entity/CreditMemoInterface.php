@@ -28,5 +28,5 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getFrom(): CustomerBillingData;
 
-    public function getTo(): ShopBillingData;
+    public function getTo(): ?ShopBillingData;
 }

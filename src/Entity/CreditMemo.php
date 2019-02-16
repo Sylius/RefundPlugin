@@ -40,7 +40,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var CustomerBillingData */
     private $from;
 
-    /** @var ShopBillingData */
+    /** @var ShopBillingData|null */
     private $to;
 
     public function __construct(
@@ -55,7 +55,7 @@ class CreditMemo implements CreditMemoInterface
         string $comment,
         \DateTimeInterface $issuedAt,
         CustomerBillingData $from,
-        ShopBillingData $to
+        ?ShopBillingData $to
     ) {
         $this->id = $id;
         $this->number = $number;
@@ -131,7 +131,7 @@ class CreditMemo implements CreditMemoInterface
         return $this->from;
     }
 
-    public function getTo(): ShopBillingData
+    public function getTo(): ?ShopBillingData
     {
         return $this->to;
     }

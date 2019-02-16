@@ -21,8 +21,9 @@
             ) }}
         </div>
     </div>
-
+    {% if credit_memo.from != null or credit_memo.to != null %}
     <div class="ui stackable grid">
+        {% if credit_memo.from != null %}
         <div class="eight wide column">
             <h4 class="ui top attached styled header">{{ 'sylius_refund.ui.from'|trans }}</h4>
             <div class="ui attached segment" id="from-address">
@@ -42,6 +43,8 @@
                 </address>
             </div>
         </div>
+        {% endif %}
+        {% if credit_memo.to != null and credit_memo.to.taxId != null %}
         <div class="eight wide column">
             <h4 class="ui top attached styled header">{{ 'sylius_refund.ui.to'|trans }}</h4>
             <div class="ui attached segment" id="to-address">
@@ -56,9 +59,9 @@
                 </address>
             </div>
         </div>
-        </div>
+        {% endif %}
     </div>
-
+    {% endif %}
     <div class="ui stackable segment grid">
         <div class="sixteen wide column">
             <table class="ui celled compact small table fixed">
