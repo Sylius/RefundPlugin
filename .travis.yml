@@ -81,8 +81,28 @@ jobs:
                 - composer analyse
 
                 - vendor/bin/phpunit
-                - vendor/bin/phpspec run
                 - vendor/bin/behat --strict -vvv --no-interaction --tags="~@todo" || vendor/bin/behat --strict -vvv --no-interaction --rerun --tags="~@todo"
 
             after_failure:
                 - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"s
+
+        -
+            stage: test
+            name: "PHPSpec (with code coverage)"
+
+            sudo: false
+
+            services:
+                - memcached
+
+            before_install:
+                - phpenv config-rm xdebug.ini || true
+
+                - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+                - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+            install:
+                - composer update --no-interaction --prefer-dist
+
+            script:
+                - phpdbg -qrr vendor/bin/phpspec run

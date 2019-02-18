@@ -2,3 +2,21 @@ suites:
     sylius_refund:
         namespace: Sylius\RefundPlugin
         psr4_prefix: Sylius\RefundPlugin
+
+extensions:
+    LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
+        blacklist:
+            - src/Action
+            - src/DependencyInjection
+            - src/Entity
+            - src/File/TemporaryFileManager.php
+            - src/Form
+            - src/Menu
+            - src/StateResolver/OrderTransitions.php
+            - src/StateResolver/RefundPaymentTransitions.php
+            - src/SyliusRefundPlugin.php
+            - src/Twig
+        format:
+            - text
+        lower_upper_bound: 95
+        high_lower_bound: 100
