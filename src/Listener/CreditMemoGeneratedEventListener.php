@@ -12,6 +12,7 @@ use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoGeneratedEventListener
 {
@@ -48,9 +49,7 @@ final class CreditMemoGeneratedEventListener
             throw OrderNotFound::withNumber($event->orderNumber());
         }
 
-        if ($order->getCustomer() === null) {
-            throw new \InvalidArgumentException('Credit memo order has no customer');
-        }
+        Assert::notNull($order->getCustomer(), 'Credit memo order has no customer');
 
         $this->creditMemoEmailSender->send($creditMemo, $order->getCustomer()->getEmail());
     }

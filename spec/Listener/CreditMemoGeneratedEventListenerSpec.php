@@ -44,6 +44,23 @@ final class CreditMemoGeneratedEventListenerSpec extends ObjectBehavior
         $this->__invoke(new CreditMemoGenerated('2018/04/00001111', '000000001'));
     }
 
+    function it_throws_exception_if_credit_memo_order_has_no_customer(
+        RepositoryInterface $creditMemoRepository,
+        OrderRepositoryInterface $orderRepository,
+        CreditMemoInterface $creditMemo,
+        OrderInterface $order
+    ): void {
+        $creditMemoRepository->findOneBy(['number' => '2018/04/00001111'])->willReturn($creditMemo);
+        $orderRepository->findOneByNumber('000000001')->willReturn($order);
+
+        $order->getCustomer()->willReturn(null);
+
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('__invoke', [new CreditMemoGenerated('2018/04/00001111', '000000001')])
+        ;
+    }
+
     function it_throws_exception_if_there_is_no_credit_memo_with_given_number(
         RepositoryInterface $creditMemoRepository
     ): void {
