@@ -32,7 +32,27 @@ final class OrderRefundingAvailabilityCheckerSpec extends ObjectBehavior
         $this('00000007')->shouldReturn(true);
     }
 
-    function it_returns_false_if_order_is_unpaid(
+    function it_returns_true_if_order_is_refunded(
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
+    ): void {
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
+
+        $this('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_true_if_order_is_partialy_refunded(
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
+    ): void {
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
+
+        $this('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_false_if_order_is_in_other_state(
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {

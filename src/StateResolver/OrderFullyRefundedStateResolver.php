@@ -7,6 +7,7 @@ namespace Sylius\RefundPlugin\StateResolver;
 use Doctrine\Common\Persistence\ObjectManager;
 use SM\Factory\FactoryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
 use Webmozart\Assert\Assert;
@@ -50,9 +51,9 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
             return;
         }
 
-        $stateMachine = $this->stateMachineFactory->get($order, OrderTransitions::GRAPH);
+        $stateMachine = $this->stateMachineFactory->get($order, OrderPaymentTransitions::GRAPH);
 
-        $stateMachine->apply(OrderTransitions::TRANSITION_REFUND);
+        $stateMachine->apply(OrderPaymentTransitions::TRANSITION_REFUND);
 
         $this->orderManager->flush();
     }

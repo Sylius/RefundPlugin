@@ -45,6 +45,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
+            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker" />
             <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
         </service>
         <service id="Sylius\RefundPlugin\Menu\AdminMainMenuListener">

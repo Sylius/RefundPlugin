@@ -18,5 +18,5 @@ Feature: Having order fully refunded
 
     @ui
     Scenario: Having order fully refunded when both items and shipping are refunded
-        When I view the summary of the order "#00000022"
-        Then its state should be "Fully refunded"
+        When I browse orders
+        Then the order "#00000022" should have order payment state "Refunded"
