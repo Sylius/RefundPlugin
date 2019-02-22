@@ -20,3 +20,9 @@ Feature: Having order partially refunded
         Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
         When I browse orders
         Then the order "#00000022" should have order payment state "Partially refunded"
+
+    @ui
+    Scenario: Having order partially refunded when its shipping is refunded
+        Given shipment from order "#00000022" has already "$1.00" refunded with "Space money" payment
+        When I browse orders
+        Then the order "#00000022" should have order payment state "Partially refunded"
