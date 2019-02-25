@@ -23,6 +23,20 @@ final class RefundAmountValidatorSpec extends ObjectBehavior
         $this->shouldImplement(RefundAmountValidatorInterface::class);
     }
 
+    function it_throws_exception_if_unit_refund_total_is_bigger_than_remaining_unit_refunded_total(
+        RemainingTotalProviderInterface $remainingTotalProvider
+    ): void {
+        $correctOrderItemUnitRefund = new OrderItemUnitRefund(2, 10);
+        $refundType = RefundType::orderItemUnit();
+
+        $remainingTotalProvider->getTotalLeftToRefund(2, $refundType)->willReturn(5);
+
+        $this
+            ->shouldThrow(InvalidRefundAmountException::class)
+            ->during('validateUnits', [[$correctOrderItemUnitRefund], $refundType])
+        ;
+    }
+
     function it_throws_exception_if_total_of_at_least_one_unit_is_below_zero(): void
     {
         $incorrectOrderItemUnitRefund = new OrderItemUnitRefund(1, -10);

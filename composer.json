@@ -35,6 +35,7 @@
         "friends-of-behat/symfony-extension": "^2.0",
         "friends-of-behat/variadic-extension": "^1.1",
         "lakion/mink-debug-extension": "^1.2.3",
+        "leanphp/phpspec-code-coverage": "^4.2",
         "phpspec/phpspec": "^4.0",
         "phpstan/phpstan-shim": "^0.10",
         "phpstan/phpstan-webmozart-assert": "^0.10.0",

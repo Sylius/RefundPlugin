@@ -43,8 +43,10 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
 
-        if (!$this->orderFullyRefundedTotalChecker->isOrderFullyRefunded($order) ||
-            OrderTransitions::STATE_FULLY_REFUNDED === $order->getState()) {
+        if (
+            !$this->orderFullyRefundedTotalChecker->isOrderFullyRefunded($order) ||
+            OrderTransitions::STATE_FULLY_REFUNDED === $order->getState()
+        ) {
             return;
         }
 
