@@ -21,7 +21,47 @@
             ) }}
         </div>
     </div>
-
+    {% if credit_memo.from != null or credit_memo.to != null %}
+    <div class="ui stackable grid">
+        {% if credit_memo.from != null %}
+        <div class="eight wide column">
+            <h4 class="ui top attached styled header">{{ 'sylius_refund.ui.from'|trans }}</h4>
+            <div class="ui attached segment" id="from-address">
+                {% set from = credit_memo.from %}
+                <address>
+                    <strong>{{ from.customerName }}</strong>
+                    {% if from.company %}
+                        {{ from.company }}
+                    {% endif %}
+                    <br/>{{ from.street }}<br/>
+                    {{ from.city }}<br/>
+                    {% if from.provinceName is not empty %}
+                        {{ from.provinceName }}<br/>
+                    {% endif %}
+                    <i class="{{ from.countryCode|lower }} flag"></i>
+                    {{ from.countryCode|sylius_country_name|upper }} {{ from.postcode }}
+                </address>
+            </div>
+        </div>
+        {% endif %}
+        {% if credit_memo.to != null and credit_memo.to.taxId != null %}
+        <div class="eight wide column">
+            <h4 class="ui top attached styled header">{{ 'sylius_refund.ui.to'|trans }}</h4>
+            <div class="ui attached segment" id="to-address">
+                {% set to = credit_memo.to %}
+                <address>
+                    <strong>{{ to.company }}</strong>
+                    {{ to.taxId }}<br/>
+                    {{ to.city }}<br/>
+                    {{ to.street }}<br/>
+                    <i class="{{ to.countryCode|lower }} flag"></i>
+                    {{ to.countryCode|sylius_country_name|upper }} {{ to.postcode }}
+                </address>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
     <div class="ui stackable segment grid">
         <div class="sixteen wide column">
             <table class="ui celled compact small table fixed">

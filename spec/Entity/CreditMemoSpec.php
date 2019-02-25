@@ -8,6 +8,8 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
+use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
@@ -25,7 +27,9 @@ final class CreditMemoSpec extends ObjectBehavior
             new CreditMemoChannel('WEB-US', 'United States', 'Linen'),
             [$creditMemoUnit->serialize()],
             'Comment',
-            new \DateTime('01-01-2020 10:10:10')
+            new \DateTime('01-01-2020 10:10:10'),
+            new CustomerBillingData('Rick Sanchez', 'Main St. 3322', '90802', 'US', 'Curse Purge Plus!', 'Los Angeles', 'Baldwin Hills', '323'),
+            new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'Los Angeles', '90001')
         );
     }
 
@@ -82,5 +86,23 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_comment(): void
     {
         $this->getComment()->shouldReturn('Comment');
+    }
+
+    function it_has_from_address(): void
+    {
+        $this
+            ->getFrom()
+            ->shouldBeLike(
+                new CustomerBillingData('Rick Sanchez', 'Main St. 3322', '90802', 'US', 'Curse Purge Plus!', 'Los Angeles', 'Baldwin Hills', '323')
+            )
+        ;
+    }
+
+    function it_has_to_address(): void
+    {
+        $this
+            ->getTo()
+            ->shouldBeLike(new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'Los Angeles', '90001'))
+        ;
     }
 }
