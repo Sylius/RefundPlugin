@@ -2,7 +2,7 @@
 Feature: Having order partially refunded
     In order to note that part of the order total is refunded
     As an Administrator
-    I want to have order partially refunded
+    I want to be aware of the order payment state being partially refunded
 
     Background:
         Given the store operates on a single green channel in "United States"
@@ -17,12 +17,10 @@ Feature: Having order partially refunded
 
     @ui
     Scenario: Having order partially refunded when some items are refunded
-        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
-        When I browse orders
-        Then the order "#00000022" should have order payment state "Partially refunded"
+        When 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
+        Then this order's payment state should be "Partially refunded"
 
     @ui
     Scenario: Having order partially refunded when its shipping is refunded
-        Given shipment from order "#00000022" has already "$1.00" refunded with "Space money" payment
-        When I browse orders
-        Then the order "#00000022" should have order payment state "Partially refunded"
+        When shipment from order "#00000022" has already "$1.00" refunded with "Space money" payment
+        Then this order's payment state should be "Partially refunded"

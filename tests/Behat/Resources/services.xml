@@ -40,6 +40,7 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext">
             <argument type="service" id="sylius.behat.page.admin.order.show" />
+            <argument type="service" id="sylius.behat.page.admin.order.index" />
             <argument type="service" id="sylius.behat.notification_checker" />
         </service>
 
