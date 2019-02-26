@@ -10,7 +10,7 @@ use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 
-final class OrderRefundingAvailabilityCheckerSpec extends ObjectBehavior
+final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 {
     function let(OrderRepositoryInterface $orderRepository): void
     {
@@ -28,6 +28,16 @@ final class OrderRefundingAvailabilityCheckerSpec extends ObjectBehavior
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
+
+        $this('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_true_if_order_is_refunded(
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
+    ): void {
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
         $this('00000007')->shouldReturn(true);
     }

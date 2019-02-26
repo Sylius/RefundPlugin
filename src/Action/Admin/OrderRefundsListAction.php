@@ -21,7 +21,7 @@ final class OrderRefundsListAction
     private $orderRepository;
 
     /** @var OrderRefundingAvailabilityCheckerInterface */
-    private $orderRefundingAvailabilityChecker;
+    private $orderRefundsListAvailabilityChecker;
 
     /** @var RefundPaymentMethodsProviderInterface */
     private $refundPaymentMethodsProvider;
@@ -37,14 +37,14 @@ final class OrderRefundsListAction
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker,
         RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider,
         Environment $twig,
         Session $session,
         UrlGeneratorInterface $router
     ) {
         $this->orderRepository = $orderRepository;
-        $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
+        $this->orderRefundsListAvailabilityChecker = $orderRefundsListAvailabilityChecker;
         $this->refundPaymentMethodsProvider = $refundPaymentMethodsProvider;
         $this->twig = $twig;
         $this->session = $session;
@@ -56,7 +56,7 @@ final class OrderRefundsListAction
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($request->attributes->get('orderNumber'));
 
-        if (!$this->orderRefundingAvailabilityChecker->__invoke($request->attributes->get('orderNumber'))) {
+        if (!$this->orderRefundsListAvailabilityChecker->__invoke($request->attributes->get('orderNumber'))) {
             return $this->redirectToReferer($order);
         }
 

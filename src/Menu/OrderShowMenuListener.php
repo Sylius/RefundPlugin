@@ -10,11 +10,11 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 final class OrderShowMenuListener
 {
     /** @var OrderRefundingAvailabilityCheckerInterface */
-    private $orderRefundingAvailabilityChecker;
+    private $orderRefundsListAvailabilityChecker;
 
-    public function __construct(OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker)
+    public function __construct(OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker)
     {
-        $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
+        $this->orderRefundsListAvailabilityChecker = $orderRefundsListAvailabilityChecker;
     }
 
     public function addRefundsButton(OrderShowMenuBuilderEvent $event): void
@@ -22,7 +22,7 @@ final class OrderShowMenuListener
         $menu = $event->getMenu();
         $order = $event->getOrder();
 
-        if ($this->orderRefundingAvailabilityChecker->__invoke($order->getNumber())) {
+        if ($this->orderRefundsListAvailabilityChecker->__invoke($order->getNumber())) {
             $menu
                 ->addChild('refunds', [
                     'route' => 'sylius_refund_order_refunds_list',
