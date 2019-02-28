@@ -1,0 +1,33 @@
+---------------------------------------------------------------------------
+
+by pamil at 2019-02-25T12:50:35Z
+
+If it's not used, I'd remove it since it's not a stable package yet. In any other case, why don't we go with custom database type - https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/custom-mapping-types.html?
+
+---------------------------------------------------------------------------
+
+by Zales0123 at 2019-02-25T12:58:09Z
+
+I didn't want to introduce a custom database type, because I wanted it to be a hotfix 😄 But after second consideration, I'm totally 👍 for removing it, we can always bring it back if it will be needed 🚀
+
+---------------------------------------------------------------------------
+
+by Zales0123 at 2019-02-25T14:05:43Z
+
+Ok, it seems it's not true, it's used 😄 https://github.com/Sylius/RefundPlugin/blob/e8bfb780c597899df450fdf67edbbb7103d18e36/src/Provider/RemainingTotalProvider.php#L38
+
+@pamil What would you say for merging it, as it definitely fixes a problem that can be problematic... And providing a proper change in a separate PR? I can also create an issue for that and add it to the roadmap 🐃
+
+---------------------------------------------------------------------------
+
+by bartoszpietrzak1994 at 2019-02-25T14:17:03Z
+
+Since it's a hotfix I'd accept this solution. However, the ability to pass any string variable using
+the constructor of `Refund` class as a refund type makes the `RefundType` class even more useless - we have to reconsider this a bit :)
+
+---------------------------------------------------------------------------
+
+by Zales0123 at 2019-02-25T14:30:25Z
+
+Not any string, in constructor it's still required to pass `RefundType`, which is protected :)
+https://github.com/Sylius/RefundPlugin/blob/master/src/Model/RefundType.php#L19
