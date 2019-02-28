@@ -1,95 +1,101 @@
+{% set to = creditMemo.to %}
+{% set from = creditMemo.from %}
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8">
     <style>
-        table { width: 100%; }
-        tbody td { border: 1px solid #000; }
+        .credit-memo { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, .15); font-size: 16px; line-height: 24px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #555 }
+        .credit-memo table { width: 100%; line-height: inherit; text-align: left; }
+        .credit-memo table td { padding: 5px; vertical-align: top; text-align: right; }
+        .credit-memo table tr td:nth-child(1) { text-align: left; }
+        .credit-memo table tr.top table td { padding-bottom: 20px; }
+        .credit-memo table tr.top table td.title { font-size: 45px; line-height: 45px; color: #333; }
+        .credit-memo table tr.information table td { padding-bottom: 40px; }
+        .credit-memo table tr.heading td { background: #eee; border-bottom: 1px solid #ddd; font-weight: bold; }
+        .credit-memo table tr.details td { padding-bottom: 20px; }
+        .credit-memo table tr.item td{ border-bottom: 1px solid #eee; }
+        .credit-memo table tr.item.last td { border-bottom: none; }
+        .credit-memo table tr.total td { border-top: 2px solid #eee; font-weight: bold; }
     </style>
 </head>
+
 <body>
-<h1>{{ 'sylius_refund.ui.credit_memo'|trans }} #{{ creditMemo.number }}</h1>
-<p>{{ 'sylius_refund.ui.order_number'|trans }}: #{{ creditMemo.orderNumber }}</p>
+<div class="credit-memo">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="3">
+                <table>
+                    <tr>
+                        <td colspan="2" class="title">
+                            <img src="https://demo.sylius.com/assets/shop/img/logo.png" style="width:300px;">
+                        </td>
 
-{% if creditMemo.from != null or creditMemo.to != null %}
-    <br /><br />
-    {% if creditMemo.from != null %}
-    <p>
-        {% set from = creditMemo.from %}
-        <h4>{{ 'sylius_refund.ui.from'|trans }}</h4>
-        <address>
-            <strong>{{ from.customerName }}</strong>
-            {% if from.company %}
-                {{ from.company }}
-            {% endif %}
-            <br/>{{ from.street }}<br/>
-            {{ from.city }}<br/>
-            {% if from.provinceName is not empty %}
-                {{ from.provinceName }}<br/>
-            {% endif %}
-            <i class="{{ from.countryCode|lower }} flag"></i>
-            {{ from.countryCode|sylius_country_name|upper }} {{ from.postcode }}
-        </address>
-    </p>
-    {% endif %}
-    {% if creditMemo.to != null and creditMemo.to.taxId != null %}
-    <p>
-        {% set to = creditMemo.to %}
-        <h4>{{ 'sylius_refund.ui.to'|trans }}</h4>
-        <address>
-            <strong>{{ to.company }}</strong>
-            {{ to.taxId }}<br/>
-            {{ to.city }}<br/>
-            {{ to.street }}<br/>
-            <i class="{{ to.countryCode|lower }} flag"></i>
-            {{ to.countryCode|sylius_country_name|upper }} {{ to.postcode }}
-        </address>
-    </p>
-    {% endif %}
-{% endif %}
-
-<table>
-    <thead>
-    <tr>
-        <th align="left">{{ 'sylius.ui.name'|trans }}</th>
-        <th align="left">{{ 'sylius.ui.tax_total'|trans }}</th>
-        <th align="left">{{ 'sylius.ui.total'|trans }}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for unit in creditMemo.units %}
-        <tr>
-            <td>
-                {{ unit.productName }}
-            </td>
-            <td>
-                {{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}
-            </td>
-            <td>
-                {{ unit.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}
+                        <td>
+                            Credit memo #{{ creditMemo.number }}<br>
+                            Issued at: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
-    {% endfor %}
-    </tbody>
-    <tfoot>
-    {% if creditMemo.comment != '' %}
-    <tr>
-        <td>
-            <strong>{{ 'sylius.ui.comment'|trans }}</strong>:
-        </td>
-        <td>
-            {{ creditMemo.comment }}
-        </td>
-    </tr>
-    {% endif %}
-    <tr>
-        <td colspan="2" style="text-align: right;">
-            <strong>{{ 'sylius.ui.total'|trans }}</strong>:
-        </td>
-        <td>
-            {{ creditMemo.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}
-        </td>
-    </tr>
-    </tfoot>
-</table>
+
+        {% if from != null or to != null %}
+        <tr class="information">
+            <td colspan="3">
+                <table>
+                    <tr>
+                        <td>
+                            {% if to != null %}
+                                {% if to.company %}<strong>{{ to.company }}</strong><br/>{% endif %}
+                                {% if to.street %}{{ to.street }}<br/>{% endif %}
+                                {% if to.city %}{{ to.city }}<br/>{% endif %}
+                                {% if to.taxId %}{{ to.taxId }}<br/>{% endif %}
+                                {% if to.countryCode and to.postcode %}
+                                    {{ to.countryCode|sylius_country_name|upper }} {{ to.postcode }}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <strong>{{ from.customerName }}</strong><br/>
+                            {% if from.company %}{{ from.company }}<br/>{% endif %}
+                            {{ from.street }}<br/>
+                            {{ from.city }}<br/>
+                            {% if from.provinceName %}{{ from.provinceName }}{% endif %}
+                            {{ from.countryCode|sylius_country_name|upper }} {{ from.postcode }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+
+        <tr class="heading">
+            <td>{{ 'sylius.ui.item'|trans }}</td>
+            <td>{{ 'sylius.ui.total'|trans }}</td>
+            <td>{{ 'sylius.ui.tax_total'|trans }}</td>
+        </tr>
+
+        {% for unit in creditMemo.units %}
+        <tr class="item">
+            <td>{{ unit.productName }}</td>
+            <td>{{ unit.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+            <td>{{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+        </tr>
+        {% endfor %}
+
+        {% if creditMemo.comment != null %}
+        <tr class="total">
+            <td colspan="3"><p>{{ creditMemo.comment }}</p></td>
+        </tr>
+        {% endif %}
+
+        <tr class="total">
+            <td colspan="2"></td>
+            <td>{{ 'sylius.ui.total'|trans }}: {{ creditMemo.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
