@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
+use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInterface
@@ -24,19 +25,29 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
     /** @var GeneratorInterface */
     private $pdfGenerator;
 
+    /** @var FileLocatorInterface */
+    private $fileLocator;
+
     /** @var string */
     private $template;
+
+    /** @var string */
+    private $creditMemoLogoPath;
 
     public function __construct(
         RepositoryInterface $creditMemoRepository,
         EngineInterface $twig,
         GeneratorInterface $pdfGenerator,
-        string $template
+        FileLocatorInterface $fileLocator,
+        string $template,
+        string $creditMemoLogoPath
     ) {
         $this->creditMemoRepository = $creditMemoRepository;
         $this->twig = $twig;
         $this->pdfGenerator = $pdfGenerator;
+        $this->fileLocator = $fileLocator;
         $this->template = $template;
+        $this->creditMemoLogoPath = $creditMemoLogoPath;
     }
 
     public function generate(string $creditMemoId): CreditMemoPdf
@@ -50,9 +61,10 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
         $filename = str_replace('/', '_', $creditMemo->getNumber()) . self::FILE_EXTENSION;
 
-        $pdf = $this->pdfGenerator->getOutputFromHtml(
-            $this->twig->render($this->template, ['creditMemo' => $creditMemo])
-        );
+        $pdf = $this->pdfGenerator->getOutputFromHtml($this->twig->render($this->template, [
+            'creditMemo' => $creditMemo,
+            'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
+        ]));
 
         return new CreditMemoPdf($filename, $pdf);
     }
