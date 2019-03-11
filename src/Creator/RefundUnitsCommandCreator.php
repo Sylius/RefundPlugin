@@ -11,6 +11,7 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\Assert\Assert;
 
 final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterface
 {
@@ -24,16 +25,15 @@ final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterf
 
     public function fromRequest(Request $request): RefundUnits
     {
-        if (!$request->attributes->has('orderNumber')) {
-            throw new \InvalidArgumentException('Refunded order number not provided');
-        }
+        Assert::true($request->attributes->has('orderNumber'), 'Refunded order number not provided');
 
         $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
         $shipments = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_shipments', []));
 
-        if (count($units) === 0 && count($shipments) === 0) {
-            throw new \InvalidArgumentException('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
-        }
+        Assert::false(
+            count($units) === 0 && count($shipments) === 0,
+            'sylius_refund.at_least_one_unit_should_be_selected_to_refund'
+        );
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
