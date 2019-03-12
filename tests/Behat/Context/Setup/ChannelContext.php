@@ -65,28 +65,4 @@ final class ChannelContext implements Context
         $this->sharedStorage->set('channel', $defaultData['channel']);
         $this->channelManager->flush();
     }
-
-    /**
-     * @Given channel :channel billing data is :company, :street, :postcode :city, :country with :taxId tax ID
-     */
-    public function channelBillingDataIs(
-        ChannelInterface $channel,
-        string $company,
-        string $street,
-        string $postcode,
-        string $city,
-        CountryInterface $country,
-        string $taxId
-    ): void {
-        $shopBillingData = new ShopBillingData();
-        $shopBillingData->setCompany($company);
-        $shopBillingData->setStreet($street);
-        $shopBillingData->setPostcode($postcode);
-        $shopBillingData->setCity($city);
-        $shopBillingData->setCountryCode($country->getCode());
-        $shopBillingData->setTaxId($taxId);
-
-        $channel->setShopBillingData($shopBillingData);
-        $this->channelManager->flush();
-    }
 }
