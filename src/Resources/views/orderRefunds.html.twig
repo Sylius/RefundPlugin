@@ -82,13 +82,12 @@
                                         <div class="ui labeled input">
                                             <div class="ui label">{{ order.currencyCode|sylius_currency_symbol }}</div>
                                             <input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
-                                            <input type="hidden" name="{{ hiddenInputName }}" value="{{ unit.id }}"/>
                                         </div>
                                     </td>
                                     <td class="aligned collapsing">
                                         <div class="ui checkbox {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}">
-                                            {% set checkboxName = "sylius_refund_units["~unit.id~"][id]" %}
-                                            <input type="checkbox" name="{{ checkboxName }}" value="{{ unit.id }}">
+                                            {% set checkboxName = "sylius_refund_units["~unit.id~"][full]" %}
+                                            <input type="checkbox" name="{{ checkboxName }}">
                                         </div>
                                     </td>
                                 </tr>
@@ -108,18 +107,17 @@
                                     {% endif %}
                                 </td>
                                 <td class="aligned collapsing partial-refund">
-                                    {% set inputName = "sylius_refund_shipments[0][amount]" %}
-                                    {% set hiddenInputName = "sylius_refund_shipments[0][partial-id]" %}
 
                                     <div class="ui labeled input">
                                         <div class="ui label">{{ order.currencyCode|sylius_currency_symbol }}</div>
+                                        {% set inputName = "sylius_refund_shipments["~shipment.id~"][amount]" %}
                                         <input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}/>
-                                        <input type="hidden" name="{{ hiddenInputName }}" value="{{ shipment.id }}"/>
                                     </div>
                                 </td>
                                 <td class="aligned collapsing">
                                     <div class="ui checkbox {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}">
-                                        <input type="checkbox" name="sylius_refund_shipments[0][id]" value="{{ shipment.id }}">
+                                        {% set checkboxName = "sylius_refund_shipments["~shipment.id~"][full]" %}
+                                        <input type="checkbox" name="{{ checkboxName }}">
                                     </div>
                                 </td>
                             </tr>
