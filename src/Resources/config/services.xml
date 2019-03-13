@@ -17,6 +17,13 @@
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
             <argument type="service" id="sylius_refund.manager.refund" />
         </service>
+        <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
+            <argument type="service" id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
+        </service>
 
         <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
@@ -115,10 +122,6 @@
             <argument type="service" id="sylius.context.customer"/>
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
             <argument type="service" id="sylius.repository.order"/>
-        </service>
-
-        <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
         </service>
 
         <service id="Sylius\RefundPlugin\Form\Type\ChannelFilterType">
