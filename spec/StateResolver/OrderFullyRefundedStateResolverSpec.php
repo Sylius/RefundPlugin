@@ -10,9 +10,10 @@ use Prophecy\Argument;
 use SM\Factory\FactoryInterface;
 use SM\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\OrderPaymentStates;
+use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
-use Sylius\RefundPlugin\StateResolver\OrderTransitions;
 
 final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
 {
@@ -42,8 +43,8 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(true);
         $order->getState()->willReturn(OrderInterface::STATE_NEW);
 
-        $stateMachineFactory->get($order, OrderTransitions::GRAPH)->willReturn($stateMachine);
-        $stateMachine->apply(OrderTransitions::TRANSITION_REFUND)->shouldBeCalled();
+        $stateMachineFactory->get($order, OrderPaymentTransitions::GRAPH)->willReturn($stateMachine);
+        $stateMachine->apply(OrderPaymentTransitions::TRANSITION_REFUND)->shouldBeCalled();
 
         $orderManager->flush()->shouldBeCalled();
 
@@ -58,7 +59,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(true);
-        $order->getState()->willReturn(OrderTransitions::STATE_FULLY_REFUNDED);
+        $order->getState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
         $stateMachineFactory->get(Argument::any())->shouldNotBeCalled();
 

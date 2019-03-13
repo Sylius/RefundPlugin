@@ -105,6 +105,7 @@ final class RefundingContext implements Context
 
     /**
      * @Given /^all units and shipment from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/
+     * @Given /^all units and shipment from the order "#([^"]+)" have been refunded with ("[^"]+" payment)$/
      */
     public function allUnitsAndShipmentFromOrderAreRefunded(
         string $orderNumber,

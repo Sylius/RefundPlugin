@@ -5,16 +5,24 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Menu;
 
 use Sylius\Bundle\AdminBundle\Event\OrderShowMenuBuilderEvent;
-use Sylius\Component\Core\OrderPaymentStates;
+use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 
 final class OrderShowMenuListener
 {
+    /** @var OrderRefundingAvailabilityCheckerInterface */
+    private $orderRefundsListAvailabilityChecker;
+
+    public function __construct(OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker)
+    {
+        $this->orderRefundsListAvailabilityChecker = $orderRefundsListAvailabilityChecker;
+    }
+
     public function addRefundsButton(OrderShowMenuBuilderEvent $event): void
     {
         $menu = $event->getMenu();
         $order = $event->getOrder();
 
-        if ($order->getPaymentState() === OrderPaymentStates::STATE_PAID) {
+        if ($this->orderRefundsListAvailabilityChecker->__invoke($order->getNumber())) {
             $menu
                 ->addChild('refunds', [
                     'route' => 'sylius_refund_order_refunds_list',

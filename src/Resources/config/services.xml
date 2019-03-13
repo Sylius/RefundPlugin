@@ -32,6 +32,9 @@
         <service id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker">
             <argument type="service" id="sylius.repository.order" />
         </service>
+        <service id="Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker">
+            <argument type="service" id="sylius.repository.order" />
+        </service>
 
         <service id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker">
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
@@ -45,6 +48,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
+            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker" />
             <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
         </service>
         <service id="Sylius\RefundPlugin\Menu\AdminMainMenuListener">
@@ -56,6 +60,12 @@
             <argument type="service" id="sylius.manager.order" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker" />
             <argument type="service" id="sylius.repository.order" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver">
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius.manager.order" />
         </service>
 
         <service id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker">

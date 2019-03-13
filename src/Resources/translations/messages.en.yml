@@ -21,5 +21,5 @@ sylius_refund:
 
 sylius:
     ui:
-        fully_refunded: 'Fully refunded'
         original_payment_method: "Original Payment Method"
+        partially_refunded: 'Partially refunded'

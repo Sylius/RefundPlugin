@@ -10,51 +10,43 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
-use Webmozart\Assert\Assert;
+use Sylius\RefundPlugin\Exception\OrderNotFound;
 
-final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateResolverInterface
+final class OrderPartiallyRefundedStateResolver implements OrderPartiallyRefundedStateResolverInterface
 {
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     /** @var FactoryInterface */
     private $stateMachineFactory;
 
     /** @var ObjectManager */
     private $orderManager;
 
-    /** @var OrderFullyRefundedTotalCheckerInterface */
-    private $orderFullyRefundedTotalChecker;
-
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
-
     public function __construct(
+        OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
-        ObjectManager $orderManager,
-        OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
-        OrderRepositoryInterface $orderRepository
+        ObjectManager $orderManager
     ) {
+        $this->orderRepository = $orderRepository;
         $this->stateMachineFactory = $stateMachineFactory;
         $this->orderManager = $orderManager;
-        $this->orderFullyRefundedTotalChecker = $orderFullyRefundedTotalChecker;
-        $this->orderRepository = $orderRepository;
     }
 
     public function resolve(string $orderNumber): void
     {
-        /** @var OrderInterface $order */
+        /** @var OrderInterface|null $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
-        Assert::notNull($order);
+        if ($order === null) {
+            throw OrderNotFound::withNumber($orderNumber);
+        }
 
-        if (
-            !$this->orderFullyRefundedTotalChecker->isOrderFullyRefunded($order) ||
-            OrderPaymentStates::STATE_REFUNDED === $order->getState()
-        ) {
+        if ($order->getPaymentState() === OrderPaymentStates::STATE_PARTIALLY_REFUNDED) {
             return;
         }
 
         $stateMachine = $this->stateMachineFactory->get($order, OrderPaymentTransitions::GRAPH);
-
-        $stateMachine->apply(OrderPaymentTransitions::TRANSITION_REFUND);
+        $stateMachine->apply(OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND);
 
         $this->orderManager->flush();
     }

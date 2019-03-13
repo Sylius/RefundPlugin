@@ -9,7 +9,7 @@ use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class OrderRefundingAvailabilityChecker implements OrderRefundingAvailabilityCheckerInterface
+final class OrderRefundsListAvailabilityChecker implements OrderRefundingAvailabilityCheckerInterface
 {
     /** @var OrderRepositoryInterface */
     private $orderRepository;
@@ -27,7 +27,7 @@ final class OrderRefundingAvailabilityChecker implements OrderRefundingAvailabil
 
         return in_array(
             $order->getPaymentState(),
-            [OrderPaymentStates::STATE_PAID, OrderPaymentStates::STATE_PARTIALLY_REFUNDED]
+            [OrderPaymentStates::STATE_PAID, OrderPaymentStates::STATE_PARTIALLY_REFUNDED, OrderPaymentStates::STATE_REFUNDED]
         );
     }
 }

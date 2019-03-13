@@ -6,6 +6,7 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Sylius\Behat\NotificationType;
+use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -16,14 +17,19 @@ final class ManagingOrdersContext implements Context
     /** @var ShowPageInterface */
     private $showPage;
 
+    /** @var IndexPageInterface */
+    private $indexPage;
+
     /** @var NotificationCheckerInterface */
     private $notificationChecker;
 
     public function __construct(
         ShowPageInterface $showPage,
+        IndexPageInterface $indexPage,
         NotificationCheckerInterface $notificationChecker
     ) {
         $this->showPage = $showPage;
+        $this->indexPage = $indexPage;
         $this->notificationChecker = $notificationChecker;
     }
 
@@ -87,5 +93,17 @@ final class ManagingOrdersContext implements Context
     public function shouldNotBeAbleToCompleteTheFirstRefundPaymentAgain(): void
     {
         Assert::false($this->showPage->canCompleteRefundPayment(0));
+    }
+
+    /**
+     * @Then /^(this order)'s payment state should be "([^"]+)"$/
+     */
+    public function thisOrderSPaymentStateShouldBe(OrderInterface $order, string $orderPaymentState): void
+    {
+        $this->indexPage->open();
+        Assert::true($this->indexPage->isSingleResourceOnPage([
+            'number' => $order->getNumber(),
+            'paymentState' => $orderPaymentState,
+        ]));
     }
 }

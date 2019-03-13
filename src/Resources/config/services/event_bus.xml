@@ -11,6 +11,16 @@
             <tag name="messenger.message_handler" />
         </service>
 
+        <service id="Sylius\RefundPlugin\Listener\UnitRefundedEventListener">
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver" />
+            <tag name="messenger.message_handler" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Listener\ShipmentRefundedEventListener">
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver" />
+            <tag name="messenger.message_handler" />
+        </service>
+
         <service id="Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager">
             <argument type="service" id="sylius_refund_plugin.command_bus" />
             <tag name="messenger.message_handler" />
