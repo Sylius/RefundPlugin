@@ -7,7 +7,7 @@
 
     <entity name="Sylius\RefundPlugin\Entity\CreditMemoSequence" table="sylius_refund_credit_memo_sequence">
         <id name="id" column="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator/>
         </id>
         <field name="index" column="idx" type="integer" />
         <field name="version" type="integer" version="true" />
