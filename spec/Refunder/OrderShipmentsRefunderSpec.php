@@ -34,7 +34,7 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
         $refundCreator->__invoke('000222', 4, 2500, RefundType::shipment())->shouldBeCalled();
 
         $event = new ShipmentRefunded('000222', 4, 2500);
-        $eventBus->dispatch($event)->willReturn(new Envelope($event));
+        $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
         $this->refundFromOrder($shipmentRefunds, '000222')->shouldReturn(2500);
     }

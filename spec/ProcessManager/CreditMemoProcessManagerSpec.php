@@ -25,7 +25,7 @@ final class CreditMemoProcessManagerSpec extends ObjectBehavior
         $shipmentRefunds = [new ShipmentRefund(1, 500), new ShipmentRefund(2, 1000)];
 
         $command = new GenerateCreditMemo('000222', 3000, $unitRefunds, $shipmentRefunds, 'Comment');
-        $commandBus->dispatch($command)->willReturn(new Envelope($command));
+        $commandBus->dispatch($command)->willReturn(new Envelope($command))->shouldBeCalled();
 
         $this(new UnitsRefunded('000222', $unitRefunds, $shipmentRefunds, 1, 3000, 'USD', 'Comment'));
     }

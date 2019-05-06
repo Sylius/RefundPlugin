@@ -37,12 +37,12 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
         $refundCreator->__invoke('000222', 1, 1500, RefundType::orderItemUnit())->shouldBeCalled();
 
         $firstEvent = new UnitRefunded('000222', 1, 1500);
-        $eventBus->dispatch($firstEvent)->willReturn(new Envelope($firstEvent));
+        $eventBus->dispatch($firstEvent)->willReturn(new Envelope($firstEvent))->shouldBeCalled();
 
         $refundCreator->__invoke('000222', 3, 1000, RefundType::orderItemUnit())->shouldBeCalled();
 
         $secondEvent = new UnitRefunded('000222', 3, 1000);
-        $eventBus->dispatch($secondEvent)->willReturn(new Envelope($secondEvent));
+        $eventBus->dispatch($secondEvent)->willReturn(new Envelope($secondEvent))->shouldBeCalled();
 
         $this->refundFromOrder([$firstUnitRefund, $secondUnitRefund], '000222')->shouldReturn(2500);
     }

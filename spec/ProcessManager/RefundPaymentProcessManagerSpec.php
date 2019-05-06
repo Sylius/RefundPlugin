@@ -62,7 +62,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         $relatedPaymentIdProvider->getForRefundPayment($refundPayment)->willReturn(3);
 
         $event = new RefundPaymentGenerated(10, '000222', 1000, 'USD', 1, 3);
-        $eventBus->dispatch($event)->willReturn(new Envelope($event));
+        $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
         $this(new UnitsRefunded('000222', [new OrderItemUnitRefund(1, 500), new OrderItemUnitRefund(2, 500)], [1], 1, 1000, 'USD', 'Comment'));
     }

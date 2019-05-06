@@ -42,7 +42,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $creditMemoManager->flush()->shouldBeCalled();
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
-        $eventBus->dispatch($event)->willReturn(new Envelope($event));
+        $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
         $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
     }
