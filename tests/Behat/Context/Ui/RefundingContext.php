@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\NotificationCheckerInterface;
+use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -19,12 +20,17 @@ final class RefundingContext implements Context
     /** @var NotificationCheckerInterface */
     private $notificationChecker;
 
+    /** @var EmailCheckerInterface */
+    private $emailChecker;
+
     public function __construct(
         OrderRefundsPageInterface $orderRefundsPage,
-        NotificationCheckerInterface $notificationChecker
+        NotificationCheckerInterface $notificationChecker,
+        EmailCheckerInterface $emailChecker
     ) {
         $this->orderRefundsPage = $orderRefundsPage;
         $this->notificationChecker = $notificationChecker;
+        $this->emailChecker = $emailChecker;
     }
 
     /**
@@ -317,6 +323,14 @@ final class RefundingContext implements Context
     public function theSelectedRefundPaymentMethodShouldBe(string $paymentMethod): void
     {
         Assert::true($this->orderRefundsPage->isPaymentMethodSelected($paymentMethod));
+    }
+
+    /**
+     * @Then email to :email with credit memo should be sent
+     */
+    public function emailToWithCreditMemoShouldBeSent(string $email): void
+    {
+        $this->emailChecker->hasMessageTo('Some of the units from your order have been refunded.', $email);
     }
 
     private function provideLongComment(): string

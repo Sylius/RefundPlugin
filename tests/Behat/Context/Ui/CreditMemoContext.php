@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
@@ -103,6 +102,14 @@ final class CreditMemoContext implements Context
     public function downloadCreditMemo(): void
     {
         $this->creditMemoDetailsPage->download();
+    }
+
+    /**
+     * @When I resend credit memo from order :orderNumber
+     */
+    public function iResendCreditMemoToCustomer(string $orderNumber): void
+    {
+        $this->creditMemoIndexPage->resendCreditMemo($orderNumber);
     }
 
     /**
