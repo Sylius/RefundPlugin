@@ -11,18 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Action\Admin;
+namespace Sylius\RefundPlugin\CommandHandler;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Command\SendCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
-use Symfony\Component\HttpFoundation\Request;
 
-final class ResendCreditMemoAction
+final class SendCreditMemoHandler
 {
-    /** @var RepositoryInterface  */
+    /** @var RepositoryInterface */
     private $creditMemoRepository;
 
     /** @var CreditMemoEmailSenderInterface */
@@ -41,10 +41,12 @@ final class ResendCreditMemoAction
         $this->orderRepository = $orderRepository;
     }
 
-    public function __invoke(Request $request, string $id): void
+    public function __invoke(SendCreditMemo $command): void
     {
+        $creditMemoId = $command->Id();
+
         /** @var CreditMemoInterface $creditMemo */
-        $creditMemo = $this->creditMemoRepository->findOneBy(['id' => $id]);
+        $creditMemo = $this->creditMemoRepository->findOneBy(['id' => $creditMemoId]);
 
         $orderNumber = $creditMemo->getOrderNumber();
 

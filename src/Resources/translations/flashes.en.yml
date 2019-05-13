@@ -6,3 +6,4 @@ sylius_refund:
     refund_payment_completed: 'Refund payment has been successfully completed'
     unit_refund_exceeded: 'You cannot refund more money than the order unit total'
     units_successfully_refunded: 'Selected order units have been successfully refunded'
+    resend_credit_memo_success: 'Selected credit memo have been successfully resend'

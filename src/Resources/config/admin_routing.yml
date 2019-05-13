@@ -73,4 +73,4 @@ sylius_refund_admin_credit_memo_resend:
     path: /credit-memos/{id}/resend
     methods: [GET]
     defaults:
-        _controller: Sylius\RefundPlugin\Action\Admin\ResendCreditMemoAction
+        _controller: Sylius\RefundPlugin\Action\Admin\SendCreditMemoAction
