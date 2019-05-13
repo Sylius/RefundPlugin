@@ -71,7 +71,7 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
 
     public function resendCreditMemo(string $orderNumber): void
     {
-        $creditMemoRow = $this->getDocument()->find('css', 'tbody tr:contains("%orderNumber")');
-        $creditMemoRow->click('Resend');
+        $creditMemoRow = $this->getDocument()->find('css', sprintf('table tbody tr:contains("%s")', $orderNumber));
+        $creditMemoRow->clickLink('Resend');
     }
 }

@@ -103,6 +103,15 @@ sylius_grid:
                                 route: sylius_refund_admin_credit_memo_download
                                 parameters:
                                     id: resource.id
+                    resend:
+                        type: default
+                        label: sylius_refund.ui.resend
+                        icon: send
+                        options:
+                            link:
+                                route: sylius_refund_admin_credit_memo_resend
+                                parameters:
+                                    id: resource.id
             filters:
                 number:
                     type: string

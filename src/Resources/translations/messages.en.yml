@@ -20,6 +20,7 @@ sylius_refund:
         refunded: Refunded
         refunded_total: Refunded total
         refunds: Refunds
+        resend: Resend
         to: To
 
 sylius:
