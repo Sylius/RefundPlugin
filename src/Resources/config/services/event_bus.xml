@@ -5,9 +5,7 @@
         <defaults autowire="false" autoconfigure="false" public="true" />
 
         <service id="Sylius\RefundPlugin\Listener\CreditMemoGeneratedEventListener">
-            <argument type="service" id="sylius_refund.repository.credit_memo" />
-            <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender" />
+            <argument type="service" id="sylius_refund_plugin.event_bus" />
             <tag name="messenger.message_handler" />
         </service>
 

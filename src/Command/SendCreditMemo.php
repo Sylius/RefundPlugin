@@ -7,15 +7,15 @@ namespace Sylius\RefundPlugin\Command;
 final class SendCreditMemo
 {
     /** @var string */
-    private $id;
+    private $number;
 
-    public function __construct(string $id)
+    public function __construct(string $number)
     {
-        $this->id = $id;
+        $this->number = $number;
     }
 
-    public function id(): string
+    public function number(): string
     {
-        return $this->id;
+        return $this->number;
     }
 }

@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Sylius package.
- *
- * (c) Paweł Jędrzejewski
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\CommandHandler;
@@ -18,7 +9,10 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\SendCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
+use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
+use Webmozart\Assert\Assert;
 
 final class SendCreditMemoHandler
 {
@@ -43,19 +37,24 @@ final class SendCreditMemoHandler
 
     public function __invoke(SendCreditMemo $command): void
     {
-        $creditMemoId = $command->Id();
+        $creditMemoNumber = $command->number();
 
-        /** @var CreditMemoInterface $creditMemo */
-        $creditMemo = $this->creditMemoRepository->findOneBy(['id' => $creditMemoId]);
+        /** @var CreditMemoInterface|null $creditMemo */
+        $creditMemo = $this->creditMemoRepository->findOneBy(['number' => $creditMemoNumber]);
+        if ($creditMemo === null) {
+            throw CreditMemoNotFound::withNumber($command->number());
+        }
 
         $orderNumber = $creditMemo->getOrderNumber();
 
-        /** @var OrderInterface $order */
-        $order = $this->orderRepository->findOneBy(['number' => $orderNumber]);
+        /** @var OrderInterface|null $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+        if ($order === null) {
+            throw OrderNotFound::withNumber($orderNumber);
+        }
 
-        /** @var string $recipient */
-        $recipient = $order->getCustomer()->getEmail();
+        Assert::notNull($order->getCustomer(), 'Credit memo order has no customer');
 
-        $this->creditMemoEmailSender->send($creditMemo, $recipient);
+        $this->creditMemoEmailSender->send($creditMemo, $order->getCustomer()->getEmail());
     }
 }

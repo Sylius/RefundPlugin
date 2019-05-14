@@ -41,6 +41,7 @@
 
         <service id="Sylius\RefundPlugin\Action\Admin\SendCreditMemoAction">
             <argument type="service" id="sylius_refund_plugin.command_bus"/>
+            <argument type="service" id="sylius_refund.repository.credit_memo"/>
             <argument type="service" id="session"/>
             <argument type="service" id="router"/>
         </service>
