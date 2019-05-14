@@ -1,8 +1,8 @@
 @refunds
-Feature: Resend credit memo
-    In order to inform customer about generate credit memo
+Feature: Resending credit memo
+    In order to provide a generated credit memo to the customer
     As an Administrator
-    I want to be able to sent credit memo more that one time.
+    I want to be able to send credit memo more that once
 
     Background:
         Given the store operates on a single green channel in "United States"
@@ -19,8 +19,8 @@ Feature: Resend credit memo
         And 1st "Portal Gun" product from order "#00000022" has already been refunded with "Space money" payment
         And I am logged in as an administrator
 
-    @ui
-    Scenario: resend credit memo to a customer
+    @ui @email
+    Scenario: Resend credit memo to a customer
         When I browse credit memos
         And I resend credit memo from order "#00000022"
-        Then email to "rick.sanchez@wubba-lubba-dub-dub.com" with credit memo should be sent
+        Then the 3 emails to "rick.sanchez@wubba-lubba-dub-dub.com" with credit memo should be sent

@@ -70,7 +70,7 @@ sylius_refund_complete_refund_payment:
         _controller: Sylius\RefundPlugin\Action\CompleteRefundPaymentAction
 
 sylius_refund_admin_credit_memo_resend:
-    path: /credit-memos/{id}/resend
+    path: /credit-memos/{id}/send
     methods: [GET]
     defaults:
         _controller: Sylius\RefundPlugin\Action\Admin\SendCreditMemoAction

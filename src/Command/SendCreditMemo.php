@@ -1,28 +1,20 @@
 <?php
 
-/*
- * This file is part of the Sylius package.
- *
- * (c) Paweł Jędrzejewski
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
 final class SendCreditMemo
 {
+    /** @var string */
     private $id;
 
-    public function __construct($id)
+    public function __construct(string $id)
     {
         $this->id = $id;
     }
 
-    public function Id(): string
+    public function id(): string
     {
         return $this->id;
     }
