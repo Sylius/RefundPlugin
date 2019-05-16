@@ -107,7 +107,7 @@ final class CreditMemoContext implements Context
     /**
      * @When I resend credit memo from order :orderNumber
      */
-    public function iResendCreditMemoToCustomer(string $orderNumber): void
+    public function resendCreditMemoToCustomer(string $orderNumber): void
     {
         $this->creditMemoIndexPage->resendCreditMemo($orderNumber);
     }

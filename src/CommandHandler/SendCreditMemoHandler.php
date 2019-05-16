@@ -42,7 +42,7 @@ final class SendCreditMemoHandler
         /** @var CreditMemoInterface|null $creditMemo */
         $creditMemo = $this->creditMemoRepository->findOneBy(['number' => $creditMemoNumber]);
         if ($creditMemo === null) {
-            throw CreditMemoNotFound::withNumber($command->number());
+            throw CreditMemoNotFound::withNumber($creditMemoNumber);
         }
 
         $orderNumber = $creditMemo->getOrderNumber();

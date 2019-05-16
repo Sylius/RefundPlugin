@@ -8,9 +8,7 @@ use Behat\Behat\Context\Context;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\NotificationCheckerInterface;
-use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPageInterface;
-use Tests\Sylius\RefundPlugin\Behat\Services\Provider\MessagesProvider;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -21,22 +19,12 @@ final class RefundingContext implements Context
     /** @var NotificationCheckerInterface */
     private $notificationChecker;
 
-    /** @var EmailCheckerInterface */
-    private $emailChecker;
-
-    /** @var MessagesProvider */
-    private $messagesProvider;
-
     public function __construct(
         OrderRefundsPageInterface $orderRefundsPage,
-        NotificationCheckerInterface $notificationChecker,
-        EmailCheckerInterface $emailChecker,
-        MessagesProvider $messagesProvider
+        NotificationCheckerInterface $notificationChecker
     ) {
         $this->orderRefundsPage = $orderRefundsPage;
         $this->notificationChecker = $notificationChecker;
-        $this->emailChecker = $emailChecker;
-        $this->messagesProvider = $messagesProvider;
     }
 
     /**
@@ -331,38 +319,8 @@ final class RefundingContext implements Context
         Assert::true($this->orderRefundsPage->isPaymentMethodSelected($paymentMethod));
     }
 
-    /**
-     * @Then the :quantity email(s) to :email with credit memo should be sent
-     */
-    public function quantityOfEmailsForCustomerWithCreditMemo(int $quantity, string $email): void
-    {
-        Assert::eq($this->countMessagesToCustomer($email), $quantity);
-        Assert::true($this->lastEmailBodyContain('Some of the units from your order have been refunded.'));
-    }
-
     private function provideLongComment(): string
     {
         return 'Tu ne quaesieris scire nefas, quem mihi quem tibi finem di dederint, Leuconoe, nec Babylonios temptaris numeros. Ut melius quidquid erit pati. Seu plures hiemes sue tribuit Iuppiter ultimam. Qae nunc oppositis debilitat pumicibus mare Tyrrenum: sapias vina liques et spatio brevi. Spem longam resecens. Dum loquimur fugerit invida Aetas: CARPE DIEM, quam minimum credula postero.';
-    }
-
-    private function countMessagesToCustomer(string $email): int
-    {
-        $counter = 0;
-        /** @var \Swift_Message $message */
-        foreach ($this->messagesProvider->getMessages() as $message) {
-            if (array_key_exists($email, $message->getTo()) && false !== strpos($message->getBody(), 'Some of the units from your order have been refunded.')) {
-                $counter++;
-            }
-        }
-
-        return $counter;
-    }
-
-    private function lastEmailBodyContain(string $message): bool
-    {
-        /** @var \Swift_Message|array $messages */
-        $messages = $this->messagesProvider->getMessages();
-
-        return false !== strpos(end($messages)->getBody(), $message);
     }
 }

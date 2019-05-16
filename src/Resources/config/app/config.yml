@@ -109,7 +109,7 @@ sylius_grid:
                         icon: send
                         options:
                             link:
-                                route: sylius_refund_admin_credit_memo_resend
+                                route: sylius_refund_admin_credit_memo_send
                                 parameters:
                                     id: resource.id
             filters:

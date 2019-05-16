@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Action\Admin;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\SendCreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,14 +40,23 @@ final class SendCreditMemoAction
         $this->router = $router;
     }
 
-
     public function __invoke(Request $request): Response
     {
-        $creditMemoNumber = $this->creditMemoRepository->find($request->get('id'))->getNumber();
+        /** @var CreditMemoInterface|null $creditMemo */
+        $creditMemo = $this->creditMemoRepository->find($request->get('id'));
 
-        $this->commandBus->dispatch(new SendCreditMemo($creditMemoNumber));
+        if ($creditMemo !== null) {
+            $this->commandBus->dispatch(new SendCreditMemo($creditMemo->getNumber()));
 
-        $this->session->getFlashBag()->add('success', 'sylius_refund.resend_credit_memo_success');
+            return $this->addFlashAndRedirect('success', 'sylius_refund.resend_credit_memo_success');
+        }
+
+        return $this->addFlashAndRedirect('failed', 'sylius_refund.resend_credit_memo_failed');
+    }
+
+    public function addFlashAndRedirect(string $flashType, string $message): RedirectResponse
+    {
+        $this->session->getFlashBag()->add($flashType, $message);
 
         return new RedirectResponse($this->router->generate('sylius_refund_admin_credit_memo_index'));
     }

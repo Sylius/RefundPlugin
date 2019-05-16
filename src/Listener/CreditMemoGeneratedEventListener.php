@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class CreditMemoGeneratedEventListener
 {
     /** @var MessageBusInterface */
-    private  $commandBus;
+    private $commandBus;
 
     public function __construct(MessageBusInterface $commandBus)
     {

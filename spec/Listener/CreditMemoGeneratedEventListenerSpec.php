@@ -5,84 +5,25 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Listener;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Command\SendCreditMemo;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
-use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
-use Sylius\RefundPlugin\Exception\OrderNotFound;
-use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoGeneratedEventListenerSpec extends ObjectBehavior
 {
-    function let(
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository,
-        CreditMemoEmailSenderInterface $creditMemoEmailSender
-    ): void {
-        $this->beConstructedWith($creditMemoRepository, $orderRepository, $creditMemoEmailSender);
+    function let(MessageBusInterface $commandBus): void
+    {
+        $this->beConstructedWith($commandBus);
     }
 
     function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository,
-        CreditMemoEmailSenderInterface $creditMemoEmailSender,
-        CreditMemoInterface $creditMemo,
-        OrderInterface $order,
-        CustomerInterface $customer
+        MessageBusInterface $commandBus
     ): void {
-        $creditMemoRepository->findOneBy(['number' => '2018/04/00001111'])->willReturn($creditMemo);
-        $orderRepository->findOneByNumber('000000001')->willReturn($order);
+        $event = new CreditMemoGenerated('01/01/000002', '000222');
 
-        $order->getCustomer()->willReturn($customer);
-        $customer->getEmail()->willReturn('john@example.com');
+        $commandBus->dispatch(new SendCreditMemo('01/01/000002'))->willReturn(new Envelope($event))->shouldBeCalled();
 
-        $creditMemoEmailSender->send($creditMemo, 'john@example.com')->shouldBeCalled();
-
-        $this->__invoke(new CreditMemoGenerated('2018/04/00001111', '000000001'));
-    }
-
-    function it_throws_exception_if_credit_memo_order_has_no_customer(
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository,
-        CreditMemoInterface $creditMemo,
-        OrderInterface $order
-    ): void {
-        $creditMemoRepository->findOneBy(['number' => '2018/04/00001111'])->willReturn($creditMemo);
-        $orderRepository->findOneByNumber('000000001')->willReturn($order);
-
-        $order->getCustomer()->willReturn(null);
-
-        $this
-            ->shouldThrow(\InvalidArgumentException::class)
-            ->during('__invoke', [new CreditMemoGenerated('2018/04/00001111', '000000001')])
-        ;
-    }
-
-    function it_throws_exception_if_there_is_no_credit_memo_with_given_number(
-        RepositoryInterface $creditMemoRepository
-    ): void {
-        $creditMemoRepository->findOneBy(['number' => '2018/04/00001111'])->willReturn(null);
-
-        $this
-            ->shouldThrow(CreditMemoNotFound::withNumber('2018/04/00001111'))
-            ->during('__invoke', [new CreditMemoGenerated('2018/04/00001111', '000000001')])
-        ;
-    }
-
-    function it_throws_exception_if_there_is_no_order_with_given_number(
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository,
-        CreditMemoInterface $creditMemo
-    ): void {
-        $creditMemoRepository->findOneBy(['number' => '2018/04/00001111'])->willReturn($creditMemo);
-        $orderRepository->findOneByNumber('000000001')->willReturn(null);
-
-        $this
-            ->shouldThrow(OrderNotFound::withNumber('000000001'))
-            ->during('__invoke', [new CreditMemoGenerated('2018/04/00001111', '000000001')])
-        ;
+        $this($event);
     }
 }
