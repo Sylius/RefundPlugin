@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Sylius\RefundPlugin\Model\RefundType;
 
@@ -12,15 +13,15 @@ final class RefundEnumType extends Type
 {
     public function getName(): string
     {
-        return 'php_enum_refund_type';
+        return 'sylius_refund_refund_type';
     }
 
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string
     {
-        return 'VARCHAR(256) COMMENT "php_enum_action"';
+        return 'VARCHAR(256) COMMENT "sylius_refund_refund_type"';
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): RefundType
     {
         if (!RefundType::isValid($value)) {
             throw new \InvalidArgumentException(sprintf(
@@ -33,8 +34,16 @@ final class RefundEnumType extends Type
         return new RefundType($value);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        return (string) $value;
+        if (null === $value) {
+            return null;
+        }
+
+        if ($value instanceof RefundType) {
+            return (string) $value;
+        }
+
+        throw ConversionException::conversionFailed($value, 'sylius_refund_refund_type');
     }
 }

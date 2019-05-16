@@ -6,18 +6,18 @@ namespace Sylius\RefundPlugin\Model;
 
 use MyCLabs\Enum\Enum;
 
-class RefundType extends Enum
+final class RefundType extends Enum
 {
     public const ORDER_ITEM_UNIT = 'order_item_unit';
     public const SHIPMENT = 'shipment';
 
     public static function orderItemUnit(): self
     {
-        return new RefundType(self::ORDER_ITEM_UNIT);
+        return new self(self::ORDER_ITEM_UNIT);
     }
 
     public static function shipment(): self
     {
-        return new RefundType(self::SHIPMENT);
+        return new self(self::SHIPMENT);
     }
 }

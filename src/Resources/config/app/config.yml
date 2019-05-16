@@ -120,4 +120,4 @@ sylius_grid:
 doctrine:
     dbal:
         types:
-            php_enum_refund_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
+            sylius_refund_refund_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType

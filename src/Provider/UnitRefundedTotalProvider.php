@@ -20,7 +20,7 @@ final class UnitRefundedTotalProvider implements UnitRefundedTotalProviderInterf
 
     public function __invoke(int $unitId, RefundType $type): int
     {
-        $refunds = $this->refundRepository->findBy(['refundedUnitId' => $unitId, 'type' => $type->__toString()]);
+        $refunds = $this->refundRepository->findBy(['refundedUnitId' => $unitId, 'type' => $type]);
 
         $refundedTotal = 0;
         /** @var RefundInterface $refund */
