@@ -1,5 +1,6 @@
 sylius_refund:
     ui:
+        clear_refunds: Clear all
         completed: Completed
         credit_memo: Credit memo
         credit_memos: Credit memos
@@ -11,9 +12,11 @@ sylius_refund:
         manage_credit_memos: Manage credit memos
         order_number: Order number
         partial_refund: Partial refund
+        refund: Refund
         refund_all: Refund all
         refund_payment_completed: Refund payment completed sucessfully
         refund_payments: Refund payments
+        refund_value: Refund value
         refunded: Refunded
         refunded_total: Refunded total
         refunds: Refunds
