@@ -45,6 +45,10 @@ final class OrderRefundsExtension extends \Twig_Extension
                 'can_unit_be_refunded',
                 [$this, 'canUnitBeRefunded']
             ),
+            new \Twig_Function(
+                'unit_refund_left',
+                [$this, 'getUnitRefundLeft']
+            ),
         ];
     }
 
@@ -56,5 +60,10 @@ final class OrderRefundsExtension extends \Twig_Extension
     public function getUnitRefundedTotal(int $unitId, string $refundType): int
     {
         return $this->unitRefundedTotalProvider->__invoke($unitId, new RefundType($refundType));
+    }
+
+    public function getUnitRefundLeft(int $unitId, string $refundType, int $unitTotal): float
+    {
+        return ($unitTotal - $this->getUnitRefundedTotal($unitId, $refundType)) / 100;
     }
 }
