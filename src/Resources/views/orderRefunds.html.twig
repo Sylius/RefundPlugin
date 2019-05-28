@@ -69,7 +69,7 @@
                                         {% include '@SyliusAdmin/Product/_info.html.twig' %}
                                     </td>
                                     <td class="right aligned total">
-                                        {{ money.format(unit.total, order.currencyCode) }}
+                                        <span class="unit-total">{{ money.format(unit.total, order.currencyCode) }}</span>
                                         {% set refundedTotal = unit_refunded_total(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}
                                         {% if refundedTotal != 0 %}
                                         <br/><strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong> <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
@@ -84,7 +84,7 @@
                                             <input data-refund-input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
                                         </div>
                                     </td>
-                                    <td class="aligned collapsing">                                        
+                                    <td class="aligned collapsing">
                                         <button data-refund="{{ unit_refund_left(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT'), unit.total) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}disabled{% endif %}>
                                             {{ 'sylius_refund.ui.refund'|trans }}
                                         </button>
@@ -99,7 +99,7 @@
                                     {{ 'sylius.ui.shipment'|trans }}: {{ shipment.label }}
                                 </td>
                                 <td class="right aligned total">
-                                    {{ money.format(shipment.amount, order.currencyCode) }}
+                                    <span class="unit-total">{{ money.format(shipment.amount, order.currencyCode) }}</span>
                                     {% set refundedTotal = unit_refunded_total(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %}
                                     {% if refundedTotal != 0 %}
                                         <br/><strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong> <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
@@ -133,7 +133,7 @@
                                     <label for="payment-methods">{{ 'sylius.ui.payment_method'|trans }}</label>
                                     <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown">
                                         {% for payment_method in payment_methods %}
-                                        <option value="{{ payment_method.id }}" {{ (payment_method.code == original_payment_method.code) ? 'selected="selected"' : '' }}>{{ payment_method.name }}</option>
+                                            <option value="{{ payment_method.id }}" {{ (payment_method.code == original_payment_method.code) ? 'selected="selected"' : '' }}>{{ payment_method.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <small>{{ 'sylius.ui.original_payment_method'|trans }}: <strong>{{ original_payment_method }}</strong></small>
@@ -152,7 +152,7 @@
                         <div class="two column row">
                             <div class="column">
                                 <div class="ui buttons">
-                                    <button class="ui labeled icon primary button" type="submit"><i class="check icon"></i>{{ 'sylius.ui.refund'|trans }}</button>
+                                    <button id="page-button" class="ui labeled icon primary button" type="submit"><i class="check icon"></i>{{ 'sylius.ui.refund'|trans }}</button>
                                     <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">{{ 'sylius.ui.back'|trans }}</a>
                                 </div>
                             </div>

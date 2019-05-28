@@ -35,7 +35,16 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
     {
         $units = $this->getUnitsWithProduct($productName);
 
-        $units[$unitNumber]->find('css', '.checkbox input')->check();
+        $value = $units[$unitNumber]->find('css','td:nth-child(2)');
+
+        $refunded = substr($this->getUnitRefundedTotal($value), 1);
+
+        $total = substr($this->getUnitTotal($value), 1);
+
+        /** @var double $total */
+        $total = $total - $refunded;
+
+        $units[$unitNumber]->find('css','td:nth-child(3) input')->setValue($total);
     }
 
     public function pickPartOfUnitWithProductToRefund(string $productName, int $unitNumber, string $amount): void
@@ -47,14 +56,22 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     public function pickAllUnitsToRefund(): void
     {
-        $this->getDocument()->find('css', '#refund-all')->click();
+        $this->getDocument()->find('css', 'button[data-refund-all]')->click();
     }
 
     public function pickOrderShipment(): void
     {
         $orderShipment = $this->getOrderShipment();
 
-        $orderShipment->find('css', '.checkbox input')->check();
+        $total = $this->getUnitTotal($orderShipment);
+
+        if ($this->getUnitRefundedTotal($orderShipment) !== null) {
+            $refunded = $this->getUnitRefundedTotal($orderShipment);
+
+            $total = substr($total, 1) - substr($refunded, 1);
+        }
+
+        $orderShipment->find('css','td:nth-child(3) input')->setValue($total);
     }
 
     public function pickPartOfOrderShipmentToRefund(string $amount): void
@@ -78,7 +95,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     public function refund(): void
     {
-        $this->getDocument()->pressButton('Refund');
+        $this->getDocument()->find('css', '#page-button')->click();
     }
 
     public function isUnitWithProductAvailableToRefund(string $productName, int $unitNumber): bool
@@ -147,8 +164,27 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return $this->getDocument()->find('css', '#refunds .shipment');
     }
 
+    private function getTextFromElement(?NodeElement $element): string
+    {
+        return ($element === null) ? '' : $element->getText();
+    }
+
     private function isRefundable(NodeElement $element): bool
     {
-        return !$element->find('css', '.checkbox')->hasClass('disabled');
+        return $this->getUnitRefundedTotal($element) !== $this->getUnitTotal($element);
+    }
+
+    private function getUnitRefundedTotal(NodeElement $orderShipment): string
+    {
+        $unitRefundedTotal = $orderShipment->find('css', '.unit-refunded-total');
+
+        return $this->getTextFromElement($unitRefundedTotal);
+    }
+
+    private function getUnitTotal(NodeElement $orderShipment): string
+    {
+        $unitTotal = $orderShipment->find('css', '.unit-total');
+
+        return $this->getTextFromElement($unitTotal);
     }
 }
