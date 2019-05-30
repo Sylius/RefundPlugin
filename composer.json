@@ -21,6 +21,7 @@
     "require": {
         "php": "^7.2",
         "knplabs/knp-snappy-bundle": "^1.5",
+        "myclabs/php-enum": "^1.7",
         "sylius/sylius": "^1.4",
         "symfony/messenger": "^4.2"
     },

@@ -15,7 +15,7 @@
         <field name="orderNumber"/>
         <field name="amount" type="integer" />
         <field name="refundedUnitId" type="integer" nullable="true" column="refunded_unit_id"/>
-        <field name="type" />
+        <field name="type" type="sylius_refund_refund_type" />
     </entity>
 
 </doctrine-mapping>

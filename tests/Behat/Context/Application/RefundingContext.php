@@ -195,7 +195,7 @@ final class RefundingContext implements Context
         $unit = $this->getOrderUnit($unitNumber, $productName);
 
         $refunds = $this->refundRepository->findBy(
-            ['refundedUnitId' => $unit->getId(), 'type' => RefundType::orderItemUnit()->__toString()]
+            ['refundedUnitId' => $unit->getId(), 'type' => RefundType::orderItemUnit()]
         );
 
         $refundedTotal = 0;

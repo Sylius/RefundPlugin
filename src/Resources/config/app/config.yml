@@ -116,3 +116,8 @@ sylius_grid:
                 channel:
                     type: credit_memo_channel
                     label: sylius.ui.channel
+
+doctrine:
+    dbal:
+        types:
+            sylius_refund_refund_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
