@@ -44,17 +44,17 @@
     <div class="ui stackable grid">
         <div class="sixteen wide column">
             <div class="ui segment">
-                <div id="refund-all" class="ui checkbox" style="float: right; margin-bottom: 20px;">
-                    <input type="checkbox">
-                    <label>{{ 'sylius_refund.ui.refund_all'|trans }}</label>
+                <div class="ui right aligned basic segment">
+                    <button data-refund-clear type="button" class="ui button">{{ 'sylius_refund.ui.clear_refunds'|trans }}</button>
+                    <button data-refund-all type="button" class="ui button primary">{{ 'sylius_refund.ui.refund_all'|trans }}</button>
                 </div>
                 <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
-                    <table id="refunds" class="ui compact celled definition table">
+                    <table id="refunds" class="ui compact celled table">
                         <thead>
                             <tr>
                                 <th class="wide sylius-table-column-item">{{ 'sylius.ui.order_item_product'|trans }}</th>
                                 <th class="center aligned sylius-table-column-total">{{ 'sylius.ui.total'|trans }}</th>
-                                <th class="center aligned">{{ 'sylius_refund.ui.partial_refund'|trans }}</th>
+                                <th class="center aligned">{{ 'sylius_refund.ui.refund_value'|trans }}</th>
                                 <th class="center aligned"></th>
                             </tr>
                         </thead>
@@ -69,7 +69,7 @@
                                         {% include '@SyliusAdmin/Product/_info.html.twig' %}
                                     </td>
                                     <td class="right aligned total">
-                                        {{ money.format(unit.total, order.currencyCode) }}
+                                        <span class="unit-total">{{ money.format(unit.total, order.currencyCode) }}</span>
                                         {% set refundedTotal = unit_refunded_total(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}
                                         {% if refundedTotal != 0 %}
                                         <br/><strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong> <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
@@ -81,14 +81,13 @@
 
                                         <div class="ui labeled input">
                                             <div class="ui label">{{ order.currencyCode|sylius_currency_symbol }}</div>
-                                            <input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
+                                            <input data-refund-input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
                                         </div>
                                     </td>
                                     <td class="aligned collapsing">
-                                        <div class="ui checkbox {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}">
-                                            {% set checkboxName = "sylius_refund_units["~unit.id~"][full]" %}
-                                            <input type="checkbox" name="{{ checkboxName }}">
-                                        </div>
+                                        <button data-refund="{{ unit_refund_left(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT'), unit.total) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}disabled{% endif %}>
+                                            {{ 'sylius_refund.ui.refund'|trans }}
+                                        </button>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -100,7 +99,7 @@
                                     {{ 'sylius.ui.shipment'|trans }}: {{ shipment.label }}
                                 </td>
                                 <td class="right aligned total">
-                                    {{ money.format(shipment.amount, order.currencyCode) }}
+                                    <span class="unit-total">{{ money.format(shipment.amount, order.currencyCode) }}</span>
                                     {% set refundedTotal = unit_refunded_total(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %}
                                     {% if refundedTotal != 0 %}
                                         <br/><strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong> <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
@@ -111,14 +110,13 @@
                                     <div class="ui labeled input">
                                         <div class="ui label">{{ order.currencyCode|sylius_currency_symbol }}</div>
                                         {% set inputName = "sylius_refund_shipments["~shipment.id~"][amount]" %}
-                                        <input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}/>
+                                        <input data-refund-input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}/>
                                     </div>
                                 </td>
                                 <td class="aligned collapsing">
-                                    <div class="ui checkbox {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}">
-                                        {% set checkboxName = "sylius_refund_shipments["~shipment.id~"][full]" %}
-                                        <input type="checkbox" name="{{ checkboxName }}">
-                                    </div>
+                                    <button data-refund="{{ unit_refund_left(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT'), shipment.amount) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}>
+                                        {{ 'sylius_refund.ui.refund'|trans }}
+                                    </button>
                                 </td>
                             </tr>
                         {% endif %}
@@ -126,34 +124,49 @@
                     </table>
 
                     {% set original_payment_method = order.payments.first().method %}
-                    <label for="payment-methods" style="font-weight: bold;">{{ 'sylius.ui.payment_method'|trans }} ({{ 'sylius.ui.original_payment_method'|trans }}: {{ original_payment_method }})</label>
-                    <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown" style="margin-top: 10px;">
-                        {% for payment_method in payment_methods %}
-                            <option value="{{ payment_method.id }}" {{ (payment_method.code == original_payment_method.code) ? 'selected="selected"' : '' }}>{{ payment_method.name }}</option>
-                        {% endfor %}
-                    </select>
 
-                    <br/>
-
-                    <div class="ui form">
-                        <label for="sylius-refund-comment">{{ 'sylius.ui.comment'|trans }}</label>
-                        <textarea rows="3" name="sylius_refund_comment" id="sylius-refund-comment"></textarea>
+                    <div class="ui hidden divider"></div>
+                    <div class="ui stackable grid">
+                        <div class="two column row">
+                            <div class="ui form column">
+                                <div class="field">
+                                    <label for="payment-methods">{{ 'sylius.ui.payment_method'|trans }}</label>
+                                    <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown">
+                                        {% for payment_method in payment_methods %}
+                                            <option value="{{ payment_method.id }}" {{ (payment_method.code == original_payment_method.code) ? 'selected="selected"' : '' }}>{{ payment_method.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <small>{{ 'sylius.ui.original_payment_method'|trans }}: <strong>{{ original_payment_method }}</strong></small>
+                                </div>
+                            </div>
+                            <div class="ui form column">
+                                <div class="field">
+                                    <label for="sylius-refund-comment">{{ 'sylius.ui.comment'|trans }}</label>
+                                    <textarea rows="3" name="sylius_refund_comment" id="sylius-refund-comment"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <br/>
-
-                    <div class="ui buttons">
-                        <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">{{ 'sylius.ui.back'|trans }}</a>
-                        <div class="or"></div>
-                        <button class="ui primary button" type="submit">{{ 'sylius.ui.refund'|trans }}</button>
+                    <div class="ui stackable grid">
+                        <div class="two column row">
+                            <div class="column">
+                                <div class="ui buttons">
+                                    <button id="page-button" class="ui labeled icon primary button" type="submit"><i class="check icon"></i>{{ 'sylius.ui.refund'|trans }}</button>
+                                    <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">{{ 'sylius.ui.back'|trans }}</a>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="ui right aligned basic segment">
+                                    <h3 id="refunded-total">
+                                        {{ 'sylius_refund.ui.refunded_total'|trans }}:
+                                        {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <br/><br/>
-
-                    <h3 id="refunded-total">
-                        {{ 'sylius_refund.ui.refunded_total'|trans }}:
-                        {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
-                    </h3>
+                    <div class="ui hidden divider"></div>
                 </form>
             </div>
         </div>
@@ -164,18 +177,26 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
-            $('#refund-all').checkbox({
-                onChecked: function() { $('td .checkbox:not(.disabled)').checkbox('check'); },
-                onUnchecked: function() {
-                    if ($('td .checkbox:not(.checked)').length == 0) {
-                        $('td .checkbox:not(.disabled)').checkbox('uncheck');
-                    }
-                }
+            const $refundButtons = $('[data-refund]');
+            const $refundAllButton = $('[data-refund-all]');
+            const $refundClearAllButton = $('[data-refund-clear]');
+            const $refundInputs = $('[data-refund-input');
+
+            $refundButtons.on('click', function(e) {
+                const $button = $(this);
+                const refundValue = $button.attr('data-refund');
+                const $refundInput = $button.closest('tr').find('[data-refund-input]');
+
+                $refundInput.val(refundValue);
             });
 
-            $('td .checkbox').checkbox({
-                onUnchecked: function() { $('#refund-all').checkbox('uncheck'); }
-            })
+            $refundAllButton.on('click', function () {
+                $refundButtons.not(':disabled').trigger('click');
+            });
+
+            $refundClearAllButton.on('click', function () {
+                $refundInputs.val('');
+            });
         });
     </script>
 {% endblock %}
