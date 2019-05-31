@@ -49,6 +49,10 @@
         "symfony/web-profiler-bundle": "^4.1",
         "symfony/web-server-bundle": "^4.1"
     },
+    "conflict": {
+        "symfony/framework-bundle": "4.3.0",
+        "symfony/validator": "4.3.0"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
