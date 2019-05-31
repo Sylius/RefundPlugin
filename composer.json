@@ -50,7 +50,9 @@
         "symfony/web-server-bundle": "^4.1"
     },
     "conflict": {
+        "symfony/doctrine-bridge": "4.3.0",
         "symfony/framework-bundle": "4.3.0",
+        "symfony/messenger": "4.3.0",
         "symfony/validator": "4.3.0"
     },
     "minimum-stability": "dev",
