@@ -23,7 +23,7 @@
         "knplabs/knp-snappy-bundle": "^1.5",
         "myclabs/php-enum": "^1.7",
         "sylius/sylius": "^1.4",
-        "symfony/messenger": "^4.2"
+        "symfony/messenger": "~4.3.0"
     },
     "require-dev": {
         "behat/behat": "^3.4",
@@ -52,9 +52,7 @@
     },
     "conflict": {
         "symfony/doctrine-bridge": "4.3.0",
-        "symfony/framework-bundle": "4.3.0",
-        "symfony/messenger": "4.3.0",
-        "symfony/validator": "4.3.0"
+        "symfony/framework-bundle": "4.3.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
