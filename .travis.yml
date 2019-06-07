@@ -84,7 +84,7 @@ jobs:
                 - vendor/bin/behat --strict -vvv --no-interaction --tags="~@todo" || vendor/bin/behat --strict -vvv --no-interaction --rerun --tags="~@todo"
 
             after_failure:
-                - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"s
+                - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
 
         -
             stage: test
