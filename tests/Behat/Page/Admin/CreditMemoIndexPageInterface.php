@@ -12,6 +12,8 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
 
     public function filterByChannel(string $channelName): void;
 
+    public function resendCreditMemo(string $orderNumber): void;
+
     public function hasCreditMemoWithOrderNumber(int $index, string $orderNumber): bool;
 
     public function hasCreditMemoWithDateOfBeingIssued(int $index, \DateTimeInterface $issuedAt): bool;

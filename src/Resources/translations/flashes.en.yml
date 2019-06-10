@@ -4,5 +4,7 @@ sylius_refund:
     refund_amount_must_be_greater: 'Refund amount must be greater than 0'
     refund_amount_must_be_less: 'You cannot refund more money than the refunded unit total'
     refund_payment_completed: 'Refund payment has been successfully completed'
+    resend_credit_memo_failed: 'Resending credit memo failed'
+    resend_credit_memo_success: 'Selected credit memo has been successfully resent'
     unit_refund_exceeded: 'You cannot refund more money than the order unit total'
     units_successfully_refunded: 'Selected order units have been successfully refunded'

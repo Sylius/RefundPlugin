@@ -32,9 +32,10 @@ final class RefundingContext implements Context
 
     /**
      * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already been refunded with ("[^"]+" payment)$/
+     * @Given :productName product from order :orderNumber has already been refunded with :paymentMethod payment
      */
     public function productFromOrderHasAlreadyBeenRefunded(
-        int $unitNumber,
+        ?int $unitNumber,
         string $productName,
         string $orderNumber,
         PaymentMethodInterface $paymentMethod
@@ -45,7 +46,7 @@ final class RefundingContext implements Context
 
         $unitsWithProduct = $this->getUnitsWithProduct($order, $productName);
         /** @var OrderItemUnitInterface $unit */
-        $unit = $unitsWithProduct[$unitNumber-1];
+        $unit = $unitsWithProduct[($unitNumber ?? 1)-1];
 
         $this->commandBus->dispatch(new RefundUnits(
             $orderNumber,
