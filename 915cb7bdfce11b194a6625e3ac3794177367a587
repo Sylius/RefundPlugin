@@ -1,0 +1,39 @@
+---------------------------------------------------------------------------
+
+by kortwotze at 2019-04-17T14:23:09Z
+
+We need to finish a fix for the InvoicePlugin and port that over to this repository as well.
+
+---------------------------------------------------------------------------
+
+by Zales0123 at 2019-04-23T10:06:30Z
+
+The main problem with this change is that we have a few [embeddables](https://github.com/Sylius/RefundPlugin/blob/8459e05904aa2822be05458f3bebd44959e3d62e/src/Resources/config/doctrine/CreditMemo.orm.xml#L24) used in the doctrine mapping... This is the same bug as here: https://github.com/Sylius/InvoicingPlugin/pull/97. Do you have any idea how it can be fixed? Every help would be helpful, as it for sure needs to be resolved.
+
+---------------------------------------------------------------------------
+
+by kortwotze at 2019-04-23T13:01:14Z
+
+I currently have no idea how to fix that and I will probably not get the time to look into that in depth before our setup crashes. ;)
+
+And yes, its the same as https://github.com/Sylius/InvoicingPlugin/pull/97 - I also mentioned this. Can we maybe tag these issues over Refund/Invoice/Rbac Plugin - because Rbac will probably get the same issues as soon as its starting to use embeddables.
+
+Voting to keep the Invioice-Issue as the main discussion though :)
+
+---------------------------------------------------------------------------
+
+by pamil at 2019-06-07T04:38:12Z
+
+One solution to rule them all: https://github.com/Sylius/SyliusResourceBundle/pull/89
+
+---------------------------------------------------------------------------
+
+by pamil at 2019-06-10T11:49:23Z
+
+Merging it as it improves the current state of this plugin, though I'll investigate the issue with `CreditMemoSequence`.
+
+---------------------------------------------------------------------------
+
+by pamil at 2019-06-10T11:51:28Z
+
+Thank you, Peter! :tada:
