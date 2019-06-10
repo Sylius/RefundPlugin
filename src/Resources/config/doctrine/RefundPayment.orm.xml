@@ -7,7 +7,7 @@
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
 
-    <entity name="Sylius\RefundPlugin\Entity\RefundPayment" table="sylius_refund_payment">
+    <mapped-superclass name="Sylius\RefundPlugin\Entity\RefundPayment" table="sylius_refund_payment">
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
@@ -20,6 +20,6 @@
         <many-to-one field="paymentMethod" target-entity="Sylius\Component\Payment\Model\PaymentMethodInterface">
             <join-column name="payment_method_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
-    </entity>
+    </mapped-superclass>
 
 </doctrine-mapping>

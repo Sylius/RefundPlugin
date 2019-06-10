@@ -7,7 +7,7 @@
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
 
-    <entity name="Sylius\RefundPlugin\Entity\CreditMemo" table="sylius_refund_credit_memo">
+    <mapped-superclass name="Sylius\RefundPlugin\Entity\CreditMemo" table="sylius_refund_credit_memo">
         <id name="id" column="id" type="string" />
 
         <field name="number" />
@@ -26,5 +26,5 @@
         <indexes>
             <index columns="orderNumber" />
         </indexes>
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>
