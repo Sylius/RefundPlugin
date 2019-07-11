@@ -64,7 +64,7 @@ sylius_grid:
                     sortable: ~
                 orderNumber:
                     type: twig
-                    label: sylius_refund.ui.order_number
+                    label: sylius.ui.order
                     sortable: ~
                     options:
                         template: "@SyliusRefundPlugin/Order/Grid/Field/number.html.twig"
