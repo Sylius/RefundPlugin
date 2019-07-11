@@ -74,3 +74,13 @@ sylius_refund_admin_credit_memo_send:
     methods: [GET]
     defaults:
         _controller: Sylius\RefundPlugin\Action\Admin\SendCreditMemoAction
+
+sylius_refund_admin_order_show_by_number:
+    path: /orders/by-number/{number}
+    methods: [GET]
+    defaults:
+        _controller: Sylius\RefundPlugin\Ui\RedirectToOrderShowAction
+        _sylius:
+            section: admin
+            permission: true
+            alias: refund_plugin

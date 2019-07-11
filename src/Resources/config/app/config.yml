@@ -63,8 +63,11 @@ sylius_grid:
                     label: sylius.ui.number
                     sortable: ~
                 orderNumber:
-                    type: string
+                    type: twig
                     label: sylius_refund.ui.order_number
+                    sortable: ~
+                    options:
+                        template: "@SyliusRefundPlugin/Order/Grid/Field/number.html.twig"
                 channel:
                     type: twig
                     label: sylius.ui.channel
