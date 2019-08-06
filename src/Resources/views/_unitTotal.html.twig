@@ -1,0 +1,9 @@
+{% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
+
+<span class="unit-total">{{ money.format(unit.total, order.currencyCode) }}</span>
+{% set refundedTotal = unit_refunded_total(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}
+{% if refundedTotal != 0 %}
+    <br/>
+    <strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong>
+    <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
+{% endif %}
