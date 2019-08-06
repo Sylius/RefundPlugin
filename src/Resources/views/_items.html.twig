@@ -1,0 +1,23 @@
+{% for item in order.items %}
+    {% for unit in item.units %}
+        {% set variant = item.variant %}
+        {% set product = variant.product %}
+
+        <tr class="unit">
+            <td class="single line">
+                {% include '@SyliusAdmin/Product/_info.html.twig' %}
+            </td>
+            <td class="right aligned total">
+                {% include '@SyliusRefundPlugin/_unitTotal.html.twig' %}
+            </td>
+            <td class="aligned collapsing partial-refund">
+                {% include '@SyliusRefundPlugin/_unitInput.html.twig' %}
+            </td>
+            <td class="aligned collapsing">
+                <button data-refund="{{ unit_refund_left(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT'), unit.total) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}disabled{% endif %}>
+                    {{ 'sylius_refund.ui.refund'|trans }}
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+{% endfor %}
