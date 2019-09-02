@@ -20,7 +20,7 @@ final class UnitRefundTotalCalculator implements UnitRefundTotalCalculatorInterf
     public function calculateForUnitWithIdAndType(int $id, RefundType $refundType, ?float $amount = null)
     {
         if ($amount !== null) {
-            return (int) ($amount * 100);
+            return (int) ($amount * 1000) / 10;
         }
 
         return $this->remainingTotalProvider->getTotalLeftToRefund($id, $refundType);

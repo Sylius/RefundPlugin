@@ -45,6 +45,7 @@ jobs:
             before_script:
                 - (cd tests/Application && bin/console doctrine:database:create -vvv)
                 - (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
+                - (cd tests/Application && bin/console d:s:u --force -q)
                 - (cd tests/Application && bin/console assets:install -vvv)
                 - (cd tests/Application && bin/console cache:warmup -vvv)
                 - (cd tests/Application && yarn build)

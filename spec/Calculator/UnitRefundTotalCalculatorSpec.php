@@ -41,4 +41,12 @@ final class UnitRefundTotalCalculatorSpec extends ObjectBehavior
             ->shouldReturn(3040)
         ;
     }
+
+    function it_provides_specified_amount_as_an_integer_avoid_rounding_error(): void
+    {
+        $this
+            ->calculateForUnitWithIdAndType(100, RefundType::shipment(), 17.90)
+            ->shouldReturn(1790)
+        ;
+    }
 }

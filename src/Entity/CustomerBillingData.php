@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-final class CustomerBillingData
+class CustomerBillingData implements CustomerBillingDataInterface
 {
     /** @var string */
     private $customerName;

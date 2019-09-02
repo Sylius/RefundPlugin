@@ -14,4 +14,12 @@ final class RefundFactory implements RefundFactoryInterface
     {
         return new Refund($orderNumber, $amount, $unitId, $type);
     }
+
+    /**
+     * @return object
+     */
+    public function createNew()
+    {
+        throw new \RuntimeException();
+    }
 }

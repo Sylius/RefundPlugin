@@ -26,7 +26,7 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getIssuedAt(): \DateTimeInterface;
 
-    public function getFrom(): CustomerBillingData;
+    public function getFrom(): CustomerBillingDataInterface;
 
     public function getTo(): ?ShopBillingData;
 }

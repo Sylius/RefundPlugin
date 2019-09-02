@@ -1,16 +1,3 @@
-sylius_resource:
-    resources:
-        sylius_refund.refund:
-            classes:
-                model: Sylius\RefundPlugin\Entity\Refund
-                factory: Sylius\RefundPlugin\Factory\RefundFactory
-        sylius_refund.credit_memo:
-            classes:
-                model: Sylius\RefundPlugin\Entity\CreditMemo
-        sylius_refund.refund_payment:
-            classes:
-                model: Sylius\RefundPlugin\Entity\RefundPayment
-
 sylius_mailer:
     emails:
         units_refunded:

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-final class ShopBillingData
+class ShopBillingData
 {
     /** @var string|null */
     private $company;

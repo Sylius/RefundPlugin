@@ -12,7 +12,7 @@ use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationChecker;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface;
-use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
@@ -39,7 +39,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository,
         OrderRepositoryInterface $orderRepository,
-        CreditMemo $creditMemo,
+        CreditMemoInterface $creditMemo,
         OrderInterface $order,
         CustomerInterface $customer
     ): void {
@@ -61,7 +61,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository,
         OrderRepositoryInterface $orderRepository,
-        CreditMemo $creditMemo,
+        CreditMemoInterface $creditMemo,
         OrderInterface $order,
         CustomerInterface $firstCustomer,
         CustomerInterface $secondCustomer

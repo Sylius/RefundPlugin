@@ -25,6 +25,9 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
+            <argument type="service" id="sylius_refund.factory.credit_memo" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\CustomerBillingDataFactory" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator">

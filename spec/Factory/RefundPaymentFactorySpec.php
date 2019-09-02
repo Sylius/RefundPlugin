@@ -16,7 +16,7 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
 {
     function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
     {
-        $this->beConstructedWith($paymentMethodRepository);
+        $this->beConstructedWith(RefundPayment::class, $paymentMethodRepository);
     }
 
     function it_is_initializable(): void

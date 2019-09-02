@@ -37,7 +37,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var \DateTimeInterface */
     private $issuedAt;
 
-    /** @var CustomerBillingData */
+    /** @var CustomerBillingDataInterface */
     private $from;
 
     /** @var ShopBillingData|null */
@@ -54,7 +54,7 @@ class CreditMemo implements CreditMemoInterface
         array $units,
         string $comment,
         \DateTimeInterface $issuedAt,
-        CustomerBillingData $from,
+        CustomerBillingDataInterface $from,
         ?ShopBillingData $to
     ) {
         $this->id = $id;
@@ -110,7 +110,7 @@ class CreditMemo implements CreditMemoInterface
     {
         $units = [];
         foreach ($this->units as $unit) {
-            $units[] = CreditMemoUnit::unserialize($unit);
+            $units[] = $this->unserializeCreditMemoUnit($unit);
         }
 
         return $units;
@@ -126,7 +126,7 @@ class CreditMemo implements CreditMemoInterface
         return $this->issuedAt;
     }
 
-    public function getFrom(): CustomerBillingData
+    public function getFrom(): CustomerBillingDataInterface
     {
         return $this->from;
     }
@@ -134,5 +134,10 @@ class CreditMemo implements CreditMemoInterface
     public function getTo(): ?ShopBillingData
     {
         return $this->to;
+    }
+
+    protected function unserializeCreditMemoUnit(string $unit): CreditMemoUnitInterface
+    {
+        return CreditMemoUnit::unserialize($unit);
     }
 }
