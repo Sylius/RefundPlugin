@@ -1,0 +1,42 @@
+<form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
+    <table id="refunds" class="ui compact celled table">
+        <thead>
+        <tr>
+            <th class="wide sylius-table-column-item">{{ 'sylius.ui.order_item_product'|trans }}</th>
+            <th class="center aligned sylius-table-column-total">{{ 'sylius.ui.total'|trans }}</th>
+            <th class="center aligned">{{ 'sylius_refund.ui.refund_value'|trans }}</th>
+            <th class="center aligned"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% include '@SyliusRefundPlugin/_items.html.twig' %}
+        {% include '@SyliusRefundPlugin/_shipping.html.twig' %}
+        </tbody>
+    </table>
+
+    {% include '@SyliusRefundPlugin/_paymentMethod.html.twig' %}
+
+    <div class="ui stackable grid">
+        <div class="two column row">
+            <div class="column">
+                <div class="ui buttons">
+                    <button id="page-button" class="ui labeled icon primary button" type="submit">
+                        <i class="check icon"></i>{{ 'sylius.ui.refund'|trans }}
+                    </button>
+                    <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">
+                        {{ 'sylius.ui.back'|trans }}
+                    </a>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui right aligned basic segment">
+                    <h3 id="refunded-total">
+                        {{ 'sylius_refund.ui.refunded_total'|trans }}:
+                        {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui hidden divider"></div>
+</form>
