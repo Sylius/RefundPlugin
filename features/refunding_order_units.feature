@@ -17,8 +17,8 @@ Feature: Refunding order units
         And this order is already paid
         And I am logged in as an administrator
 
-    @ui @todo
+    @ui
     Scenario: Refund all items from order
         When I want to refund some units of order "#0000001"
-        And I decide to refund 3 "Witcher Sword" pieces products with "Space money" payment
-        Then this order refunded total should be "$99,14"
+        And I decide to refund 3 "Witcher Sword" products with "Space money" payment
+        Then this order refunded total should be "$99.15"
