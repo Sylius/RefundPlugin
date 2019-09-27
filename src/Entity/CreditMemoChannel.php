@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity;
 
 /** @final */
-class CreditMemoChannel
+class CreditMemoChannel implements CreditMemoChannelInterface
 {
+    /** @var int */
+    private $id;
+
     /** @var string */
     private $code;
 
@@ -21,6 +24,11 @@ class CreditMemoChannel
         $this->code = $code;
         $this->name = $name;
         $this->color = $color;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function code(): string

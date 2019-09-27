@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-final class ShopBillingData
+/** final */
+class ShopBillingData implements ShopBillingDataInterface
 {
+    /** @var int */
+    private $id;
+
     /** @var string|null */
     private $company;
 
@@ -38,6 +42,11 @@ final class ShopBillingData
         $this->street = $street;
         $this->city = $city;
         $this->postcode = $postcode;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function company(): ?string

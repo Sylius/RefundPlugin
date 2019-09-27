@@ -18,7 +18,7 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getLocaleCode(): string;
 
-    public function getChannel(): CreditMemoChannel;
+    public function getChannel(): CreditMemoChannelInterface;
 
     public function getUnits(): array;
 
@@ -26,7 +26,7 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getIssuedAt(): \DateTimeInterface;
 
-    public function getFrom(): CustomerBillingData;
+    public function getFrom(): CustomerBillingDataInterface;
 
-    public function getTo(): ?ShopBillingData;
+    public function getTo(): ?ShopBillingDataInterface;
 }
