@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPageInterface;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Sylius\Component\Core\Model\ChannelInterface;
+
 /** @final */
 class CreditMemo implements CreditMemoInterface
 {
@@ -25,7 +27,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     private $localeCode;
 
-    /** @var CreditMemoChannelInterface */
+    /** @var ChannelInterface */
     private $channel;
 
     /** @var array */
@@ -50,7 +52,7 @@ class CreditMemo implements CreditMemoInterface
         int $total,
         string $currencyCode,
         string $localeCode,
-        CreditMemoChannelInterface $channel,
+        ChannelInterface $channel,
         array $units,
         string $comment,
         \DateTimeInterface $issuedAt,
@@ -101,7 +103,7 @@ class CreditMemo implements CreditMemoInterface
         return $this->localeCode;
     }
 
-    public function getChannel(): CreditMemoChannelInterface
+    public function getChannel(): ChannelInterface
     {
         return $this->channel;
     }

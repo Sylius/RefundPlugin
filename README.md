@@ -72,6 +72,10 @@ This installation instruction assumes that you're using Symfony Flex. If you don
 [legacy installation instruction](docs/legacy_installation.md). However, we strongly encourage you to use
 Symfony Flex, it's much quicker! :)
 
+#### Improvements and changes!
+
+All improvements and changes you will find in [improvements](docs/improvements.md)
+
 ## Extension points
 
 Refund Plugin is strongly based on both commands and events. Let's take RefundUnitsAction as an example. The whole

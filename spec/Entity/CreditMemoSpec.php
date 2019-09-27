@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Entity\CreditMemoChannel;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
@@ -13,7 +13,7 @@ use Sylius\RefundPlugin\Entity\ShopBillingData;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
-    function let(): void
+    function let(ChannelInterface $channel): void
     {
         $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50);
 
@@ -24,7 +24,7 @@ final class CreditMemoSpec extends ObjectBehavior
             1000,
             'USD',
             'en_US',
-            new CreditMemoChannel('WEB-US', 'United States', 'Linen'),
+            $channel,
             [$creditMemoUnit->serialize()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10'),
@@ -68,9 +68,9 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getLocaleCode()->shouldReturn('en_US');
     }
 
-    function it_has_channel(): void
+    function it_has_channel(ChannelInterface $channel): void
     {
-        $this->getChannel()->shouldBeLike(new CreditMemoChannel('WEB-US', 'United States', 'Linen'));
+        $this->getChannel()->shouldReturn($channel);
     }
 
     function it_has_units(): void

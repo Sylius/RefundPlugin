@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface CreditMemoInterface extends ResourceInterface
@@ -18,7 +19,7 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getLocaleCode(): string;
 
-    public function getChannel(): CreditMemoChannelInterface;
+    public function getChannel(): ChannelInterface;
 
     public function getUnits(): array;
 
