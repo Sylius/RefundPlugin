@@ -21,5 +21,4 @@
             <join-column name="payment_method_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
     </mapped-superclass>
-
 </doctrine-mapping>

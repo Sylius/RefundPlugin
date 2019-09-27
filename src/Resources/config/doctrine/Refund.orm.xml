@@ -17,5 +17,4 @@
         <field name="refundedUnitId" type="integer" nullable="true" column="refunded_unit_id"/>
         <field name="type" type="sylius_refund_refund_type" />
     </mapped-superclass>
-
 </doctrine-mapping>

@@ -19,9 +19,29 @@
         <field name="comment" type="text" />
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
-        <embedded name="channel" class="Sylius\RefundPlugin\Entity\CreditMemoChannel" />
-        <embedded name="from" class="Sylius\RefundPlugin\Entity\CustomerBillingData" />
-        <embedded name="to" class="Sylius\RefundPlugin\Entity\ShopBillingData" />
+        <one-to-one field="channel" target-entity="Sylius\RefundPlugin\Entity\CreditMemoChannel">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+            <join-column name="channel_id" referenced-column-name="id" />
+        </one-to-one>
+
+        <one-to-one field="from" target-entity="Sylius\RefundPlugin\Entity\CustomerBillingData">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+            <join-column name="from_id" referenced-column-name="id" />
+        </one-to-one>
+
+        <one-to-one field="to" target-entity="Sylius\RefundPlugin\Entity\ShopBillingData">
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+            <join-column name="to_id" referenced-column-name="id" />
+        </one-to-one>
 
         <indexes>
             <index columns="orderNumber" />
