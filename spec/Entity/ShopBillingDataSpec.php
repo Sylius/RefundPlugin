@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 
 final class ShopBillingDataSpec extends ObjectBehavior
 {
     function let(): void
     {
         $this->beConstructedWith('Needful Things', '000222', 'US', 'Main St. 123', 'Los Angeles', '90001');
+    }
+
+    function it_implements_shop_billing_data_interface(): void
+    {
+        $this->shouldImplement(ShopBillingDataInterface::class);
     }
 
     function it_has_company(): void
