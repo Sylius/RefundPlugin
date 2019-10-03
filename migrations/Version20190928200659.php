@@ -13,12 +13,12 @@ final class Version20190928200659 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE sylius_refund_shop_billing_data (id INT AUTO_INCREMENT NOT NULL, company VARCHAR(255) DEFAULT NULL, taxId VARCHAR(255) DEFAULT NULL, countryCode VARCHAR(255) DEFAULT NULL, street VARCHAR(255) DEFAULT NULL, city VARCHAR(255) DEFAULT NULL, postcode VARCHAR(255) DEFAULT NULL, id_credit_memo VARCHAR(255) NOT NULL,PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE sylius_refund_customer_billing_data (id INT AUTO_INCREMENT NOT NULL, customerName VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, postcode VARCHAR(255) NOT NULL, countryCode VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, company VARCHAR(255) DEFAULT NULL, provinceName VARCHAR(255) DEFAULT NULL, provinceCode VARCHAR(255) DEFAULT NULL, id_credit_memo VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE sylius_refund_shop_billing_data (id INT AUTO_INCREMENT NOT NULL, company VARCHAR(255) DEFAULT NULL, tax_id VARCHAR(255) DEFAULT NULL, country_code VARCHAR(255) DEFAULT NULL, street VARCHAR(255) DEFAULT NULL, city VARCHAR(255) DEFAULT NULL, postcode VARCHAR(255) DEFAULT NULL, id_credit_memo VARCHAR(255) NOT NULL,PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE sylius_refund_customer_billing_data (id INT AUTO_INCREMENT NOT NULL, customer_name VARCHAR(255) NOT NULL, street VARCHAR(255) NOT NULL, postcode VARCHAR(255) NOT NULL, country_code VARCHAR(255) NOT NULL, city VARCHAR(255) NOT NULL, company VARCHAR(255) DEFAULT NULL, province_name VARCHAR(255) DEFAULT NULL, province_code VARCHAR(255) DEFAULT NULL, id_credit_memo VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
 
-        $this->addSql('CREATE TABLE sylius_refund_embeddable_backup (id INT AUTO_INCREMENT NOT NULL, id_credit_memo VARCHAR(255) NOT NULL, channel_code VARCHAR(255) NOT NULL, from_customerName VARCHAR(255) NOT NULL, from_street VARCHAR(255) NOT NULL, from_postcode VARCHAR(255) NOT NULL, from_countryCode VARCHAR(255) NOT NULL, from_city VARCHAR(255) NOT NULL, from_company VARCHAR(255) DEFAULT NULL, from_provinceName VARCHAR(255) DEFAULT NULL, from_provinceCode VARCHAR(255) DEFAULT NULL, to_company VARCHAR(255) DEFAULT NULL, to_taxId VARCHAR(255) DEFAULT NULL, to_countryCode VARCHAR(255) DEFAULT NULL, to_street VARCHAR(255) DEFAULT NULL, to_city VARCHAR(255) DEFAULT NULL, to_postcode VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE sylius_refund_embeddable_backup (id INT AUTO_INCREMENT NOT NULL, id_credit_memo VARCHAR(255) NOT NULL, channel_code VARCHAR(255) NOT NULL, from_customer_name VARCHAR(255) NOT NULL, from_street VARCHAR(255) NOT NULL, from_postcode VARCHAR(255) NOT NULL, from_country_code VARCHAR(255) NOT NULL, from_city VARCHAR(255) NOT NULL, from_company VARCHAR(255) DEFAULT NULL, from_province_name VARCHAR(255) DEFAULT NULL, from_province_code VARCHAR(255) DEFAULT NULL, to_company VARCHAR(255) DEFAULT NULL, to_tax_id VARCHAR(255) DEFAULT NULL, to_country_code VARCHAR(255) DEFAULT NULL, to_street VARCHAR(255) DEFAULT NULL, to_city VARCHAR(255) DEFAULT NULL, to_postcode VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET UTF8 COLLATE UTF8_unicode_ci ENGINE = InnoDB');
         $this->addSql('
-            INSERT INTO sylius_refund_embeddable_backup (id_credit_memo, channel_code, from_customerName, from_street, from_postcode, from_countryCode, from_city, from_company, from_provinceName, from_provinceCode, to_company, to_taxId, to_countryCode, to_street, to_city, to_postcode)
+            INSERT INTO sylius_refund_embeddable_backup (id_credit_memo, channel_code, from_customer_name, from_street, from_postcode, from_country_code, from_city, from_company, from_province_name, from_province_code, to_company, to_tax_id, to_country_code, to_street, to_city, to_postcode)
             SELECT id, channel_code, from_customerName, from_street, from_postcode, from_countryCode, from_city, from_company, from_provinceName, from_provinceCode, to_company, to_taxId, to_countryCode, to_street, to_city, to_postcode
             FROM sylius_refund_credit_memo
         ');
@@ -41,8 +41,8 @@ final class Version20190928200659 extends AbstractMigration
         ');
 
         $this->addSql('
-            INSERT INTO sylius_refund_shop_billing_data (company, taxId, countryCode, street, city, postcode, id_credit_memo)
-            SELECT to_company, to_taxId, to_countryCode, to_street, to_city, to_postcode, id_credit_memo
+            INSERT INTO sylius_refund_shop_billing_data (company, tax_id, country_code, street, city, postcode, id_credit_memo)
+            SELECT to_company, to_tax_id, to_country_code, to_street, to_city, to_postcode, id_credit_memo
             FROM sylius_refund_embeddable_backup
         ');
         $this->addSql('
@@ -51,14 +51,11 @@ final class Version20190928200659 extends AbstractMigration
             SET sylius_refund_credit_memo.to_id = sylius_refund_shop_billing_data.id
             WHERE sylius_refund_credit_memo.id = sylius_refund_shop_billing_data.id_credit_memo
         ');
-        $this->addSql('
-            ALTER TABLE sylius_refund_shop_billing_data
-            DROP COLUMN id_credit_memo
-        ');
+        $this->addSql('ALTER TABLE sylius_refund_shop_billing_data DROP COLUMN id_credit_memo');
 
         $this->addSql('
-            INSERT INTO sylius_refund_customer_billing_data (customerName, street, postcode, countryCode, city, company, provinceName, provinceCode, id_credit_memo)
-            SELECT from_customerName, from_street, from_postcode, from_countryCode, from_city, from_company, from_provinceName, from_provinceCode, id_credit_memo
+            INSERT INTO sylius_refund_customer_billing_data (customer_name, street, postcode, country_code, city, company, province_name, province_code, id_credit_memo)
+            SELECT from_customer_name, from_street, from_postcode, from_country_code, from_city, from_company, from_province_name, from_province_code, id_credit_memo
             FROM sylius_refund_embeddable_backup
         ');
         $this->addSql('
@@ -67,10 +64,7 @@ final class Version20190928200659 extends AbstractMigration
             SET sylius_refund_credit_memo.from_id = sylius_refund_customer_billing_data.id
             WHERE sylius_refund_credit_memo.id = sylius_refund_customer_billing_data.id_credit_memo
         ');
-        $this->addSql('
-            ALTER TABLE sylius_refund_customer_billing_data
-            DROP COLUMN id_credit_memo
-        ');
+        $this->addSql('ALTER TABLE sylius_refund_customer_billing_data DROP COLUMN id_credit_memo');
 
         $this->addSql('DROP TABLE sylius_refund_embeddable_backup');
     }

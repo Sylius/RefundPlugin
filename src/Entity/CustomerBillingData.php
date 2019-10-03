@@ -54,7 +54,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->provinceCode = $provinceCode;
     }
 
-    public function getId(): int
+    public function id(): int
     {
         return $this->id;
     }

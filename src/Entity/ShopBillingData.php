@@ -44,7 +44,7 @@ class ShopBillingData implements ShopBillingDataInterface
         $this->postcode = $postcode;
     }
 
-    public function getId(): int
+    public function id(): int
     {
         return $this->id;
     }

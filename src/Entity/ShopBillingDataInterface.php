@@ -15,7 +15,7 @@ namespace Sylius\RefundPlugin\Entity;
 
 interface ShopBillingDataInterface
 {
-    public function getId(): int;
+    public function id(): int;
 
     public function company(): ?string;
 
