@@ -6,7 +6,6 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-
     <mapped-superclass name="Sylius\RefundPlugin\Entity\CreditMemo" table="sylius_refund_credit_memo">
         <id name="id" column="id" type="string" />
 
@@ -19,9 +18,23 @@
         <field name="comment" type="text" />
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
-        <embedded name="channel" class="Sylius\RefundPlugin\Entity\CreditMemoChannel" />
-        <embedded name="from" class="Sylius\RefundPlugin\Entity\CustomerBillingData" />
-        <embedded name="to" class="Sylius\RefundPlugin\Entity\ShopBillingData" />
+        <many-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
+            <join-column name="channel_id" referenced-column-name="id" nullable="true" />
+        </many-to-one>
+
+        <one-to-one field="from" target-entity="Sylius\RefundPlugin\Entity\CustomerBillingData">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-column name="from_id" referenced-column-name="id" />
+        </one-to-one>
+
+        <one-to-one field="to" target-entity="Sylius\RefundPlugin\Entity\ShopBillingData">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-column name="to_id" referenced-column-name="id" />
+        </one-to-one>
 
         <indexes>
             <index columns="orderNumber" />

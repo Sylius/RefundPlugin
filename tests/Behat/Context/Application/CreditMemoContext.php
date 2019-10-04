@@ -97,7 +97,7 @@ final class CreditMemoContext implements Context
      */
     public function creditMemoShouldBeIssuedInChannel(string $channelName): void
     {
-        Assert::same($this->creditMemo->getChannel()->name(), $channelName);
+        Assert::same($this->creditMemo->getChannel()->getName(), $channelName);
     }
 
     /**
@@ -126,10 +126,13 @@ final class CreditMemoContext implements Context
         string $city,
         CountryInterface $country
     ): void {
-        Assert::eq(
-            $this->creditMemo->getFrom(),
-            new CustomerBillingData($customerName, $street, $postcode, $country->getCode(), $city)
-        );
+        $customerBillingData = $this->creditMemo->getFrom();
+
+        Assert::same($customerBillingData->customerName(), $customerName);
+        Assert::same($customerBillingData->street(), $street);
+        Assert::same($customerBillingData->postcode(), $postcode);
+        Assert::same($customerBillingData->city(), $city);
+        Assert::same($customerBillingData->countryCode(), $country->getCode());
     }
 
     /**
@@ -143,9 +146,13 @@ final class CreditMemoContext implements Context
         CountryInterface $country,
         string $taxId
     ): void {
-        Assert::eq(
-            $this->creditMemo->getTo(),
-            new ShopBillingData($company, $taxId, $country->getCode(), $street, $city, $postcode)
-        );
+        $shopBillingData = $this->creditMemo->getTo();
+
+        Assert::same($company, $shopBillingData->company());
+        Assert::same($street, $shopBillingData->street());
+        Assert::same($postcode, $shopBillingData->postcode());
+        Assert::same($city, $shopBillingData->city());
+        Assert::same($country->getCode(), $shopBillingData->countryCode());
+        Assert::same($taxId, $shopBillingData->taxId());
     }
 }

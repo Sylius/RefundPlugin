@@ -10,7 +10,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingData;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
-use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
@@ -95,7 +94,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $total,
             $order->getCurrencyCode(),
             $order->getLocaleCode(),
-            new CreditMemoChannel($channel->getCode(), $channel->getName(), $channel->getColor()),
+            $channel,
             $creditMemoUnits,
             $comment,
             $this->currentDateTimeProvider->now(),

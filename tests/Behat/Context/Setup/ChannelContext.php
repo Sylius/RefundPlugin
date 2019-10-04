@@ -7,10 +7,7 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Formatter\StringInflector;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Core\Model\ShopBillingData;
 use Sylius\Component\Core\Test\Services\DefaultChannelFactoryInterface;
 
 final class ChannelContext implements Context

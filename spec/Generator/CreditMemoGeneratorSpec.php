@@ -11,7 +11,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
-use Sylius\RefundPlugin\Entity\CreditMemoChannel;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
@@ -116,7 +115,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             1400,
             'GBP',
             'en_US',
-            new CreditMemoChannel('WEB-US', 'United States', 'Linen'),
+            $channel->getWrappedObject(),
             [
                 $firstCreditMemoUnit->serialize(),
                 $secondCreditMemoUnit->serialize(),

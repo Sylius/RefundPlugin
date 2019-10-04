@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Sylius\Component\Core\Model\ChannelInterface;
+
 /** @final */
 class CreditMemo implements CreditMemoInterface
 {
@@ -25,7 +27,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     private $localeCode;
 
-    /** @var CreditMemoChannel */
+    /** @var ChannelInterface */
     private $channel;
 
     /** @var array */
@@ -37,10 +39,10 @@ class CreditMemo implements CreditMemoInterface
     /** @var \DateTimeInterface */
     private $issuedAt;
 
-    /** @var CustomerBillingData */
+    /** @var CustomerBillingDataInterface */
     private $from;
 
-    /** @var ShopBillingData|null */
+    /** @var ShopBillingDataInterface|null */
     private $to;
 
     public function __construct(
@@ -50,12 +52,12 @@ class CreditMemo implements CreditMemoInterface
         int $total,
         string $currencyCode,
         string $localeCode,
-        CreditMemoChannel $channel,
+        ChannelInterface $channel,
         array $units,
         string $comment,
         \DateTimeInterface $issuedAt,
-        CustomerBillingData $from,
-        ?ShopBillingData $to
+        CustomerBillingDataInterface $from,
+        ?ShopBillingDataInterface $to
     ) {
         $this->id = $id;
         $this->number = $number;
@@ -101,7 +103,7 @@ class CreditMemo implements CreditMemoInterface
         return $this->localeCode;
     }
 
-    public function getChannel(): CreditMemoChannel
+    public function getChannel(): ChannelInterface
     {
         return $this->channel;
     }
@@ -126,12 +128,12 @@ class CreditMemo implements CreditMemoInterface
         return $this->issuedAt;
     }
 
-    public function getFrom(): CustomerBillingData
+    public function getFrom(): CustomerBillingDataInterface
     {
         return $this->from;
     }
 
-    public function getTo(): ?ShopBillingData
+    public function getTo(): ?ShopBillingDataInterface
     {
         return $this->to;
     }

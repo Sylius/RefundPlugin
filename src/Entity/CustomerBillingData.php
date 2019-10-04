@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-final class CustomerBillingData
+/** @final */
+class CustomerBillingData implements CustomerBillingDataInterface
 {
+    /** @var int */
+    private $id;
+
     /** @var string */
     private $customerName;
 
@@ -48,6 +52,11 @@ final class CustomerBillingData
         $this->company = $company;
         $this->provinceName = $provinceName;
         $this->provinceCode = $provinceCode;
+    }
+
+    public function id(): int
+    {
+        return $this->id;
     }
 
     public function customerName(): string

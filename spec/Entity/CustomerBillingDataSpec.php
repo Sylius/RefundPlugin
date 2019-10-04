@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 
 final class CustomerBillingDataSpec extends ObjectBehavior
 {
@@ -20,6 +21,11 @@ final class CustomerBillingDataSpec extends ObjectBehavior
             'Baldwin Hills',
             '323'
         );
+    }
+
+    function it_implements_customer_billing_data_interface(): void
+    {
+        $this->shouldImplement(CustomerBillingDataInterface::class);
     }
 
     function it_has_customer_name(): void
