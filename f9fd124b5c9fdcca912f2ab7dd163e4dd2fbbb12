@@ -1,0 +1,17 @@
+---------------------------------------------------------------------------
+
+by lchrusciel at 2019-09-30T07:59:15Z
+
+Let's wait with merge after sprint review
+
+---------------------------------------------------------------------------
+
+by AdamKasp at 2019-09-30T13:22:41Z
+
+One thing, you deleted `CreditMemoChannel` so IMO you should add to documentations or to README  some information about how to migrate from logic with `CreditMemoChannel` to logic with `ChannelInterface` . Thanks to that we will avoid something like "BC break"
+
+---------------------------------------------------------------------------
+
+by pamil at 2019-10-04T09:21:00Z
+
+Thanks, Tomasz! :tada:
