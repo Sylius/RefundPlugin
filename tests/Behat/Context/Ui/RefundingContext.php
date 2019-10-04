@@ -77,6 +77,18 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When /^I decide to refund (\d+) "([^"]*)" products with "([^"]*)" payment$/
+     */
+    public function iDecideToRefundProductsWithPayment(int $amount, string $productName, string $paymentMethodName): void
+    {
+        for ($number = 0; $number < $amount; $number++) {
+            $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $number);
+        }
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethodName);
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When /^I decide to refund (\d)st "([^"]+)" and (\d)st "([^"]+)" products with "([^"]+)" payment$/
      */
     public function decideToRefundMultipleProduct(
