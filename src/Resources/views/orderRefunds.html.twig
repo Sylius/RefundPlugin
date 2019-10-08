@@ -13,9 +13,12 @@
     <div class="ui stackable grid">
         <div class="sixteen wide column">
             <div class="ui segment">
-                <div class="ui right aligned basic segment">
-                    <button data-refund-clear type="button" class="ui button">{{ 'sylius_refund.ui.clear_refunds'|trans }}</button>
-                    <button data-refund-all type="button" class="ui button primary">{{ 'sylius_refund.ui.refund_all'|trans }}</button>
+                <div class="ui right aligned grid">
+                    <div class="sixteen wide column">
+                        <button data-refund-clear type="button" class="ui button">{{ 'sylius_refund.ui.clear_refunds'|trans }}</button>
+                        <button data-refund-all type="button" class="ui button primary">{{ 'sylius_refund.ui.refund_all'|trans }}</button>
+                        <div class="ui hidden divider"></div>
+                    </div>
                 </div>
                 <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
                     <table id="refunds" class="ui compact celled table">
