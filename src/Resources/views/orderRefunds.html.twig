@@ -6,6 +6,10 @@
 
 {% set customer = order.customer %}
 
+{% set disableButton = '' %}
+
+{% set disableButton = order.paymentState == 'refunded' ? 'disabled' : '' %}
+
 {% block content %}
     {% include '@SyliusRefundPlugin/_header.html.twig' %}
     {% include '@SyliusAdmin/Order/Show/_breadcrumb.html.twig' %}
@@ -15,8 +19,8 @@
             <div class="ui segment">
                 <div class="ui right aligned grid">
                     <div class="sixteen wide column">
-                        <button data-refund-clear type="button" class="ui button">{{ 'sylius_refund.ui.clear_refunds'|trans }}</button>
-                        <button data-refund-all type="button" class="ui button primary">{{ 'sylius_refund.ui.refund_all'|trans }}</button>
+                        <button data-refund-clear type="button" class="ui button" {{ disableButton }}>{{ 'sylius_refund.ui.clear_refunds'|trans }}</button>
+                        <button data-refund-all type="button" class="ui button primary" {{ disableButton }}>{{ 'sylius_refund.ui.refund_all'|trans }}</button>
                         <div class="ui hidden divider"></div>
                     </div>
                 </div>
@@ -42,7 +46,7 @@
                         <div class="two column row">
                             <div class="column">
                                 <div class="ui buttons">
-                                    <button id="page-button" class="ui labeled icon primary button" type="submit">
+                                    <button id="page-button" class="ui labeled icon primary button" type="submit" {{ disableButton }}>
                                         <i class="check icon"></i>{{ 'sylius.ui.refund'|trans }}
                                     </button>
                                     <a id="back" href="{{ path('sylius_admin_order_show', {'id': order.id}) }}" class="ui button">
