@@ -21,6 +21,7 @@ final class RefundEnumType extends Type
         if ($platform->getName() === 'sqlite') {
             return 'VARCHAR(256)';
         }
+
         return 'VARCHAR(256) COMMENT "sylius_refund_refund_type"';
     }
 
