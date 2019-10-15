@@ -9,6 +9,7 @@ use MyCLabs\Enum\Enum;
 final class RefundType extends Enum
 {
     public const ORDER_ITEM_UNIT = 'order_item_unit';
+
     public const SHIPMENT = 'shipment';
 
     public static function orderItemUnit(): self

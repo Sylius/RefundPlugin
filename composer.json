@@ -39,24 +39,22 @@
         "lakion/mink-debug-extension": "^1.2.3",
         "leanphp/phpspec-code-coverage": "^4.2",
         "phpspec/phpspec": "^4.0",
-        "phpstan/phpstan-shim": "^0.10",
-        "phpstan/phpstan-webmozart-assert": "^0.10.0",
+        "phpstan/phpstan-shim": "^0.11",
+        "phpstan/phpstan-webmozart-assert": "^0.11",
         "phpunit/phpunit": "^6.5",
         "sylius-labs/coding-standard": "^2.0",
-        "symfony/browser-kit": "^4.1",
-        "symfony/debug-bundle": "^4.1",
+        "symfony/browser-kit": "^4.3",
+        "symfony/debug-bundle": "^4.3",
         "symfony/dotenv": "^4.2",
-        "symfony/framework-bundle": "^4.1",
-        "symfony/intl": "^4.1",
-        "symfony/web-profiler-bundle": "^4.1",
-        "symfony/web-server-bundle": "^4.1"
+        "symfony/framework-bundle": "^4.3",
+        "symfony/intl": "^4.3",
+        "symfony/web-profiler-bundle": "^4.3",
+        "symfony/web-server-bundle": "^4.3"
     },
     "conflict": {
         "symfony/doctrine-bridge": "4.3.0",
         "symfony/framework-bundle": "4.3.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Sylius\\RefundPlugin\\": "src/",
@@ -64,6 +62,9 @@
         }
     },
     "scripts": {
+        "fix": [
+            "vendor/bin/ecs check src/ spec/ --fix"
+        ],
         "analyse": [
             "vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/",
             "vendor/bin/ecs check src/ spec/"

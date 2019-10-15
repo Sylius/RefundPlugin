@@ -13,7 +13,7 @@ jobs:
     include:
         -   &test
             stage: test
-            name: "Symfony 4.1.* build"
+            name: "Build"
 
             sudo: false
 
