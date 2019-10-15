@@ -103,6 +103,15 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return $this->isRefundable($this->getUnitsWithProduct($productName)[$unitNumber]);
     }
 
+    public function eachRefundButtonIsDisabled(): bool
+    {
+        return
+            $this->getDocument()->find('css', 'button[data-refund-clear]')->getAttribute('disabled') !== null &&
+            $this->getDocument()->find('css', '#page-button')->getAttribute('disabled') !== null &&
+            $this->getDocument()->find('css', 'button[data-refund-all]')->getAttribute('disabled') !== null
+        ;
+    }
+
     public function isOrderShipmentAvailableToRefund(): bool
     {
         return $this->isRefundable($this->getOrderShipment());

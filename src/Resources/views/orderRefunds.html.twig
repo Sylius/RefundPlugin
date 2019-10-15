@@ -5,10 +5,7 @@
 {% block title %}{{ 'sylius.ui.order'|trans ~' #'~ order.number }} {{ 'sylius_refund.ui.refunds'|trans }} {{ parent() }}{% endblock %}
 
 {% set customer = order.customer %}
-
-{% set disableButton = '' %}
-
-{% set disableButton = order.paymentState == 'refunded' ? 'disabled' : '' %}
+{% set disableButton = order.paymentState == constant('Sylius\\Component\\Core\\OrderPaymentStates::STATE_REFUNDED') ? 'disabled' : '' %}
 
 {% block content %}
     {% include '@SyliusRefundPlugin/_header.html.twig' %}
