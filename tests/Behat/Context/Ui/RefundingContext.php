@@ -284,6 +284,14 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Then I should not be able to refund anything
+     */
+    public function iShouldNotBeAbleToRefundAnything(): void
+    {
+        Assert::true($this->orderRefundsPage->eachRefundButtonIsDisabled());
+    }
+
+    /**
      * @Then I should not be able to refund order shipment
      */
     public function shouldNotBeAbleToRefundOrderShipment(): void

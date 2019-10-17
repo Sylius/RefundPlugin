@@ -20,6 +20,7 @@ Feature: Refunding all order units
         When I want to refund some units of order "#00000022"
         And I decide to refund all units of this order with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
+        And I should not be able to refund anything
         And this order refunded total should be "$40.00"
         But I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
         And I should not be able to refund 2nd unit with product "Mr. Meeseeks T-Shirt"
