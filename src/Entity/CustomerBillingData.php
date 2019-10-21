@@ -8,31 +8,31 @@ namespace Sylius\RefundPlugin\Entity;
 class CustomerBillingData implements CustomerBillingDataInterface
 {
     /** @var int */
-    private $id;
+    protected $id;
 
     /** @var string */
-    private $customerName;
+    protected $customerName;
 
     /** @var string */
-    private $street;
+    protected $street;
 
     /** @var string */
-    private $postcode;
+    protected $postcode;
 
     /** @var string */
-    private $countryCode;
+    protected $countryCode;
 
     /** @var string */
-    private $city;
+    protected $city;
 
     /** @var string|null */
-    private $company;
+    protected $company;
 
     /** @var string|null */
-    private $provinceName;
+    protected $provinceName;
 
     /** @var string|null */
-    private $provinceCode;
+    protected $provinceCode;
 
     public function __construct(
         string $customerName,

@@ -8,13 +8,13 @@ namespace Sylius\RefundPlugin\Entity;
 class CreditMemoSequence implements SequenceInterface
 {
     /** @var int */
-    private $id;
+    protected $id;
 
     /** @var int */
-    private $index = 0;
+    protected $index = 0;
 
     /** @var int */
-    private $version = 1;
+    protected $version = 1;
 
     public function getId(): int
     {

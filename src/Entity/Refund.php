@@ -10,19 +10,19 @@ use Sylius\RefundPlugin\Model\RefundType;
 class Refund implements RefundInterface
 {
     /** @var int|null */
-    private $id;
+    protected $id;
 
     /** @var string */
-    private $orderNumber;
+    protected $orderNumber;
 
     /** @var int */
-    private $amount;
+    protected $amount;
 
     /** @var int */
-    private $refundedUnitId;
+    protected $refundedUnitId;
 
     /** @var RefundType */
-    private $type;
+    protected $type;
 
     public function __construct(string $orderNumber, int $amount, int $refundedUnitId, RefundType $type)
     {
