@@ -10,40 +10,40 @@ use Sylius\Component\Core\Model\ChannelInterface;
 class CreditMemo implements CreditMemoInterface
 {
     /** @var string */
-    private $id;
+    protected $id;
 
     /** @var string */
-    private $number;
+    protected $number;
 
     /** @var string */
-    private $orderNumber;
+    protected $orderNumber;
 
     /** @var int */
-    private $total;
+    protected $total;
 
     /** @var string */
-    private $currencyCode;
+    protected $currencyCode;
 
     /** @var string */
-    private $localeCode;
+    protected $localeCode;
 
     /** @var ChannelInterface */
-    private $channel;
+    protected $channel;
 
     /** @var array */
-    private $units;
+    protected $units;
 
     /** @var string */
-    private $comment;
+    protected $comment;
 
     /** @var \DateTimeInterface */
-    private $issuedAt;
+    protected $issuedAt;
 
     /** @var CustomerBillingDataInterface */
-    private $from;
+    protected $from;
 
     /** @var ShopBillingDataInterface|null */
-    private $to;
+    protected $to;
 
     public function __construct(
         string $id,

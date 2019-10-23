@@ -8,13 +8,13 @@ namespace Sylius\RefundPlugin\Entity;
 class CreditMemoUnit implements CreditMemoUnitInterface
 {
     /** @var string */
-    private $productName;
+    protected $productName;
 
     /** @var int */
-    private $total;
+    protected $total;
 
     /** @var int */
-    private $taxesTotal;
+    protected $taxesTotal;
 
     public function __construct(string $productName, int $total, int $taxesTotal)
     {
