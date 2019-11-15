@@ -19,6 +19,7 @@ sylius_mailer:
 
 framework:
     messenger:
+        default_bus: sylius_refund_plugin.command_bus
         buses:
             sylius_refund_plugin.command_bus: ~
             sylius_refund_plugin.event_bus:
