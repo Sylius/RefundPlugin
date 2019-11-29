@@ -8,3 +8,4 @@ sylius_refund:
     resend_credit_memo_success: 'Selected credit memo has been successfully resent'
     unit_refund_exceeded: 'You cannot refund more money than the order unit total'
     units_successfully_refunded: 'Selected order units have been successfully refunded'
+    error_occurred: 'Unexpected error occurred'
