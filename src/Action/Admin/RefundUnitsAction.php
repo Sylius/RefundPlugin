@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
+use Psr\Log\LoggerInterface;
 use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,16 +29,21 @@ final class RefundUnitsAction
     /** @var RefundUnitsCommandCreatorInterface */
     private $commandCreator;
 
+    /** @var LoggerInterface */
+    private $logger;
+
     public function __construct(
         MessageBusInterface $commandBus,
         Session $session,
         UrlGeneratorInterface $router,
-        RefundUnitsCommandCreatorInterface $commandCreator
+        RefundUnitsCommandCreatorInterface $commandCreator,
+        LoggerInterface $logger
     ) {
         $this->commandBus = $commandBus;
         $this->session = $session;
         $this->router = $router;
         $this->commandCreator = $commandCreator;
+        $this->logger = $logger;
     }
 
     public function __invoke(Request $request): Response
