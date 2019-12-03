@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
@@ -30,10 +31,9 @@ final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterf
         $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
         $shipments = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_shipments', []));
 
-        Assert::false(
-            count($units) === 0 && count($shipments) === 0,
-            'sylius_refund.at_least_one_unit_should_be_selected_to_refund'
-        );
+        if (count($units) === 0 && count($shipments) === 0) {
+            throw InvalidRefundAmountException::withValidationConstraint('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
+        }
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),

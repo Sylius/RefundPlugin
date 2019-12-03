@@ -29,6 +29,7 @@
             <argument type="service" id="session" />
             <argument type="service" id="router" />
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator" />
+            <argument type="service" id="monolog.logger" />
         </service>
 
         <service id="Sylius\RefundPlugin\Action\CompleteRefundPaymentAction">
