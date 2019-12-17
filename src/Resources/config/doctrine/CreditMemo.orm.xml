@@ -10,7 +10,7 @@
         <id name="id" column="id" type="string" />
 
         <field name="number" />
-        <field name="orderNumber" />
+        <field name="orderNumber" column="order_number" />
         <field name="total" type="integer" />
         <field name="units" type="json" />
         <field name="currencyCode" />
@@ -37,7 +37,7 @@
         </one-to-one>
 
         <indexes>
-            <index columns="orderNumber" />
+            <index columns="order_number" />
         </indexes>
     </mapped-superclass>
 </doctrine-mapping>
