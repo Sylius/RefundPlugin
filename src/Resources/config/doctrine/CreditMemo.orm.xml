@@ -10,11 +10,11 @@
         <id name="id" column="id" type="string" />
 
         <field name="number" />
-        <field name="orderNumber" />
+        <field name="orderNumber" column="order_number" />
         <field name="total" type="integer" />
         <field name="units" type="json" />
-        <field name="currencyCode" />
-        <field name="localeCode" />
+        <field name="currencyCode" column="currency_code" />
+        <field name="localeCode" column="locale_code" />
         <field name="comment" type="text" />
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
@@ -37,7 +37,7 @@
         </one-to-one>
 
         <indexes>
-            <index columns="orderNumber" />
+            <index columns="order_number" />
         </indexes>
     </mapped-superclass>
 </doctrine-mapping>
