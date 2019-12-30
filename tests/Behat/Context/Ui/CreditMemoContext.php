@@ -56,10 +56,9 @@ final class CreditMemoContext implements Context
      */
     public function browseTheDetailsOfTheOnlyCreditMemoGeneratedForOrder(OrderInterface $order): void
     {
-        $orderNumber = $order->getNumber();
-        $creditMemo = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber])[0];
+        $creditMemo = $this->creditMemoRepository->findBy(['order' => $order])[0];
 
-        $this->creditMemoDetailsPage->open(['orderNumber' => $orderNumber, 'id' => $creditMemo->getId()]);
+        $this->creditMemoDetailsPage->open(['orderNumber' => $order->getNumber(), 'id' => $creditMemo->getId()]);
     }
 
     /**
@@ -221,13 +220,15 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for order "#([^"]+)", have total "([^"]+)" and date of being issued$/
+     * @Then /^(\d+)(?:st|nd|rd) credit memo should be generated for the (order "[^"]+"), have total "([^"]+)" and date of being issued$/
      */
     public function creditMemoShouldBeGeneratedForOrderHasTotalAndDateOfBeingIssued(
         int $index,
-        string $orderNumber,
+        OrderInterface $order,
         string $total
     ): void {
+        $orderNumber = $order->getNumber();
+
         Assert::true(
             $this->creditMemoIndexPage->hasCreditMemoWithOrderNumber($index, $orderNumber),
             sprintf('Order number for %d credit memo should be %s', $index, $orderNumber)
@@ -238,7 +239,7 @@ final class CreditMemoContext implements Context
             sprintf('Total for %d credit memo should be %s', $index, $total)
         );
 
-        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber], ['number' => 'ASC']);
+        $creditMemos = $this->creditMemoRepository->findBy(['order' => $order], ['number' => 'ASC']);
         $issuedAt = $creditMemos[$index - 1]->getIssuedAt();
 
         Assert::true($this->creditMemoIndexPage->hasCreditMemoWithDateOfBeingIssued($index, $issuedAt),

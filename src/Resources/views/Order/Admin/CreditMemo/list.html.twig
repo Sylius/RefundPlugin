@@ -23,7 +23,7 @@
                 <td>{{ credit_memo.issuedAt|date('d-m-Y') }}</td>
                 <td>
                     {{ buttons.default(
-                        path('sylius_refund_credit_memo_details', {'orderNumber': credit_memo.orderNumber, 'id': credit_memo.id}),
+                        path('sylius_refund_credit_memo_details', {'orderNumber': credit_memo.order.number, 'id': credit_memo.id}),
                         'sylius.ui.show',
                         null,
                         'eye',

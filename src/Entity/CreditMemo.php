@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 
 /** @final */
 class CreditMemo implements CreditMemoInterface
@@ -15,8 +16,8 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     protected $number;
 
-    /** @var string */
-    protected $orderNumber;
+    /** @var OrderInterface */
+    protected $order;
 
     /** @var int */
     protected $total;
@@ -48,7 +49,7 @@ class CreditMemo implements CreditMemoInterface
     public function __construct(
         string $id,
         string $number,
-        string $orderNumber,
+        OrderInterface $order,
         int $total,
         string $currencyCode,
         string $localeCode,
@@ -61,7 +62,7 @@ class CreditMemo implements CreditMemoInterface
     ) {
         $this->id = $id;
         $this->number = $number;
-        $this->orderNumber = $orderNumber;
+        $this->order = $order;
         $this->total = $total;
         $this->currencyCode = $currencyCode;
         $this->localeCode = $localeCode;
@@ -83,9 +84,9 @@ class CreditMemo implements CreditMemoInterface
         return $this->number;
     }
 
-    public function getOrderNumber(): string
+    public function getOrder(): OrderInterface
     {
-        return $this->orderNumber;
+        return $this->order;
     }
 
     public function getTotal(): int

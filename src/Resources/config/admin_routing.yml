@@ -25,15 +25,15 @@ sylius_refund_credit_memo:
     type: sylius.resource
 
 sylius_refund_order_credit_memos_list:
-    path: /orders/{orderNumber}/credit-memos
+    path: /orders/{orderId}/credit-memos
     methods: [GET]
     defaults:
         _controller: sylius_refund.controller.credit_memo:indexAction
         _sylius:
             template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/list.html.twig"
             repository:
-                method: findByOrderNumber
-                arguments: $orderNumber
+                method: findByOrder
+                arguments: $orderId
 
 sylius_refund_credit_memo_details:
     path: /orders/{orderNumber}/credit-memos/{id}
@@ -44,7 +44,6 @@ sylius_refund_credit_memo_details:
             template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/details.html.twig"
             criteria:
                 id: $id
-                orderNumber: $orderNumber
 
 sylius_refund_admin_credit_memo_download:
     path: /credit-memos/{id}/download

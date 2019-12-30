@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity;
 
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface CreditMemoInterface extends ResourceInterface
 {
     public function getNumber(): string;
 
-    public function getOrderNumber(): string;
+    public function getOrder(): OrderInterface;
 
     public function getTotal(): int;
 

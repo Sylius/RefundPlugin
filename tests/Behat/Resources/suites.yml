@@ -12,6 +12,7 @@ default:
                 - sylius.behat.context.transform.lexical
                 - sylius.behat.context.transform.order
                 - sylius.behat.context.transform.payment
+                - sylius.behat.context.transform.payment
                 - sylius.behat.context.transform.product
                 - sylius.behat.context.transform.promotion
                 - sylius.behat.context.transform.shared_storage
@@ -19,6 +20,8 @@ default:
                 - sylius.behat.context.transform.tax_category
                 - sylius.behat.context.transform.tax_rate
                 - sylius.behat.context.transform.zone
+
+                - Tests\Sylius\RefundPlugin\Behat\Context\Transform\OrderContext
 
                 - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.channel
@@ -31,8 +34,6 @@ default:
                 - sylius.behat.context.setup.shipping
                 - sylius.behat.context.setup.taxation
                 - sylius.behat.context.setup.zone
-
-                - sylius.behat.context.transform.payment
 
                 - Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderContext

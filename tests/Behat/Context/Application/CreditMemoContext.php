@@ -8,6 +8,7 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Component\Addressing\Model\CountryInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
@@ -32,23 +33,23 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @When I browse the details of the only credit memo generated for order :orderNumber
+     * @When I browse the details of the only credit memo generated for order :order
      */
-    public function browseTheDetailsOfTheOnlyCreditMemoGeneratedForOrder(string $orderNumber): void
+    public function browseTheDetailsOfTheOnlyCreditMemoGeneratedForOrder(OrderInterface $order): void
     {
-        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber]);
+        $creditMemos = $this->creditMemoRepository->findBy(['order' => $order]);
 
         $this->creditMemo = $creditMemos[0];
     }
 
     /**
-     * @Then I should have :count credit memo generated for order :orderNumber
+     * @Then I should have :count credit memo generated for order :order
      */
-    public function shouldHaveCountCreditMemoGeneratedForThisOrder(int $count, string $orderNumber): void
+    public function shouldHaveCountCreditMemoGeneratedForThisOrder(int $count, OrderInterface $order): void
     {
-        $creditMemos = $this->creditMemoRepository->findBy(['orderNumber' => $orderNumber]);
+        $creditMemos = $this->creditMemoRepository->findBy(['order' => $order]);
 
-        Assert::count($creditMemos, 1);
+        Assert::count($creditMemos, $count);
     }
 
     /**
