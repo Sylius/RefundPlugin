@@ -6,6 +6,7 @@ namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
@@ -13,14 +14,14 @@ use Sylius\RefundPlugin\Entity\ShopBillingData;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
-    function let(ChannelInterface $channel): void
+    function let(ChannelInterface $channel, OrderInterface $order): void
     {
         $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50);
 
         $this->beConstructedWith(
             '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
             '2018/07/00003333',
-            '0000222',
+            $order,
             1000,
             'USD',
             'en_US',
@@ -48,9 +49,9 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getNumber()->shouldReturn('2018/07/00003333');
     }
 
-    function it_has_order_number(): void
+    function it_has_order(OrderInterface $order): void
     {
-        $this->getOrderNumber()->shouldReturn('0000222');
+        $this->getOrder()->shouldReturn($order);
     }
 
     function it_has_total(): void

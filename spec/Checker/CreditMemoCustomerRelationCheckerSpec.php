@@ -7,7 +7,6 @@ namespace spec\Sylius\RefundPlugin\Checker;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationChecker;
@@ -19,10 +18,9 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
 {
     function let(
         CustomerContextInterface $customerContext,
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository
+        RepositoryInterface $creditMemoRepository
     ): void {
-        $this->beConstructedWith($customerContext, $creditMemoRepository, $orderRepository);
+        $this->beConstructedWith($customerContext, $creditMemoRepository);
     }
 
     function it_is_initializable(): void
@@ -38,16 +36,13 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
     function it_checks_if_customer_id_from_order_is_equal_to_customer_id_from_customer_context(
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository,
         CreditMemo $creditMemo,
         OrderInterface $order,
         CustomerInterface $customer
     ): void {
         $creditMemoRepository->find('00001')->willReturn($creditMemo);
 
-        $creditMemo->getOrderNumber()->willReturn('00002');
-
-        $orderRepository->findOneByNumber('00002')->willReturn($order);
+        $creditMemo->getOrder()->willReturn($order);
 
         $order->getCustomer()->willReturn($customer);
         $customerContext->getCustomer()->willReturn($customer);
@@ -60,7 +55,6 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
     function it_throws_exception_if_customer_id_from_order_is_not_equal_to_id_from_context(
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository,
         CreditMemo $creditMemo,
         OrderInterface $order,
         CustomerInterface $firstCustomer,
@@ -68,9 +62,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
     ): void {
         $creditMemoRepository->find('00001')->willReturn($creditMemo);
 
-        $creditMemo->getOrderNumber()->willReturn('00002');
-
-        $orderRepository->findOneByNumber('00002')->willReturn($order);
+        $creditMemo->getOrder()->willReturn($order);
 
         $order->getCustomer()->willReturn($firstCustomer);
         $customerContext->getCustomer()->willReturn($secondCustomer);

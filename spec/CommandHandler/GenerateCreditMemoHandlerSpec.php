@@ -6,6 +6,8 @@ namespace spec\Sylius\RefundPlugin\CommandHandler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
@@ -20,21 +22,26 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
     function let(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
+        OrderRepositoryInterface $orderRepository
     ) {
-        $this->beConstructedWith($creditMemoGenerator, $creditMemoManager, $eventBus);
+        $this->beConstructedWith($creditMemoGenerator, $creditMemoManager, $eventBus, $orderRepository);
     }
 
     function it_generates_credit_memo(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
-        CreditMemoInterface $creditMemo
+        OrderRepositoryInterface $orderRepository,
+        CreditMemoInterface $creditMemo,
+        OrderInterface $order
     ): void {
         $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
         $shipmentRefunds = [new ShipmentRefund(3, 1000)];
 
-        $creditMemoGenerator->generate('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
+        $orderRepository->findOneByNumber('000666')->willReturn($order);
+
+        $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
 

@@ -17,13 +17,13 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoGenerator" />
             <argument type="service" id="sylius_refund.manager.credit_memo" />
             <argument type="service" id="sylius_refund_plugin.event_bus" />
+            <argument type="service" id="sylius.repository.order" />
             <tag name="messenger.message_handler" />
         </service>
 
         <service id="Sylius\RefundPlugin\CommandHandler\SendCreditMemoHandler" >
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
             <argument type="service" id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender"/>
-            <argument type="service" id="sylius.repository.order"/>
             <tag name="messenger.message_handler" />
         </service>
     </services>

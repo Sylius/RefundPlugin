@@ -14,7 +14,6 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
-use Sylius\RefundPlugin\Exception\OrderNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
@@ -49,7 +48,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     }
 
     function it_generates_credit_memo_basing_on_event_data(
-        OrderRepositoryInterface $orderRepository,
         NumberGenerator $creditMemoNumberGenerator,
         OrderInterface $order,
         ChannelInterface $channel,
@@ -65,7 +63,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $secondUnitRefund = new OrderItemUnitRefund(3, 500);
         $shipmentRefund = new ShipmentRefund(3, 400);
 
-        $orderRepository->findOneByNumber('000666')->willReturn($order);
         $order->getCurrencyCode()->willReturn('GBP');
         $order->getLocaleCode()->willReturn('en_US');
 
@@ -108,10 +105,10 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
-        $this->generate('000666', 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldBeLike(new CreditMemo(
+        $this->generate($order, 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldBeLike(new CreditMemo(
             '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
             '2018/07/00001111',
-            '000666',
+            $order->getWrappedObject(),
             1400,
             'GBP',
             'en_US',
@@ -126,15 +123,5 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             new CustomerBillingData('Rick Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
             new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
         ));
-    }
-
-    function it_throws_exception_if_there_is_no_order_with_given_id(OrderRepositoryInterface $orderRepository): void
-    {
-        $orderRepository->findOneByNumber('000666')->willReturn(null);
-
-        $this
-            ->shouldThrow(OrderNotFound::withNumber('000666'))
-            ->during('generate', ['000666', 1000, [], [], 'Comment'])
-        ;
     }
 }
