@@ -12,7 +12,6 @@ default:
                 - sylius.behat.context.transform.lexical
                 - sylius.behat.context.transform.order
                 - sylius.behat.context.transform.payment
-                - sylius.behat.context.transform.payment
                 - sylius.behat.context.transform.product
                 - sylius.behat.context.transform.promotion
                 - sylius.behat.context.transform.shared_storage

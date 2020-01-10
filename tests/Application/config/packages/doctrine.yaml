@@ -12,6 +12,3 @@ doctrine:
         charset: UTF8
 
         url: '%env(resolve:DATABASE_URL)%'
-    orm:
-        resolve_target_entities:
-            Sylius\Component\Core\Model\OrderInterface: Sylius\Component\Core\Model\Order

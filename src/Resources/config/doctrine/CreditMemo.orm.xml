@@ -21,7 +21,7 @@
             <join-column name="channel_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 
-        <many-to-one field="order" target-entity="Sylius\Component\Core\Model\OrderInterface">
+        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">
             <join-column name="order_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 

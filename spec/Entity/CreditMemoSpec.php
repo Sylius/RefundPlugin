@@ -49,7 +49,7 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getNumber()->shouldReturn('2018/07/00003333');
     }
 
-    function it_has_order(OrderInterface $order): void
+    function it_has_an_order(OrderInterface $order): void
     {
         $this->getOrder()->shouldReturn($order);
     }
