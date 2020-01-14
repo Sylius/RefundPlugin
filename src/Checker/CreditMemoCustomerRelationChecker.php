@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Checker;
 
 use Sylius\Component\Core\Model\CustomerInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -20,26 +18,19 @@ final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelat
     /** @var RepositoryInterface */
     private $creditMemoRepository;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
-
     public function __construct(
         CustomerContextInterface $customerContext,
-        RepositoryInterface $creditMemoRepository,
-        OrderRepositoryInterface $orderRepository
+        RepositoryInterface $creditMemoRepository
     ) {
         $this->customerContext = $customerContext;
         $this->creditMemoRepository = $creditMemoRepository;
-        $this->orderRepository = $orderRepository;
     }
 
     public function check(string $creditMemoId): void
     {
         /** @var CreditMemoInterface $creditMemo */
         $creditMemo = $this->creditMemoRepository->find($creditMemoId);
-
-        /** @var OrderInterface $order */
-        $order = $this->orderRepository->findOneByNumber($creditMemo->getOrderNumber());
+        $order = $creditMemo->getOrder();
 
         /** @var CustomerInterface $orderCustomer */
         $orderCustomer = $order->getCustomer();

@@ -62,7 +62,7 @@ sylius_grid:
                     type: string
                     label: sylius.ui.number
                     sortable: ~
-                orderNumber:
+                order:
                     type: twig
                     label: sylius.ui.order
                     sortable: ~
@@ -96,7 +96,7 @@ sylius_grid:
                                 route: sylius_refund_credit_memo_details
                                 parameters:
                                     id: resource.id
-                                    orderNumber: resource.orderNumber
+                                    orderNumber: resource.order.number
                     download:
                         type: default
                         label: sylius_refund.ui.download
@@ -119,9 +119,6 @@ sylius_grid:
                 number:
                     type: string
                     label: sylius.ui.number
-                orderNumber:
-                    type: string
-                    label: sylius_refund.ui.order_number
                 issuedAt:
                     type: date
                     label: sylius_refund.ui.issued_at

@@ -75,11 +75,6 @@
             <argument type="service" id="sylius.manager.order" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Ui\RedirectToOrderShowAction">
-            <argument type="service" id="router" />
-            <argument type="service" id="sylius.repository.order" />
-        </service>
-
         <service id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker">
             <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
         </service>
@@ -126,7 +121,6 @@
         <service id="Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationChecker">
             <argument type="service" id="sylius.context.customer"/>
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
-            <argument type="service" id="sylius.repository.order"/>
         </service>
 
         <service id="Sylius\RefundPlugin\Form\Type\ChannelFilterType">

@@ -10,7 +10,6 @@
         <id name="id" column="id" type="string" />
 
         <field name="number" />
-        <field name="orderNumber" column="order_number" />
         <field name="total" type="integer" />
         <field name="units" type="json" />
         <field name="currencyCode" column="currency_code" />
@@ -20,6 +19,10 @@
 
         <many-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id" referenced-column-name="id" nullable="true" />
+        </many-to-one>
+
+        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">
+            <join-column name="order_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 
         <one-to-one field="from" target-entity="Sylius\RefundPlugin\Entity\CustomerBillingData">
@@ -37,7 +40,7 @@
         </one-to-one>
 
         <indexes>
-            <index columns="order_number" />
+            <index columns="order_id" />
         </indexes>
     </mapped-superclass>
 </doctrine-mapping>
