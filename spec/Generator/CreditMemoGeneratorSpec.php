@@ -13,10 +13,12 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Entity\TaxItem;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
@@ -26,6 +28,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     function let(
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
@@ -33,6 +36,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $this->beConstructedWith(
             $orderItemUnitCreditMemoUnitGenerator,
             $shipmentCreditMemoUnitGenerator,
+            $taxItemsGenerator,
             $creditMemoNumberGenerator,
             $currentDateTimeProvider,
             $creditMemoIdentifierGenerator
@@ -45,15 +49,16 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     }
 
     function it_generates_credit_memo_basing_on_event_data(
+        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
+        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
+        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         OrderInterface $order,
         ChannelInterface $channel,
         ShopBillingDataInterface $shopBillingData,
         AddressInterface $customerBillingAddress,
-        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
-        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
-        CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         \DateTime $dateTime
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
@@ -96,6 +101,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0);
         $shipmentCreditMemoUnitGenerator->generate(3, 400)->willReturn($shipmentCreditMemoUnit);
 
+        $taxItem = new TaxItem('VAT', 100);
+        $taxItemsGenerator->generate([$firstUnitRefund, $secondUnitRefund])->willReturn([$taxItem]);
+
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
         $currentDateTimeProvider->now()->willReturn($dateTime);
@@ -115,6 +123,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 $secondCreditMemoUnit->serialize(),
                 $shipmentCreditMemoUnit->serialize(),
             ],
+            [$taxItem->serialize()],
             'Comment',
             $dateTime->getWrappedObject(),
             new CustomerBillingData('Rick Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),

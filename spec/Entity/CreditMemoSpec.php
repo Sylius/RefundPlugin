@@ -11,12 +11,14 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Entity\TaxItem;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
     function let(ChannelInterface $channel, OrderInterface $order): void
     {
         $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50);
+        $taxItem = new TaxItem('VAT', 50);
 
         $this->beConstructedWith(
             '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
@@ -27,6 +29,7 @@ final class CreditMemoSpec extends ObjectBehavior
             'en_US',
             $channel,
             [$creditMemoUnit->serialize()],
+            [$taxItem->serialize()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10'),
             new CustomerBillingData('Rick Sanchez', 'Main St. 3322', '90802', 'US', 'Curse Purge Plus!', 'Los Angeles', 'Baldwin Hills', '323'),
@@ -59,6 +62,11 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getTotal()->shouldReturn(1000);
     }
 
+    function it_has_a_subtotal(): void
+    {
+        $this->getSubtotal()->shouldReturn(950);
+    }
+
     function it_has_currency_code(): void
     {
         $this->getCurrencyCode()->shouldReturn('USD');
@@ -77,6 +85,11 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_has_units(): void
     {
         $this->getUnits()->shouldBeLike([new CreditMemoUnit('Portal gun', 1000, 50)]);
+    }
+
+    function it_has_tax_items(): void
+    {
+        $this->getTaxItems()->shouldBeLike([new TaxItem('VAT', 50)]);
     }
 
     function it_has_date_of_creation(): void

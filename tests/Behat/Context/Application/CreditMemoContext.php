@@ -12,6 +12,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -64,7 +65,7 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^this credit memo should contain (\d+) "([^"]+)" product with ("[^"]+") tax applied$/
+     * @Then /^this credit memo should contain (\d+) "([^"]+)" product(?:|s) with ("[^"]+") tax applied$/
      */
     public function thisCreditMemoShouldContainProductWithTaxApplied(
         int $count,
@@ -107,6 +108,29 @@ final class CreditMemoContext implements Context
     public function creditMemoTotalShouldBe(int $total): void
     {
         Assert::same($this->creditMemo->getTotal(), $total);
+    }
+
+    /**
+     * @Then /^its subtotal should be ("[^"]+")$/
+     */
+    public function creditMemoSubtotalShouldBe(int $subtotal): void
+    {
+        Assert::same($this->creditMemo->getSubtotal(), $subtotal);
+    }
+
+    /**
+     * @Then /^it should have a tax item "([^"]+)" with amount ("[^"]+")$/
+     */
+    public function itShouldHaveATaxItemWithAmount(string $label, int $amount): void
+    {
+        /** @var TaxItemInterface $taxItem */
+        foreach ($this->creditMemo->getTaxItems() as $taxItem) {
+            if ($taxItem->getLabel() === $label && $taxItem->getAmount() === $amount) {
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('There is no tax item %s with given amount.', $label));
     }
 
     /**

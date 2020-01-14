@@ -73,17 +73,31 @@
 
         <tr class="heading">
             <td>{{ 'sylius.ui.item'|trans }}</td>
-            <td>{{ 'sylius.ui.total'|trans }}</td>
             <td>{{ 'sylius.ui.tax_total'|trans }}</td>
+            <td>{{ 'sylius.ui.total'|trans }}</td>
         </tr>
 
         {% for unit in creditMemo.units %}
         <tr class="item">
             <td>{{ unit.productName }}</td>
-            <td>{{ unit.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
             <td>{{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+            <td>{{ unit.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
         </tr>
         {% endfor %}
+
+        {% if creditMemo.taxItems|length > 0 %}
+            <tr class="heading">
+                <td colspan="2">{{ 'sylius.ui.tax'|trans }}</td>
+                <td>{{ 'sylius.ui.amount'|trans }}</td>
+            </tr>
+
+            {% for taxItem in creditMemo.taxItems %}
+                <tr class="tax-item">
+                    <td colspan="2">{{ taxItem.label }}</td>
+                    <td>{{ taxItem.amount|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
 
         {% if creditMemo.comment != null %}
         <tr class="total">

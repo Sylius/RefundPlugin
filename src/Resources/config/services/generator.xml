@@ -21,6 +21,7 @@
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
             <argument type="service" id="Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
@@ -33,6 +34,10 @@
             <argument type="service" id="file_locator" />
             <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
             <argument>@SyliusRefundPlugin/Resources/assets/sylius-logo.png</argument>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" class="Sylius\RefundPlugin\Generator\TaxItemsGenerator">
+            <argument type="service" id="sylius.repository.order_item_unit" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
