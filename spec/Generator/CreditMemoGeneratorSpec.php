@@ -9,7 +9,6 @@ use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
@@ -25,7 +24,6 @@ use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
     function let(
-        OrderRepositoryInterface $orderRepository,
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
         NumberGenerator $creditMemoNumberGenerator,
@@ -33,7 +31,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
     ): void {
         $this->beConstructedWith(
-            $orderRepository,
             $orderItemUnitCreditMemoUnitGenerator,
             $shipmentCreditMemoUnitGenerator,
             $creditMemoNumberGenerator,
