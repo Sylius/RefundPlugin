@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="sylius_refund.supported_gateways" type="collection">
+            <parameter>offline</parameter>
+        </parameter>
+    </parameters>
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
@@ -28,12 +33,19 @@
             <argument type="service" id="sylius_refund.repository.refund" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface" class="Sylius\RefundPlugin\Provider\DefaultRelatedPaymentIdProvider">
+        <service
+            id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface"
+            class="Sylius\RefundPlugin\Provider\DefaultRelatedPaymentIdProvider"
+        >
             <argument type="service" id="sylius.repository.order" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface" class="Sylius\RefundPlugin\Provider\OfflineRefundPaymentMethodsProvider">
+        <service
+            id="Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface"
+            class="Sylius\RefundPlugin\Provider\SupportedRefundPaymentMethodsProvider"
+        >
             <argument type="service" id="sylius.repository.payment_method" />
+            <argument>%sylius_refund.supported_gateways%</argument>
         </service>
     </services>
 </container>

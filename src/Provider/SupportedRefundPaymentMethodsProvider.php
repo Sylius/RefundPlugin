@@ -9,25 +9,30 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class OfflineRefundPaymentMethodsProvider implements RefundPaymentMethodsProviderInterface
+final class SupportedRefundPaymentMethodsProvider implements RefundPaymentMethodsProviderInterface
 {
     /** @var PaymentMethodRepositoryInterface */
     private $paymentMethodRepository;
 
-    public function __construct(PaymentMethodRepositoryInterface $paymentMethodRepository)
+    /** @var array|string[] */
+    private $supportedGateways;
+
+    public function __construct(PaymentMethodRepositoryInterface $paymentMethodRepository, array $supportedGateways)
     {
         $this->paymentMethodRepository = $paymentMethodRepository;
+        $this->supportedGateways = $supportedGateways;
     }
 
     public function findForChannel(ChannelInterface $channel): array
     {
-        return array_filter(
+        return array_values(array_filter(
             $this->paymentMethodRepository->findEnabledForChannel($channel),
             function (PaymentMethodInterface $paymentMethod): bool {
-                Assert::notNull($paymentMethod->getGatewayConfig());
+                $gatewayConfig = $paymentMethod->getGatewayConfig();
+                Assert::notNull($gatewayConfig);
 
-                return $paymentMethod->getGatewayConfig()->getFactoryName() === 'offline';
+                return in_array($gatewayConfig->getFactoryName(), $this->supportedGateways, true);
             }
-        );
+        ));
     }
 }

@@ -11,11 +11,11 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface;
 
-final class OfflineRefundPaymentMethodsProviderSpec extends ObjectBehavior
+final class SupportedRefundPaymentMethodsProviderSpec extends ObjectBehavior
 {
     function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
     {
-        $this->beConstructedWith($paymentMethodRepository);
+        $this->beConstructedWith($paymentMethodRepository, ['offline', 'stripe']);
     }
 
     function it_implements_refund_payment_methods_provider_interface(): void
@@ -23,7 +23,7 @@ final class OfflineRefundPaymentMethodsProviderSpec extends ObjectBehavior
         $this->shouldImplement(RefundPaymentMethodsProviderInterface::class);
     }
 
-    function it_provides_only_offline_payment_methods(
+    function it_provides_only_supported_payment_methods(
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         ChannelInterface $channel,
         PaymentMethodInterface $offlinePaymentMethod,
@@ -48,6 +48,6 @@ final class OfflineRefundPaymentMethodsProviderSpec extends ObjectBehavior
         $stripePaymentMethod->getGatewayConfig()->willReturn($stripeGatewayConfig);
         $stripeGatewayConfig->getFactoryName()->willReturn('stripe');
 
-        $this->findForChannel($channel)->shouldReturn([$offlinePaymentMethod]);
+        $this->findForChannel($channel)->shouldReturn([$offlinePaymentMethod, $stripePaymentMethod]);
     }
 }
