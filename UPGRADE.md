@@ -1,4 +1,4 @@
-### UPGRADE FROM 0.10.1 TO 1.0.0-rc.1
+### UPGRADE FROM 0.10.1 TO 1.0.0-RC.1
 
 1. `OfflineRefundPaymentMethodsProvider` renamed to `SupportedRefundPaymentMethodsProvider` with the supported gateways array as the 2nd argument
 (by default only `offline` gateway is passed and therefore supported). 
