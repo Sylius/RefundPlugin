@@ -24,6 +24,11 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getUnits(): array;
 
+    /**
+     * @return array<TaxItemInterface>
+     */
+    public function getTaxItems(): array;
+
     public function getComment(): string;
 
     public function getIssuedAt(): \DateTimeInterface;
@@ -31,4 +36,6 @@ interface CreditMemoInterface extends ResourceInterface
     public function getFrom(): CustomerBillingDataInterface;
 
     public function getTo(): ?ShopBillingDataInterface;
+
+    public function getSubtotal(): int;
 }

@@ -36,14 +36,16 @@ Feature: Having credit memo generated
 
     @ui @application
     Scenario: Seeing the details of generated credit memo
-        Given 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has already been refunded with "Space money" payment
+        Given all units from the order "#00000022" are refunded with "Space money" payment
         And I browse the details of the only credit memo generated for order "#00000022"
         And it should have sequential number generated from current date
-        Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.90" tax applied
+        Then this credit memo should contain 2 "Mr. Meeseeks T-Shirt" products with "$0.90" tax applied
         And it should be issued in "United States" channel
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And it should be issued to "Haas & Milan", "Pacific Coast Hwy", "90003" "Los Angeles" in the "United States" with "1100110011" tax ID
-        And its total should be "$9.90"
+        And its subtotal should be "$18.00"
+        And it should have a tax item "US VAT (10%)" with amount "$1.80"
+        And its total should be "$19.80"
 
     @ui @application
     Scenario: Seeing the details of generated credit memo with partial price
@@ -52,6 +54,8 @@ Feature: Having credit memo generated
         And it should have sequential number generated from current date
         Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.50" tax applied
         And it should be issued in "United States" channel
+        And its subtotal should be "$5.00"
+        And it should have a tax item "US VAT (10%)" with amount "$0.50"
         And its total should be "$5.50"
 
     @ui @application

@@ -53,6 +53,11 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         return $this->getDocument()->find('css', '#credit-memo-total')->getText();
     }
 
+    public function getSubtotal(): string
+    {
+        return $this->getDocument()->find('css', '#credit-memo-subtotal')->getText();
+    }
+
     public function getComment(): string
     {
         return $this->getDocument()->find('css', '#credit-memo-comment')->getText();
@@ -66,6 +71,20 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
     public function getToAddress(): string
     {
         return $this->getDocument()->find('css', '#to-address')->getText();
+    }
+
+    public function hasTaxItem(string $label, string $amount): bool
+    {
+        $taxItemAmountElement = $this->getElement('tax_item_amount', ['%label%' => $label]);
+
+        return $amount === $taxItemAmountElement->getText();
+    }
+
+    protected function getDefinedElements(): array
+    {
+        return array_merge(parent::getDefinedElements(), [
+            'tax_item_amount' => 'tr.tax-item:contains("%label%") .tax-item-amount',
+        ]);
     }
 
     /** @return array|NodeElement[] */

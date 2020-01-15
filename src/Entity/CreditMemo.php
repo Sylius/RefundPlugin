@@ -34,6 +34,9 @@ class CreditMemo implements CreditMemoInterface
     /** @var array */
     protected $units;
 
+    /** @var array */
+    protected $taxItems;
+
     /** @var string */
     protected $comment;
 
@@ -55,6 +58,7 @@ class CreditMemo implements CreditMemoInterface
         string $localeCode,
         ChannelInterface $channel,
         array $units,
+        array $taxItems,
         string $comment,
         \DateTimeInterface $issuedAt,
         CustomerBillingDataInterface $from,
@@ -68,6 +72,7 @@ class CreditMemo implements CreditMemoInterface
         $this->localeCode = $localeCode;
         $this->channel = $channel;
         $this->units = $units;
+        $this->taxItems = $taxItems;
         $this->comment = $comment;
         $this->issuedAt = $issuedAt;
         $this->from = $from;
@@ -119,6 +124,16 @@ class CreditMemo implements CreditMemoInterface
         return $units;
     }
 
+    public function getTaxItems(): array
+    {
+        $taxItems = [];
+        foreach ($this->taxItems as $taxItem) {
+            $taxItems[] = TaxItem::unserialize($taxItem);
+        }
+
+        return $taxItems;
+    }
+
     public function getComment(): string
     {
         return $this->comment;
@@ -137,5 +152,17 @@ class CreditMemo implements CreditMemoInterface
     public function getTo(): ?ShopBillingDataInterface
     {
         return $this->to;
+    }
+
+    public function getSubtotal(): int
+    {
+        $subtotal = 0;
+
+        /** @var CreditMemoUnit $unit */
+        foreach ($this->getUnits() as $unit) {
+            $subtotal += $unit->getTotal() - $unit->getTaxesTotal();
+        }
+
+        return $subtotal;
     }
 }

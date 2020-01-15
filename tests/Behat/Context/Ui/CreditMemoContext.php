@@ -120,7 +120,7 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then this credit memo should contain :count :productName product with :tax tax applied
+     * @Then this credit memo should contain :count :productName product(s) with :tax tax applied
      */
     public function thisCreditMemoShouldContainProductWithTaxApplied(
         int $count,
@@ -204,6 +204,14 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then its subtotal should be :subtotal
+     */
+    public function itsSubtotalShouldBe(string $subtotal): void
+    {
+        Assert::same($this->creditMemoDetailsPage->getSubtotal(), $subtotal);
+    }
+
+    /**
      * @Then it should be commented with :comment
      */
     public function itShouldBeCommentedWith(string $comment): void
@@ -269,5 +277,13 @@ final class CreditMemoContext implements Context
     public function pdfFileShouldBeSuccessfullyDownloaded(): void
     {
         Assert::true($this->pdfDownloadElement->isPdfFileDownloaded());
+    }
+
+    /**
+     * @Then it should have a tax item :label with amount :amount
+     */
+    public function itShouldHaveATaxItemWithAmount(string $label, string $amount): void
+    {
+        Assert::true($this->creditMemoDetailsPage->hasTaxItem($label, $amount));
     }
 }

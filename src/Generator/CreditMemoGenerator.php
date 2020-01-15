@@ -12,6 +12,7 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
@@ -22,6 +23,9 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 
     /** @var CreditMemoUnitGeneratorInterface */
     private $shipmentCreditMemoUnitGenerator;
+
+    /** @var TaxItemsGeneratorInterface */
+    private $taxItemsGenerator;
 
     /** @var NumberGenerator */
     private $creditMemoNumberGenerator;
@@ -35,12 +39,14 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     public function __construct(
         CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
         CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         CreditMemoIdentifierGeneratorInterface $uuidCreditMemoIdentifierGenerator
     ) {
         $this->orderItemUnitCreditMemoUnitGenerator = $orderItemUnitCreditMemoUnitGenerator;
         $this->shipmentCreditMemoUnitGenerator = $shipmentCreditMemoUnitGenerator;
+        $this->taxItemsGenerator = $taxItemsGenerator;
         $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
         $this->currentDateTimeProvider = $currentDateTimeProvider;
         $this->uuidCreditMemoIdentifierGenerator = $uuidCreditMemoIdentifierGenerator;
@@ -57,6 +63,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         $channel = $order->getChannel();
 
         $creditMemoUnits = [];
+        $taxItems = [];
 
         /** @var UnitRefundInterface $unit */
         foreach ($units as $unit) {
@@ -74,6 +81,11 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             ;
         }
 
+        /** @var TaxItemInterface $taxItem */
+        foreach ($this->taxItemsGenerator->generate($units) as $taxItem) {
+            $taxItems[] = $taxItem->serialize();
+        }
+
         return new CreditMemo(
             $this->uuidCreditMemoIdentifierGenerator->generate(),
             $this->creditMemoNumberGenerator->generate(),
@@ -83,6 +95,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $order->getLocaleCode(),
             $channel,
             $creditMemoUnits,
+            $taxItems,
             $comment,
             $this->currentDateTimeProvider->now(),
             $this->getFromAddress($order->getBillingAddress()),
