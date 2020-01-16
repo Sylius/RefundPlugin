@@ -23,7 +23,7 @@
         "knplabs/knp-snappy-bundle": "^1.5",
         "myclabs/php-enum": "^1.7",
         "sylius/resource-bundle": "^1.6",
-        "sylius/sylius": "^1.5",
+        "sylius/sylius": "^1.6@dev",
         "symfony/messenger": "^4.3"
     },
     "require-dev": {
