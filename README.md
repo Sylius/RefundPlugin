@@ -95,6 +95,24 @@ Apart from Events and Commands Refund Plugin is also based on mechanisms derived
 
 Configuration of all elements mentioned above can be found and customized in `config.yml` file.
 
+## Payment requirements
+
+By default to refund your order, you need to have at least one available payment method configured with `offline` gateway.
+In case your custom refund logic allows a different type of gateway (for example `stripe`), you should modify the specific parameter,
+as shown below:
+
+   ```xml
+        <parameters>
+            <parameter key="sylius_refund.supported_gateways" type="collection">
+                <parameter>offline</parameter>
+                <parameter>stripe</parameter>
+            </parameter>
+        </parameters>
+   ``` 
+
+Online refund logic should be implemented if you need it.
+As the first try for the possible customization, you can check out `Sylius\RefundPlugin\Event\UnitsRefunded` event.
+ 
 ## Security issues
 
 If you think that you have found a security issue, please do not use the issue tracker and do not post it publicly. 
