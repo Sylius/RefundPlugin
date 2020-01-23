@@ -1,8 +1,8 @@
 @refunds
-Feature: Seeing the details of generated credit memo
+Feature: Viewing details of a credit memo
     In order to be aware of what order units have been refunded
     As an Administrator
-    I want to be able to view details of generated credit memo
+    I want to be able to view details of a credit memo
 
     Background:
         Given the store operates on a single green channel in "United States"
@@ -24,7 +24,7 @@ Feature: Seeing the details of generated credit memo
         And I am logged in as an administrator
 
     @ui @application
-    Scenario: Seeing the details of generated credit memo
+    Scenario: Viewing details of a credit memo issued for a full refund
         Given all units from the order "#00000022" are refunded with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
@@ -33,27 +33,25 @@ Feature: Seeing the details of generated credit memo
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And it should contain 1 "PHP T-Shirt" product with "10.00" net value, "1.00" tax amount and "11.00" gross value in "USD" currency
         And it should contain 1 "Symfony Mug" product with "17.50" net value, "3.50" tax amount and "21.00" gross value in "USD" currency
-        And its subtotal should be "27.50" in "USD" currency
-        And it should have a tax item "US VAT (10%)" with amount "1.00" in "USD" currency
-        And it should have a tax item "VAT (20%)" with amount "3.50" in "USD" currency
+        And it should contain a tax item "US VAT (10%)" with amount "1.00" in "USD" currency
+        And it should contain a tax item "VAT (20%)" with amount "3.50" in "USD" currency
         And its total should be "32.00" in "USD" currency
 
     @ui @application
-    Scenario: Seeing the details of generated credit memo with partial price
-        Given 1st "PHP T-Shirt" product from order "#00000022" has already "$5.00" refunded with "Space money" payment
+    Scenario: Viewing details of a credit memo issued for a partial refund
+        Given the 1st "PHP T-Shirt" product from order "#00000022" already has a refund of "$5.50" with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
         And it should be issued in "United States" channel
-        And its subtotal should be "5.00"
         And it should contain 1 "PHP T-Shirt" product with "5.00" net value, "0.50" tax amount and "5.50" gross value in "USD" currency
-        And it should have a tax item "US VAT (10%)" with amount "0.50" in "USD" currency
+        And it should contain a tax item "US VAT (10%)" with amount "0.50" in "USD" currency
         And its total should be "5.50" in "USD" currency
 
     @ui @application
-    Scenario: Seeing the details of generated credit memo with partial shipment price
-        Given shipment from order "#00000023" has already "$4.50" refunded with "Space money" payment
-        When I browse the details of the only credit memo generated for order "#00000023"
+    Scenario: Viewing details of a credit memo issued for a partial shipping cost refund
+        Given the "#00000022" order's shipping cost already has a refund of "$4.50" with "Space money" payment
+        When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
-        And this credit memo should contain 1 "Galaxy Post" shipment with "4.50" total in "USD" currency
+        And it should contain 1 "Galaxy Post" shipment with "4.50" gross value in "USD" currency
         And it should be issued in "United States" channel
         And its total should be "4.50" in "USD" currency

@@ -1,8 +1,8 @@
 @refunds
-Feature: Seeing the details of generated credit memo for order with the promotion applied
+Feature: Viewing details of a credit memo for order with a promotion applied
     In order to be aware of what order units have been refunded
     As an Administrator
-    I want to be able to view details of generated credit memo
+    I want to be able to view details of a credit memo
 
     Background:
         Given the store operates on a single green channel in "United States"
@@ -23,15 +23,14 @@ Feature: Seeing the details of generated credit memo for order with the promotio
         And I am logged in as an administrator
 
     @ui @application
-    Scenario: Seeing the details of generated credit memo for order with the promotion applied
+    Scenario: Viewing details of a credit memo issued for an order with a promotion applied
         Given all units from the order "#00000022" are refunded with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
         And it should be issued in "United States" channel
         And it should be issued to "Haas & Milan", "Pacific Coast Hwy", "90003" "Los Angeles" in the "United States" with "1100110011" tax ID
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
-        And it should contain 3 "PHP T-Shirt" products with "9.00" net value, "0.90" tax amount and "9.90" gross value in "USD" currency
+        And it should contain 3 "PHP T-Shirt" products with "27.00" net value, "2.70" tax amount and "29.70" gross value in "USD" currency
         And it should contain 1 "PHP T-Shirt" product with "9.01" net value, "0.90" tax amount and "9.91" gross value in "USD" currency
-        And its subtotal should be "36.01" in "USD" currency
-        And it should have a tax item "US VAT (10%)" with amount "3.60" in "USD" currency
+        And it should contain a tax item "US VAT (10%)" with amount "3.60" in "USD" currency
         And its total should be "39.61" in "USD" currency
