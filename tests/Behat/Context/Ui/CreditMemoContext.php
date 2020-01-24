@@ -120,27 +120,41 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then this credit memo should contain :count :productName product(s) with :tax tax applied
+     * @Then it should contain :quantity :productName product(s) with :netValue net value, :taxAmount tax amount and :grossValue gross value in :currencyCode currency
      */
-    public function thisCreditMemoShouldContainProductWithTaxApplied(
-        int $count,
+    public function itShouldContainProductWithNetValueTaxAmountAndGrossValueInCurrency(
+        int $quantity,
         string $productName,
-        string $tax
+        string $netValue,
+        string $taxAmount,
+        string $grossValue,
+        string $currencyCode
     ): void {
-        Assert::same($this->creditMemoDetailsPage->countUnitsWithProduct($productName), $count);
-        Assert::same($this->creditMemoDetailsPage->getUnitTax($count, $productName), $tax);
+        Assert::true(
+            $this->creditMemoDetailsPage->hasItem($quantity, $productName, $netValue, $grossValue, $taxAmount, $currencyCode)
+        );
     }
 
     /**
-     * @Then this credit memo should contain :count :shipmentName shipment with :total total
+     * @Then it should contain :quantity :shipmentName shipment with :grossValue gross value in :currencyCode currency
      */
-    public function thisCreditMemoShouldContainShipmentWithTotal(
-        int $count,
+    public function itShouldContainShipmentWithGrossValueInCurrency(
+        int $quantity,
         string $shipmentName,
-        string $total
+        string $grossValue,
+        string $currencyCode
     ): void {
-        Assert::same($this->creditMemoDetailsPage->countUnitsWithProduct($shipmentName), $count);
-        Assert::same($this->creditMemoDetailsPage->getUnitTotal($count, $shipmentName), $total);
+        Assert::true(
+            $this->creditMemoDetailsPage->hasShipmentItem($quantity, $shipmentName, $grossValue, $currencyCode)
+        );
+    }
+
+    /**
+     * @Then it should contain a tax item :label with amount :amount in :currencyCode currency
+     */
+    public function itShouldContainATaxItemWithAmountInCurrency(string $label, string $amount, string $currencyCode): void
+    {
+        Assert::true($this->creditMemoDetailsPage->hasTaxItem($label, $amount, $currencyCode));
     }
 
     /**
@@ -196,19 +210,12 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then its total should be :total
+     * @Then its total should be :total in :currencyCode currency
      */
-    public function creditMemoTotalShouldBe(string $total): void
+    public function itsTotalShouldBeInCurrency(string $total, string $currencyCode): void
     {
         Assert::same($this->creditMemoDetailsPage->getTotal(), $total);
-    }
-
-    /**
-     * @Then its subtotal should be :subtotal
-     */
-    public function itsSubtotalShouldBe(string $subtotal): void
-    {
-        Assert::same($this->creditMemoDetailsPage->getSubtotal(), $subtotal);
+        Assert::same($this->creditMemoDetailsPage->getTotalCurrencyCode(), $currencyCode);
     }
 
     /**
@@ -277,13 +284,5 @@ final class CreditMemoContext implements Context
     public function pdfFileShouldBeSuccessfullyDownloaded(): void
     {
         Assert::true($this->pdfDownloadElement->isPdfFileDownloaded());
-    }
-
-    /**
-     * @Then it should have a tax item :label with amount :amount
-     */
-    public function itShouldHaveATaxItemWithAmount(string $label, string $amount): void
-    {
-        Assert::true($this->creditMemoDetailsPage->hasTaxItem($label, $amount));
     }
 }

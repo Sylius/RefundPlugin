@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingData;
+use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 {
-    /** @var CreditMemoUnitGeneratorInterface */
-    private $orderItemUnitCreditMemoUnitGenerator;
+    /** @var LineItemsConverterInterface */
+    private $lineItemsConverter;
 
-    /** @var CreditMemoUnitGeneratorInterface */
-    private $shipmentCreditMemoUnitGenerator;
+    /** @var LineItemsConverterInterface */
+    private $shipmentLineItemsConverter;
 
     /** @var TaxItemsGeneratorInterface */
     private $taxItemsGenerator;
@@ -37,15 +38,15 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     private $uuidCreditMemoIdentifierGenerator;
 
     public function __construct(
-        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
-        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        LineItemsConverterInterface $lineItemsConverter,
+        LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         CreditMemoIdentifierGeneratorInterface $uuidCreditMemoIdentifierGenerator
     ) {
-        $this->orderItemUnitCreditMemoUnitGenerator = $orderItemUnitCreditMemoUnitGenerator;
-        $this->shipmentCreditMemoUnitGenerator = $shipmentCreditMemoUnitGenerator;
+        $this->lineItemsConverter = $lineItemsConverter;
+        $this->shipmentLineItemsConverter = $shipmentLineItemsConverter;
         $this->taxItemsGenerator = $taxItemsGenerator;
         $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
         $this->currentDateTimeProvider = $currentDateTimeProvider;
@@ -62,27 +63,14 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         /** @var ChannelInterface $channel */
         $channel = $order->getChannel();
 
-        $creditMemoUnits = [];
+        $lineItems = new ArrayCollection(array_merge(
+            $this->lineItemsConverter->convert($units)->toArray(),
+            $this->shipmentLineItemsConverter->convert($shipments)->toArray()
+        ));
+
         $taxItems = [];
-
-        /** @var UnitRefundInterface $unit */
-        foreach ($units as $unit) {
-            $creditMemoUnits[] = $this->orderItemUnitCreditMemoUnitGenerator
-                ->generate($unit->id(), $unit->total())
-                ->serialize()
-            ;
-        }
-
-        /** @var UnitRefundInterface $shipment */
-        foreach ($shipments as $shipment) {
-            $creditMemoUnits[] = $this->shipmentCreditMemoUnitGenerator
-                ->generate($shipment->id(), $shipment->total())
-                ->serialize()
-            ;
-        }
-
         /** @var TaxItemInterface $taxItem */
-        foreach ($this->taxItemsGenerator->generate($units) as $taxItem) {
+        foreach ($this->taxItemsGenerator->generate($lineItems) as $taxItem) {
             $taxItems[] = $taxItem->serialize();
         }
 
@@ -94,7 +82,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $order->getCurrencyCode(),
             $order->getLocaleCode(),
             $channel,
-            $creditMemoUnits,
+            $lineItems,
             $taxItems,
             $comment,
             $this->currentDateTimeProvider->now(),

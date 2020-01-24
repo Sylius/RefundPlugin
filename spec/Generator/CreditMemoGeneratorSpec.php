@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Generator;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
+use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
-use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItem;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
@@ -26,16 +26,16 @@ use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
     function let(
-        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
-        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        LineItemsConverterInterface $lineItemsConverter,
+        LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
     ): void {
         $this->beConstructedWith(
-            $orderItemUnitCreditMemoUnitGenerator,
-            $shipmentCreditMemoUnitGenerator,
+            $lineItemsConverter,
+            $shipmentLineItemsConverter,
             $taxItemsGenerator,
             $creditMemoNumberGenerator,
             $currentDateTimeProvider,
@@ -49,8 +49,8 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     }
 
     function it_generates_credit_memo_basing_on_event_data(
-        CreditMemoUnitGeneratorInterface $orderItemUnitCreditMemoUnitGenerator,
-        CreditMemoUnitGeneratorInterface $shipmentCreditMemoUnitGenerator,
+        LineItemsConverterInterface $lineItemsConverter,
+        LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
@@ -92,17 +92,14 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $customerBillingAddress->getProvinceName()->willReturn(null);
         $customerBillingAddress->getProvinceCode()->willReturn(null);
 
-        $firstCreditMemoUnit = new CreditMemoUnit('Portal gun', 500, 50);
-        $orderItemUnitCreditMemoUnitGenerator->generate(1, 500)->willReturn($firstCreditMemoUnit);
+        $mockedLineItems = new ArrayCollection();
+        $mockedShipmentLineItems = new ArrayCollection();
 
-        $secondCreditMemoUnit = new CreditMemoUnit('Broken Leg Serum', 500, 50);
-        $orderItemUnitCreditMemoUnitGenerator->generate(3, 500)->willReturn($secondCreditMemoUnit);
-
-        $shipmentCreditMemoUnit = new CreditMemoUnit('Galaxy post', 400, 0);
-        $shipmentCreditMemoUnitGenerator->generate(3, 400)->willReturn($shipmentCreditMemoUnit);
+        $lineItemsConverter->convert([$firstUnitRefund, $secondUnitRefund])->willReturn($mockedLineItems);
+        $shipmentLineItemsConverter->convert([$shipmentRefund])->willReturn($mockedShipmentLineItems);
 
         $taxItem = new TaxItem('VAT', 100);
-        $taxItemsGenerator->generate([$firstUnitRefund, $secondUnitRefund])->willReturn([$taxItem]);
+        $taxItemsGenerator->generate($mockedLineItems)->willReturn([$taxItem]);
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
@@ -118,11 +115,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             'GBP',
             'en_US',
             $channel->getWrappedObject(),
-            [
-                $firstCreditMemoUnit->serialize(),
-                $secondCreditMemoUnit->serialize(),
-                $shipmentCreditMemoUnit->serialize(),
-            ],
+            $mockedLineItems,
             [$taxItem->serialize()],
             'Comment',
             $dateTime->getWrappedObject(),

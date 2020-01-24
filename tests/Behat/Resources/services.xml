@@ -10,7 +10,9 @@
         <defaults public="true" />
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPage" parent="sylius.behat.symfony_page" public="true" />
-        <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage" parent="sylius.behat.symfony_page" public="true" />
+        <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage" parent="sylius.behat.symfony_page" public="true">
+            <argument type="service" id="sylius.behat.table_accessor" />
+        </service>
         <service id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage" parent="sylius.behat.page.admin.crud.index" public="true">
             <argument>sylius_refund_admin_credit_memo_index</argument>
         </service>
@@ -70,6 +72,8 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Transform\OrderContext">
             <argument type="service" id="sylius.repository.order" />
         </service>
+
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Transform\PriceContext" />
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext">
             <argument type="service" id="sylius.behat.page.shop.order.show" />

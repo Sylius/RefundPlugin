@@ -1,15 +1,18 @@
 sylius_refund:
     ui:
+        buyer: Buyer
         clear_refunds: Clear all
         completed: Completed
         credit_memo: Credit memo
         credit_memos: Credit memos
         download: Download
-        from: From
+        gross_value: Gross value
         issued_at: Issued at
         issued_for_order: Issued for order
         issued_from: Issued from
         manage_credit_memos: Manage credit memos
+        net_value: Net value
+        no: No.
         order_number: Order number
         partial_refund: Partial refund
         refund: Refund
@@ -21,7 +24,10 @@ sylius_refund:
         refunded_total: Refunded total
         refunds: Refunds
         resend: Resend
-        to: To
+        seller: Seller
+        tax_amount: Tax amount
+        tax_rate: Tax rate %
+        unit_net_price: Unit net price
 
 sylius:
     ui:

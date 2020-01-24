@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Sylius\RefundPlugin\Entity\CreditMemoUnit;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItem;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
-    function let(ChannelInterface $channel, OrderInterface $order): void
+    function let(LineItemInterface $lineItem, ChannelInterface $channel, OrderInterface $order): void
     {
-        $creditMemoUnit = new CreditMemoUnit('Portal gun', 1000, 50);
         $taxItem = new TaxItem('VAT', 50);
 
         $this->beConstructedWith(
@@ -28,7 +29,7 @@ final class CreditMemoSpec extends ObjectBehavior
             'USD',
             'en_US',
             $channel,
-            [$creditMemoUnit->serialize()],
+            new ArrayCollection([$lineItem->getWrappedObject()]),
             [$taxItem->serialize()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10'),
@@ -37,9 +38,14 @@ final class CreditMemoSpec extends ObjectBehavior
         );
     }
 
-    function it_implements_credit_memo_interface(): void
+    function it_implements_a_credit_memo_interface(): void
     {
         $this->shouldImplement(CreditMemoInterface::class);
+    }
+
+    function it_implements_a_resource_interface(): void
+    {
+        $this->shouldImplement(ResourceInterface::class);
     }
 
     function it_has_id(): void
@@ -62,29 +68,24 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getTotal()->shouldReturn(1000);
     }
 
-    function it_has_a_subtotal(): void
-    {
-        $this->getSubtotal()->shouldReturn(950);
-    }
-
-    function it_has_currency_code(): void
+    function it_has_a_currency_code(): void
     {
         $this->getCurrencyCode()->shouldReturn('USD');
     }
 
-    function it_has_locale_code(): void
+    function it_has_a_locale_code(): void
     {
         $this->getLocaleCode()->shouldReturn('en_US');
     }
 
-    function it_has_channel(ChannelInterface $channel): void
+    function it_has_a_channel(ChannelInterface $channel): void
     {
         $this->getChannel()->shouldReturn($channel);
     }
 
-    function it_has_units(): void
+    function it_has_line_items(LineItemInterface $lineItem): void
     {
-        $this->getUnits()->shouldBeLike([new CreditMemoUnit('Portal gun', 1000, 50)]);
+        $this->getLineItems()->shouldBeLike(new ArrayCollection([$lineItem->getWrappedObject()]));
     }
 
     function it_has_tax_items(): void
@@ -92,17 +93,17 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getTaxItems()->shouldBeLike([new TaxItem('VAT', 50)]);
     }
 
-    function it_has_date_of_creation(): void
+    function it_has_a_date_of_creation(): void
     {
         $this->getIssuedAt()->shouldBeLike(new \DateTime('01-01-2020 10:10:10'));
     }
 
-    function it_has_comment(): void
+    function it_has_a_comment(): void
     {
         $this->getComment()->shouldReturn('Comment');
     }
 
-    function it_has_from_address(): void
+    function it_has_a_from_address(): void
     {
         $this
             ->getFrom()
@@ -112,7 +113,7 @@ final class CreditMemoSpec extends ObjectBehavior
         ;
     }
 
-    function it_has_to_address(): void
+    function it_has_a_to_address(): void
     {
         $this
             ->getTo()

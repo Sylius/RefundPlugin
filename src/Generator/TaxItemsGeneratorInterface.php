@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
+use Doctrine\Common\Collections\Collection;
+use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 interface TaxItemsGeneratorInterface
 {
     /**
-     * @param array<UnitRefundInterface> $units
+     * @param Collection|LineItemInterface[] $lineItems
      *
      * @return array<TaxItemInterface>
      */
-    public function generate(array $units): array;
+    public function generate(Collection $lineItems): array;
 }

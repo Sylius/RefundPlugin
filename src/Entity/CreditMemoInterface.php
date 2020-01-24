@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
@@ -22,7 +23,10 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function getChannel(): ChannelInterface;
 
-    public function getUnits(): array;
+    /**
+     * @return Collection|LineItemInterface[]
+     */
+    public function getLineItems(): Collection;
 
     /**
      * @return array<TaxItemInterface>
@@ -36,6 +40,4 @@ interface CreditMemoInterface extends ResourceInterface
     public function getFrom(): CustomerBillingDataInterface;
 
     public function getTo(): ?ShopBillingDataInterface;
-
-    public function getSubtotal(): int;
 }

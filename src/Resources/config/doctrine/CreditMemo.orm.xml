@@ -11,7 +11,6 @@
 
         <field name="number" />
         <field name="total" type="integer" />
-        <field name="units" type="json" />
         <field name="taxItems" column="tax_items" type="json" nullable="true" />
         <field name="currencyCode" column="currency_code" />
         <field name="localeCode" column="locale_code" />
@@ -19,25 +18,39 @@
         <field name="issuedAt" column="issued_at" type="datetime" nullable="true" />
 
         <many-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
-            <join-column name="channel_id" referenced-column-name="id" nullable="true" />
+            <join-column name="channel_id" />
         </many-to-one>
 
         <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">
-            <join-column name="order_id" referenced-column-name="id" nullable="true" />
+            <join-column name="order_id" />
         </many-to-one>
+
+        <many-to-many field="lineItems" target-entity="Sylius\RefundPlugin\Entity\LineItemInterface">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <join-table name="sylius_refund_credit_memo_line_items">
+                <join-columns>
+                    <join-column name="credit_memo_id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="line_item_id" unique="true" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
 
         <one-to-one field="from" target-entity="Sylius\RefundPlugin\Entity\CustomerBillingData">
             <cascade>
                 <cascade-all />
             </cascade>
-            <join-column name="from_id" referenced-column-name="id" />
+            <join-column name="from_id" />
         </one-to-one>
 
         <one-to-one field="to" target-entity="Sylius\RefundPlugin\Entity\ShopBillingData">
             <cascade>
                 <cascade-all />
             </cascade>
-            <join-column name="to_id" referenced-column-name="id" />
+            <join-column name="to_id"/>
         </one-to-one>
 
         <indexes>
