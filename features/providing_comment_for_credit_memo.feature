@@ -20,8 +20,8 @@ Feature: Providing comment for credit memo
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment and "Money for nothing" comment
         And I browse the details of the only credit memo generated for order "#00000022"
-        Then this credit memo should contain 1 "Mr. Meeseeks T-Shirt" product with "$0.00" tax applied
-        And its total should be "$10.00"
+        Then it should contain 1 "Mr. Meeseeks T-Shirt" product with "10.00" net value, "0.00" tax amount and "10.00" gross value in "USD" currency
+        And its total should be "10.00" in "USD" currency
         And it should be commented with "Money for nothing"
 
     @ui

@@ -32,5 +32,5 @@ Feature: Viewing details of a credit memo for order with a promotion applied
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And it should contain 3 "PHP T-Shirt" products with "27.00" net value, "2.70" tax amount and "29.70" gross value in "USD" currency
         And it should contain 1 "PHP T-Shirt" product with "9.01" net value, "0.90" tax amount and "9.91" gross value in "USD" currency
-        And it should contain a tax item "US VAT (10%)" with amount "3.60" in "USD" currency
+        And it should contain a tax item "10%" with amount "3.60" in "USD" currency
         And its total should be "39.61" in "USD" currency

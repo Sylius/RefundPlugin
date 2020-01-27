@@ -33,8 +33,8 @@ Feature: Viewing details of a credit memo
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And it should contain 1 "PHP T-Shirt" product with "10.00" net value, "1.00" tax amount and "11.00" gross value in "USD" currency
         And it should contain 1 "Symfony Mug" product with "17.50" net value, "3.50" tax amount and "21.00" gross value in "USD" currency
-        And it should contain a tax item "US VAT (10%)" with amount "1.00" in "USD" currency
-        And it should contain a tax item "VAT (20%)" with amount "3.50" in "USD" currency
+        And it should contain a tax item "10%" with amount "1.00" in "USD" currency
+        And it should contain a tax item "20%" with amount "3.50" in "USD" currency
         And its total should be "32.00" in "USD" currency
 
     @ui @application
@@ -44,7 +44,7 @@ Feature: Viewing details of a credit memo
         Then it should have sequential number generated from current date
         And it should be issued in "United States" channel
         And it should contain 1 "PHP T-Shirt" product with "5.00" net value, "0.50" tax amount and "5.50" gross value in "USD" currency
-        And it should contain a tax item "US VAT (10%)" with amount "0.50" in "USD" currency
+        And it should contain a tax item "10%" with amount "0.50" in "USD" currency
         And its total should be "5.50" in "USD" currency
 
     @ui @application
