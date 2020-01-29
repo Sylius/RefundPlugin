@@ -106,4 +106,23 @@ final class ManagingOrdersContext implements Context
             'paymentState' => $orderPaymentState,
         ]));
     }
+
+    /**
+     * @Then I should be redirected to the order :order show page
+     */
+    public function iShouldBeRedirectedToTheOrderShowPage(OrderInterface $order): void
+    {
+        $this->showPage->isOpen(['id' => $order->getId()]);
+    }
+
+    /**
+     * @Then I should be notified that I cannot refund free order
+     */
+    public function iShouldBeNotifiedThatICannotRefundFreeOrder(): void
+    {
+        $this->notificationChecker->checkNotification(
+            'You can not refund free order',
+            NotificationType::failure()
+        );
+    }
 }
