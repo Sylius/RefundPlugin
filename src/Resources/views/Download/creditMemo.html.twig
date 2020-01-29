@@ -17,6 +17,7 @@
         .credit-memo table tr.item td{ border-bottom: 1px solid #eee; }
         .credit-memo table tr.item.last td { border-bottom: none; }
         .credit-memo table tr.total td { border-top: 2px solid #eee; font-weight: bold; }
+        .credit-memo table tr.number td { text-align: center; font-size: 20px; font-weight: bold; padding-bottom: 40px; }
     </style>
 </head>
 
@@ -32,8 +33,7 @@
                         </td>
 
                         <td>
-                            Credit memo #{{ creditMemo.number }}<br>
-                            Issued at: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
+                            {{ 'sylius_refund.ui.issued_at'|trans }}: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
                         </td>
                     </tr>
                 </table>
@@ -72,6 +72,10 @@
         </tr>
         {% endif %}
 
+        <tr class="number">
+            <td colspan="9">{{ 'sylius_refund.ui.credit_memo'|trans }} #{{ creditMemo.number }}</td>
+        </tr>
+
         <tr class="heading">
             <td>{{ 'sylius_refund.ui.no'|trans }}</td>
             <td>{{ 'sylius.ui.name'|trans }}</td>
@@ -89,11 +93,11 @@
                 <td>{{ loop.index }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ (item.unitNetPrice/100)|number_format(2) }}</td>
-                <td>{{ (item.netValue/100)|number_format(2) }}</td>
+                <td>{{ '%0.2f'|format(item.unitNetPrice/100) }}</td>
+                <td>{{ '%0.2f'|format(item.netValue/100) }}</td>
                 <td>{{ item.taxRate }}</td>
-                <td>{{ (item.taxAmount/100)|number_format(2) }}</td>
-                <td>{{ (item.grossValue/100)|number_format(2) }}</td>
+                <td>{{ '%0.2f'|format(item.taxAmount/100) }}</td>
+                <td>{{ '%0.2f'|format(item.grossValue/100) }}</td>
                 <td>{{ creditMemo.currencyCode }}</td>
             </tr>
         {% endfor %}
@@ -101,7 +105,7 @@
         <tr class="total">
             <td colspan="6"></td>
             <td>{{ 'sylius.ui.total'|trans }}:</td>
-            <td>{{ (creditMemo.total/100)|number_format(2) }}</td>
+            <td>{{ '%0.2f'|format(creditMemo.total/100) }}</td>
             <td>{{ creditMemo.currencyCode }}</td>
         </tr>
 
@@ -117,7 +121,7 @@
                 <tr class="tax-item">
                     <td colspan="6"></td>
                     <td>{{ item.label }}</td>
-                    <td>{{ (item.amount/100)|number_format(2) }}</td>
+                    <td>{{ '%0.2f'|format(item.amount/100) }}</td>
                     <td>{{ creditMemo.currencyCode }}</td>
                 </tr>
             {% endfor %}

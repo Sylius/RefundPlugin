@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
-use Doctrine\Common\Collections\Collection;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\TaxItem;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 
 final class TaxItemsGenerator implements TaxItemsGeneratorInterface
 {
-    public function generate(Collection $lineItems): array
+    public function generate(array $lineItems): array
     {
         $temporaryTaxItems = [];
 

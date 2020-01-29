@@ -47,7 +47,7 @@ final class LineItemsConverterSpec extends ObjectBehavior
         $orderItem->getProductName()->willReturn('Portal gun');
         $adjustment->getLabel()->willReturn('25%');
 
-        $this->convert([$unitRefund])->shouldBeLike(new ArrayCollection([new LineItem(
+        $this->convert([$unitRefund])->shouldBeLike([new LineItem(
             'Portal gun',
             1,
             400,
@@ -56,7 +56,7 @@ final class LineItemsConverterSpec extends ObjectBehavior
             500,
             100,
             '25%'
-        )]));
+        )]);
     }
 
     function it_groups_the_same_line_items_during_converting(
@@ -98,7 +98,7 @@ final class LineItemsConverterSpec extends ObjectBehavior
         $secondOrderItem->getProductName()->willReturn('Space gun');
         $secondAdjustment->getLabel()->willReturn('20%');
 
-        $this->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund])->shouldBeLike(new ArrayCollection([
+        $this->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund])->shouldBeLike([
             new LineItem(
                 'Portal gun',
                 1,
@@ -119,7 +119,7 @@ final class LineItemsConverterSpec extends ObjectBehavior
                 320,
                 '20%'
             ),
-        ]));
+        ]);
     }
 
     function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(

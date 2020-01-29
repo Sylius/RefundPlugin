@@ -27,7 +27,7 @@
 
         <many-to-many field="lineItems" target-entity="Sylius\RefundPlugin\Entity\LineItemInterface">
             <cascade>
-                <cascade-persist />
+                <cascade-all />
             </cascade>
             <join-table name="sylius_refund_credit_memo_line_items">
                 <join-columns>

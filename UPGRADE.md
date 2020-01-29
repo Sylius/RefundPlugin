@@ -1,12 +1,12 @@
 ### UPGRADE FROM 1.0.0-RC.1 TO 1.0.0-RC.2
 
-1. `CreditMemoUnit` changed to `LineItem` which is a resource entity now
+1. `Sylius\RefundPlugin\Entity\CreditMemoUnit` was changed to `Sylius\RefundPlugin\Entity\LineItem` which is a resource entity now.
 
-2. `CreditMemoUnitGeneratorInterface` changed to `LineItemsConverterInterface` and moved from `Generator` to `Converter` directory
+2. `Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface` was changed to `Sylius\RefundPlugin\Converter\LineItemsConverterInterface`.
 
-3. `OrderItemUnitCreditMemoUnitGenerator` changed to `LineItemsConverter` and moved from `Generator` to `Converter` directory
+3. `Sylius\RefundPlugin\Generator\OrderItemUnitCreditMemoUnitGenerator` was changed to `Sylius\RefundPlugin\Converter\LineItemsConverter`.
 
-4. `ShipmentCreditMemoUnitGenerator` changed to `ShipmentLineItemsConverter` and moved from `Generator` to `Converter` directory
+4. `Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator` was changed to `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter`.
 
 There are no migrations that provide backward compatibility, save current credit memos before upgrading the version of plugin. 
 

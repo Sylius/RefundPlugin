@@ -39,7 +39,7 @@ Feature: Viewing details of a credit memo
 
     @ui @application
     Scenario: Viewing details of a credit memo issued for a partial refund
-        Given the 1st "PHP T-Shirt" product from order "#00000022" already has a refund of "$5.50" with "Space money" payment
+        Given the 1st "PHP T-Shirt" product from order "#00000022" has a refund of "$5.50" with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
         And it should be issued in "United States" channel

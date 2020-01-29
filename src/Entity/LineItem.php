@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Sylius\RefundPlugin\Exception\LineItemsCannotBeMerged;
+
 /** @final */
 class LineItem implements LineItemInterface
 {
@@ -31,7 +33,7 @@ class LineItem implements LineItemInterface
     /** @var int */
     protected $taxAmount;
 
-    /** @var ?string */
+    /** @var string|null */
     protected $taxRate;
 
     public function __construct(
@@ -106,9 +108,23 @@ class LineItem implements LineItemInterface
 
     public function merge(LineItemInterface $newLineItem): void
     {
+        if (!$this->compare($newLineItem)) {
+            throw LineItemsCannotBeMerged::occur();
+        }
+
         $this->quantity += $newLineItem->quantity();
         $this->netValue += $newLineItem->netValue();
         $this->grossValue += $newLineItem->grossValue();
         $this->taxAmount += $newLineItem->taxAmount();
+    }
+
+    public function compare(LineItemInterface $lineItem): bool
+    {
+        return
+            $this->name() === $lineItem->name() &&
+            $this->unitNetPrice() === $lineItem->unitNetPrice() &&
+            $this->unitGrossPrice() === $lineItem->unitGrossPrice() &&
+            $this->taxRate() === $lineItem->taxRate()
+        ;
     }
 }

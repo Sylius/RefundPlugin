@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -58,7 +59,7 @@ class CreditMemo implements CreditMemoInterface
         string $currencyCode,
         string $localeCode,
         ChannelInterface $channel,
-        Collection $lineItems,
+        array $lineItems,
         array $taxItems,
         string $comment,
         \DateTimeInterface $issuedAt,
@@ -72,7 +73,7 @@ class CreditMemo implements CreditMemoInterface
         $this->currencyCode = $currencyCode;
         $this->localeCode = $localeCode;
         $this->channel = $channel;
-        $this->lineItems = $lineItems;
+        $this->lineItems = new ArrayCollection($lineItems);
         $this->taxItems = $taxItems;
         $this->comment = $comment;
         $this->issuedAt = $issuedAt;

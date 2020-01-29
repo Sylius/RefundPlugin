@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Converter;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -38,7 +37,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
         $shippingAdjustment->getAmount()->willReturn(1000);
 
-        $this->convert([$unitRefund])->shouldBeLike(new ArrayCollection([new LineItem(
+        $this->convert([$unitRefund])->shouldBeLike([new LineItem(
             'Galaxy post',
             1,
             500,
@@ -46,7 +45,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
             500,
             500,
             0
-        )]));
+        )]);
     }
 
     function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(

@@ -27,4 +27,6 @@ interface LineItemInterface extends ResourceInterface
     public function taxRate(): ?string;
 
     public function merge(self $newLineItem): void;
+
+    public function compare(self $lineItem): bool;
 }

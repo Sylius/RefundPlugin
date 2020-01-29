@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -63,10 +62,10 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         /** @var ChannelInterface $channel */
         $channel = $order->getChannel();
 
-        $lineItems = new ArrayCollection(array_merge(
-            $this->lineItemsConverter->convert($units)->toArray(),
-            $this->shipmentLineItemsConverter->convert($shipments)->toArray()
-        ));
+        $lineItems = array_merge(
+            $this->lineItemsConverter->convert($units),
+            $this->shipmentLineItemsConverter->convert($shipments)
+        );
 
         $taxItems = [];
         /** @var TaxItemInterface $taxItem */

@@ -28,7 +28,7 @@ Feature: Refunding a part of an order unit
 
     @ui @application
     Scenario: Refunding the whole order unit price after partial refund
-        Given the 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" already has a refund of "$5.00" with "Space money" payment
+        Given the 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has a refund of "$5.00" with "Space money" payment
         When I want to refund some units of order "#00000022"
         And I decide to refund 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
@@ -36,7 +36,7 @@ Feature: Refunding a part of an order unit
 
     @ui @javascript
     Scenario: Refunding the whole order price after partial refund
-        Given the 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" already has a refund of "$5.00" with "Space money" payment
+        Given the 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has a refund of "$5.00" with "Space money" payment
         When I want to refund some units of order "#00000022"
         And I decide to refund all units of this order with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
@@ -44,7 +44,7 @@ Feature: Refunding a part of an order unit
 
     @ui @application
     Scenario: Not being able to refund more money than order unit total
-        Given the 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" already has a refund of "$5.00" with "Space money" payment
+        Given the 1st "Mr. Meeseeks T-Shirt" product from order "#00000022" has a refund of "$5.00" with "Space money" payment
         When I want to refund some units of order "#00000022"
         And I decide to refund "$10.00" from 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that I cannot refund more money than the order unit total

@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
@@ -29,7 +28,7 @@ final class CreditMemoSpec extends ObjectBehavior
             'USD',
             'en_US',
             $channel,
-            new ArrayCollection([$lineItem->getWrappedObject()]),
+            [$lineItem->getWrappedObject()],
             [$taxItem->serialize()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10'),
@@ -41,11 +40,6 @@ final class CreditMemoSpec extends ObjectBehavior
     function it_implements_a_credit_memo_interface(): void
     {
         $this->shouldImplement(CreditMemoInterface::class);
-    }
-
-    function it_implements_a_resource_interface(): void
-    {
-        $this->shouldImplement(ResourceInterface::class);
     }
 
     function it_has_id(): void

@@ -92,19 +92,19 @@
                             {{ item.quantity }}
                         </td>
                         <td class="right aligned line-item-unit-net-price">
-                            {{ (item.unitNetPrice/100)|number_format(2) }}
+                            {{ '%0.2f'|format(item.unitNetPrice/100) }}
                         </td>
                         <td class="right aligned line-item-net-value">
-                            {{ (item.netValue/100)|number_format(2) }}
+                            {{ '%0.2f'|format(item.netValue/100) }}
                         </td>
                         <td class="single line">
                             {{ item.taxRate }}
                         </td>
                         <td class="right aligned line-item-tax-amount">
-                            {{ (item.taxAmount/100)|number_format(2) }}
+                            {{ '%0.2f'|format(item.taxAmount/100) }}
                         </td>
                         <td class="right aligned line-item-gross-value">
-                            {{ (item.grossValue/100)|number_format(2) }}
+                            {{ '%0.2f'|format(item.grossValue/100) }}
                         </td>
                         <td class="single line line-item-currency-code">
                             {{ credit_memo.currencyCode }}
@@ -118,7 +118,7 @@
                             <strong>{{ 'sylius.ui.total'|trans }}</strong>:
                         </th>
                         <th id="credit-memo-total" class="right aligned">
-                            {{ (credit_memo.total/100)|number_format(2) }}
+                            {{ '%0.2f'|format(credit_memo.total/100) }}
                         </th>
                         <th id="credit-memo-total-currency-code" class="single line">
                             {{ credit_memo.currencyCode }}
@@ -130,7 +130,7 @@
                                 {{ item.label }}:
                             </th>
                             <th class="right aligned tax-item-amount">
-                                {{ (item.amount/100)|number_format(2) }}
+                                {{ '%0.2f'|format(item.amount/100) }}
                             </th>
                             <th class="single line tax-item-currency-code">
                                 {{ credit_memo.currencyCode }}

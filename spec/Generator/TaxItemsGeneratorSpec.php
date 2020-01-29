@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Generator;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\TaxItem;
@@ -26,7 +25,7 @@ final class TaxItemsGeneratorSpec extends ObjectBehavior
         $secondLineItem->taxAmount()->willReturn(800);
 
         $this
-            ->generate(new ArrayCollection([$firstLineItem->getWrappedObject(), $secondLineItem->getWrappedObject()]))
+            ->generate([$firstLineItem->getWrappedObject(), $secondLineItem->getWrappedObject()])
             ->shouldBeLike([new TaxItem('VAT', 1300)])
         ;
     }
