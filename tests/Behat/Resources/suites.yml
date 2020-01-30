@@ -65,6 +65,7 @@ default:
                 - sylius.behat.context.transform.tax_category
                 - sylius.behat.context.transform.tax_rate
                 - sylius.behat.context.transform.zone
+                - Tests\Sylius\RefundPlugin\Behat\Context\Transform\PriceContext
 
                 - sylius.behat.context.setup.admin_security
                 - sylius.behat.context.setup.channel

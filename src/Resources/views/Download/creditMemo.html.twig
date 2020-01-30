@@ -17,6 +17,7 @@
         .credit-memo table tr.item td{ border-bottom: 1px solid #eee; }
         .credit-memo table tr.item.last td { border-bottom: none; }
         .credit-memo table tr.total td { border-top: 2px solid #eee; font-weight: bold; }
+        .credit-memo table tr.number td { text-align: center; font-size: 20px; font-weight: bold; padding-bottom: 40px; }
     </style>
 </head>
 
@@ -24,7 +25,7 @@
 <div class="credit-memo">
     <table cellpadding="0" cellspacing="0">
         <tr class="top">
-            <td colspan="3">
+            <td colspan="9">
                 <table>
                     <tr>
                         <td colspan="2" class="title">
@@ -32,8 +33,7 @@
                         </td>
 
                         <td>
-                            Credit memo #{{ creditMemo.number }}<br>
-                            Issued at: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
+                            {{ 'sylius_refund.ui.issued_at'|trans }}: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
                         </td>
                     </tr>
                 </table>
@@ -42,11 +42,21 @@
 
         {% if from != null or to != null %}
         <tr class="information">
-            <td colspan="3">
+            <td colspan="9">
                 <table>
                     <tr>
                         <td>
+                            {{ 'sylius_refund.ui.buyer'|trans }}<br/>
+                            <strong>{{ from.customerName }}</strong><br/>
+                            {% if from.company %}{{ from.company }}<br/>{% endif %}
+                            {{ from.street }}<br/>
+                            {{ from.city }}<br/>
+                            {% if from.provinceName %}{{ from.provinceName }}{% endif %}
+                            {{ from.countryCode|sylius_country_name|upper }} {{ from.postcode }}
+                        </td>
+                        <td>
                             {% if to != null %}
+                                {{ 'sylius_refund.ui.seller'|trans }}<br/>
                                 {% if to.company %}<strong>{{ to.company }}</strong><br/>{% endif %}
                                 {% if to.street %}{{ to.street }}<br/>{% endif %}
                                 {% if to.city %}{{ to.city }}<br/>{% endif %}
@@ -56,59 +66,73 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-
-                        <td>
-                            <strong>{{ from.customerName }}</strong><br/>
-                            {% if from.company %}{{ from.company }}<br/>{% endif %}
-                            {{ from.street }}<br/>
-                            {{ from.city }}<br/>
-                            {% if from.provinceName %}{{ from.provinceName }}{% endif %}
-                            {{ from.countryCode|sylius_country_name|upper }} {{ from.postcode }}
-                        </td>
                     </tr>
                 </table>
             </td>
         </tr>
         {% endif %}
 
-        <tr class="heading">
-            <td>{{ 'sylius.ui.item'|trans }}</td>
-            <td>{{ 'sylius.ui.tax_total'|trans }}</td>
-            <td>{{ 'sylius.ui.total'|trans }}</td>
+        <tr class="number">
+            <td colspan="9">{{ 'sylius_refund.ui.credit_memo'|trans }} #{{ creditMemo.number }}</td>
         </tr>
 
-        {% for unit in creditMemo.units %}
-        <tr class="item">
-            <td>{{ unit.productName }}</td>
-            <td>{{ unit.taxesTotal|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
-            <td>{{ unit.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+        <tr class="heading">
+            <td>{{ 'sylius_refund.ui.no'|trans }}</td>
+            <td>{{ 'sylius.ui.name'|trans }}</td>
+            <td>{{ 'sylius.ui.quantity'|trans }}</td>
+            <td>{{ 'sylius_refund.ui.unit_net_price'|trans }}</td>
+            <td>{{ 'sylius_refund.ui.net_value'|trans }}</td>
+            <td>{{ 'sylius_refund.ui.tax_rate'|trans }}</td>
+            <td>{{ 'sylius_refund.ui.tax_amount'|trans }}</td>
+            <td>{{ 'sylius_refund.ui.gross_value'|trans }}</td>
+            <td>{{ 'sylius.ui.currency'|trans }}</td>
         </tr>
+
+        {% for item in creditMemo.lineItems %}
+            <tr class="item">
+                <td>{{ loop.index }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ '%0.2f'|format(item.unitNetPrice/100) }}</td>
+                <td>{{ '%0.2f'|format(item.netValue/100) }}</td>
+                <td>{{ item.taxRate }}</td>
+                <td>{{ '%0.2f'|format(item.taxAmount/100) }}</td>
+                <td>{{ '%0.2f'|format(item.grossValue/100) }}</td>
+                <td>{{ creditMemo.currencyCode }}</td>
+            </tr>
         {% endfor %}
+
+        <tr class="total">
+            <td colspan="6"></td>
+            <td>{{ 'sylius.ui.total'|trans }}:</td>
+            <td>{{ '%0.2f'|format(creditMemo.total/100) }}</td>
+            <td>{{ creditMemo.currencyCode }}</td>
+        </tr>
 
         {% if creditMemo.taxItems|length > 0 %}
             <tr class="heading">
-                <td colspan="2">{{ 'sylius.ui.tax'|trans }}</td>
-                <td>{{ 'sylius.ui.amount'|trans }}</td>
+                <td colspan="6"></td>
+                <td>{{ 'sylius_refund.ui.tax_rate'|trans }}</td>
+                <td>{{ 'sylius_refund.ui.tax_amount'|trans }}</td>
+                <td>{{ 'sylius.ui.currency'|trans }}</td>
             </tr>
 
-            {% for taxItem in creditMemo.taxItems %}
+            {% for item in creditMemo.taxItems %}
                 <tr class="tax-item">
-                    <td colspan="2">{{ taxItem.label }}</td>
-                    <td>{{ taxItem.amount|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
+                    <td colspan="6"></td>
+                    <td>{{ item.label }}</td>
+                    <td>{{ '%0.2f'|format(item.amount/100) }}</td>
+                    <td>{{ creditMemo.currencyCode }}</td>
                 </tr>
             {% endfor %}
         {% endif %}
 
         {% if creditMemo.comment != null %}
-        <tr class="total">
-            <td colspan="3"><p>{{ creditMemo.comment }}</p></td>
-        </tr>
+            <tr class="total">
+                <td colspan="3"><p>{{ creditMemo.comment }}</p></td>
+            </tr>
         {% endif %}
 
-        <tr class="total">
-            <td colspan="2"></td>
-            <td>{{ 'sylius.ui.total'|trans }}: {{ creditMemo.total|sylius_format_money(creditMemo.currencyCode, creditMemo.localeCode) }}</td>
-        </tr>
     </table>
 </div>
 </body>

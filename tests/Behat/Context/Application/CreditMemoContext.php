@@ -65,33 +65,70 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^this credit memo should contain (\d+) "([^"]+)" product(?:|s) with ("[^"]+") tax applied$/
+     * @Then /^it should contain (\d+) "([^"]+)" product(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/
      */
-    public function thisCreditMemoShouldContainProductWithTaxApplied(
-        int $count,
+    public function itShouldContainProductWithNetValueTaxAmountAndGrossValueInCurrency(
+        int $quantity,
         string $productName,
-        int $taxesTotal
+        int $netValue,
+        int $taxAmount,
+        int $grossValue,
+        string $currencyCode
     ): void {
-        $units = $this->creditMemo->getUnits();
+        $lineItems = $this->creditMemo->getLineItems();
 
-        Assert::same(count($units), $count);
-        Assert::same($units[0]->getProductName(), $productName);
-        Assert::same($units[0]->getTaxesTotal(), $taxesTotal);
+        foreach ($lineItems as $item) {
+            if (
+                $item->name() === $productName &&
+                $item->quantity() === $quantity &&
+                $item->netValue() === $netValue &&
+                $item->taxAmount() === $taxAmount &&
+                $item->grossValue() === $grossValue
+            ) {
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException('There is no item with given data.');
     }
 
     /**
-     * @Then /^this credit memo should contain (\d+) "([^"]+)" shipment with ("[^"]+") total$/
+     * @Then /^it should contain (\d+) "([^"]+)" shipment with ("[^"]+") gross value in "([^"]+)" currency$/
      */
-    public function thisCreditMemoShouldContainShipmentWithTotal(
-        int $count,
+    public function itShouldContainShipmentWithGrossValueInCurrency(
+        int $quantity,
         string $shipmentName,
-        int $total
+        int $grossValue,
+        string $currencyCode
     ): void {
-        $units = $this->creditMemo->getUnits();
+        $lineItems = $this->creditMemo->getLineItems();
 
-        Assert::same(count($units), $count);
-        Assert::same($units[0]->getProductName(), $shipmentName);
-        Assert::same($units[0]->getTotal(), $total);
+        foreach ($lineItems as $item) {
+            if (
+                $item->name() === $shipmentName &&
+                $item->quantity() === $quantity &&
+                $item->grossValue() === $grossValue
+            ) {
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException('There is no shipment item with given data.');
+    }
+
+    /**
+     * @Then /^it should contain a tax item "([^"]+)" with amount ("[^"]+") in "([^"]+)" currency$/
+     */
+    public function itShouldContainATaxItemWithAmountInCurrency(string $label, int $amount, string $currencyCode): void
+    {
+        /** @var TaxItemInterface $taxItem */
+        foreach ($this->creditMemo->getTaxItems() as $item) {
+            if ($item->getLabel() === $label && $item->getAmount() === $amount) {
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf('There is no tax item %s with given amount.', $label));
     }
 
     /**
@@ -103,34 +140,12 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^its total should be ("[^"]+")$/
+     * @Then /^its total should be ("[^"]+") in "([^"]+)" currency$/
      */
-    public function creditMemoTotalShouldBe(int $total): void
+    public function creditMemoTotalShouldBe(int $total, string $currencyCode): void
     {
         Assert::same($this->creditMemo->getTotal(), $total);
-    }
-
-    /**
-     * @Then /^its subtotal should be ("[^"]+")$/
-     */
-    public function creditMemoSubtotalShouldBe(int $subtotal): void
-    {
-        Assert::same($this->creditMemo->getSubtotal(), $subtotal);
-    }
-
-    /**
-     * @Then /^it should have a tax item "([^"]+)" with amount ("[^"]+")$/
-     */
-    public function itShouldHaveATaxItemWithAmount(string $label, int $amount): void
-    {
-        /** @var TaxItemInterface $taxItem */
-        foreach ($this->creditMemo->getTaxItems() as $taxItem) {
-            if ($taxItem->getLabel() === $label && $taxItem->getAmount() === $amount) {
-                return;
-            }
-        }
-
-        throw new \InvalidArgumentException(sprintf('There is no tax item %s with given amount.', $label));
+        Assert::same($this->creditMemo->getCurrencyCode(), $currencyCode);
     }
 
     /**

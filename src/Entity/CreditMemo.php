@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
@@ -31,8 +33,8 @@ class CreditMemo implements CreditMemoInterface
     /** @var ChannelInterface */
     protected $channel;
 
-    /** @var array */
-    protected $units;
+    /** @var Collection|LineItemInterface[] */
+    protected $lineItems;
 
     /** @var array */
     protected $taxItems;
@@ -57,7 +59,7 @@ class CreditMemo implements CreditMemoInterface
         string $currencyCode,
         string $localeCode,
         ChannelInterface $channel,
-        array $units,
+        array $lineItems,
         array $taxItems,
         string $comment,
         \DateTimeInterface $issuedAt,
@@ -71,7 +73,7 @@ class CreditMemo implements CreditMemoInterface
         $this->currencyCode = $currencyCode;
         $this->localeCode = $localeCode;
         $this->channel = $channel;
-        $this->units = $units;
+        $this->lineItems = new ArrayCollection($lineItems);
         $this->taxItems = $taxItems;
         $this->comment = $comment;
         $this->issuedAt = $issuedAt;
@@ -114,14 +116,9 @@ class CreditMemo implements CreditMemoInterface
         return $this->channel;
     }
 
-    public function getUnits(): array
+    public function getLineItems(): Collection
     {
-        $units = [];
-        foreach ($this->units as $unit) {
-            $units[] = CreditMemoUnit::unserialize($unit);
-        }
-
-        return $units;
+        return $this->lineItems;
     }
 
     public function getTaxItems(): array
@@ -152,17 +149,5 @@ class CreditMemo implements CreditMemoInterface
     public function getTo(): ?ShopBillingDataInterface
     {
         return $this->to;
-    }
-
-    public function getSubtotal(): int
-    {
-        $subtotal = 0;
-
-        /** @var CreditMemoUnit $unit */
-        foreach ($this->getUnits() as $unit) {
-            $subtotal += $unit->getTotal() - $unit->getTaxesTotal();
-        }
-
-        return $subtotal;
     }
 }

@@ -2,30 +2,33 @@
 
 declare(strict_types=1);
 
-namespace spec\Sylius\RefundPlugin\Generator;
+namespace spec\Sylius\RefundPlugin\Converter;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Entity\CreditMemoUnit;
-use Sylius\RefundPlugin\Generator\CreditMemoUnitGeneratorInterface;
+use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Entity\LineItem;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 
-final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
+final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 {
     function let(RepositoryInterface $adjustmentRepository): void
     {
         $this->beConstructedWith($adjustmentRepository);
     }
 
-    function it_implements_credit_memo_unit_generator_interface(): void
+    function it_implements_line_items_converter_interface(): void
     {
-        $this->shouldImplement(CreditMemoUnitGeneratorInterface::class);
+        $this->shouldImplement(LineItemsConverterInterface::class);
     }
 
-    function it_generates_credit_memo_unit_from_shipping_adjustment(
+    function it_converts_shipment_unit_refunds_to_line_items(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment
     ): void {
+        $unitRefund = new OrderItemUnitRefund(1, 500);
+
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn($shippingAdjustment)
@@ -34,12 +37,22 @@ final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
         $shippingAdjustment->getAmount()->willReturn(1000);
 
-        $this->generate(1)->shouldBeLike(new CreditMemoUnit('Galaxy post', 1000, 0));
+        $this->convert([$unitRefund])->shouldBeLike([new LineItem(
+            'Galaxy post',
+            1,
+            500,
+            500,
+            500,
+            500,
+            0
+        )]);
     }
 
-    function it_throws_exception_if_there_is_no_shipping_adjustment_with_given_id(
+    function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
         RepositoryInterface $adjustmentRepository
     ): void {
+        $unitRefund = new OrderItemUnitRefund(1, 500);
+
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn(null)
@@ -47,14 +60,16 @@ final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('generate', [1])
+            ->during('convert', [[$unitRefund]])
         ;
     }
 
-    function it_throws_exception_if_refund_amount_is_higher_than_shipping_amount(
+    function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment
     ): void {
+        $unitRefund = new OrderItemUnitRefund(1, 1001);
+
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn($shippingAdjustment)
@@ -64,7 +79,7 @@ final class ShipmentCreditMemoUnitGeneratorSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('generate', [1, 1001])
+            ->during('convert', [[$unitRefund]])
         ;
     }
 }

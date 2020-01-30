@@ -4,6 +4,7 @@
     <imports>
         <import resource="services/actions.xml" />
         <import resource="services/command_bus.xml" />
+        <import resource="services/converter.xml" />
         <import resource="services/event_bus.xml" />
         <import resource="services/generator.xml" />
         <import resource="services/provider.xml" />

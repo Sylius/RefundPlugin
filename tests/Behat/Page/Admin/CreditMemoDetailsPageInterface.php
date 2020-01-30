@@ -8,13 +8,20 @@ use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 
 interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
 {
-    public function countUnitsWithProduct(string $productName): int;
+    public function hasItem(
+        int $quantity,
+        string $productName,
+        string $netValue,
+        string $grossValue,
+        string $taxAmount,
+        string $currencyCode
+    ): bool;
+
+    public function hasShipmentItem(int $quantity, string $shipmentName, string $grossValue, string $currencyCode): bool;
+
+    public function hasTaxItem(string $label, string $amount, string $currencyCode): bool;
 
     public function download(): void;
-
-    public function getUnitTax(int $number, string $productName): string;
-
-    public function getUnitTotal(int $number, string $unitName): string;
 
     public function getNumber(): string;
 
@@ -22,13 +29,11 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
 
     public function getTotal(): string;
 
-    public function getSubtotal(): string;
+    public function getTotalCurrencyCode(): string;
 
     public function getComment(): string;
 
     public function getFromAddress(): string;
 
     public function getToAddress(): string;
-
-    public function hasTaxItem(string $label, string $amount): bool;
 }

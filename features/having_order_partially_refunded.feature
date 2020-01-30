@@ -22,5 +22,5 @@ Feature: Having order partially refunded
 
     @ui
     Scenario: Having order partially refunded when its shipping is refunded
-        When shipment from order "#00000022" has already "$1.00" refunded with "Space money" payment
+        Given the "#00000022" order's shipping cost already has a refund of "$1.00" with "Space money" payment
         Then this order's payment state should be "Partially refunded"

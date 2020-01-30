@@ -58,9 +58,9 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already ("[^"]+") refunded with ("[^"]+" payment)$/
+     * @Given /^the (\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has a refund of ("[^"]+") with ("[^"]+" payment)$/
      */
-    public function partOfProductFromOrderHasAlreadyBeenRefunded(
+    public function theProductFromOrderHasARefundOfWith(
         int $unitNumber,
         string $productName,
         string $orderNumber,
@@ -133,7 +133,7 @@ final class RefundingContext implements Context
     }
 
     /**
-     * @Given /^shipment from order "#([^"]+)" has already ("[^"]+") refunded with ("[^"]+" payment)$/
+     * @Given /^the "#([^"]+)" order's shipping cost already has a refund of ("[^"]+") with ("[^"]+" payment)$/
      */
     public function shipmentFromOrderHasAlreadyRefundedWithPayment(
         string $orderNumber,
