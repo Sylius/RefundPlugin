@@ -53,9 +53,9 @@ final class ManagingOrdersContext implements Context
     }
 
     /**
-     * @Then I should not be able to see refunds button
+     * @Then I should not see refunds button
      */
-    public function shouldNotBeAbleToSeeRefundsButton(): void
+    public function iShouldNotSeeRefundsButton(): void
     {
         Assert::false($this->showPage->hasRefundsButton());
     }
@@ -112,16 +112,16 @@ final class ManagingOrdersContext implements Context
      */
     public function iShouldBeRedirectedToTheOrderShowPage(OrderInterface $order): void
     {
-        $this->showPage->isOpen(['id' => $order->getId()]);
+        Assert::true($this->showPage->isOpen(['id' => $order->getId()]));
     }
 
     /**
-     * @Then I should be notified that I cannot refund free order
+     * @Then I should be notified that I cannot refund a free order
      */
-    public function iShouldBeNotifiedThatICannotRefundFreeOrder(): void
+    public function iShouldBeNotifiedThatICannotRefundAFreeOrder(): void
     {
         $this->notificationChecker->checkNotification(
-            'You can not refund free order',
+            'You cannot refund a free order',
             NotificationType::failure()
         );
     }

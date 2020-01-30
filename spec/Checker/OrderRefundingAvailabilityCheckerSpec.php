@@ -22,32 +22,68 @@ final class OrderRefundingAvailabilityCheckerSpec extends ObjectBehavior
         $this->shouldImplement(OrderRefundingAvailabilityCheckerInterface::class);
     }
 
-    function it_returns_true_if_order_is_paid(
+    function it_returns_true_if_order_is_paid_and_not_free(
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
+        $order->getTotal()->willReturn(100);
 
         $this('00000007')->shouldReturn(true);
     }
 
-    function it_returns_true_if_order_is_partialy_refunded(
+    function it_returns_true_if_order_is_partially_refunded_and_not_free(
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
+        $order->getTotal()->willReturn(100);
 
         $this('00000007')->shouldReturn(true);
     }
 
-    function it_returns_false_if_order_is_in_other_state(
+    function it_returns_false_if_order_is_in_other_state_and_not_free(
         OrderRepositoryInterface $orderRepository,
         OrderInterface $order
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
+        $order->getTotal()->willReturn(100);
+
+        $this('00000007')->shouldReturn(false);
+    }
+
+    function it_returns_false_if_order_is_free(
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
+    ): void {
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
+        $order->getTotal()->willReturn(0);
+
+        $this('00000007')->shouldReturn(false);
+    }
+
+    function it_returns_false_if_order_is_partially_refunded_and_free(
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
+    ): void {
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
+        $order->getTotal()->willReturn(0);
+
+        $this('00000007')->shouldReturn(false);
+    }
+
+    function it_returns_false_if_order_is_in_other_state_and_free(
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $order
+    ): void {
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
+        $order->getTotal()->willReturn(0);
 
         $this('00000007')->shouldReturn(false);
     }
