@@ -123,7 +123,7 @@ final class CreditMemoContext implements Context
     {
         /** @var TaxItemInterface $taxItem */
         foreach ($this->creditMemo->getTaxItems() as $item) {
-            if ($item->getLabel() === $label && $item->getAmount() === $amount) {
+            if ($item->label() === $label && $item->amount() === $amount) {
                 return;
             }
         }

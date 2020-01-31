@@ -7,6 +7,9 @@ namespace Sylius\RefundPlugin\Entity;
 /** @final */
 class TaxItem implements TaxItemInterface
 {
+    /** @var int */
+    protected $id;
+
     /** @var string */
     protected $label;
 
@@ -19,31 +22,23 @@ class TaxItem implements TaxItemInterface
         $this->amount = $amount;
     }
 
-    public function getLabel(): string
+    public function getId(): int
+    {
+        return $this->id();
+    }
+
+    public function id(): int
+    {
+        return $this->id;
+    }
+
+    public function label(): string
     {
         return $this->label;
     }
 
-    public function getAmount(): int
+    public function amount(): int
     {
         return $this->amount;
-    }
-
-    public function serialize(): string
-    {
-        $serialized = json_encode(['label' => $this->label, 'amount' => $this->amount]);
-
-        if ($serialized === false) {
-            throw new \Exception('Tax item cannot be serialized.');
-        }
-
-        return $serialized;
-    }
-
-    public static function unserialize(string $serialized): self
-    {
-        $data = json_decode($serialized, true);
-
-        return new self($data['label'], $data['amount']);
     }
 }

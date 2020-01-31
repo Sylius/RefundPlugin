@@ -14,7 +14,7 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
-use Sylius\RefundPlugin\Entity\TaxItem;
+use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
@@ -61,6 +61,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         AddressInterface $customerBillingAddress,
         LineItemInterface $firstLineItem,
         LineItemInterface $secondLineItem,
+        TaxItemInterface $taxItem,
         \DateTime $dateTime
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
@@ -97,7 +98,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $lineItemsConverter->convert([$firstUnitRefund, $secondUnitRefund])->willReturn([$firstLineItem]);
         $shipmentLineItemsConverter->convert([$shipmentRefund])->willReturn([$secondLineItem]);
 
-        $taxItem = new TaxItem('VAT', 100);
         $taxItemsGenerator->generate([$firstLineItem, $secondLineItem])->willReturn([$taxItem]);
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
@@ -115,7 +115,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             'en_US',
             $channel->getWrappedObject(),
             [$firstLineItem->getWrappedObject(), $secondLineItem->getWrappedObject()],
-            [$taxItem->serialize()],
+            [$taxItem->getWrappedObject()],
             'Comment',
             $dateTime->getWrappedObject(),
             new CustomerBillingData('Rick Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),

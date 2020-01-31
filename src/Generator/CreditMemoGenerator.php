@@ -13,7 +13,6 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
-use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
@@ -67,12 +66,6 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $this->shipmentLineItemsConverter->convert($shipments)
         );
 
-        $taxItems = [];
-        /** @var TaxItemInterface $taxItem */
-        foreach ($this->taxItemsGenerator->generate($lineItems) as $taxItem) {
-            $taxItems[] = $taxItem->serialize();
-        }
-
         return new CreditMemo(
             $this->uuidCreditMemoIdentifierGenerator->generate(),
             $this->creditMemoNumberGenerator->generate(),
@@ -82,7 +75,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $order->getLocaleCode(),
             $channel,
             $lineItems,
-            $taxItems,
+            $this->taxItemsGenerator->generate($lineItems),
             $comment,
             $this->currentDateTimeProvider->now(),
             $this->getFromAddress($order->getBillingAddress()),

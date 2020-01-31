@@ -21,11 +21,11 @@ final class TaxItemSpec extends ObjectBehavior
 
     function it_has_a_label(): void
     {
-        $this->getLabel()->shouldReturn('VAT');
+        $this->label()->shouldReturn('VAT');
     }
 
     function it_has_an_amount(): void
     {
-        $this->getAmount()->shouldReturn(100);
+        $this->amount()->shouldReturn(100);
     }
 }

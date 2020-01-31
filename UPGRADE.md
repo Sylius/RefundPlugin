@@ -8,6 +8,8 @@
 
 4. `Sylius\RefundPlugin\Generator\ShipmentCreditMemoUnitGenerator` was changed to `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter`.
 
+5. `Sylius\RefundPlugin\Entity\TaxItem` became a resource entity.
+
 There are no migrations that provide backward compatibility, save current credit memos before upgrading the version of plugin. 
 
 ### UPGRADE FROM 0.10.1 TO 1.0.0-RC.1

@@ -12,14 +12,16 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
-use Sylius\RefundPlugin\Entity\TaxItem;
+use Sylius\RefundPlugin\Entity\TaxItemInterface;
 
 final class CreditMemoSpec extends ObjectBehavior
 {
-    function let(LineItemInterface $lineItem, ChannelInterface $channel, OrderInterface $order): void
-    {
-        $taxItem = new TaxItem('VAT', 50);
-
+    function let(
+        OrderInterface $order,
+        ChannelInterface $channel,
+        LineItemInterface $lineItem,
+        TaxItemInterface $taxItem
+    ): void {
         $this->beConstructedWith(
             '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
             '2018/07/00003333',
@@ -29,7 +31,7 @@ final class CreditMemoSpec extends ObjectBehavior
             'en_US',
             $channel,
             [$lineItem->getWrappedObject()],
-            [$taxItem->serialize()],
+            [$taxItem->getWrappedObject()],
             'Comment',
             new \DateTime('01-01-2020 10:10:10'),
             new CustomerBillingData('Rick Sanchez', 'Main St. 3322', '90802', 'US', 'Curse Purge Plus!', 'Los Angeles', 'Baldwin Hills', '323'),
@@ -82,9 +84,9 @@ final class CreditMemoSpec extends ObjectBehavior
         $this->getLineItems()->shouldBeLike(new ArrayCollection([$lineItem->getWrappedObject()]));
     }
 
-    function it_has_tax_items(): void
+    function it_has_tax_items(TaxItemInterface $taxItem): void
     {
-        $this->getTaxItems()->shouldBeLike([new TaxItem('VAT', 50)]);
+        $this->getTaxItems()->shouldBeLike(new ArrayCollection([$taxItem->getWrappedObject()]));
     }
 
     function it_has_a_date_of_creation(): void

@@ -29,9 +29,9 @@ interface CreditMemoInterface extends ResourceInterface
     public function getLineItems(): Collection;
 
     /**
-     * @return TaxItemInterface[]
+     * @return Collection|TaxItemInterface[]
      */
-    public function getTaxItems(): array;
+    public function getTaxItems(): Collection;
 
     public function getComment(): string;
 

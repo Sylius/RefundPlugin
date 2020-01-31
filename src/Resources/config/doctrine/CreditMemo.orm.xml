@@ -11,7 +11,6 @@
 
         <field name="number" />
         <field name="total" type="integer" />
-        <field name="taxItems" column="tax_items" type="json" nullable="true" />
         <field name="currencyCode" column="currency_code" />
         <field name="localeCode" column="locale_code" />
         <field name="comment" type="text" />
@@ -35,6 +34,20 @@
                 </join-columns>
                 <inverse-join-columns>
                     <join-column name="line_item_id" unique="true" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <many-to-many field="taxItems" target-entity="Sylius\RefundPlugin\Entity\TaxItemInterface">
+            <cascade>
+                <cascade-all />
+            </cascade>
+            <join-table name="sylius_refund_credit_memo_tax_items">
+                <join-columns>
+                    <join-column name="credit_memo_id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="tax_item_id" unique="true" />
                 </inverse-join-columns>
             </join-table>
         </many-to-many>
