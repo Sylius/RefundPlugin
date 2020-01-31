@@ -1,5 +1,14 @@
 # CHANGELOG
 
+### v1.0.0-RC.2 (2020-01-31)
+
+- [#177](https://github.com/Sylius/RefundPlugin/issues/177) Update README with refunds payment information ([@AdamKasp](https://github.com/AdamKasp))
+- [#179](https://github.com/Sylius/RefundPlugin/issues/179) [CreditMemo] Rework credit memo ([@GSadee](https://github.com/GSadee))
+- [#182](https://github.com/Sylius/RefundPlugin/issues/182) [TaxItem] Make tax item a resource ([@GSadee](https://github.com/GSadee))
+- [#181](https://github.com/Sylius/RefundPlugin/issues/181) Extract tax rate provider from line items converter ([@GSadee](https://github.com/GSadee))
+- [#180](https://github.com/Sylius/RefundPlugin/issues/180) [Refunds] Disable refund when order is free ([@AdamKasp](https://github.com/AdamKasp))
+- [#183](https://github.com/Sylius/RefundPlugin/issues/183) Code standards fixes ([@AdamKasp](https://github.com/AdamKasp))
+
 ### v1.0.0-RC.1 (2020-01-15)
 
 - [#172](https://github.com/Sylius/RefundPlugin/issues/172) Navigation via breadcrumbs between credit memo - Order and refund page - order ([@Zales0123](https://github.com/Zales0123), [@AdamKasp](https://github.com/AdamKasp))
