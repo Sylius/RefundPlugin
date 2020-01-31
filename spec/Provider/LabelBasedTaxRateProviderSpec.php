@@ -10,7 +10,7 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
-final class TaxRateProviderSpec extends ObjectBehavior
+final class LabelBasedTaxRateProviderSpec extends ObjectBehavior
 {
     function it_implements_tax_rate_provider_interface(): void
     {

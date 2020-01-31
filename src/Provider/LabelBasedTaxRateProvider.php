@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 
-final class TaxRateProvider implements TaxRateProviderInterface
+final class LabelBasedTaxRateProvider implements TaxRateProviderInterface
 {
     public function provide(OrderItemUnitInterface $orderItemUnit): ?string
     {
