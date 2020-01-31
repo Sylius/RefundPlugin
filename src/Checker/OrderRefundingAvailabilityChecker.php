@@ -25,9 +25,12 @@ final class OrderRefundingAvailabilityChecker implements OrderRefundingAvailabil
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         Assert::notNull($order);
 
-        return in_array($order->getPaymentState(), [
+        return
+            in_array($order->getPaymentState(), [
                 OrderPaymentStates::STATE_PAID,
                 OrderPaymentStates::STATE_PARTIALLY_REFUNDED,
-                ]) && $order->getTotal() !== 0;
+            ], true) &&
+            $order->getTotal() !== 0
+        ;
     }
 }
