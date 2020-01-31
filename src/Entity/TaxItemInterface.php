@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-interface TaxItemInterface
+use Sylius\Component\Resource\Model\ResourceInterface;
+
+interface TaxItemInterface extends ResourceInterface
 {
-    public function getLabel(): string;
+    public function id(): int;
 
-    public function getAmount(): int;
+    public function label(): string;
 
-    public function serialize(): string;
+    public function amount(): int;
 }

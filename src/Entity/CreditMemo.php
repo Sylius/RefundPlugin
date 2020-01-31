@@ -36,7 +36,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var Collection|LineItemInterface[] */
     protected $lineItems;
 
-    /** @var array */
+    /** @var Collection|TaxItemInterface[] */
     protected $taxItems;
 
     /** @var string */
@@ -74,7 +74,7 @@ class CreditMemo implements CreditMemoInterface
         $this->localeCode = $localeCode;
         $this->channel = $channel;
         $this->lineItems = new ArrayCollection($lineItems);
-        $this->taxItems = $taxItems;
+        $this->taxItems = new ArrayCollection($taxItems);
         $this->comment = $comment;
         $this->issuedAt = $issuedAt;
         $this->from = $from;
@@ -121,14 +121,9 @@ class CreditMemo implements CreditMemoInterface
         return $this->lineItems;
     }
 
-    public function getTaxItems(): array
+    public function getTaxItems(): Collection
     {
-        $taxItems = [];
-        foreach ($this->taxItems as $taxItem) {
-            $taxItems[] = TaxItem::unserialize($taxItem);
-        }
-
-        return $taxItems;
+        return $this->taxItems;
     }
 
     public function getComment(): string

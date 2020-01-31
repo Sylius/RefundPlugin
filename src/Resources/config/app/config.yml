@@ -7,6 +7,10 @@ sylius_resource:
             classes:
                 model: Sylius\RefundPlugin\Entity\LineItem
                 interface: Sylius\RefundPlugin\Entity\LineItemInterface
+        sylius_refund.tax_item:
+            classes:
+                model: Sylius\RefundPlugin\Entity\TaxItem
+                interface: Sylius\RefundPlugin\Entity\TaxItemInterface
         sylius_refund.refund:
             classes:
                 model: Sylius\RefundPlugin\Entity\Refund
