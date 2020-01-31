@@ -47,5 +47,10 @@
             <argument type="service" id="sylius.repository.payment_method" />
             <argument>%sylius_refund.supported_gateways%</argument>
         </service>
+
+        <service
+            id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface"
+            class="Sylius\RefundPlugin\Provider\TaxRateProvider"
+        />
     </services>
 </container>
