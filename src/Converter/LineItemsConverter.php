@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
+use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class LineItemsConverter implements LineItemsConverterInterface
@@ -19,9 +18,13 @@ final class LineItemsConverter implements LineItemsConverterInterface
     /** @var RepositoryInterface */
     private $orderItemUnitRepository;
 
-    public function __construct(RepositoryInterface $orderItemUnitRepository)
+    /** @var TaxRateProviderInterface */
+    private $taxRateProvider;
+
+    public function __construct(RepositoryInterface $orderItemUnitRepository, TaxRateProviderInterface $taxRateProvider)
     {
         $this->orderItemUnitRepository = $orderItemUnitRepository;
+        $this->taxRateProvider = $taxRateProvider;
     }
 
     public function convert(array $units): array
@@ -50,9 +53,6 @@ final class LineItemsConverter implements LineItemsConverterInterface
         $taxAmount = (int) ($grossValue * $orderItemUnit->getTaxTotal() / $orderItemUnit->getTotal());
         $netValue = $grossValue - $taxAmount;
 
-        /** @var Collection|AdjustmentInterface[] $taxAdjustments */
-        $taxAdjustments = $orderItemUnit->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
-
         return new LineItem(
             $orderItem->getProductName(),
             1,
@@ -61,7 +61,7 @@ final class LineItemsConverter implements LineItemsConverterInterface
             $netValue,
             $grossValue,
             $taxAmount,
-            $this->getTaxRate($taxAdjustments)
+            $this->taxRateProvider->provide($orderItemUnit)
         );
     }
 
@@ -84,23 +84,5 @@ final class LineItemsConverter implements LineItemsConverterInterface
         $lineItems[] = $newLineItem;
 
         return $lineItems;
-    }
-
-    /**
-     * @param Collection|AdjustmentInterface[] $taxAdjustments
-     */
-    private function getTaxRate(Collection $taxAdjustments): ?string
-    {
-        if ($taxAdjustments->isEmpty()) {
-            return null;
-        }
-
-        $label = $taxAdjustments->first()->getLabel();
-
-        if (preg_match('/\((.*?)\)/', $label, $matches)) {
-            return end($matches); // returns percent tax rate from tax adjustment label
-        }
-
-        return $label;
     }
 }

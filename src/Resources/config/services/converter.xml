@@ -6,6 +6,7 @@
 
         <service id="Sylius\RefundPlugin\Converter\LineItemsConverterInterface" class="Sylius\RefundPlugin\Converter\LineItemsConverter">
             <argument type="service" id="sylius.repository.order_item_unit" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverterInterface" class="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter">

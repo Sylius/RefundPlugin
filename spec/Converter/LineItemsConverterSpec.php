@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Converter;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class LineItemsConverterSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $orderItemUnitRepository): void
+    function let(RepositoryInterface $orderItemUnitRepository, TaxRateProviderInterface $taxRateProvider): void
     {
-        $this->beConstructedWith($orderItemUnitRepository);
+        $this->beConstructedWith($orderItemUnitRepository, $taxRateProvider);
     }
 
     function it_implements_line_items_converter_interface(): void
@@ -28,9 +27,9 @@ final class LineItemsConverterSpec extends ObjectBehavior
 
     function it_converts_unit_refunds_to_line_items(
         RepositoryInterface $orderItemUnitRepository,
+        TaxRateProviderInterface $taxRateProvider,
         OrderItemUnitInterface $orderItemUnit,
-        OrderItemInterface $orderItem,
-        AdjustmentInterface $adjustment
+        OrderItemInterface $orderItem
     ): void {
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
@@ -39,13 +38,10 @@ final class LineItemsConverterSpec extends ObjectBehavior
         $orderItemUnit->getOrderItem()->willReturn($orderItem);
         $orderItemUnit->getTotal()->willReturn(1500);
         $orderItemUnit->getTaxTotal()->willReturn(300);
-        $orderItemUnit
-            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
-            ->willReturn(new ArrayCollection([$adjustment->getWrappedObject()]))
-        ;
+
+        $taxRateProvider->provide($orderItemUnit)->willReturn('25%');
 
         $orderItem->getProductName()->willReturn('Portal gun');
-        $adjustment->getLabel()->willReturn('25%');
 
         $this->convert([$unitRefund])->shouldBeLike([new LineItem(
             'Portal gun',
@@ -61,12 +57,11 @@ final class LineItemsConverterSpec extends ObjectBehavior
 
     function it_groups_the_same_line_items_during_converting(
         RepositoryInterface $orderItemUnitRepository,
+        TaxRateProviderInterface $taxRateProvider,
         OrderItemUnitInterface $firstOrderItemUnit,
         OrderItemUnitInterface $secondOrderItemUnit,
         OrderItemInterface $firstOrderItem,
-        OrderItemInterface $secondOrderItem,
-        AdjustmentInterface $firstAdjustment,
-        AdjustmentInterface $secondAdjustment
+        OrderItemInterface $secondOrderItem
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(2, 960);
@@ -77,26 +72,20 @@ final class LineItemsConverterSpec extends ObjectBehavior
         $firstOrderItemUnit->getOrderItem()->willReturn($firstOrderItem);
         $firstOrderItemUnit->getTotal()->willReturn(1500);
         $firstOrderItemUnit->getTaxTotal()->willReturn(300);
-        $firstOrderItemUnit
-            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
-            ->willReturn(new ArrayCollection([$firstAdjustment->getWrappedObject()]))
-        ;
+
+        $taxRateProvider->provide($firstOrderItemUnit)->willReturn('25%');
 
         $firstOrderItem->getProductName()->willReturn('Portal gun');
-        $firstAdjustment->getLabel()->willReturn('25%');
 
         $orderItemUnitRepository->find(2)->willReturn($secondOrderItemUnit);
 
         $secondOrderItemUnit->getOrderItem()->willReturn($secondOrderItem);
         $secondOrderItemUnit->getTotal()->willReturn(960);
         $secondOrderItemUnit->getTaxTotal()->willReturn(160);
-        $secondOrderItemUnit
-            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
-            ->willReturn(new ArrayCollection([$secondAdjustment->getWrappedObject()]))
-        ;
+
+        $taxRateProvider->provide($secondOrderItemUnit)->willReturn('20%');
 
         $secondOrderItem->getProductName()->willReturn('Space gun');
-        $secondAdjustment->getLabel()->willReturn('20%');
 
         $this->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund])->shouldBeLike([
             new LineItem(
