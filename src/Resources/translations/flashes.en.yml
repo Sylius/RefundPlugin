@@ -1,5 +1,7 @@
 sylius_refund:
     at_least_one_unit_should_be_selected_to_refund: 'At least one unit should be selected to refund'
+    error_occurred: 'Unexpected error occurred'
+    free_order_should_not_be_refund: 'You cannot refund a free order'
     order_should_be_paid: 'Order should be paid for the units to could be refunded'
     refund_amount_must_be_greater: 'Refund amount must be greater than 0'
     refund_amount_must_be_less: 'You cannot refund more money than the refunded unit total'
@@ -8,4 +10,3 @@ sylius_refund:
     resend_credit_memo_success: 'Selected credit memo has been successfully resent'
     unit_refund_exceeded: 'You cannot refund more money than the order unit total'
     units_successfully_refunded: 'Selected order units have been successfully refunded'
-    error_occurred: 'Unexpected error occurred'

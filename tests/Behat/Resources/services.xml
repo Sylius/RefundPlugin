@@ -94,5 +94,9 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Services\Provider\MessagesProvider">
             <argument>%kernel.cache_dir%/spool</argument>
         </service>
+
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\ProductContext">
+            <argument type="service" id="sylius.behat.context.setup.product" />
+        </service>
     </services>
 </container>

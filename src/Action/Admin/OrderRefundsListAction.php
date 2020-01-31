@@ -57,7 +57,11 @@ final class OrderRefundsListAction
         $order = $this->orderRepository->findOneByNumber($request->attributes->get('orderNumber'));
 
         if (!$this->orderRefundsListAvailabilityChecker->__invoke($request->attributes->get('orderNumber'))) {
-            return $this->redirectToReferer($order);
+            if ($order->getTotal() === 0) {
+                return $this->redirectToReferer($order, 'sylius_refund.free_order_should_not_be_refund');
+            }
+
+            return $this->redirectToReferer($order, 'sylius_refund.order_should_be_paid');
         }
 
         return new Response(
@@ -68,9 +72,9 @@ final class OrderRefundsListAction
         );
     }
 
-    private function redirectToReferer(OrderInterface $order): Response
+    private function redirectToReferer(OrderInterface $order, string $message): Response
     {
-        $this->session->getFlashBag()->add('error', 'sylius_refund.order_should_be_paid');
+        $this->session->getFlashBag()->add('error', $message);
 
         return new RedirectResponse($this->router->generate('sylius_admin_order_show', ['id' => $order->getId()]));
     }

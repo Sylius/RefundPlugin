@@ -54,7 +54,7 @@ Feature: Refunding a single order unit
     @ui
     Scenario: Not being able to see refunds button
         When I view the summary of the order "#00000022"
-        Then I should not be able to see refunds button
+        Then I should not see refunds button
 
     @ui
     Scenario: Being able to choose only offline payment methods
