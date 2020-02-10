@@ -58,11 +58,12 @@ Feature: Viewing details of a credit memo
         And it should be issued in "United States" channel
         And its total should be "4.50" in "USD" currency
 
-    @todo
+    @ui @application
     Scenario: Viewing details of a credit memo issued for a shipping cost refund
         Given the "#00000022" order's shipping cost already has a refund of "$11.50" with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
         And it should contain 1 "Galaxy Post" shipment with "10.00" net value, "1.50" tax amount and "11.50" gross value in "USD" currency
         And it should be issued in "United States" channel
+        And it should contain a tax item "15%" with amount "1.50" in "USD" currency
         And its total should be "11.50" in "USD" currency
