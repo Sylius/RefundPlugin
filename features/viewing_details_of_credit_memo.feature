@@ -9,8 +9,10 @@ Feature: Viewing details of a credit memo
         And channel "United States" billing data is "Haas & Milan", "Pacific Coast Hwy", "90003" "Los Angeles", "United States" with "1100110011" tax ID
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
+        And the store has "US VAT-SHIPPING" tax rate of 15% for "Shipping" within the "US" zone
         And the store has included in price "VAT" tax rate of 20% for "Mugs" within the "US" zone
         And the store has "Galaxy Post" shipping method with "$10.00" fee
+        And shipping method "Galaxy Post" belongs to "Shipping" tax category
         And the store allows paying with "Space money"
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
@@ -55,3 +57,12 @@ Feature: Viewing details of a credit memo
         And it should contain 1 "Galaxy Post" shipment with "4.50" gross value in "USD" currency
         And it should be issued in "United States" channel
         And its total should be "4.50" in "USD" currency
+
+    @todo
+    Scenario: Viewing details of a credit memo issued for a shipping cost refund
+        Given the "#00000022" order's shipping cost already has a refund of "$11.50" with "Space money" payment
+        When I browse the details of the only credit memo generated for order "#00000022"
+        Then it should have sequential number generated from current date
+        And it should contain 1 "Galaxy Post" shipment with "10.00" net value, "1.50" tax amount and "11.50" gross value in "USD" currency
+        And it should be issued in "United States" channel
+        And its total should be "11.50" in "USD" currency
