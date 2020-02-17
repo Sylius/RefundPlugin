@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ money.format(refund_payment.amount, refund_payment.currencyCode) }}</td>
                     <td>
-                        {% include [('@SyliusRefundPlugin/RefundPayment/Label/State/' ~ refund_payment.state ~ '.html.twig'), '@SyliusUi/Label/_default.html.twig'] with {'value': refund_payment.state} %}
+                        {% include [('@SyliusRefundPlugin/RefundPayment/Label/State/' ~ refund_payment.state|lower ~ '.html.twig'), '@SyliusUi/Label/_default.html.twig'] with {'value': "sylius_refund.ui." ~ refund_payment.state|lower} %}
                     </td>
                     <td class="aligned collapsing">
                         {% if refund_payment.state != 'sylius_refund.ui.completed'|trans %}
