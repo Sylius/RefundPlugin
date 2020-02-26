@@ -1,0 +1,11 @@
+sylius_refund:
+    at_least_one_unit_should_be_selected_to_refund: 'Vous devez sélectionner au moins un élèment à rembourser'
+    order_should_be_paid: 'La commande doit être payée pour pouvoir rembourser certains articles'
+    refund_amount_must_be_greater: 'Le montant du remboursement doit être supérieur à 0'
+    refund_amount_must_be_less: "Vous ne pouvez pas rembourser plus que la valeur de l'élément remboursé"
+    refund_payment_completed: 'Le remboursement a été effectué avec succès'
+    resend_credit_memo_failed: "Une erreur est survenue durant l'envoi de la note de remboursement"
+    resend_credit_memo_success: 'La note de remboursement a été ré-envoyée avec succès'
+    unit_refund_exceeded: 'Vous ne pouvez pas rembourser plus que le montant de la commande'
+    units_successfully_refunded: 'Les élements sélectionnés ont été remboursés avec succès'
+    error_occurred: 'Une erreur inattendue est survenue'
