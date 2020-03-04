@@ -1,0 +1,30 @@
+---------------------------------------------------------------------------
+
+by Zales0123 at 2020-02-26T14:29:52Z
+
+Hello @Gregcop1! Thank you for your contribution, however, on Sylius repository we manage only English translations. To contribute to other languages, please, use our Crowdin project page - https://crowdin.com/project/sylius :) Good luck 🖖
+
+---------------------------------------------------------------------------
+
+by Gregcop1 at 2020-02-26T14:42:11Z
+
+No problem, I didn't know, let's move to this solution. Thanks
+I can't find RefundPlugin in the list. Did I missed something? @Zales0123
+
+---------------------------------------------------------------------------
+
+by Zales0123 at 2020-02-26T14:54:20Z
+
+Woooooow, what has just happened 😄 Sorry, it's totally my bad, I've just answered automatically and didn't notice it's not a `Sylius/Sylius` repository 💃 We don't have a Crowdin configured for plugins yet, so definitely it's a proper PR. Sorry for the confusion 🖖
+
+---------------------------------------------------------------------------
+
+by toucanbleu at 2020-03-03T16:05:04Z
+
+👍
+
+---------------------------------------------------------------------------
+
+by lchrusciel at 2020-03-04T06:53:14Z
+
+Thank you, Grégory! :1st_place_medal:
