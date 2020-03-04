@@ -1,0 +1,13 @@
+{%
+    set viewOptions = {
+        completed: { icon: 'adjust', color: 'green' },
+        new: { icon: 'clock', color: 'olive' },
+    }
+%}
+
+{% set value = 'sylius_refund.ui.' ~ data %}
+
+<span class="ui {{ viewOptions[data]['color'] }} label">
+    <i class="{{ viewOptions[data]['icon'] }} icon"></i>
+    {{ value|trans }}
+</span>

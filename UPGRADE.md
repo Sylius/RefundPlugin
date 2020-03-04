@@ -1,3 +1,7 @@
+### UPGRADE FROM 1.0.0-RC.2 TO 1.0.0-RC.3
+
+1. `Sylius\RefundPlugin\Entity\RefundPaymentInterface` state constants values were changed to lowercase. Backward compatibility provided by migration.
+
 ### UPGRADE FROM 1.0.0-RC.1 TO 1.0.0-RC.2
 
 1. `Sylius\RefundPlugin\Entity\CreditMemoUnit` was changed to `Sylius\RefundPlugin\Entity\LineItem` which is a resource entity now.
@@ -10,7 +14,7 @@
 
 5. `Sylius\RefundPlugin\Entity\TaxItem` became a resource entity.
 
-There are no migrations that provide backward compatibility, save current credit memos before upgrading the version of plugin. 
+There are no migrations that provide backward compatibility, save current credit memos before upgrading the version of plugin.
 
 ### UPGRADE FROM 0.10.1 TO 1.0.0-RC.1
 
