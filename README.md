@@ -18,21 +18,21 @@
 
 ## Business value
 
-In contrast to basic Refund functionality delivered by core Sylius bundles, Refund Plugin offers much wider range of 
+In contrast to basic Refund functionality delivered by core Sylius bundles, Refund Plugin offers much wider range of
 possibilities and business scenarios.
 
 Once an Order is paid, an Administrator is able to access Refunds section of a given Order and perform a Refund
 of chosen items or shipments. What's more, if a more detailed scenario occurs, an Administrator is able to refund an item
 partially.
 
-From Administrator's point of view, every Refund request results in creating two entities: 
+From Administrator's point of view, every Refund request results in creating two entities:
 * Credit Memo - a document representing a list of refunded items (downloadable and sent to Customer via .pdf file)
 * Refund Payment - entity representing payment in favour of the Customer
 
 ## Pre - requirements
 
 In order to be able to generate PDF files of refunds, [wkhtmltopdf](https://wkhtmltopdf.org/) must be installed.
-It is used by `KnpSnappyBundle` and can be configured according to [their docummentation](https://github.com/KnpLabs/KnpSnappyBundle#configuration). 
+It is used by `KnpSnappyBundle` and can be configured according to [their docummentation](https://github.com/KnpLabs/KnpSnappyBundle#configuration).
 
 ## Installation
 
@@ -41,7 +41,7 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
     ```bash
     composer require sylius/refund-plugin
     ```
-    
+
     > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
 
 2. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
@@ -108,12 +108,12 @@ as shown below:
                 <parameter>stripe</parameter>
             </parameter>
         </parameters>
-   ``` 
+   ```
 
 Online refund logic should be implemented if you need it.
 As the first try for the possible customization, you can check out `Sylius\RefundPlugin\Event\UnitsRefunded` event.
- 
+
 ## Security issues
 
-If you think that you have found a security issue, please do not use the issue tracker and do not post it publicly. 
+If you think that you have found a security issue, please do not use the issue tracker and do not post it publicly.
 Instead, all security issues must be sent to `security@sylius.com`.

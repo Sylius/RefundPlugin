@@ -1,7 +1,5 @@
 {% extends '@SyliusAdmin/layout.html.twig' %}
 
-{% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
-
 {% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
 
 {% block title %}{{ 'sylius_refund.ui.credit_memo'|trans ~ ' ' ~ credit_memo.number }} {{ parent() }}{% endblock %}
@@ -18,7 +16,7 @@
                 'sylius_refund.ui.download',
                 null,
                 'download',
-                'purple'
+                'blue'
             ) }}
         </div>
     </div>
