@@ -9,7 +9,7 @@ use Sylius\RefundPlugin\Exception\LineItemsCannotBeMerged;
 /** @final */
 class LineItem implements LineItemInterface
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string */
@@ -56,12 +56,12 @@ class LineItem implements LineItemInterface
         $this->taxRate = $taxRate;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id();
     }
 
-    public function id(): int
+    public function id(): ?int
     {
         return $this->id;
     }

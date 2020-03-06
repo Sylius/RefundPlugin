@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 /** @final */
 class RefundPayment implements RefundPaymentInterface
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string */
@@ -41,6 +41,11 @@ class RefundPayment implements RefundPaymentInterface
         $this->paymentMethod = $paymentMethod;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getOrderNumber(): string
     {
         return $this->orderNumber;
@@ -64,11 +69,6 @@ class RefundPayment implements RefundPaymentInterface
     public function setState(string $state): void
     {
         $this->state = $state;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getPaymentMethod(): PaymentMethodInterface

@@ -26,6 +26,12 @@ final class LineItemSpec extends ObjectBehavior
         $this->shouldImplement(ResourceInterface::class);
     }
 
+    function it_has_no_id_by_default(): void
+    {
+        $this->getId()->shouldReturn(null);
+        $this->id()->shouldReturn(null);
+    }
+
     function it_has_proper_line_item_data(): void
     {
         $this->name()->shouldReturn('Mjolnir');

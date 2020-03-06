@@ -15,7 +15,7 @@ namespace Sylius\RefundPlugin\Entity;
 
 interface CustomerBillingDataInterface
 {
-    public function id(): int;
+    public function id(): ?int;
 
     public function customerName(): string;
 

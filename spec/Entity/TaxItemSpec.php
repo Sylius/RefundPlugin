@@ -19,6 +19,12 @@ final class TaxItemSpec extends ObjectBehavior
         $this->shouldImplement(TaxItemInterface::class);
     }
 
+    function it_has_no_id_by_default(): void
+    {
+        $this->getId()->shouldReturn(null);
+        $this->id()->shouldReturn(null);
+    }
+
     function it_has_a_label(): void
     {
         $this->label()->shouldReturn('VAT');

@@ -7,7 +7,7 @@ namespace Sylius\RefundPlugin\Entity;
 /** final */
 class ShopBillingData implements ShopBillingDataInterface
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string|null */
@@ -44,7 +44,7 @@ class ShopBillingData implements ShopBillingDataInterface
         $this->postcode = $postcode;
     }
 
-    public function id(): int
+    public function id(): ?int
     {
         return $this->id;
     }

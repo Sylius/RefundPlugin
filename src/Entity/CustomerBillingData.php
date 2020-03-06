@@ -7,7 +7,7 @@ namespace Sylius\RefundPlugin\Entity;
 /** @final */
 class CustomerBillingData implements CustomerBillingDataInterface
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string */
@@ -54,7 +54,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->provinceCode = $provinceCode;
     }
 
-    public function id(): int
+    public function id(): ?int
     {
         return $this->id;
     }
