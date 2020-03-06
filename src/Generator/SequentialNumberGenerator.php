@@ -7,8 +7,8 @@ namespace Sylius\RefundPlugin\Generator;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
-use Sylius\RefundPlugin\Entity\SequenceInterface;
-use Sylius\RefundPlugin\Factory\SequenceFactoryInterface;
+use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
+use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
 final class SequentialNumberGenerator implements NumberGenerator
@@ -16,7 +16,7 @@ final class SequentialNumberGenerator implements NumberGenerator
     /** @var ObjectRepository */
     private $sequenceRepository;
 
-    /** @var SequenceFactoryInterface */
+    /** @var CreditMemoSequenceFactoryInterface */
     private $sequenceFactory;
 
     /** @var EntityManagerInterface */
@@ -33,7 +33,7 @@ final class SequentialNumberGenerator implements NumberGenerator
 
     public function __construct(
         ObjectRepository $sequenceRepository,
-        SequenceFactoryInterface $sequenceFactory,
+        CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         int $startNumber = 1,
@@ -51,7 +51,7 @@ final class SequentialNumberGenerator implements NumberGenerator
     {
         $identifierPrefix = $this->currentDateTimeProvider->now()->format('Y/m') . '/';
 
-        /** @var SequenceInterface $sequence */
+        /** @var CreditMemoSequenceInterface $sequence */
         $sequence = $this->getSequence();
 
         $this->sequenceManager->lock($sequence, LockMode::OPTIMISTIC, $sequence->getVersion());
@@ -69,16 +69,16 @@ final class SequentialNumberGenerator implements NumberGenerator
         return str_pad((string) $number, $this->numberLength, '0', \STR_PAD_LEFT);
     }
 
-    private function getSequence(): SequenceInterface
+    private function getSequence(): CreditMemoSequenceInterface
     {
-        /** @var SequenceInterface $sequence */
+        /** @var CreditMemoSequenceInterface $sequence */
         $sequence = $this->sequenceRepository->findOneBy([]);
 
-        if (null != $sequence) {
+        if (null !== $sequence) {
             return $sequence;
         }
 
-        /** @var SequenceInterface $sequence */
+        /** @var CreditMemoSequenceInterface $sequence */
         $sequence = $this->sequenceFactory->createNew();
         $this->sequenceManager->persist($sequence);
 

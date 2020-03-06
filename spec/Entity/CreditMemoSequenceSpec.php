@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Entity\SequenceInterface;
+use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 
 final class CreditMemoSequenceSpec extends ObjectBehavior
 {
-    function it_implements_sequence_interface(): void
+    function it_implements_credit_memo_sequence_interface(): void
     {
-        $this->shouldImplement(SequenceInterface::class);
+        $this->shouldImplement(CreditMemoSequenceInterface::class);
     }
 
     function it_has_no_id_by_default(): void

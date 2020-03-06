@@ -8,8 +8,8 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Entity\SequenceInterface;
-use Sylius\RefundPlugin\Factory\SequenceFactoryInterface;
+use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
+use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
 
@@ -17,7 +17,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
 {
     function let(
         ObjectRepository $sequenceRepository,
-        SequenceFactoryInterface $sequenceFactory,
+        CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
         CurrentDateTimeProviderInterface $currentDateTimeProvider
     ): void {
@@ -40,7 +40,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
         ObjectRepository $sequenceRepository,
         EntityManagerInterface $sequenceManager,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
-        SequenceInterface $sequence,
+        CreditMemoSequenceInterface $sequence,
         \DateTime $now
     ): void {
         $currentDateTimeProvider->now()->willReturn($now);
@@ -60,10 +60,10 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
 
     function it_generates_invoice_number_when_sequence_is_null(
         ObjectRepository $sequenceRepository,
-        SequenceFactoryInterface $sequenceFactory,
+        CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
-        SequenceInterface $sequence,
+        CreditMemoSequenceInterface $sequence,
         \DateTime $now
     ): void {
         $currentDateTimeProvider->now()->willReturn($now);

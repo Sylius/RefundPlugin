@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-interface SequenceInterface
+interface CreditMemoSequenceInterface
 {
     public function getId(): ?int;
 

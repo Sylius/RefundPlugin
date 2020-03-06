@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity;
 
 /** @final */
-class CreditMemoSequence implements SequenceInterface
+class CreditMemoSequence implements CreditMemoSequenceInterface
 {
     /** @var int|null */
     protected $id;
