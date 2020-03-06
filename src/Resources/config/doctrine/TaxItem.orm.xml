@@ -6,10 +6,10 @@
 >
     <mapped-superclass name="Sylius\RefundPlugin\Entity\TaxItem" table="sylius_refund_tax_item">
         <id name="id" column="id" type="integer">
-            <generator />
+            <generator strategy="AUTO" />
         </id>
 
-        <field name="label" />
-        <field name="amount" type="integer" />
+        <field name="label" column="label" type="string" />
+        <field name="amount" column="amount" type="integer" />
     </mapped-superclass>
 </doctrine-mapping>

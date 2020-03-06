@@ -11,13 +11,13 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="customerName" column="customer_name"/>
-        <field name="street" />
-        <field name="postcode" />
-        <field name="countryCode" column="country_code"/>
-        <field name="city" />
-        <field name="company" nullable="true" />
-        <field name="provinceName" column="province_name" nullable="true" />
-        <field name="provinceCode" column="province_code" nullable="true" />
+        <field name="customerName" column="customer_name" type="string" />
+        <field name="street" column="street" type="string" />
+        <field name="postcode" column="postcode" type="string" />
+        <field name="countryCode" column="country_code" type="string" />
+        <field name="city" column="city" type="string" />
+        <field name="company" column="company" type="string" nullable="true" />
+        <field name="provinceName" column="province_name" type="string" nullable="true" />
+        <field name="provinceCode" column="province_code" type="string" nullable="true" />
     </entity>
 </doctrine-mapping>
