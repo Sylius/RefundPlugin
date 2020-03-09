@@ -11,11 +11,11 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="company" nullable="true" />
-        <field name="taxId" column="tax_id" nullable="true" />
-        <field name="countryCode" column="country_code" nullable="true" />
-        <field name="street" nullable="true" />
-        <field name="city" nullable="true" />
-        <field name="postcode" nullable="true" />
+        <field name="company" column="company" type="string" nullable="true" />
+        <field name="taxId" column="tax_id" type="string" nullable="true" />
+        <field name="countryCode" column="country_code" type="string" nullable="true" />
+        <field name="street" column="street" type="string" nullable="true" />
+        <field name="city" column="city" type="string" nullable="true" />
+        <field name="postcode" column="postcode" type="string" nullable="true" />
     </entity>
 </doctrine-mapping>

@@ -14,6 +14,11 @@ final class CreditMemoSequenceSpec extends ObjectBehavior
         $this->shouldImplement(SequenceInterface::class);
     }
 
+    function it_has_no_id_by_default(): void
+    {
+        $this->getId()->shouldReturn(null);
+    }
+
     function it_has_incrementable_index(): void
     {
         $this->getIndex()->shouldReturn(0);

@@ -8,7 +8,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface TaxItemInterface extends ResourceInterface
 {
-    public function id(): int;
+    public function id(): ?int;
 
     public function label(): string;
 

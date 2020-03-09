@@ -7,7 +7,7 @@ namespace Sylius\RefundPlugin\Entity;
 /** @final */
 class TaxItem implements TaxItemInterface
 {
-    /** @var int */
+    /** @var int|null */
     protected $id;
 
     /** @var string */
@@ -22,12 +22,12 @@ class TaxItem implements TaxItemInterface
         $this->amount = $amount;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id();
     }
 
-    public function id(): int
+    public function id(): ?int
     {
         return $this->id;
     }

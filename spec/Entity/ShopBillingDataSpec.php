@@ -19,6 +19,11 @@ final class ShopBillingDataSpec extends ObjectBehavior
         $this->shouldImplement(ShopBillingDataInterface::class);
     }
 
+    function it_has_no_id_by_default(): void
+    {
+        $this->id()->shouldReturn(null);
+    }
+
     function it_has_company(): void
     {
         $this->company()->shouldReturn('Needful Things');

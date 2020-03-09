@@ -6,7 +6,7 @@ namespace Sylius\RefundPlugin\Entity;
 
 interface SequenceInterface
 {
-    public function getId(): int;
+    public function getId(): ?int;
 
     public function getIndex(): int;
 

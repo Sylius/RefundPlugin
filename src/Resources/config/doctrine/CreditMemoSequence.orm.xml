@@ -10,7 +10,8 @@
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
+
         <field name="index" column="idx" type="integer" />
-        <field name="version" type="integer" version="true" />
+        <field name="version" column="version" type="integer" version="true" />
     </entity>
 </doctrine-mapping>

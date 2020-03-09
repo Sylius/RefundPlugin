@@ -8,7 +8,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface LineItemInterface extends ResourceInterface
 {
-    public function id(): int;
+    public function id(): ?int;
 
     public function name(): string;
 

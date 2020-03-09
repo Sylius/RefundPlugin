@@ -20,6 +20,11 @@ final class RefundSpec extends ObjectBehavior
         $this->shouldImplement(RefundInterface::class);
     }
 
+    function it_has_no_id_by_default(): void
+    {
+        $this->getId()->shouldReturn(null);
+    }
+
     function it_has_order_number(): void
     {
         $this->getOrderNumber()->shouldReturn('000666');
