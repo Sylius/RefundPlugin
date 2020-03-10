@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Command;
 
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Webmozart\Assert\Assert;
 
 final class GenerateCreditMemo
 {
@@ -26,6 +27,9 @@ final class GenerateCreditMemo
 
     public function __construct(string $orderNumber, int $total, array $units, array $shipments, string $comment)
     {
+        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
+        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
+
         $this->orderNumber = $orderNumber;
         $this->total = $total;
         $this->units = $units;

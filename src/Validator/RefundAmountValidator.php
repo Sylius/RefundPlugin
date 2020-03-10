@@ -8,6 +8,7 @@ use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundAmountValidator implements RefundAmountValidatorInterface
 {
@@ -21,6 +22,8 @@ final class RefundAmountValidator implements RefundAmountValidatorInterface
 
     public function validateUnits(array $unitRefunds, RefundType $refundType): void
     {
+        Assert::allIsInstanceOf($unitRefunds, UnitRefundInterface::class);
+
         /** @var UnitRefundInterface $unitRefund */
         foreach ($unitRefunds as $unitRefund) {
             if ($unitRefund->total() <= 0) {

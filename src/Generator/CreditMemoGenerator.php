@@ -13,7 +13,10 @@ use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 {
@@ -58,8 +61,13 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         array $shipments,
         string $comment
     ): CreditMemoInterface {
+        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
+        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
+
         /** @var ChannelInterface $channel */
         $channel = $order->getChannel();
+
+        Assert::notNull($channel);
 
         $lineItems = array_merge(
             $this->lineItemsConverter->convert($units),
