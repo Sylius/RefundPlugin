@@ -118,7 +118,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             [$taxItem->getWrappedObject()],
             'Comment',
             $dateTime->getWrappedObject(),
-            new CustomerBillingData('Rick Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
+            new CustomerBillingData('Rick', 'Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
             new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
         ));
     }

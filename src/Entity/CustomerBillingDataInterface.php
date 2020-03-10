@@ -17,7 +17,11 @@ interface CustomerBillingDataInterface
 {
     public function id(): ?int;
 
-    public function customerName(): string;
+    public function firstName(): string;
+
+    public function lastName(): string;
+
+    public function fullName(): string;
 
     public function street(): string;
 

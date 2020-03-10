@@ -168,7 +168,7 @@ final class CreditMemoContext implements Context
     ): void {
         $customerBillingData = $this->creditMemo->getFrom();
 
-        Assert::same($customerBillingData->customerName(), $customerName);
+        Assert::same($customerBillingData->fullName(), $customerName);
         Assert::same($customerBillingData->street(), $street);
         Assert::same($customerBillingData->postcode(), $postcode);
         Assert::same($customerBillingData->city(), $city);

@@ -30,7 +30,7 @@
             <div class="ui attached segment" id="from-address">
                 {% set from = credit_memo.from %}
                 <address>
-                    <strong>{{ from.customerName }}</strong>
+                    <strong>{{ from.fullName }}</strong>
                     {% if from.company %}
                         {{ from.company }}
                     {% endif %}

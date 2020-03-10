@@ -12,7 +12,8 @@ final class CustomerBillingDataSpec extends ObjectBehavior
     function let(): void
     {
         $this->beConstructedWith(
-            'Rick Sanchez',
+            'Rick',
+            'Sanchez',
             'Main St. 3322',
             '90802',
             'US',
@@ -33,9 +34,19 @@ final class CustomerBillingDataSpec extends ObjectBehavior
         $this->id()->shouldReturn(null);
     }
 
-    function it_has_customer_name(): void
+    function it_has_first_name(): void
     {
-        $this->customerName()->shouldReturn('Rick Sanchez');
+        $this->firstName()->shouldReturn('Rick');
+    }
+
+    function it_has_last_name(): void
+    {
+        $this->lastName()->shouldReturn('Sanchez');
+    }
+
+    function it_has_full_name(): void
+    {
+        $this->fullName()->shouldReturn('Rick Sanchez');
     }
 
     function it_has_company(): void

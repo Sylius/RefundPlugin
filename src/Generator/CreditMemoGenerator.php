@@ -86,7 +86,8 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     private function getFromAddress(AddressInterface $address): CustomerBillingData
     {
         return new CustomerBillingData(
-            $address->getFirstName() . ' ' . $address->getLastName(),
+            $address->getFirstName(),
+            $address->getLastName(),
             $address->getStreet(),
             $address->getPostcode(),
             $address->getCountryCode(),
