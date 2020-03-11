@@ -42,7 +42,7 @@ class CreditMemo implements CreditMemoInterface
     /** @var string */
     protected $comment;
 
-    /** @var \DateTimeInterface */
+    /** @var \DateTimeImmutable */
     protected $issuedAt;
 
     /** @var CustomerBillingDataInterface */
@@ -62,7 +62,7 @@ class CreditMemo implements CreditMemoInterface
         array $lineItems,
         array $taxItems,
         string $comment,
-        \DateTimeInterface $issuedAt,
+        \DateTimeImmutable $issuedAt,
         CustomerBillingDataInterface $from,
         ?ShopBillingDataInterface $to
     ) {
@@ -131,7 +131,7 @@ class CreditMemo implements CreditMemoInterface
         return $this->comment;
     }
 
-    public function getIssuedAt(): \DateTimeInterface
+    public function getIssuedAt(): \DateTimeImmutable
     {
         return $this->issuedAt;
     }

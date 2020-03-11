@@ -20,7 +20,7 @@
 
         <service
             id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface"
-            class="Sylius\RefundPlugin\Provider\CurrentDateTimeProvider"
+            class="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProvider"
         />
 
         <service id="Sylius\RefundPlugin\Provider\RemainingTotalProvider">

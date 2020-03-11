@@ -62,7 +62,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemInterface $firstLineItem,
         LineItemInterface $secondLineItem,
         TaxItemInterface $taxItem,
-        \DateTime $dateTime
+        \DateTimeImmutable $dateTime
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 500);

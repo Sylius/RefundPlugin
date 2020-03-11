@@ -41,7 +41,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
         EntityManagerInterface $sequenceManager,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         CreditMemoSequenceInterface $sequence,
-        \DateTime $now
+        \DateTimeImmutable $now
     ): void {
         $currentDateTimeProvider->now()->willReturn($now);
         $now->format('Y/m')->willReturn('2018/05');
@@ -64,7 +64,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
         EntityManagerInterface $sequenceManager,
         CurrentDateTimeProviderInterface $currentDateTimeProvider,
         CreditMemoSequenceInterface $sequence,
-        \DateTime $now
+        \DateTimeImmutable $now
     ): void {
         $currentDateTimeProvider->now()->willReturn($now);
         $now->format('Y/m')->willReturn('2018/05');

@@ -14,7 +14,7 @@
         <field name="currencyCode" column="currency_code" type="string" />
         <field name="localeCode" column="locale_code" type="string" />
         <field name="comment" column="comment" type="text" />
-        <field name="issuedAt" column="issued_at" type="datetime" />
+        <field name="issuedAt" column="issued_at" type="datetime_immutable" />
 
         <many-to-one field="channel" target-entity="Sylius\Component\Core\Model\ChannelInterface">
             <join-column name="channel_id" />

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
-final class CurrentDateTimeProvider implements CurrentDateTimeProviderInterface
+final class CurrentDateTimeImmutableProvider implements CurrentDateTimeProviderInterface
 {
     public function now(): \DateTimeInterface
     {
-        return new \DateTime();
+        return new \DateTimeImmutable();
     }
 }

@@ -33,7 +33,7 @@ final class CreditMemoSpec extends ObjectBehavior
             [$lineItem->getWrappedObject()],
             [$taxItem->getWrappedObject()],
             'Comment',
-            new \DateTime('01-01-2020 10:10:10'),
+            new \DateTimeImmutable('01-01-2020 10:10:10'),
             new CustomerBillingData('Rick', 'Sanchez', 'Main St. 3322', '90802', 'US', 'Curse Purge Plus!', 'Los Angeles', 'Baldwin Hills', '323'),
             new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'Los Angeles', '90001')
         );
