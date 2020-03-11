@@ -8,8 +8,11 @@
                     {{ 'sylius_refund.ui.issued_for_order'|trans }}: #{{ credit_memo.order.number }}
                 </div>
                 <div class="item">
+                    {{ 'sylius_refund.ui.issued_at'|trans }}: {{ credit_memo.issuedAt|date('d-m-Y') }}
+                </div>
+                <div class="item">
                     {{ 'sylius_refund.ui.issued_from'|trans }}
-                    <span class="ui large empty horizontal circular label" style="background-color: {{ credit_memo.channel.color }}"></span> <strong id="credit-memo-channel-name">{{ credit_memo.channel.name }}</strong>
+                    {% include '@SyliusAdmin/Common/_channel.html.twig' with {'channel': credit_memo.channel} %}
                 </div>
             </div>
         </div>

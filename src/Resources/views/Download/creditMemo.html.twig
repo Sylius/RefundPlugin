@@ -1,7 +1,7 @@
 {% set to = creditMemo.to %}
 {% set from = creditMemo.from %}
 
-<html lang="en">
+<html lang="{{ creditMemo.localeCode }}">
 <head>
     <meta charset="utf-8">
     <style>
@@ -31,7 +31,6 @@
                         <td colspan="2" class="title">
                             <img src="https://demo.sylius.com/assets/shop/img/logo.png" style="width:300px;">
                         </td>
-
                         <td>
                             {{ 'sylius_refund.ui.issued_at'|trans }}: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
                         </td>
