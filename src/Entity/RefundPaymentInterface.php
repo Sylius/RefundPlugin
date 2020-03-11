@@ -9,9 +9,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface RefundPaymentInterface extends ResourceInterface
 {
-    public const STATE_NEW = 'New';
+    public const STATE_NEW = 'new';
 
-    public const STATE_COMPLETED = 'Completed';
+    public const STATE_COMPLETED = 'completed';
 
     public function getOrderNumber(): string;
 

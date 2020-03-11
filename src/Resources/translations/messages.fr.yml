@@ -25,5 +25,5 @@ sylius_refund:
 
 sylius:
     ui:
-        original_payment_method: "Moyen de paiement d'origine"
-        partially_refunded: 'Partiellement remboursé'
+        original_payment_method: Moyen de paiement d'origine
+        partially_refunded: Partiellement remboursé

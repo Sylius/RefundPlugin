@@ -46,12 +46,12 @@ winzou_state_machine:
         graph: sylius_refund_refund_payment
         state_machine_class: "%sylius.state_machine.class%"
         states:
-            New: ~
-            Completed: ~
+            new: ~
+            completed: ~
         transitions:
             complete:
-                from: [New]
-                to: Completed
+                from: [new]
+                to: completed
 
 sylius_grid:
     templates:

@@ -1,5 +1,4 @@
-{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
-{% import "@SyliusUi/Macro/buttons.html.twig" as buttons %}
+{% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
 
 {% if refund_payments|length > 0 %}
     <div class="ui segment" id="refund-payments">
@@ -17,15 +16,12 @@
                 <tr>
                     <td>{{ money.format(refund_payment.amount, refund_payment.currencyCode) }}</td>
                     <td>
-                        {% include [('@SyliusRefundPlugin/RefundPayment/Label/State/' ~ refund_payment.state ~ '.html.twig'), '@SyliusUi/Label/_default.html.twig'] with {'value': refund_payment.state} %}
+                        {% include '@SyliusRefundPlugin/Common/Label/refundPaymentState.html.twig' with {'data': refund_payment.state} %}
                     </td>
                     <td class="aligned collapsing">
-                        {% if refund_payment.state != 'sylius_refund.ui.completed'|trans %}
+                        {% if sm_can(refund_payment, 'complete', 'sylius_refund_refund_payment') %}
                             <form action="{{ path('sylius_refund_complete_refund_payment', {'orderNumber': refund_payment.orderNumber, 'id': refund_payment.id}) }}" method="POST">
-                                <button class="button ui labeled icon yellow">
-                                    <i class="icon check"></i>
-                                    {{ 'sylius.ui.complete'|trans }}
-                                </button>
+                                <button class="ui icon labeled yellow loadable button"><i class="check icon"></i> {{ 'sylius.ui.complete'|trans }}</button>
                             </form>
                         {% endif %}
                     </td>
