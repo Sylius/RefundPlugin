@@ -19,7 +19,7 @@
         </service>
 
         <service
-            id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface"
+            id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface"
             class="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProvider"
         />
 

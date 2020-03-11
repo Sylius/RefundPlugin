@@ -13,7 +13,7 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context
@@ -24,13 +24,15 @@ final class CreditMemoContext implements Context
     /** @var ObjectRepository */
     private $creditMemoRepository;
 
-    /** @var CurrentDateTimeProviderInterface */
-    private $currentDateTimeProvider;
+    /** @var CurrentDateTimeImmutableProviderInterface */
+    private $currentDateTimeImmutableProvider;
 
-    public function __construct(ObjectRepository $creditMemoRepository, CurrentDateTimeProviderInterface $currentDateTimeProvider)
-    {
+    public function __construct(
+        ObjectRepository $creditMemoRepository,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
+    ) {
         $this->creditMemoRepository = $creditMemoRepository;
-        $this->currentDateTimeProvider = $currentDateTimeProvider;
+        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
     }
 
     /**
@@ -60,7 +62,7 @@ final class CreditMemoContext implements Context
     {
         Assert::same(
             $this->creditMemo->getNumber(),
-            $this->currentDateTimeProvider->now()->format('Y/m').'/'.'000000001'
+            $this->currentDateTimeImmutableProvider->now()->format('Y/m').'/'.'000000001'
         );
     }
 

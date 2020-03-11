@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CurrentDateTimeImmutableProviderSpec extends ObjectBehavior
 {
-    function it_implements_current_date_time_provider_interface(): void
+    function it_implements_current_date_time_immutable_provider_interface(): void
     {
-        $this->shouldImplement(CurrentDateTimeProviderInterface::class);
+        $this->shouldImplement(CurrentDateTimeImmutableProviderInterface::class);
     }
 
     function it_provides_current_immutable_date_and_time(): void

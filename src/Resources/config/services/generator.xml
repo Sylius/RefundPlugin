@@ -8,7 +8,7 @@
             <argument type="service" id="sylius_refund_plugin.repository.credit_memo_sequence" />
             <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
@@ -16,7 +16,7 @@
             <argument type="service" id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverterInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
         </service>
 

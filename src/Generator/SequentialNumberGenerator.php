@@ -9,7 +9,7 @@ use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class SequentialNumberGenerator implements NumberGenerator
 {
@@ -22,8 +22,8 @@ final class SequentialNumberGenerator implements NumberGenerator
     /** @var EntityManagerInterface */
     private $sequenceManager;
 
-    /** @var CurrentDateTimeProviderInterface */
-    private $currentDateTimeProvider;
+    /** @var CurrentDateTimeImmutableProviderInterface */
+    private $currentDateTimeImmutableProvider;
 
     /** @var int */
     private $startNumber;
@@ -35,21 +35,21 @@ final class SequentialNumberGenerator implements NumberGenerator
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         int $startNumber = 1,
         int $numberLength = 9
     ) {
         $this->sequenceRepository = $sequenceRepository;
         $this->sequenceFactory = $sequenceFactory;
         $this->sequenceManager = $sequenceManager;
-        $this->currentDateTimeProvider = $currentDateTimeProvider;
+        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
         $this->startNumber = $startNumber;
         $this->numberLength = $numberLength;
     }
 
     public function generate(): string
     {
-        $identifierPrefix = $this->currentDateTimeProvider->now()->format('Y/m') . '/';
+        $identifierPrefix = $this->currentDateTimeImmutableProvider->now()->format('Y/m') . '/';
 
         /** @var CreditMemoSequenceInterface $sequence */
         $sequence = $this->getSequence();

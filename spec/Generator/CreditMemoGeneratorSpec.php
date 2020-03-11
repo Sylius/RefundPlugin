@@ -21,7 +21,7 @@ use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
@@ -30,7 +30,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
     ): void {
         $this->beConstructedWith(
@@ -38,7 +38,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             $shipmentLineItemsConverter,
             $taxItemsGenerator,
             $creditMemoNumberGenerator,
-            $currentDateTimeProvider,
+            $currentDateTimeImmutableProvider,
             $creditMemoIdentifierGenerator
         );
     }
@@ -53,7 +53,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         OrderInterface $order,
         ChannelInterface $channel,
@@ -102,7 +102,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
-        $currentDateTimeProvider->now()->willReturn($dateTime);
+        $currentDateTimeImmutableProvider->now()->willReturn($dateTime);
 
         $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 

@@ -15,7 +15,7 @@ use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
@@ -32,8 +32,8 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     /** @var NumberGenerator */
     private $creditMemoNumberGenerator;
 
-    /** @var CurrentDateTimeProviderInterface */
-    private $currentDateTimeProvider;
+    /** @var CurrentDateTimeImmutableProviderInterface */
+    private $currentDateTimeImmutableProvider;
 
     /** @var CreditMemoIdentifierGeneratorInterface */
     private $uuidCreditMemoIdentifierGenerator;
@@ -43,14 +43,14 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoIdentifierGeneratorInterface $uuidCreditMemoIdentifierGenerator
     ) {
         $this->lineItemsConverter = $lineItemsConverter;
         $this->shipmentLineItemsConverter = $shipmentLineItemsConverter;
         $this->taxItemsGenerator = $taxItemsGenerator;
         $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
-        $this->currentDateTimeProvider = $currentDateTimeProvider;
+        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
         $this->uuidCreditMemoIdentifierGenerator = $uuidCreditMemoIdentifierGenerator;
     }
 
@@ -85,7 +85,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $lineItems,
             $this->taxItemsGenerator->generate($lineItems),
             $comment,
-            $this->currentDateTimeProvider->now(),
+            $this->currentDateTimeImmutableProvider->now(),
             $this->getFromAddress($order->getBillingAddress()),
             $this->getToAddress($channel->getShopBillingData())
         );
