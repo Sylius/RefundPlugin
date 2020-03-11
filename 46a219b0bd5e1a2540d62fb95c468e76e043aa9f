@@ -1,0 +1,37 @@
+---------------------------------------------------------------------------
+
+by diimpp at 2020-03-05T12:06:55Z
+
+@Zales0123
+
+```twig
+ {% if refund_payment.state != 'sylius_refund.ui.completed'|trans %}
+```
+
+![image](https://user-images.githubusercontent.com/870747/75980018-4b910000-5f14-11ea-82a4-b796f28eee4a.png)
+
+I will just leave it here as thinking material :D
+
+---------------------------------------------------------------------------
+
+by diimpp at 2020-03-11T11:41:22Z
+
+@lchrusciel @Zales0123 hey guys, any questions? Can it be merged?
+
+---------------------------------------------------------------------------
+
+by lchrusciel at 2020-03-11T14:36:33Z
+
+It can be merged, but we need to add it to UPGRADE.md. Can you do it?
+
+---------------------------------------------------------------------------
+
+by diimpp at 2020-03-11T16:44:14Z
+
+@lchrusciel done
+
+---------------------------------------------------------------------------
+
+by lchrusciel at 2020-03-11T21:36:09Z
+
+Thank you, Dmitri! :tada:
