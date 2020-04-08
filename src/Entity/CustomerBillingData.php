@@ -11,7 +11,10 @@ class CustomerBillingData implements CustomerBillingDataInterface
     protected $id;
 
     /** @var string */
-    protected $customerName;
+    protected $firstName;
+
+    /** @var string */
+    protected $lastName;
 
     /** @var string */
     protected $street;
@@ -35,7 +38,8 @@ class CustomerBillingData implements CustomerBillingDataInterface
     protected $provinceCode;
 
     public function __construct(
-        string $customerName,
+        string $firstName,
+        string $lastName,
         string $street,
         string $postcode,
         string $countryCode,
@@ -44,7 +48,8 @@ class CustomerBillingData implements CustomerBillingDataInterface
         ?string $provinceName = null,
         ?string $provinceCode = null
     ) {
-        $this->customerName = $customerName;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
         $this->street = $street;
         $this->postcode = $postcode;
         $this->countryCode = $countryCode;
@@ -59,9 +64,19 @@ class CustomerBillingData implements CustomerBillingDataInterface
         return $this->id;
     }
 
-    public function customerName(): string
+    public function firstName(): string
     {
-        return $this->customerName;
+        return $this->firstName;
+    }
+
+    public function lastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function fullName(): string
+    {
+        return trim(sprintf('%s %s', $this->firstName, $this->lastName));
     }
 
     public function street(): string

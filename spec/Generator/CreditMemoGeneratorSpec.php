@@ -21,7 +21,7 @@ use Sylius\RefundPlugin\Generator\NumberGenerator;
 use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
@@ -30,7 +30,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
     ): void {
         $this->beConstructedWith(
@@ -38,7 +38,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             $shipmentLineItemsConverter,
             $taxItemsGenerator,
             $creditMemoNumberGenerator,
-            $currentDateTimeProvider,
+            $currentDateTimeImmutableProvider,
             $creditMemoIdentifierGenerator
         );
     }
@@ -53,7 +53,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider,
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         OrderInterface $order,
         ChannelInterface $channel,
@@ -62,7 +62,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemInterface $firstLineItem,
         LineItemInterface $secondLineItem,
         TaxItemInterface $taxItem,
-        \DateTime $dateTime
+        \DateTimeImmutable $dateTime
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 500);
@@ -102,7 +102,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
 
-        $currentDateTimeProvider->now()->willReturn($dateTime);
+        $currentDateTimeImmutableProvider->now()->willReturn($dateTime);
 
         $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
@@ -118,7 +118,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             [$taxItem->getWrappedObject()],
             'Comment',
             $dateTime->getWrappedObject(),
-            new CustomerBillingData('Rick Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
+            new CustomerBillingData('Rick', 'Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
             new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
         ));
     }

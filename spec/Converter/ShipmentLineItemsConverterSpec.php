@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 {
@@ -27,7 +27,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment
     ): void {
-        $unitRefund = new OrderItemUnitRefund(1, 500);
+        $shipmentRefund = new ShipmentRefund(1, 500);
 
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
@@ -37,7 +37,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
         $shippingAdjustment->getAmount()->willReturn(1000);
 
-        $this->convert([$unitRefund])->shouldBeLike([new LineItem(
+        $this->convert([$shipmentRefund])->shouldBeLike([new LineItem(
             'Galaxy post',
             1,
             500,
@@ -51,7 +51,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
     function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
         RepositoryInterface $adjustmentRepository
     ): void {
-        $unitRefund = new OrderItemUnitRefund(1, 500);
+        $shipmentRefund = new ShipmentRefund(1, 500);
 
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
@@ -60,7 +60,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('convert', [[$unitRefund]])
+            ->during('convert', [[$shipmentRefund]])
         ;
     }
 
@@ -68,7 +68,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment
     ): void {
-        $unitRefund = new OrderItemUnitRefund(1, 1001);
+        $shipmentRefund = new ShipmentRefund(1, 1001);
 
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
@@ -79,7 +79,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('convert', [[$unitRefund]])
+            ->during('convert', [[$shipmentRefund]])
         ;
     }
 }

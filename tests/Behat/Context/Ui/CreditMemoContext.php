@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Sylius\Behat\Page\Admin\Order\ShowPageInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface;
+use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPageInterface;
 use Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElementInterface;
@@ -33,7 +33,7 @@ final class CreditMemoContext implements Context
     private $creditMemoRepository;
 
     /** @var CurrentDateTimeProviderInterface */
-    private $currentDateTimeProvider;
+    private $currentDateTimeImmutableProvider;
 
     public function __construct(
         ShowPageInterface $orderShowPage,
@@ -41,14 +41,14 @@ final class CreditMemoContext implements Context
         CreditMemoDetailsPageInterface $creditMemoDetailsPage,
         PdfDownloadElementInterface $pdfDownloadElement,
         ObjectRepository $creditMemoRepository,
-        CurrentDateTimeProviderInterface $currentDateTimeProvider
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
     ) {
         $this->orderShowPage = $orderShowPage;
         $this->creditMemoIndexPage = $creditMemoIndexPage;
         $this->creditMemoDetailsPage = $creditMemoDetailsPage;
         $this->pdfDownloadElement = $pdfDownloadElement;
         $this->creditMemoRepository = $creditMemoRepository;
-        $this->currentDateTimeProvider = $currentDateTimeProvider;
+        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
     }
 
     /**
@@ -164,7 +164,7 @@ final class CreditMemoContext implements Context
     {
         Assert::same(
             $this->creditMemoDetailsPage->getNumber(),
-            $this->currentDateTimeProvider->now()->format('Y/m').'/'.'000000001'
+            $this->currentDateTimeImmutableProvider->now()->format('Y/m').'/'.'000000001'
         );
     }
 

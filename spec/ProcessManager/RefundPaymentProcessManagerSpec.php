@@ -11,6 +11,7 @@ use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\Messenger\Envelope;
@@ -64,6 +65,6 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         $event = new RefundPaymentGenerated(10, '000222', 1000, 'USD', 1, 3);
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
-        $this(new UnitsRefunded('000222', [new OrderItemUnitRefund(1, 500), new OrderItemUnitRefund(2, 500)], [1], 1, 1000, 'USD', 'Comment'));
+        $this(new UnitsRefunded('000222', [new OrderItemUnitRefund(1, 500), new OrderItemUnitRefund(2, 500)], [new ShipmentRefund(1, 300)], 1, 1000, 'USD', 'Comment'));
     }
 }

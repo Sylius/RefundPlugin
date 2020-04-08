@@ -11,7 +11,8 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="customerName" column="customer_name" type="string" />
+        <field name="firstName" column="first_name" type="string" />
+        <field name="lastName" column="last_name" type="string" />
         <field name="street" column="street" type="string" />
         <field name="postcode" column="postcode" type="string" />
         <field name="countryCode" column="country_code" type="string" />

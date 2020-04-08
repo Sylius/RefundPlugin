@@ -6,6 +6,7 @@ namespace Sylius\RefundPlugin\Command;
 
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Webmozart\Assert\Assert;
 
 final class RefundUnits
 {
@@ -26,6 +27,9 @@ final class RefundUnits
 
     public function __construct(string $orderNumber, array $units, array $shipments, int $paymentMethodId, string $comment)
     {
+        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
+        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
+
         $this->orderNumber = $orderNumber;
         $this->units = $units;
         $this->shipments = $shipments;

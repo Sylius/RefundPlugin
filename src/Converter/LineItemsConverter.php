@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -29,9 +29,11 @@ final class LineItemsConverter implements LineItemsConverterInterface
 
     public function convert(array $units): array
     {
+        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
+
         $lineItems = [];
 
-        /** @var UnitRefundInterface $unitRefund */
+        /** @var OrderItemUnitRefund $unitRefund */
         foreach ($units as $unitRefund) {
             $lineItems = $this->addLineItem($this->convertUnitRefundToLineItem($unitRefund), $lineItems);
         }
@@ -39,7 +41,7 @@ final class LineItemsConverter implements LineItemsConverterInterface
         return $lineItems;
     }
 
-    private function convertUnitRefundToLineItem(UnitRefundInterface $unitRefund): LineItemInterface
+    private function convertUnitRefundToLineItem(OrderItemUnitRefund $unitRefund): LineItemInterface
     {
         /** @var OrderItemUnitInterface|null $orderItemUnit */
         $orderItemUnit = $this->orderItemUnitRepository->find($unitRefund->id());

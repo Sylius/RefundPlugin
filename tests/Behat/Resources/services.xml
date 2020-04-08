@@ -37,7 +37,7 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext">
             <argument type="service" id="sylius_refund.repository.credit_memo" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext">
@@ -57,7 +57,7 @@
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage" />
             <argument type="service" id="Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement" />
             <argument type="service" id="sylius_refund.repository.credit_memo" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext">
