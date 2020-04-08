@@ -1,0 +1,32 @@
+---------------------------------------------------------------------------
+
+by diimpp at 2020-03-10T09:55:36Z
+
+@lchrusciel Hi, sorry, it's still in work. I've moved PR from draft too early, because travis wasn't building properly, but it was the other issue.
+
+---------------------------------------------------------------------------
+
+by diimpp at 2020-03-11T11:40:00Z
+
+@lchrusciel @Zales0123 it's ready for review. Let me know if you have any questions.
+
+This PR is in fact 6 unrelated PRs, so please review each commit separately. Only difference is last two commits, because last commit is a supporting hack for phpstan.
+
+P.S. There is another problematic code, which is `src/StateResolver` (No `can` checks, non-idiomatic files placement, `Order->state` state resolver doesn't work for me at all, but I didn't look too closely at it yet), but I won't be looking at it for the moment.
+
+Cheers,
+Dmitri.
+
+---------------------------------------------------------------------------
+
+by diimpp at 2020-03-16T15:50:10Z
+
+@lchrusciel thank you for update. I do plan to change Refund/RefundPayment/CreditMemo mappings drastically, so it may be worth waiting for next PR anyway.
+
+Current implementation with Refund/RefundPayment/CreditMemo, which are not related between each other is not usable for my company. We need `CreditMemo` to be generated only after `RefundPayment` is completed. Another case, we need to different between `Refund`'s as when they were done and how they were grouped and after the fact of the refund, not at the refund event itself. (Another point is just technically not feasible approach. Let's say event fails for whatever reasons, then Refunds are created, but CreditMemo/RefundPayment probably not. And there is no way to re-send this event.)
+
+---------------------------------------------------------------------------
+
+by lchrusciel at 2020-04-08T14:37:23Z
+
+Thank you, Dmitri! :1st_place_medal:
