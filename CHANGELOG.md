@@ -1,5 +1,23 @@
 # CHANGELOG
 
+### v1.0.0-RC.3 (2020-04-28)
+
+
+### Added
+- [#195](https://github.com/Sylius/RefundPlugin/issues/195) feat: add french translation ([@Gregcop1](https://github.com/Gregcop1))
+
+### Changed
+- [#198](https://github.com/Sylius/RefundPlugin/issues/198) Minor restyle of order credit memo list ui ([@diimpp](https://github.com/diimpp))
+- [#197](https://github.com/Sylius/RefundPlugin/issues/197) Convert RefundPayment state values to lowercase ([@diimpp](https://github.com/diimpp))
+- [#200](https://github.com/Sylius/RefundPlugin/issues/200) Misc refactor ([@diimpp](https://github.com/diimpp))
+- [#202](https://github.com/Sylius/RefundPlugin/issues/202) [DB] Remove `COMMENT` database configuration ([@lchrusciel](https://github.com/lchrusciel))
+- [#206](https://github.com/Sylius/RefundPlugin/issues/206) [Doc] Update UPGRADE file ([@lchrusciel](https://github.com/lchrusciel))
+
+### Fixed
+- [#199](https://github.com/Sylius/RefundPlugin/issues/199) Fix getId/id return typehints for entities ([@diimpp](https://github.com/diimpp))
+- [#203](https://github.com/Sylius/RefundPlugin/issues/203) Fix 'Unknown "locale" filter' error ([@dunglas](https://github.com/dunglas))
+- [#204](https://github.com/Sylius/RefundPlugin/issues/204) Migrations: fix compatibility with MySQL 8 ([@dunglas](https://github.com/dunglas))
+
 ### v1.0.0-RC.2 (2020-01-31)
 
 - [#177](https://github.com/Sylius/RefundPlugin/issues/177) Update README with refunds payment information ([@AdamKasp](https://github.com/AdamKasp))
