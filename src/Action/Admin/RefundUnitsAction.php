@@ -70,7 +70,7 @@ final class RefundUnitsAction
         ));
     }
 
-    private function provideErrorMessage(\Exception $previousException): void
+    private function provideErrorMessage(\Throwable $previousException): void
     {
         if ($previousException instanceof InvalidRefundAmountException) {
             $this->session->getFlashBag()->add('error', $previousException->getMessage());
