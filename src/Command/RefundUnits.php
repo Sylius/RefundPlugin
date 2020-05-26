@@ -15,6 +15,7 @@ namespace Sylius\RefundPlugin\Command;
 
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Webmozart\Assert\Assert;
 
 class RefundUnits
@@ -33,8 +34,8 @@ class RefundUnits
 
     public function __construct(string $orderNumber, array $units, array $shipments, int $paymentMethodId, string $comment)
     {
-        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
-        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
+        Assert::allIsInstanceOf($units, UnitRefundInterface::class);
+        Assert::allIsInstanceOf($shipments, UnitRefundInterface::class);
 
         $this->orderNumber = $orderNumber;
         $this->units = $units;
