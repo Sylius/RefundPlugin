@@ -2,22 +2,20 @@ language: php
 
 dist: bionic
 
-php:
-    - 7.4
-
 env:
     global:
         - APP_ENV=test
 
 jobs:
     include:
-        -   &test
+        -   &behat
             stage: test
-            name: "Build"
+            name: "Behat tests (PHP 7.3)"
 
             sudo: false
 
-            env: SYLIUS_CACHE_DIR=$HOME/.sylius-cache SYLIUS_BUILD_DIR=etc/build
+            php: 7.3
+            env: SYLIUS_CACHE_DIR=$HOME/.sylius-cache SYLIUS_BUILD_DIR=etc/build PHP_VERSION="7.3"
 
             cache:
                 yarn: true
@@ -90,10 +88,14 @@ jobs:
 
             after_failure:
                 - vendor/lakion/mink-debug-extension/travis/tools/upload-textfiles "${SYLIUS_BUILD_DIR}/*.log"
-
-        -
+        -   <<: *behat
+            php: 7.4
+            env: SYLIUS_CACHE_DIR=$HOME/.sylius-cache SYLIUS_BUILD_DIR=etc/build PHP_VERSION="7.4"
+            name: "Behat tests (PHP 7.4)"
+        -   &phpspec
             stage: test
-            name: "PHPSpec (with code coverage)"
+            php: 7.3
+            name: "PHPSpec (with code coverage, php 7.3)"
 
             sudo: false
 
@@ -112,3 +114,7 @@ jobs:
 
             script:
                 - phpdbg -qrr vendor/bin/phpspec run
+        -   <<: *phpspec
+            php: 7.4
+            name: "PHPSpec (with code coverage, php 7.4)"
+
