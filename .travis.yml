@@ -1,10 +1,8 @@
 language: php
 
-dist: trusty
+dist: bionic
 
 php:
-    - 7.2
-    - 7.3
     - 7.4
 
 env:
@@ -35,7 +33,8 @@ jobs:
                 - phpenv config-rm xdebug.ini || true
 
                 - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-                - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+                - pecl update-channels
+                - printf "yes\n" | pecl install memcached
 
                 - mkdir -p tests/Application/public/media/image/
                 - cp migrations/* tests/Application/src/Migrations/
@@ -52,6 +51,7 @@ jobs:
                 - (cd tests/Application && yarn build)
 
                 # Configure display
+                - sudo apt-get update && sudo apt-get install libgconf-2-4 -y
                 - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1680x1050x16
                 - export DISPLAY=:99
 
@@ -104,7 +104,8 @@ jobs:
                 - phpenv config-rm xdebug.ini || true
 
                 - echo "memory_limit=4096M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-                - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+                - pecl update-channels
+                - printf "yes\n" | pecl install memcached
 
             install:
                 - composer update --no-interaction --prefer-dist
