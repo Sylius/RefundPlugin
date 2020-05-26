@@ -13,8 +13,10 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
+        <service id="Sylius\RefundPlugin\Factory\RefundFactory" />
+
         <service id="Sylius\RefundPlugin\Creator\RefundCreator">
-            <argument type="service" id="sylius_refund.factory.refund" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\RefundFactory" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
             <argument type="service" id="sylius_refund.manager.refund" />
         </service>
