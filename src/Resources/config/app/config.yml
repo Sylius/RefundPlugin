@@ -62,7 +62,7 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: 'expr:parameter("sylius_refund.model.credit_memo.class")'
+                    class: %sylius_refund.model.credit_memo.class%
             sorting:
                 number: asc
             fields:
