@@ -1,17 +1,24 @@
 sylius_refund:
     ui:
+        buyer: Client
         clear_refunds: Tout effacer
         completed: Complété
         credit_memo: Note de crédit
         credit_memos: Notes de crédit
+        currency: Devise
         download: Télécharger
         from: De
+        gross_value: Prix TTC
         issued_at: Délivré le
         issued_for_order: Délivré pour la commande
         issued_from: Délivré par
         manage_credit_memos: Gérer les notes de crédit
+        name: Nom
+        net_value: Prix net
+        no: n°
         order_number: Commande
         partial_refund: Remboursement partiel
+        quantity: Quantité
         refund: Rembourser
         refund_all: Tout rembourser
         refund_payment_completed: Le remboursement a été effectué avec succès
@@ -21,7 +28,12 @@ sylius_refund:
         refunded_total: Remboursé intégralement
         refunds: Remboursement
         resend: Renvoyer
+        seller: Vendeur
+        tax_amount: TVA
+        tax_rate: TVA (%)
         to: À
+        total: Total
+        unit_net_price: Prix unique net
 
 sylius:
     ui:
