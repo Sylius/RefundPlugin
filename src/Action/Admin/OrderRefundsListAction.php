@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
+use Webmozart\Assert\Assert;
 
 final class OrderRefundsListAction
 {
@@ -64,10 +65,14 @@ final class OrderRefundsListAction
             return $this->redirectToReferer($order, 'sylius_refund.order_should_be_paid');
         }
 
+        $channel = $order->getChannel();
+
+        Assert::notNull($channel);
+
         return new Response(
             $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', [
                 'order' => $order,
-                'payment_methods' => $this->refundPaymentMethodsProvider->findForChannel($order->getChannel()),
+                'payment_methods' => $this->refundPaymentMethodsProvider->findForChannel($channel),
             ])
         );
     }

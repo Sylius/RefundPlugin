@@ -74,6 +74,10 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $this->shipmentLineItemsConverter->convert($shipments)
         );
 
+        $billingAddress = $order->getBillingAddress();
+
+        Assert::notNull($billingAddress);
+
         return new CreditMemo(
             $this->uuidCreditMemoIdentifierGenerator->generate(),
             $this->creditMemoNumberGenerator->generate(),
@@ -86,7 +90,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $this->taxItemsGenerator->generate($lineItems),
             $comment,
             $this->currentDateTimeImmutableProvider->now(),
-            $this->getFromAddress($order->getBillingAddress()),
+            $this->getFromAddress($billingAddress),
             $this->getToAddress($channel->getShopBillingData())
         );
     }

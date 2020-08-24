@@ -5,11 +5,13 @@
 /node_modules/
 /composer.lock
 
+/.phpunit.result.cache
+
 /etc/build/*
 !/etc/build/.gitkeep
 
 /tests/Application/yarn.lock
 
-.env.test
+/.env.test
 
-phpspec.yml
+/phpspec.yml

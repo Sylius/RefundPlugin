@@ -71,7 +71,7 @@ final class SequentialNumberGenerator implements NumberGenerator
 
     private function getSequence(): CreditMemoSequenceInterface
     {
-        /** @var CreditMemoSequenceInterface $sequence */
+        /** @var CreditMemoSequenceInterface|null $sequence */
         $sequence = $this->sequenceRepository->findOneBy([]);
 
         if (null !== $sequence) {
