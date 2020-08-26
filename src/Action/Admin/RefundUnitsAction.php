@@ -7,6 +7,7 @@ namespace Sylius\RefundPlugin\Action\Admin;
 use Psr\Log\LoggerInterface;
 use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
+use Sylius\RefundPlugin\Exception\OnlineRefundException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,7 +53,7 @@ final class RefundUnitsAction
             $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
 
             $this->session->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
-        } catch (InvalidRefundAmountException $exception) {
+        } catch (InvalidRefundAmountException | OnlineRefundException $exception) {
             $this->session->getFlashBag()->add('error', $exception->getMessage());
 
             $this->logger->error($exception->getMessage());
