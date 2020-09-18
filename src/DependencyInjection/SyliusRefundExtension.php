@@ -25,17 +25,17 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
 
     public function prepend(ContainerBuilder $container): void
     {
-        if (!$container->hasExtension('doctrine_migrations') || !$container->hasExtension('sylius_core')) {
+        if (!$container->hasExtension('doctrine_migrations') || !$container->hasExtension('sylius_labs_doctrine_migrations_extra')) {
             return;
         }
 
         $container->prependExtensionConfig('doctrine_migrations', [
             'migrations_paths' => [
-                'Sylius\RefundPlugin\Migrations' => __DIR__. '/../Migrations',
+                'Sylius\RefundPlugin\Migrations' => __DIR__ . '/../Migrations',
             ],
         ]);
 
-        $container->prependExtensionConfig('sylius_core', [
+        $container->prependExtensionConfig('sylius_labs_doctrine_migrations_extra', [
             'migrations' => [
                 'Sylius\RefundPlugin\Migrations' => ['Sylius\Bundle\CoreBundle\Migrations'],
             ],

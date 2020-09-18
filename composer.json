@@ -20,12 +20,10 @@
     ],
     "require": {
         "php": "^7.2",
-        "doctrine/migrations": "^3.0@alpha",
-        "doctrine/doctrine-migrations-bundle": "^3.0@alpha",
         "knplabs/knp-snappy-bundle": "^1.5",
         "myclabs/php-enum": "^1.7",
         "sylius/resource-bundle": "^1.6",
-        "sylius/sylius": "dev-migrations-alpha",
+        "sylius/sylius": "~1.8.0",
         "symfony/messenger": "^4.3"
     },
     "require-dev": {
@@ -41,8 +39,8 @@
         "lakion/mink-debug-extension": "^1.2.3",
         "leanphp/phpspec-code-coverage": "^4.2",
         "phpspec/phpspec": "^4.0",
-        "phpstan/phpstan-shim": "^0.11",
-        "phpstan/phpstan-webmozart-assert": "^0.11",
+        "phpstan/phpstan": "0.12.29",
+        "phpstan/phpstan-webmozart-assert": "0.12.6",
         "phpunit/phpunit": "^6.5",
         "sylius-labs/coding-standard": "^2.0",
         "symfony/browser-kit": "^4.3",
@@ -57,8 +55,6 @@
         "symfony/doctrine-bridge": "4.3.0",
         "symfony/framework-bundle": "4.3.0"
     },
-    "minimum-stability": "alpha",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Sylius\\RefundPlugin\\": "src/",
