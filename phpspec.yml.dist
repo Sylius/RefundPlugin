@@ -4,7 +4,7 @@ suites:
         psr4_prefix: Sylius\RefundPlugin
 
 extensions:
-    LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
+  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
         blacklist:
             - src/Action #controllers should not be unit tests, as they only translates request to response (with some operations in the meantime)
             - src/DependencyInjection #configuration
