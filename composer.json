@@ -38,7 +38,7 @@
         "friends-of-behat/variadic-extension": "^1.1",
         "lakion/mink-debug-extension": "^1.2.3",
         "leanphp/phpspec-code-coverage": "^4.2",
-        "phpspec/phpspec": "^4.0",
+        "phpspec/phpspec": "^6.0",
         "phpstan/phpstan": "0.12.29",
         "phpstan/phpstan-webmozart-assert": "0.12.6",
         "phpunit/phpunit": "^6.5",

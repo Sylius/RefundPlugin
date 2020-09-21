@@ -8,5 +8,5 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 interface UnitRefundTotalCalculatorInterface
 {
-    public function calculateForUnitWithIdAndType(int $id, RefundType $refundType, ?float $amount = null);
+    public function calculateForUnitWithIdAndType(int $id, RefundType $refundType, ?float $amount = null): int;
 }
