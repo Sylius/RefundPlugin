@@ -294,7 +294,7 @@ final class RefundingContext implements Context
      */
     public function emailToWithCreditMemoShouldBeSent(string $email): void
     {
-        $this->emailChecker->hasMessageTo('Some of the units from your order have been refunded.', $email);
+        Assert::true($this->emailChecker->hasMessageTo('Some of the units from your order have been refunded.', $email));
     }
 
     /**
