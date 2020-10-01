@@ -8,6 +8,8 @@ use Behat\Behat\Context\Context;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\NotificationCheckerInterface;
+use Sylius\Component\Core\Test\Services\EmailCheckerInterface;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
 
@@ -19,12 +21,17 @@ final class RefundingContext implements Context
     /** @var NotificationCheckerInterface */
     private $notificationChecker;
 
+    /** @var EmailCheckerInterface */
+    private $emailChecker;
+
     public function __construct(
         OrderRefundsPageInterface $orderRefundsPage,
-        NotificationCheckerInterface $notificationChecker
+        NotificationCheckerInterface $notificationChecker,
+        EmailCheckerInterface $emailChecker
     ) {
         $this->orderRefundsPage = $orderRefundsPage;
         $this->notificationChecker = $notificationChecker;
+        $this->emailChecker = $emailChecker;
     }
 
     /**
@@ -337,6 +344,17 @@ final class RefundingContext implements Context
     public function theSelectedRefundPaymentMethodShouldBe(string $paymentMethod): void
     {
         Assert::true($this->orderRefundsPage->isPaymentMethodSelected($paymentMethod));
+    }
+
+    /**
+     * @Then email to :email with credit memo should not be sent
+     */
+    public function emailToWithCreditMemoShouldNotBeSent(string $email): void
+    {
+        try {
+            Assert::false($this->emailChecker->hasMessageTo('Some of the units from your order have been refunded.', $email));
+        } catch (DirectoryNotFoundException $exception) {
+        }
     }
 
     private function provideLongComment(): string
