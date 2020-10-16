@@ -10,6 +10,11 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundFactory implements RefundFactoryInterface
 {
+    public function createNew(): RefundInterface
+    {
+        throw new \InvalidArgumentException('This object is not default constructable.');
+    }
+
     public function createWithData(string $orderNumber, int $unitId, int $amount, RefundType $type): RefundInterface
     {
         return new Refund($orderNumber, $amount, $unitId, $type);
