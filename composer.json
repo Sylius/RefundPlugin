@@ -58,6 +58,9 @@
             "Tests\\Sylius\\RefundPlugin\\": "tests/"
         }
     },
+    "conflict": {
+        "symplify/package-builder": "^8.3.25"
+    },
     "scripts": {
         "fix": [
             "vendor/bin/ecs check src/ spec/ --fix"
