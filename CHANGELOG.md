@@ -1,7 +1,16 @@
 # CHANGELOG
 
-### v1.0.0-RC.3 (2020-04-28)
+### v1.0.0-RC.4 (2020-10-22)
 
+### Changed
+- [#205](https://github.com/Sylius/RefundPlugin/issues/205) Switch to Doctrine/Migrations 3.0 ([@pamil](https://github.com/pamil), [@GSadee](https://github.com/GSadee))
+- [#222](https://github.com/Sylius/RefundPlugin/issues/222) Add check for not sending emails when refund validation fails ([@GSadee](https://github.com/GSadee))
+- [#224](https://github.com/Sylius/RefundPlugin/issues/224) [Docs] Update README and UPGRADE files ([@lchrusciel](https://github.com/lchrusciel))
+
+### Fixed
+- [#223](https://github.com/Sylius/RefundPlugin/issues/223) Making the RefundFactory implement the factory interface ([@mamazu](https://github.com/mamazu))
+
+### v1.0.0-RC.3 (2020-04-28)
 
 ### Added
 - [#195](https://github.com/Sylius/RefundPlugin/issues/195) feat: add french translation ([@Gregcop1](https://github.com/Gregcop1))
