@@ -1,3 +1,9 @@
+### UPGRADE FROM 1.0.0-RC.3 TO 1.0.0-RC.4
+
+1. Upgrade your application to [Sylius 1.8](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.8.md).
+
+1. Remove previously copied migration files (You may check names of migrations to remove [here](https://github.com/Sylius/RefundPlugin/pull/205/commits/82e09b5bd8fa179da79870c9cb838d7ca289737a)).
+
 ### UPGRADE FROM 1.0.0-RC.2 TO 1.0.0-RC.3
 
 1. `Sylius\RefundPlugin\Entity\RefundPaymentInterface` state constants values were changed to lowercase. Backward compatibility provided by migration.
