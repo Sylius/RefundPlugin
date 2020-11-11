@@ -62,6 +62,22 @@ jobs:
                     mysql root password: "root"
 
             -
+                name: Output PHP version for Symfony CLI
+                run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
+
+            -
+                name: Install certificates
+                run: symfony server:ca:install
+
+            -
+                name: Run Chrome Headless
+                run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
+
+            -
+                name: Run webserver
+                run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
+
+            -
                 name: Get Composer cache directory
                 id: composer-cache
                 run: echo "::set-output name=dir::$(composer config cache-files-dir)"
