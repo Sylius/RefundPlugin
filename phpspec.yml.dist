@@ -2,21 +2,3 @@ suites:
     sylius_refund:
         namespace: Sylius\RefundPlugin
         psr4_prefix: Sylius\RefundPlugin
-
-extensions:
-  FriendsOfPhpSpec\PhpSpec\CodeCoverage\CodeCoverageExtension:
-        blacklist:
-            - src/Action #controllers should not be unit tests, as they only translates request to response (with some operations in the meantime)
-            - src/DependencyInjection #configuration
-            - src/Entity #anemic classes with no logic
-            - src/File/TemporaryFileManager.php #covered with phpunit
-            - src/Form #builders, no value in testing them
-            - src/Menu #builders, no value in testing them
-            - src/StateResolver/OrderTransitions.php #only constants
-            - src/StateResolver/RefundPaymentTransitions.php #only constants
-            - src/SyliusRefundPlugin.php #configuration
-            - src/Twig #covered with behat (strictly UI-oriented classes)
-        format:
-            - text
-        lower_upper_bound: 95
-        high_lower_bound: 100
