@@ -29,10 +29,15 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
             return;
         }
 
+        $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
+        $migrationsPath = (array) \array_pop($doctrineConfig)['migrations_paths'];
         $container->prependExtensionConfig('doctrine_migrations', [
-            'migrations_paths' => [
-                'Sylius\RefundPlugin\Migrations' => __DIR__ . '/../Migrations',
-            ],
+            'migrations_paths' => \array_merge(
+                $migrationsPath ?? [],
+                [
+                    'Sylius\RefundPlugin\Migrations' => '@SyliusRefundPlugin/Migrations',
+                ]
+            ),
         ]);
 
         $container->prependExtensionConfig('sylius_labs_doctrine_migrations_extra', [
