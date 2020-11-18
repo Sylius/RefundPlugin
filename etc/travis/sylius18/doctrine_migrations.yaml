@@ -1,0 +1,6 @@
+doctrine_migrations:
+    storage:
+        table_storage:
+            table_name: sylius_migrations
+    migrations_paths:
+        'Sylius\RefundPlugin\Migrations': '%kernel.project_dir%/src/Migrations/'

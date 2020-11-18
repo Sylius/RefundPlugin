@@ -30,6 +30,12 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
         }
 
         $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
+
+        /** doctrine/migrations <3.0 */
+        if (isset($doctrineConfig[0]['dirname'])) {
+            return;
+        }
+
         $migrationsPath = (array) \array_pop($doctrineConfig)['migrations_paths'];
         $container->prependExtensionConfig('doctrine_migrations', [
             'migrations_paths' => \array_merge(
