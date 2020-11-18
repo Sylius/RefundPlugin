@@ -21,6 +21,7 @@ jobs:
                 php: [7.4, 7.3]
                 node: [10.x]
                 mysql: [5.7, 8.0]
+                sylius: [1.7.*]
 
                 exclude:
                     -
@@ -92,6 +93,10 @@ jobs:
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
             -
+                name: Install Sylius version
+                run: composer require "sylius/sylius:${{ matrix.sylius }}"
+
+            -
                 name: Install PHP dependencies
                 run: composer install --no-interaction
 
@@ -116,6 +121,7 @@ jobs:
             -
                 name: Prepare test application database
                 run: |
+                    (cp src/Migrations/* tests/Application/src/Migrations/)
                     (cd tests/Application && bin/console doctrine:database:create -vvv)
                     (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
 
