@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\DependencyInjection;
 
+use Sylius\Bundle\CoreBundle\Application\Kernel;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -31,8 +32,7 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
 
         $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
 
-        /** doctrine/migrations <3.0 */
-        if (isset($doctrineConfig[0]['dirname'])) {
+        if (!$this->shouldDoctrineMigrationsConfigurationBePrepended()) {
             return;
         }
 
@@ -51,5 +51,11 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
                 'Sylius\RefundPlugin\Migrations' => ['Sylius\Bundle\CoreBundle\Migrations'],
             ],
         ]);
+    }
+
+    private function shouldDoctrineMigrationsConfigurationBePrepended(): bool
+    {
+        // prepending configuration is required only for DoctrineMigrations ^3.0 used in Sylius ^1.8
+        return (int) Kernel::MINOR_VERSION >= 8;
     }
 }

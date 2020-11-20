@@ -1,4 +1,3 @@
-
 lexik_jwt_authentication:
     secret_key: 'SECRET'
     public_key: 'PUBLIC'
