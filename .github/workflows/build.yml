@@ -93,11 +93,15 @@ jobs:
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
             -
-                name: Copy migrations
-                run: (cp src/Migrations/* tests/Application/src/Migrations/)
+                name: Prepare migrations for Sylius 1.7
                 if: matrix.sylius == '1.7.*'
+                run: |
+                    cp src/Migrations/* tests/Application/src/Migrations/
+                    cd tests/Application/src/Migrations
+                    sed -i -- 's/Sylius\\RefundPlugin\\Migrations/DoctrineMigrations/g' *
+                    cd ../../../../
 
-            -   name: Sylius 1.8 conflicts
+            -   name: Prepare migrations for Sylius 1.8
                 if: matrix.sylius == '1.8.*'
                 run: |
                     composer require sylius-labs/doctrine-migrations-extra-bundle --no-interaction --no-update
@@ -106,9 +110,8 @@ jobs:
                     cp etc/travis/sylius18/lexik_jwt_authentication.yaml tests/Application/config/packages/
                     cp etc/travis/sylius18/security.yaml tests/Application/config/packages/
                     cp etc/travis/sylius18/sylius_api.yaml tests/Application/config/routes/
-                    rm src/Migrations/Version*
                     rm tests/Application/src/Migrations/Version*
-                    cp etc/travis/sylius18/Version* src/Migrations/
+                    cat tests/Application/config/packages/doctrine_migrations.yaml
 
             -
                 name: Install Sylius version
@@ -140,7 +143,6 @@ jobs:
             -
                 name: Prepare test application database
                 run: |
-                    (cp src/Migrations/* tests/Application/src/Migrations/)
                     (cd tests/Application && bin/console doctrine:database:create -vvv)
                     (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
 
