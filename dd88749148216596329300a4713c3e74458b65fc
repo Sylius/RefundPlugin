@@ -1,0 +1,25 @@
+---------------------------------------------------------------------------
+
+by diimpp at 2020-11-20T22:06:06Z
+
+On off-topic note, I hope stable release won't be done until architectural problems are solve as discusses in https://github.com/Sylius/RefundPlugin/issues/193
+
+---------------------------------------------------------------------------
+
+by alopez-pp at 2020-11-27T15:42:22Z
+
+Hi, PayPlug team here 👋
+
+We are working closely with Synolia in order to release our first Sylius x PayPlug plugin, we are pretty excited to make it happen! 🚀
+
+I have two questions for you:
+- When will you tag this modification ?
+- Regarding your message "Definitely, the next release (hopefully the stable one already 🤞) would support Sylius 1.8 only", Does this mean that there is no hope at all to get the refund plugin in a stable version for 1.7 ? Can you explain why ?
+
+Thanks !
+
+---------------------------------------------------------------------------
+
+by GSadee at 2020-11-30T10:27:01Z
+
+Thanks, Mateusz! :1st_place_medal:
