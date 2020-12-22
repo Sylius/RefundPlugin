@@ -25,6 +25,6 @@ final class Version20190517064223 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE sylius_product_review CHANGE title title VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci');
+        $this->addSql('ALTER TABLE sylius_refund_refund CHANGE type type VARCHAR(255) NOT NULL COLLATE utf8_unicode_ci');
     }
 }
