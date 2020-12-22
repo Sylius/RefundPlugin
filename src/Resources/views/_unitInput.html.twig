@@ -3,5 +3,5 @@
 
 <div class="ui labeled input">
     <div class="ui label">{{ order.currencyCode|sylius_currency_symbol }}</div>
-    <input data-refund-input type="text" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
+    <input data-refund-input type="number" step="0.01" name="{{ inputName }}" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %} disabled{% endif %}/>
 </div>
