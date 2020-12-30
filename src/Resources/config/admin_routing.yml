@@ -32,7 +32,7 @@ sylius_refund_order_credit_memos_list:
         _sylius:
             template: "@SyliusRefundPlugin/Order/Admin/CreditMemo/list.html.twig"
             repository:
-                method: findByOrder
+                method: findByOrderId
                 arguments: $orderId
 
 sylius_refund_credit_memo_details:
