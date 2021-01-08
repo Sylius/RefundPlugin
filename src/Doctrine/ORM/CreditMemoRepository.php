@@ -14,12 +14,11 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Doctrine\ORM;
 
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Repository\CreditMemoRepositoryInterface;
 
 class CreditMemoRepository extends EntityRepository implements CreditMemoRepositoryInterface
 {
-    public function findByOrderId($orderId)
+    public function findByOrderId(string $orderId): array
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.order = :orderId')

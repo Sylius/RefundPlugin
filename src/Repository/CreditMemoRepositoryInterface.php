@@ -17,5 +17,5 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 interface CreditMemoRepositoryInterface extends RepositoryInterface
 {
-    public function findByOrderId($orderId);
+    public function findByOrderId(string $orderId): array;
 }
