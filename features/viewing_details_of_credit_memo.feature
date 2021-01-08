@@ -55,3 +55,11 @@ Feature: Viewing details of a credit memo
         And it should contain 1 "Galaxy Post" shipment with "4.50" gross value in "USD" currency
         And it should be issued in "United States" channel
         And its total should be "4.50" in "USD" currency
+
+    @ui
+    Scenario: Having all credit memos listed on the order page in ascending order
+        Given the "#00000022" order's shipping cost already has a refund of "$4.50" with "Space money" payment
+        And the 1st "PHP T-Shirt" product from order "#00000022" has a refund of "$5.50" with "Space money" payment
+        When I view the summary of the order "#00000022"
+        Then I should see "4.50" credit memo as 1st in the list
+        And I should see "5.50" credit memo as 2nd in the list
