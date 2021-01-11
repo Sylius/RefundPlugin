@@ -289,7 +289,8 @@ final class CreditMemoContext implements Context
     /**
      * @Then /^I should see "([^"]+)" credit memo as (\d+)(?:|st|nd|rd|th) in the list/
      */
-    public function iShouldCreditMemoOrderByAscInTheList(string $creditMemo, int $position): void {
+    public function iShouldCreditMemoOrderByAscInTheList(string $creditMemo, int $position): void
+    {
         Assert::true($this->creditMemoDetailsPage->isCreditMemoInPosition($creditMemo, $position));
     }
 }
