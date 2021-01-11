@@ -20,9 +20,9 @@ class CreditMemoRepository extends EntityRepository implements CreditMemoReposit
 {
     public function findByOrderId(string $orderId): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.order = :orderId')
-            ->addOrderBy('c.issuedAt', 'ASC')
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.order = :orderId')
+            ->addOrderBy('o.issuedAt', 'ASC')
             ->setParameter('orderId', $orderId)
             ->getQuery()
             ->getResult()

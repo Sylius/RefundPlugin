@@ -26,3 +26,10 @@ Feature: Seeing refund payments on admin order view
     Scenario: Seeing refund payment on order view
         When I view the summary of the order "#00000022"
         Then I should see 1 refund payment with status "New"
+
+    @ui
+    Scenario: Having all credit memos listed on the order page in ascending order
+        Given the "#00000022" order's shipping cost already has a refund of "$2.50" with "Space money" payment
+        When I view the summary of the order "#00000022"
+        Then I should see the credit memo with "$10.00" total as 1st in the list
+        And I should see the credit memo with "$2.50" total as 2nd in the list

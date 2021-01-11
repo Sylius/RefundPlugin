@@ -287,10 +287,10 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then /^I should see "([^"]+)" credit memo as (\d+)(?:|st|nd|rd|th) in the list$/
+     * @Then /^I should see the credit memo with "([^"]+)" total as (\d+)(?:|st|nd|rd|th) in the list$/
      */
-    public function iShouldCreditMemoOrderByAscInTheList(string $creditMemo, int $position): void
+    public function iShouldCreditMemoOrderByAscInTheList(string $creditMemoTotal, int $position): void
     {
-        Assert::true($this->creditMemoDetailsPage->isCreditMemoInPosition($creditMemo, $position));
+        Assert::true($this->creditMemoDetailsPage->isCreditMemoInPosition($creditMemoTotal, $position));
     }
 }
