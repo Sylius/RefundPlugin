@@ -128,12 +128,10 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
 
     public function isCreditMemoInPosition(string $creditMemo, int $position): bool
     {
-        $result = $this->getElement('credit_memo_in_given_position', [
+        return $this->getElement('credit_memo_in_given_position', [
             '%position%' => $position,
             '%creditMemo%' => $creditMemo,
-        ]);
-
-        return $result !== null;
+        ]) !== null;
     }
 
     protected function getDefinedElements(): array
