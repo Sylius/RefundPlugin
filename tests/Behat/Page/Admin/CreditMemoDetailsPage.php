@@ -126,9 +126,18 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         return $this->getDocument()->find('css', '#to-address')->getText();
     }
 
+    public function isCreditMemoInPosition(string $creditMemo, int $position): bool
+    {
+        return $this->getElement('credit_memo_in_given_position', [
+            '%position%' => $position,
+            '%creditMemo%' => $creditMemo,
+        ]) !== null;
+    }
+
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
+            'credit_memo_in_given_position' => 'table tbody tr:nth-child(%position%) td:contains("%creditMemo%")',
             'table' => 'table',
             'tax_item_amount' => 'tr.tax-item:contains("%label%") .tax-item-amount',
             'total' => '#credit-memo-total',

@@ -285,4 +285,12 @@ final class CreditMemoContext implements Context
     {
         Assert::true($this->pdfDownloadElement->isPdfFileDownloaded());
     }
+
+    /**
+     * @Then /^I should see the credit memo with "([^"]+)" total as (\d+)(?:|st|nd|rd|th) in the list$/
+     */
+    public function iShouldCreditMemoOrderByAscInTheList(string $creditMemoTotal, int $position): void
+    {
+        Assert::true($this->creditMemoDetailsPage->isCreditMemoInPosition($creditMemoTotal, $position));
+    }
 }

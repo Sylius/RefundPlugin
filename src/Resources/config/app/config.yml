@@ -3,6 +3,7 @@ sylius_resource:
         sylius_refund.credit_memo:
             classes:
                 model: Sylius\RefundPlugin\Entity\CreditMemo
+                repository: Sylius\RefundPlugin\Doctrine\ORM\CreditMemoRepository
         sylius_refund.line_item:
             classes:
                 model: Sylius\RefundPlugin\Entity\LineItem
