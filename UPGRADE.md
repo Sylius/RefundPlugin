@@ -1,3 +1,19 @@
+### UPGRADE FROM 1.0.0-RC.5 TO 1.0.0-RC.6
+
+1. The `Version20201208105207.php` migration was added which extends existing adjustments with additional details (context). Depending on the type of adjustment, additionally defined information are:
+ * Taxation details (percentage and relation to tax rate)
+ * Shipping details (shipping relation)
+ * Taxation for shipping (combined details of percentage and shipping relation)
+
+ This data is fetched based on two assumptions:
+ * Order level taxes relates to shipping only (default Sylius behaviour)
+ * Tax rate name has not change since the time, the first order has been placed
+
+ If these are not true, please adjust migration accordingly to your need. To exclude following migration from execution run following code: 
+    ```
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add
+    ```
+
 ### UPGRADE FROM 1.0.0-RC.3 TO 1.0.0-RC.4
 
 1. Upgrade your application to [Sylius 1.8](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.8.md).
