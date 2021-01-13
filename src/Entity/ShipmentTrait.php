@@ -13,36 +13,42 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Order\Model\AdjustmentInterface as BaseAdjustmentInterface;
-use Sylius\Component\Core\Model\Shipment as BaseShipment;
 
 /**
  * @internal
  *
- * This class is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
+ * This trait is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
  * It is a duplication of a logic from Sylius to provide proper adjustments handling.
  */
-class Shipment extends BaseShipment implements ShipmentInterface
+trait ShipmentTrait
 {
     /**
      * @var Collection|BaseAdjustmentInterface[]
      *
      * @psalm-var Collection<array-key, BaseAdjustmentInterface>
      */
+
+    /**
+     * @var Collection|AdjustmentInterface[]
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Sylius\RefundPlugin\Entity\AdjustmentInterface",
+     *     mappedBy="shipment",
+     *     orphanRemoval=true,
+     *     cascade={"all"}
+     * )
+     *
+     * @psalm-var Collection<array-key, AdjustmentInterface>
+     */
     protected $adjustments;
 
-    /** @var int */
+    /**
+     * @var int
+     * @ORM\Column(type="integer", name="adjustments_total")
+     */
     protected $adjustmentsTotal = 0;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        /** @var ArrayCollection<array-key, BaseAdjustmentInterface> $this->adjustments */
-        $this->adjustments = new ArrayCollection();
-    }
 
     public function getAdjustments(?string $type = null): Collection
     {

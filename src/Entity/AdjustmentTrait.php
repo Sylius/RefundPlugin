@@ -13,20 +13,25 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-use Sylius\Component\Order\Model\Adjustment as BaseAdjustment;
-
 /**
  * @internal
  *
- * This class is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
+ * This trait is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
  * It is a duplication of a logic from Sylius to provide proper adjustments handling.
  */
-class Adjustment extends BaseAdjustment implements AdjustmentInterface
+trait AdjustmentTrait
 {
-    /** @var array */
+    /**
+     * @var array
+     * @ORM\Column(type="json", name="details")
+     */
     protected $details = [];
 
-    /** @var ShipmentInterface|null */
+    /**
+     * @var ShipmentInterface|null
+     * @ORM\ManyToOne(targetEntity="Sylius\RefundPlugin\Entity\ShipmentInterface", inversedBy="adjustments")
+     * @ORM\JoinColumn(name="shipment_id", onDelete="CASCADE", nullable=true)
+     */
     protected $shipment;
 
     public function getDetails(): array

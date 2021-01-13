@@ -20,20 +20,6 @@ sylius_resource:
             classes:
                 model: Sylius\RefundPlugin\Entity\RefundPayment
 
-sylius_order:
-    resources:
-        adjustment:
-            classes:
-                # TODO Remove below line after update to Sylius 1.9. Duplicated in order to provide proper adjustments handling.
-                model: Sylius\RefundPlugin\Entity\Adjustment
-
-sylius_shipping:
-    resources:
-        shipment:
-            classes:
-                # TODO Remove below line after update to Sylius 1.9. Duplicated in order to provide proper adjustments handling.
-                model: Sylius\RefundPlugin\Entity\Shipment
-
 sylius_mailer:
     emails:
         units_refunded:

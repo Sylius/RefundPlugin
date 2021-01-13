@@ -14,6 +14,64 @@
     bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add
     ```
 
+1. Add traits that enhance Adjustment and Shipment models from Sylius. These traits are not covered by 
+the backward compatibility promise and it will be removed after update Sylius to 1.9. It is a duplication of a logic 
+from Sylius to provide proper adjustments handling.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Sylius\RefundPlugin\Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Order\Model\Adjustment as BaseAdjustment;
+use Sylius\RefundPlugin\Entity\AdjustmentInterface;
+use Sylius\RefundPlugin\Entity\AdjustmentTrait;
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="sylius_adjustment")
+ */
+class Adjustment extends BaseAdjustment implements AdjustmentInterface
+{
+    use AdjustmentTrait;
+}
+```
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Sylius\RefundPlugin\Application\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Sylius\Component\Core\Model\Shipment as BaseShipment;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
+use Sylius\RefundPlugin\Entity\ShipmentTrait;
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="sylius_shipment")
+ */
+class Shipment extends BaseShipment implements ShipmentInterface
+{
+    use ShipmentTrait;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        /** @var ArrayCollection<array-key, BaseAdjustmentInterface> $this->adjustments */
+        $this->adjustments = new ArrayCollection();
+    }
+}
+
+```
+
 ### UPGRADE FROM 1.0.0-RC.3 TO 1.0.0-RC.4
 
 1. Upgrade your application to [Sylius 1.8](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.8.md).

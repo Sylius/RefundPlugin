@@ -12,3 +12,9 @@ doctrine:
         charset: UTF8
 
         url: '%env(resolve:DATABASE_URL)%'
+    orm:
+        mappings:
+            App:
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: Tests\Sylius\RefundPlugin\Application
