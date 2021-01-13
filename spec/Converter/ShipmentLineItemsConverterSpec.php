@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Converter;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class ShipmentLineItemsConverterSpec extends ObjectBehavior
@@ -25,7 +26,8 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 
     function it_converts_shipment_unit_refunds_to_line_items(
         RepositoryInterface $adjustmentRepository,
-        AdjustmentInterface $shippingAdjustment
+        AdjustmentInterface $shippingAdjustment,
+        ShipmentInterface $shipment
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 500);
 
@@ -35,7 +37,9 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         ;
 
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
-        $shippingAdjustment->getAmount()->willReturn(1000);
+        $shippingAdjustment->getShipment()->willReturn($shipment);
+
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
 
         $this->convert([$shipmentRefund])->shouldBeLike([new LineItem(
             'Galaxy post',
@@ -66,7 +70,8 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 
     function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
         RepositoryInterface $adjustmentRepository,
-        AdjustmentInterface $shippingAdjustment
+        AdjustmentInterface $shippingAdjustment,
+        ShipmentInterface $shipment
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 1001);
 
@@ -75,7 +80,8 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
             ->willReturn($shippingAdjustment)
         ;
 
-        $shippingAdjustment->getAmount()->willReturn(1000);
+        $shippingAdjustment->getShipment()->willReturn($shipment);
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
@@ -43,7 +43,11 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
             ->findOneBy(['id' => $shipmentRefund->id(), 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
         ;
         Assert::notNull($shippingAdjustment);
-        Assert::lessThanEq($shipmentRefund->total(), $shippingAdjustment->getAmount());
+
+        $shipment = $shippingAdjustment->getShipment();
+        Assert::notNull($shipment);
+
+        Assert::lessThanEq($shipmentRefund->total(), $shipment->getAdjustmentsTotal());
 
         return new LineItem(
             $shippingAdjustment->getLabel(),

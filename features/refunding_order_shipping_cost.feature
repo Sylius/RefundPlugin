@@ -38,7 +38,7 @@ Feature: Refunding an order shipping cost
         And I should not be able to refund order shipment
         And I should not be able to refund 1st unit with product "Mr. Meeseeks T-Shirt"
 
-    @ui @application @todo
+    @ui @application
     Scenario: Refunding an order shipment with its tax
         When I want to refund some units of order "#00000023"
         And I decide to refund order shipment with "Space money" payment

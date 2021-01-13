@@ -113,7 +113,6 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         $calculator->calculate(1000, $taxRate)->willReturn(0.00);
 
         $adjustmentsFactory->createWithData(Argument::cetera())->shouldNotBeCalled();
-        $order->addAdjustment(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }
@@ -143,7 +142,6 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn(null);
 
         $calculator->calculate(Argument::any())->shouldNotBeCalled();
-        $order->addAdjustment(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }
@@ -156,7 +154,6 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         $order->getShippingTotal()->willReturn(0);
 
         $taxRateResolver->resolve(Argument::any())->shouldNotBeCalled();
-        $order->addAdjustment(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }

@@ -139,6 +139,13 @@
             <tag name="sylius.order_processor" priority="30"/>
         </service>
 
+        <service id="sylius.order_processing.order_taxes_processor" class="Sylius\RefundPlugin\OrderProcessor\OrderTaxesProcessor">
+            <argument type="service" id="sylius.provider.channel_based_default_zone_provider" />
+            <argument type="service" id="sylius.zone_matcher" />
+            <argument type="service" id="sylius.registry.tax_calculation_strategy" />
+            <tag name="sylius.order_processor" priority="10"/>
+        </service>
+
         <service id="sylius.taxation.order_shipment_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderShipmentTaxesApplicator">
             <argument type="service" id="sylius.tax_calculator" />
             <argument type="service" id="sylius.factory.adjustment" />

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
@@ -68,14 +69,15 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     function it_returns_shipment_remaining_total_to_refund(
         RepositoryInterface $adjustmentRepository,
         RepositoryInterface $refundRepository,
-        AdjustmentInterface $shipment,
+        AdjustmentInterface $shippingAdjustment,
+        ShipmentInterface $shipment,
         RefundInterface $refund
     ): void {
         $refundType = RefundType::shipment();
 
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
-            ->willReturn($shipment)
+            ->willReturn($shippingAdjustment)
         ;
 
         $refundRepository
@@ -84,7 +86,8 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         ;
 
         $refund->getAmount()->willReturn(500);
-        $shipment->getAmount()->willReturn(1000);
+        $shippingAdjustment->getShipment()->willReturn($shipment);
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
 
         $this->getTotalLeftToRefund(1, $refundType)->shouldReturn(500);
     }
@@ -92,13 +95,14 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     function it_returns_shipment_total_if_there_is_no_refund_for_this_unit_yet(
         RepositoryInterface $adjustmentRepository,
         RepositoryInterface $refundRepository,
-        AdjustmentInterface $shipment
+        AdjustmentInterface $shippingAdjustment,
+        ShipmentInterface $shipment
     ): void {
         $refundType = RefundType::shipment();
 
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
-            ->willReturn($shipment)
+            ->willReturn($shippingAdjustment)
         ;
 
         $refundRepository
@@ -106,7 +110,8 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
             ->willReturn([])
         ;
 
-        $shipment->getAmount()->willReturn(1000);
+        $shippingAdjustment->getShipment()->willReturn($shipment);
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
 
         $this->getTotalLeftToRefund(1, $refundType)->shouldReturn(1000);
     }
