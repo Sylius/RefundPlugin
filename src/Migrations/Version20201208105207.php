@@ -56,7 +56,7 @@ final class Version20201208105207 extends AbstractMigration
         $this->setDefaultAdjustmentData();
     }
 
-    private function getShippingMethodName(?string $shippingMethodCode)
+    private function getShippingMethodName(?string $shippingMethodCode): ?string
     {
         if ($shippingMethodCode === null) {
             return $shippingMethodCode;
@@ -76,7 +76,10 @@ final class Version20201208105207 extends AbstractMigration
             }
         }
 
-        return json_encode($parsedDetails);
+        /** @var string $encodedDetails */
+        $encodedDetails = json_encode($parsedDetails);
+
+        return $encodedDetails;
     }
 
     private function setDefaultAdjustmentData(): void

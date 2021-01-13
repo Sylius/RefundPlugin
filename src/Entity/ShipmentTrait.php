@@ -15,6 +15,7 @@ namespace Sylius\RefundPlugin\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Order\Model\AdjustmentInterface as BaseAdjustmentInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @internal
@@ -24,12 +25,6 @@ use Sylius\Component\Order\Model\AdjustmentInterface as BaseAdjustmentInterface;
  */
 trait ShipmentTrait
 {
-    /**
-     * @var Collection|BaseAdjustmentInterface[]
-     *
-     * @psalm-var Collection<array-key, BaseAdjustmentInterface>
-     */
-
     /**
      * @var Collection|AdjustmentInterface[]
      *
@@ -64,6 +59,8 @@ trait ShipmentTrait
     public function addAdjustment(BaseAdjustmentInterface $adjustment): void
     {
         /** @var AdjustmentInterface $adjustment */
+        Assert::isInstanceOf($adjustment, AdjustmentInterface::class);
+
         if ($this->hasAdjustment($adjustment)) {
             return;
         }

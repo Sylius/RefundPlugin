@@ -20,6 +20,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Shipping\Calculator\DelegatingCalculatorInterface;
 use Sylius\Component\Shipping\Calculator\UndefinedShippingMethodException;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -52,12 +53,14 @@ final class ShippingChargesProcessor implements OrderProcessorInterface
         // Remove all shipping adjustments, we recalculate everything from scratch.
         $order->removeAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT);
 
+        /** @var ShipmentInterface $shipment */
         foreach ($order->getShipments() as $shipment) {
             $shipment->removeAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT);
 
             try {
                 $shippingCharge = $this->shippingChargesCalculator->calculate($shipment);
                 $shippingMethod = $shipment->getMethod();
+                Assert::notNull($shippingMethod);
 
                 /** @var AdjustmentInterface $adjustment */
                 $adjustment = $this->adjustmentFactory->createNew();

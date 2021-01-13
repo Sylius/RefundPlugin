@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-use Sylius\Component\Order\Model\AdjustableInterface;
 use Sylius\Component\Core\Model\ShipmentInterface as BaseShipmentInterface;
+use Sylius\Component\Order\Model\AdjustableInterface;
 
 /**
  * @internal
