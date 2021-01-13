@@ -16,8 +16,7 @@ Feature: Seeing credit memos in admin order view
     And the customer chose "Galaxy Post" shipping method with "Space money" payment
     And the order "#00000022" is already paid
     And I am logged in as an administrator
-
-
+    
   @ui
   Scenario: Having all credit memos listed on the order page in ascending order
     Given the "#00000022" order's shipping cost already has a refund of "$4.50" with "Space money" payment

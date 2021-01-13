@@ -26,4 +26,3 @@ Feature: Seeing refund payments on admin order view
     Scenario: Seeing refund payment on order view
         When I view the summary of the order "#00000022"
         Then I should see 1 refund payment with status "New"
-
