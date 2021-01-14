@@ -21,7 +21,7 @@ jobs:
                 php: [7.4, 7.3]
                 node: [10.x]
                 mysql: [5.7, 8.0]
-                sylius: [1.7.*, 1.8.*]
+                sylius: [1.8.*]
 
                 exclude:
                     -
@@ -92,21 +92,7 @@ jobs:
                     restore-keys: |
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
-            -
-                name: Prepare migrations for Sylius 1.7
-                if: matrix.sylius == '1.7.*'
-                run: |
-                    cp etc/sylius17/migrations/* tests/Application/src/Migrations/
-                    cp src/Migrations/* tests/Application/src/Migrations/
-                    sed -i -- 's/Sylius\\RefundPlugin\\Migrations/DoctrineMigrations/g' tests/Application/src/Migrations/*
-                    cp etc/sylius17/bundles.php tests/Application/config/
-                    cp etc/sylius17/doctrine_migrations.yaml tests/Application/config/packages/
-                    cp etc/sylius17/security.yaml tests/Application/config/packages/
-                    rm tests/Application/config/packages//lexik_jwt_authentication.yaml
-                    rm tests/Application/config/routes/sylius_api.yaml
-
-            -   name: Prepare migrations for Sylius 1.8
-                if: matrix.sylius == '1.8.*'
+            -   name: Prepare migrations
                 run: |
                     composer require sylius-labs/doctrine-migrations-extra-bundle --no-interaction --no-update
 
