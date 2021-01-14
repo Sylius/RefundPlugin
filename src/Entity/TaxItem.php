@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-/** @final */
 class TaxItem implements TaxItemInterface
 {
     /** @var int|null */

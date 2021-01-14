@@ -6,7 +6,6 @@ namespace Sylius\RefundPlugin\Entity;
 
 use Sylius\RefundPlugin\Exception\LineItemsCannotBeMerged;
 
-/** @final */
 class LineItem implements LineItemInterface
 {
     /** @var int|null */
