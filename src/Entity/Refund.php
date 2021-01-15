@@ -6,7 +6,6 @@ namespace Sylius\RefundPlugin\Entity;
 
 use Sylius\RefundPlugin\Model\RefundType;
 
-/** @final */
 class Refund implements RefundInterface
 {
     /** @var int|null */

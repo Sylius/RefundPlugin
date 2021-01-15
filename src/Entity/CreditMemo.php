@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-/** @final */
 class CreditMemo implements CreditMemoInterface
 {
     /** @var string */
