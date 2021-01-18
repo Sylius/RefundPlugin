@@ -31,7 +31,7 @@ use Webmozart\Assert\Assert;
  * This class is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
  * It is a duplication of a logic from Sylius to provide proper adjustments handling.
  */
-class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
+final class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
 {
     /** @var CalculatorInterface */
     private $calculator;

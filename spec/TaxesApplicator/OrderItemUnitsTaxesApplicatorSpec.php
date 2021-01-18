@@ -187,7 +187,6 @@ final class OrderItemUnitsTaxesApplicatorSpec extends ObjectBehavior
         $items->getIterator()->willReturn(new \ArrayIterator([$orderItem->getWrappedObject()]));
 
         $orderItem->getQuantity()->willReturn(2);
-
         $orderItem->getVariant()->willReturn($productVariant);
         $taxRateResolver->resolve($productVariant, ['zone' => $zone])->willReturn($taxRate);
 

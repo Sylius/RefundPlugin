@@ -16,6 +16,7 @@ namespace spec\Sylius\RefundPlugin\TaxesApplicator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Distributor\IntegerDistributorInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -68,7 +69,6 @@ final class OrderItemsTaxesApplicatorSpec extends ObjectBehavior
         $items->getIterator()->willReturn(new \ArrayIterator([$orderItem->getWrappedObject()]));
 
         $orderItem->getQuantity()->willReturn(2);
-
         $orderItem->getVariant()->willReturn($productVariant);
         $taxRateResolver->resolve($productVariant, ['zone' => $zone])->willReturn($taxRate);
 
@@ -144,13 +144,13 @@ final class OrderItemsTaxesApplicatorSpec extends ObjectBehavior
 
         $items->count()->willReturn(1);
         $items->getIterator()->willReturn($iterator);
+
         $iterator->rewind()->shouldBeCalled();
         $iterator->valid()->willReturn(true, false)->shouldBeCalled();
         $iterator->current()->willReturn($orderItem);
         $iterator->next()->shouldBeCalled();
 
         $orderItem->getQuantity()->willReturn(5);
-
         $orderItem->getVariant()->willReturn($productVariant);
         $taxRateResolver->resolve($productVariant, ['zone' => $zone])->willReturn(null);
 
@@ -195,10 +195,7 @@ final class OrderItemsTaxesApplicatorSpec extends ObjectBehavior
 
         $distributor->distribute(0, 2)->willReturn([0, 0]);
 
-        $adjustmentsFactory
-            ->createWithData(AdjustmentInterface::TAX_ADJUSTMENT, 'Simple tax (0%)', 0, false)
-            ->shouldNotBeCalled()
-        ;
+        $adjustmentsFactory->createWithData(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }

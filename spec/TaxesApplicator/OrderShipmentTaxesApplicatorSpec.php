@@ -42,7 +42,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         $this->shouldImplement(OrderTaxesApplicatorInterface::class);
     }
 
-    function it_applies_shipment_taxes_on_order_based_on_shipment_adjustments_promotions_and_rate(
+    function it_applies_shipment_taxes_on_order_based_on_shipment_adjustments(
         CalculatorInterface $calculator,
         AdjustmentFactoryInterface $adjustmentsFactory,
         TaxRateResolverInterface $taxRateResolver,
@@ -137,6 +137,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
     ): void {
         $order->getShippingTotal()->willReturn(100);
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
+
         $shipment->getMethod()->willReturn($shippingMethod);
 
         $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn(null);
