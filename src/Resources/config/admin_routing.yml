@@ -9,20 +9,19 @@ sylius_refund_refund_units:
     defaults:
         _controller: Sylius\RefundPlugin\Action\Admin\RefundUnitsAction
 
-sylius_refund_credit_memo:
-    resource: |
-        alias: sylius_refund.credit_memo
-        section: admin
-        templates: SyliusAdminBundle:Crud
-        only: ['index']
-        grid: sylius_refund_credit_memo
-        permission: true
-        vars:
-            all:
-                subheader: sylius_refund.ui.manage_credit_memos
-            index:
-                icon: inbox
-    type: sylius.resource
+sylius_refund_admin_credit_memo_index:
+    path: /credit-memos
+    methods: [GET]
+    defaults:
+        _controller: sylius_refund.controller.credit_memo:indexAction
+        _sylius:
+            template: "@SyliusAdmin/Crud/index.html.twig"
+            grid: sylius_refund_credit_memo
+            vars:
+                all:
+                    subheader: sylius_refund.ui.manage_credit_memos
+                index:
+                    icon: inbox
 
 sylius_refund_order_credit_memos_list:
     path: /orders/{orderId}/credit-memos

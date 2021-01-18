@@ -10,7 +10,7 @@
             <argument type="service" id="sylius_refund_plugin.event_bus" />
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="Sylius\RefundPlugin\Validator\RefundUnitsCommandValidator" />
-            <tag name="messenger.message_handler" />
+            <tag name="messenger.message_handler" bus="sylius_default.bus"/>
         </service>
 
         <service id="Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler">
@@ -18,13 +18,13 @@
             <argument type="service" id="sylius_refund.manager.credit_memo" />
             <argument type="service" id="sylius_refund_plugin.event_bus" />
             <argument type="service" id="sylius.repository.order" />
-            <tag name="messenger.message_handler" />
+            <tag name="messenger.message_handler" bus="sylius_default.bus"/>
         </service>
 
         <service id="Sylius\RefundPlugin\CommandHandler\SendCreditMemoHandler" >
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
             <argument type="service" id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender"/>
-            <tag name="messenger.message_handler" />
+            <tag name="messenger.message_handler" bus="sylius_default.bus"/>
         </service>
     </services>
 </container>

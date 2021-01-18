@@ -57,11 +57,3 @@
     ```bash
     bin/console cache:clear
     ```
-
-9. (optional) If you don't use `symfony/messenger` component yet, it is required to configure one of the message buses as a default bus:
-
-    ```yaml
-    framework:
-        messenger:
-            default_bus: sylius_refund_plugin.command_bus
-    ```
