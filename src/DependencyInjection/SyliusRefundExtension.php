@@ -43,7 +43,10 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
 
         $container->prependExtensionConfig('sylius_labs_doctrine_migrations_extra', [
             'migrations' => [
-                'Sylius\RefundPlugin\Migrations' => ['Sylius\Bundle\CoreBundle\Migrations'],
+                'Sylius\RefundPlugin\Migrations' => [
+                    'Sylius\Bundle\CoreBundle\Migrations',
+                    'Sylius\Bundle\AdminApiBundle\Migrations',
+                ],
             ],
         ]);
     }

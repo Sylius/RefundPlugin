@@ -1,14 +1,16 @@
 {% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
 
 {% if order.getAdjustments('shipping')|length > 0 %}
-    {% set shipment = order.getAdjustments('shipping').first() %}
+    {% set shippingAdjustment = order.getAdjustments('shipping').first() %}
+    {% set shipment = shippingAdjustment.shipment %}
+
     <tr class="shipment">
         <td class="single line">
-            {{ 'sylius.ui.shipment'|trans }}: {{ shipment.label }}
+            {{ 'sylius.ui.shipment'|trans }}: {{ shippingAdjustment.label }}
         </td>
         <td class="right aligned total">
-            <span class="unit-total">{{ money.format(shipment.amount, order.currencyCode) }}</span>
-            {% set refundedTotal = unit_refunded_total(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %}
+            <span class="unit-total">{{ money.format(shipment.adjustmentsTotal, order.currencyCode) }}</span>
+            {% set refundedTotal = unit_refunded_total(shippingAdjustment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %}
             {% if refundedTotal != 0 %}
                 <br/><strong>{{ 'sylius_refund.ui.refunded'|trans }}:</strong> <span class="unit-refunded-total">{{ money.format(refundedTotal, order.currencyCode) }}</span>
             {% endif %}
@@ -17,12 +19,12 @@
 
             <div class="ui labeled input">
                 <div class="ui label">{{ order.currencyCode|sylius_currency_symbol }}</div>
-                {% set inputName = "sylius_refund_shipments["~shipment.id~"][amount]" %}
-                <input data-refund-input type="number" step="0.01" name="{{ inputName }}" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}/>
+                {% set inputName = "sylius_refund_shipments["~shippingAdjustment.id~"][amount]" %}
+                <input data-refund-input type="number" step="0.01" name="{{ inputName }}" {% if not can_unit_be_refunded(shippingAdjustment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}/>
             </div>
         </td>
         <td class="aligned collapsing">
-            <button data-refund="{{ unit_refund_left(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT'), shipment.amount) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(shipment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}>
+            <button data-refund="{{ unit_refund_left(shippingAdjustment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT'), shipment.adjustmentsTotal) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(shippingAdjustment.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT')) %} disabled{% endif %}>
                 {{ 'sylius_refund.ui.refund'|trans }}
             </button>
         </td>

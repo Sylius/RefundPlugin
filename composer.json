@@ -57,6 +57,11 @@
             "Tests\\Sylius\\RefundPlugin\\": "tests/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Sylius\\RefundPlugin\\Application\\": "tests/Application/src/"
+        }
+    },
     "conflict": {
         "symplify/package-builder": "^8.3.25"
     },

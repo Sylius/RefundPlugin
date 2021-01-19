@@ -132,5 +132,37 @@
         <service id="Sylius\RefundPlugin\Grid\Filter\ChannelFilter">
             <tag name="sylius.grid_filter" type="credit_memo_channel" form_type="Sylius\RefundPlugin\Form\Type\ChannelFilterType" />
         </service>
+
+        <service id="sylius.order_processing.shipping_charges_processor" class="Sylius\RefundPlugin\OrderProcessor\ShippingChargesProcessor">
+            <argument type="service" id="sylius.factory.adjustment" />
+            <argument type="service" id="sylius.shipping_calculator" />
+            <tag name="sylius.order_processor" priority="30"/>
+        </service>
+
+        <service id="sylius.order_processing.order_taxes_processor" class="Sylius\RefundPlugin\OrderProcessor\OrderTaxesProcessor">
+            <argument type="service" id="sylius.provider.channel_based_default_zone_provider" />
+            <argument type="service" id="sylius.zone_matcher" />
+            <argument type="service" id="sylius.registry.tax_calculation_strategy" />
+            <tag name="sylius.order_processor" priority="10"/>
+        </service>
+
+        <service id="sylius.taxation.order_shipment_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderShipmentTaxesApplicator">
+            <argument type="service" id="sylius.tax_calculator" />
+            <argument type="service" id="sylius.factory.adjustment" />
+            <argument type="service" id="sylius.tax_rate_resolver" />
+        </service>
+
+        <service id="sylius.taxation.order_items_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderItemsTaxesApplicator">
+            <argument type="service" id="sylius.tax_calculator" />
+            <argument type="service" id="sylius.factory.adjustment" />
+            <argument type="service" id="sylius.integer_distributor" />
+            <argument type="service" id="sylius.tax_rate_resolver" />
+        </service>
+
+        <service id="sylius.taxation.order_item_units_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderItemUnitsTaxesApplicator">
+            <argument type="service" id="sylius.tax_calculator" />
+            <argument type="service" id="sylius.factory.adjustment" />
+            <argument type="service" id="sylius.tax_rate_resolver" />
+        </service>
     </services>
 </container>
