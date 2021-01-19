@@ -10,7 +10,10 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Command\SendCreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -21,12 +24,19 @@ final class RefundingContext implements Context
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
+    /** @var RepositoryInterface */
+    private $creditMemoRepository;
+
     /** @var MessageBusInterface */
     private $commandBus;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, MessageBusInterface $commandBus)
-    {
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        RepositoryInterface $creditMemoRepository,
+        MessageBusInterface $commandBus
+    ) {
         $this->orderRepository = $orderRepository;
+        $this->creditMemoRepository = $creditMemoRepository;
         $this->commandBus = $commandBus;
     }
 
@@ -55,6 +65,11 @@ final class RefundingContext implements Context
             $paymentMethod->getId(),
             ''
         ));
+
+        /** @var CreditMemoInterface $creditMemo */
+        $creditMemo = $this->creditMemoRepository->findOneBy(['order' => $order]);
+
+        $this->commandBus->dispatch(new SendCreditMemo($creditMemo->getNumber()));
     }
 
     /**

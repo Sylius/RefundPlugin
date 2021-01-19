@@ -32,7 +32,7 @@ final class CreditMemoContext implements Context
     /** @var ObjectRepository */
     private $creditMemoRepository;
 
-    /** @var CurrentDateTimeProviderInterface */
+    /** @var CurrentDateTimeImmutableProviderInterface */
     private $currentDateTimeImmutableProvider;
 
     public function __construct(
