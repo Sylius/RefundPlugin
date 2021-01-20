@@ -22,7 +22,7 @@ final class OrderShowMenuListener
         $menu = $event->getMenu();
         $order = $event->getOrder();
 
-        if ($this->orderRefundsListAvailabilityChecker->__invoke($order->getNumber())) {
+        if ($this->orderRefundsListAvailabilityChecker->__invoke((string) $order->getNumber())) {
             $menu
                 ->addChild('refunds', [
                     'route' => 'sylius_refund_order_refunds_list',
