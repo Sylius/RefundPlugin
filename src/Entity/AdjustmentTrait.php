@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
+use Sylius\Component\Core\Model\ShipmentInterface as BaseShipmentInterface;
+
 /**
  * @internal
  *
@@ -44,12 +46,12 @@ trait AdjustmentTrait
         $this->details = $details;
     }
 
-    public function getShipment(): ?ShipmentInterface
+    public function getShipment(): ?BaseShipmentInterface
     {
         return $this->shipment;
     }
 
-    public function setShipment(?ShipmentInterface $shipment): void
+    public function setShipment(?BaseShipmentInterface $shipment): void
     {
         if ($this->shipment === $shipment) {
             return;

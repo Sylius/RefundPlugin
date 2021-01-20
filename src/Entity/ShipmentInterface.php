@@ -22,6 +22,12 @@ use Sylius\Component\Order\Model\AdjustableInterface;
  * This class is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
  * It is a duplication of a logic from Sylius to provide proper adjustments handling.
  */
-interface ShipmentInterface extends BaseShipmentInterface, AdjustableInterface
-{
+if (is_a(BaseShipmentInterface::class, AdjustableInterface::class, true)) {
+    interface ShipmentInterface extends BaseShipmentInterface
+    {
+    }
+} else {
+    interface ShipmentInterface extends BaseShipmentInterface, AdjustableInterface
+    {
+    }
 }

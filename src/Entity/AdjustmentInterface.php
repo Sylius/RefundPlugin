@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity;
 
 use Sylius\Component\Core\Model\AdjustmentInterface as BaseAdjustmentInterface;
+use Sylius\Component\Core\Model\ShipmentInterface as BaseShipmentInterface;
 
 /**
  * @internal
@@ -27,7 +28,7 @@ interface AdjustmentInterface extends BaseAdjustmentInterface
 
     public function setDetails(array $details): void;
 
-    public function getShipment(): ?ShipmentInterface;
+    public function getShipment(): ?BaseShipmentInterface;
 
-    public function setShipment(?ShipmentInterface $shipment): void;
+    public function setShipment(?BaseShipmentInterface $shipment): void;
 }
