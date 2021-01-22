@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Sylius\RefundPlugin\Entity\CustomerBillingData;
-use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;

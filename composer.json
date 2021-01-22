@@ -20,12 +20,12 @@
     ],
     "require": {
         "php": "^7.3",
-        "friendsofsymfony/oauth-server-bundle": ">2.0.0-alpha.0 ^2.0@dev",
+        "friendsofsymfony/oauth-server-bundle": "^1.6 || >2.0.0-alpha.0 ^2.0@dev",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.8",
         "myclabs/php-enum": "^1.7",
-        "sylius/resource-bundle": "^1.7",
-        "sylius/sylius": "dev-master",
+        "sylius/resource-bundle": "^1.6 || ^1.7",
+        "sylius/sylius": "^1.8",
         "symfony/messenger": "^4.4"
     },
     "require-dev": {

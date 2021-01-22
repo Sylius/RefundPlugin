@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\StateResolver;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use SM\StateMachine\StateMachineInterface;

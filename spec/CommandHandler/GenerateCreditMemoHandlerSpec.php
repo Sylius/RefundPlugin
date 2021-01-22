@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\CommandHandler;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
