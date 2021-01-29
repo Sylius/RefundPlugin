@@ -63,14 +63,13 @@
         }
     },
     "conflict": {
-        "symplify/package-builder": "^8.3.25",
+        "symplify/package-builder": "8.3.25",
         "api-platform/core": "^2.6"
     },
     "scripts": {
         "analyse": [
             "@composer validate --strict",
-            "vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/",
-            "vendor/bin/ecs check src/ spec/"
+            "vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/"
         ],
         "fix": [
             "vendor/bin/ecs check src/ spec/ --fix"
