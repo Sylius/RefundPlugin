@@ -21,11 +21,11 @@
     "require": {
         "php": "^7.3",
         "friendsofsymfony/oauth-server-bundle": "^1.6 || >2.0.0-alpha.0 ^2.0@dev",
+        "jms/serializer-bundle": "^2.4 || ^3.5",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "knplabs/knp-snappy-bundle": "^1.8",
         "myclabs/php-enum": "^1.7",
         "sylius/resource-bundle": "^1.6 || ^1.7",
-        "sylius/sylius": "^1.8",
         "symfony/messenger": "^4.4"
     },
     "require-dev": {

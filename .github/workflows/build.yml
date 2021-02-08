@@ -21,12 +21,15 @@ jobs:
                 php: [7.4, 7.3]
                 node: [10.x]
                 mysql: [5.7, 8.0]
-                sylius: [dev-master, 1.8.8]
+                sylius: [dev-master, 1.8.*]
 
                 exclude:
                     -
                         php: 7.3
                         mysql: 8.0
+                    -
+                        php: 7.3
+                        sylius: dev-master
 
         env:
             APP_ENV: test
@@ -79,6 +82,26 @@ jobs:
                 run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
 
             -
+                name: Install Sylius version
+                run: |
+                    composer require "sylius/sylius:${{ matrix.sylius }}" --no-update
+
+            -
+                name: Prepare proper configuration for version using sylius/sylius 1.9
+                if: matrix.sylius != '1.8.*'
+                run: |
+                    composer require babdev/pagerfanta-bundle
+
+            -
+                name: Prepare proper configuration for version using sylius/sylius 1.8
+                if: matrix.sylius == '1.8.*'
+                run: |
+                    cp etc/sylius18/config/packages/dev/jms_serializer.yaml tests/Application/config/packages/dev/
+                    cp etc/sylius18/config/packages/prod/jms_serializer.yaml tests/Application/config/packages/prod/
+                    cp etc/sylius18/config/packages/jms_serializer.yaml tests/Application/config/packages/
+                    composer require white-october/pagerfanta-bundle
+
+            -
                 name: Get Composer cache directory
                 id: composer-cache
                 run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -129,7 +152,7 @@ jobs:
 
             -
                 name: Exclude duplicated migrations
-                if: matrix.sylius != '1.8.8'
+                if: matrix.sylius != '1.8.*'
                 run: |
                     (cd tests/Application && bin/console doctrine:migration:sync-metadata-storage)
                     (cd tests/Application && bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201204071301' --add)
