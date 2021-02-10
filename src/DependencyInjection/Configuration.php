@@ -14,8 +14,8 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('sylius_refund_plugin');
+        $treeBuilder = new TreeBuilder('sylius_refund_plugin');
+        $rootNode = $treeBuilder->getRootNode();
 
         return $treeBuilder;
     }
