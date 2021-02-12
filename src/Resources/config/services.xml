@@ -164,5 +164,10 @@
             <argument type="service" id="sylius.factory.adjustment" />
             <argument type="service" id="sylius.tax_rate_resolver" />
         </service>
+
+        <service id="sylius.promotion_action.shipping_percentage_discount" class="Sylius\RefundPlugin\PromotionAction\ShippingPercentageDiscountPromotionActionCommand">
+            <argument type="service" id="sylius.factory.adjustment" />
+            <tag name="sylius.promotion_action" type="shipping_percentage_discount" label="sylius.form.promotion_action.shipping_percentage_discount" form-type="Sylius\Bundle\PromotionBundle\Form\Type\Action\PercentageDiscountConfigurationType" />
+        </service>
     </services>
 </container>

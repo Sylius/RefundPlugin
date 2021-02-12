@@ -42,7 +42,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         $this->shouldImplement(OrderTaxesApplicatorInterface::class);
     }
 
-    function it_applies_shipment_taxes_on_order_based_on_shipment_adjustments(
+    function it_applies_shipment_taxes_on_order_based_on_shipment_adjustments_promotions_and_rate(
         CalculatorInterface $calculator,
         AdjustmentFactoryInterface $adjustmentsFactory,
         TaxRateResolverInterface $taxRateResolver,
@@ -53,20 +53,21 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         TaxRateInterface $taxRate,
         ZoneInterface $zone
     ): void {
+        $order->getShippingTotal()->willReturn(1000);
+        $order->hasShipments()->willReturn(true);
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
         $shipment->getMethod()->willReturn($shippingMethod);
-        $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
 
         $shippingMethod->getCode()->willReturn('fedex');
         $shippingMethod->getName()->willReturn('FedEx');
 
+        $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
         $taxRate->getLabel()->willReturn('Simple tax (10%)');
         $taxRate->getCode()->willReturn('simple_tax');
         $taxRate->getName()->willReturn('Simple tax');
         $taxRate->getAmount()->willReturn(0.1);
         $taxRate->isIncludedInPrice()->willReturn(false);
-
-        $order->getShippingTotal()->willReturn(1000);
 
         $calculator->calculate(1000, $taxRate)->willReturn(100);
 
@@ -75,21 +76,90 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
                 AdjustmentInterface::TAX_ADJUSTMENT,
                 'Simple tax (10%)',
                 100,
-                false
-            )
+                false,
+                [
+                    'shippingMethodCode' => 'fedex',
+                    'shippingMethodName' => 'FedEx',
+                    'taxRateCode' => 'simple_tax',
+                    'taxRateName' => 'Simple tax',
+                    'taxRateAmount' => 0.1,
+                ])
             ->willReturn($shippingTaxAdjustment)
         ;
-        $shippingTaxAdjustment
-            ->setDetails([
-                'shippingMethodCode' => 'fedex',
-                'shippingMethodName' => 'FedEx',
-                'taxRateCode' => 'simple_tax',
-                'taxRateName' => 'Simple tax',
-                'taxRateAmount' => 0.1,
-            ])
-            ->shouldBeCalled()
-        ;
         $shipment->addAdjustment($shippingTaxAdjustment)->shouldBeCalled();
+
+        $this->apply($order, $zone);
+    }
+
+    function it_applies_taxes_on_multiple_shipments_based_on_shipment_adjustments_promotions_and_rate(
+        CalculatorInterface $calculator,
+        AdjustmentFactoryInterface $adjustmentsFactory,
+        TaxRateResolverInterface $taxRateResolver,
+        AdjustmentInterface $firstShippingTaxAdjustment,
+        AdjustmentInterface $secondShippingTaxAdjustment,
+        OrderInterface $order,
+        ShipmentInterface $firstShipment,
+        ShipmentInterface $secondShipment,
+        ShippingMethodInterface $shippingMethod,
+        TaxRateInterface $taxRate,
+        ZoneInterface $zone
+    ): void {
+        $order->getShippingTotal()->willReturn(1000);
+        $order->hasShipments()->willReturn(true);
+        $order->getShipments()->willReturn(new ArrayCollection([
+            $firstShipment->getWrappedObject(),
+            $secondShipment->getWrappedObject(),
+        ]));
+        $firstShipment->getAdjustmentsTotal()->willReturn(600);
+        $firstShipment->getMethod()->willReturn($shippingMethod);
+        $secondShipment->getAdjustmentsTotal()->willReturn(400);
+        $secondShipment->getMethod()->willReturn($shippingMethod);
+
+        $shippingMethod->getCode()->willReturn('fedex');
+        $shippingMethod->getName()->willReturn('FedEx');
+
+        $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
+        $taxRate->getLabel()->willReturn('Simple tax (10%)');
+        $taxRate->getCode()->willReturn('simple_tax');
+        $taxRate->getName()->willReturn('Simple tax');
+        $taxRate->getAmount()->willReturn(0.1);
+        $taxRate->isIncludedInPrice()->willReturn(false);
+
+        $calculator->calculate(600, $taxRate)->willReturn(60);
+        $adjustmentsFactory
+            ->createWithData(
+                AdjustmentInterface::TAX_ADJUSTMENT,
+                'Simple tax (10%)',
+                60,
+                false,
+                [
+                    'shippingMethodCode' => 'fedex',
+                    'shippingMethodName' => 'FedEx',
+                    'taxRateCode' => 'simple_tax',
+                    'taxRateName' => 'Simple tax',
+                    'taxRateAmount' => 0.1,
+                ])
+            ->willReturn($firstShippingTaxAdjustment)
+        ;
+        $firstShipment->addAdjustment($firstShippingTaxAdjustment)->shouldBeCalled();
+
+        $calculator->calculate(400, $taxRate)->willReturn(40);
+        $adjustmentsFactory
+            ->createWithData(
+                AdjustmentInterface::TAX_ADJUSTMENT,
+                'Simple tax (10%)',
+                40,
+                false,
+                [
+                    'shippingMethodCode' => 'fedex',
+                    'shippingMethodName' => 'FedEx',
+                    'taxRateCode' => 'simple_tax',
+                    'taxRateName' => 'Simple tax',
+                    'taxRateAmount' => 0.1,
+                ])
+            ->willReturn($secondShippingTaxAdjustment)
+        ;
+        $secondShipment->addAdjustment($secondShippingTaxAdjustment)->shouldBeCalled();
 
         $this->apply($order, $zone);
     }
@@ -104,25 +174,28 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         TaxRateInterface $taxRate,
         ZoneInterface $zone
     ): void {
+        $order->getShippingTotal()->willReturn(1000);
+        $order->hasShipments()->willReturn(true);
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
         $shipment->getMethod()->willReturn($shippingMethod);
-        $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
 
-        $order->getShippingTotal()->willReturn(1000);
+        $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn($taxRate);
 
         $calculator->calculate(1000, $taxRate)->willReturn(0.00);
 
         $adjustmentsFactory->createWithData(Argument::cetera())->shouldNotBeCalled();
+        $order->addAdjustment(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }
 
-    function it_throws_exception_if_order_has_no_shipment_but_shipment_total_is_greater_than_0(
+    function it_throws_an_exception_if_order_has_no_shipment_but_shipment_total_is_greater_than_0(
         OrderInterface $order,
         ZoneInterface $zone
     ): void {
         $order->getShippingTotal()->willReturn(10);
-        $order->getShipments()->willReturn(new ArrayCollection([]));
+        $order->hasShipments()->willReturn(false);
 
         $this->shouldThrow(\LogicException::class)->during('apply', [$order, $zone]);
     }
@@ -136,13 +209,14 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         ZoneInterface $zone
     ): void {
         $order->getShippingTotal()->willReturn(100);
+        $order->hasShipments()->willReturn(true);
         $order->getShipments()->willReturn(new ArrayCollection([$shipment->getWrappedObject()]));
-
         $shipment->getMethod()->willReturn($shippingMethod);
 
         $taxRateResolver->resolve($shippingMethod, ['zone' => $zone])->willReturn(null);
 
         $calculator->calculate(Argument::any())->shouldNotBeCalled();
+        $order->addAdjustment(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }
@@ -155,6 +229,7 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
         $order->getShippingTotal()->willReturn(0);
 
         $taxRateResolver->resolve(Argument::any())->shouldNotBeCalled();
+        $order->addAdjustment(Argument::any())->shouldNotBeCalled();
 
         $this->apply($order, $zone);
     }

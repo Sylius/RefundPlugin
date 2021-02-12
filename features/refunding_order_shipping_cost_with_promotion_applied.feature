@@ -24,14 +24,14 @@ Feature: Refunding an order shipping cost
         And the order "#00000023" is already paid
         And I am logged in as an administrator
 
-    @ui @application @todo
+    @ui @application
     Scenario: Refunding an order shipping cost with a promotion applied
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment with "Space money" payment
         Then this order refunded total should be "$10.00"
         And I should not be able to refund order shipment
 
-    @ui @application @todo
+    @ui @application
     Scenario: Refunding an order shipping cost with taxes and a promotion applied
         When I want to refund some units of order "#00000023"
         And I decide to refund order shipment with "Space money" payment
