@@ -11,21 +11,17 @@ Feature: Refunding an order shipping cost
         And the store has "Galaxy Post" shipping method with "$20.00" fee
         And the store has "Space Pidgeons Post" shipping method with "$10.00" fee within the "US" zone
         And shipping method "Space Pidgeons Post" belongs to "Pidgeons Services" tax category
-        And there is a promotion "50% shipping discount"
-        And it gives "50%" discount on shipping to every order
         And the store allows paying with "Space money"
-        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
-        And the customer bought 2 "Mr. Meeseeks T-Shirt" products
-        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
-        And the order "#00000022" is already paid
-        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000023"
-        And the customer bought a single "Mr. Meeseeks T-Shirt"
-        And the customer chose "Space Pidgeons Post" shipping method to "United States" with "Space money" payment
-        And the order "#00000023" is already paid
         And I am logged in as an administrator
 
     @ui @application
     Scenario: Refunding an order shipping cost with a promotion applied
+        Given there is a promotion "50% shipping discount"
+        And it gives "50%" discount on shipping to every order
+        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
+        And the customer bought 2 "Mr. Meeseeks T-Shirt" products
+        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment with "Space money" payment
         Then this order refunded total should be "$10.00"
@@ -33,7 +29,24 @@ Feature: Refunding an order shipping cost
 
     @ui @application
     Scenario: Refunding an order shipping cost with taxes and a promotion applied
-        When I want to refund some units of order "#00000023"
+        Given there is a promotion "50% shipping discount"
+        And it gives "50%" discount on shipping to every order
+        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
+        And the customer bought a single "Mr. Meeseeks T-Shirt"
+        And the customer chose "Space Pidgeons Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
+        When I want to refund some units of order "#00000022"
         And I decide to refund order shipment with "Space money" payment
         Then this order refunded total should be "$6.15"
         And I should not be able to refund order shipment
+
+    @ui @application
+    Scenario: Being unable to refund an order shipping cost with 100% shipping discount applied
+        Given there is a promotion "100% shipping discount"
+        And it gives "100%" discount on shipping to every order over "$25.00"
+        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
+        And the customer bought 3 "Mr. Meeseeks T-Shirt" products
+        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
+        When I want to refund some units of order "#00000022"
+        Then I should not be able to refund order shipment
