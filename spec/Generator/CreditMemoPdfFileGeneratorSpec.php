@@ -12,13 +12,13 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\Config\FileLocatorInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
 {
     function let(
         RepositoryInterface $creditMemoRepository,
-        EngineInterface $twig,
+        Environment $twig,
         GeneratorInterface $pdfGenerator,
         FileLocatorInterface $fileLocator
     ): void {
@@ -39,7 +39,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
 
     function it_creates_credit_memo_pdf_with_generated_content_and_filename_basing_on_credit_memo_number(
         RepositoryInterface $creditMemoRepository,
-        EngineInterface $twig,
+        Environment $twig,
         GeneratorInterface $pdfGenerator,
         FileLocatorInterface $fileLocator,
         CreditMemoInterface $creditMemo
