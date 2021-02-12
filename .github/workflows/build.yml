@@ -96,9 +96,11 @@ jobs:
                     restore-keys: |
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
-            -   name: Prepare migrations
+            -
+                name: Prepare migrations for Sylius 1.8
+                if: matrix.sylius == '~1.8.0'
                 run: |
-                    composer require sylius-labs/doctrine-migrations-extra-bundle --no-interaction --no-update
+                    cp etc/sylius/1.8/migrations/* tests/Application/src/Migrations/
 
             -
                 name: Install Sylius version
