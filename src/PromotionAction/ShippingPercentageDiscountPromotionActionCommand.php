@@ -15,13 +15,13 @@ namespace Sylius\RefundPlugin\PromotionAction;
 
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Order\Model\AdjustmentInterface as OrderAdjustmentInterface;
 use Sylius\Component\Promotion\Action\PromotionActionCommandInterface;
 use Sylius\Component\Promotion\Model\PromotionInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Sylius\Component\Resource\Exception\UnexpectedTypeException;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
 
 /**
  * @internal
@@ -56,6 +56,7 @@ final class ShippingPercentageDiscountPromotionActionCommand implements Promotio
         }
 
         $result = false;
+        /** @var ShipmentInterface $shipment */
         foreach ($subject->getShipments() as $shipment) {
             $maxDiscount = $shipment->getAdjustmentsTotal(AdjustmentInterface::SHIPPING_ADJUSTMENT) + $shipment->getAdjustmentsTotal(AdjustmentInterface::ORDER_SHIPPING_PROMOTION_ADJUSTMENT);
             if ($maxDiscount < 0) {
@@ -100,6 +101,7 @@ final class ShippingPercentageDiscountPromotionActionCommand implements Promotio
             }
         }
 
+        /** @var ShipmentInterface $shipment */
         foreach ($subject->getShipments() as $shipment) {
             $this->removePromotionFromShipment($promotion, $shipment);
         }

@@ -76,15 +76,19 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
                 AdjustmentInterface::TAX_ADJUSTMENT,
                 'Simple tax (10%)',
                 100,
-                false,
-                [
-                    'shippingMethodCode' => 'fedex',
-                    'shippingMethodName' => 'FedEx',
-                    'taxRateCode' => 'simple_tax',
-                    'taxRateName' => 'Simple tax',
-                    'taxRateAmount' => 0.1,
-                ])
+                false
+            )
             ->willReturn($shippingTaxAdjustment)
+        ;
+        $shippingTaxAdjustment
+            ->setDetails([
+                'shippingMethodCode' => 'fedex',
+                'shippingMethodName' => 'FedEx',
+                'taxRateCode' => 'simple_tax',
+                'taxRateName' => 'Simple tax',
+                'taxRateAmount' => 0.1,
+            ])
+            ->shouldBeCalled()
         ;
         $shipment->addAdjustment($shippingTaxAdjustment)->shouldBeCalled();
 
@@ -131,15 +135,19 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
                 AdjustmentInterface::TAX_ADJUSTMENT,
                 'Simple tax (10%)',
                 60,
-                false,
-                [
-                    'shippingMethodCode' => 'fedex',
-                    'shippingMethodName' => 'FedEx',
-                    'taxRateCode' => 'simple_tax',
-                    'taxRateName' => 'Simple tax',
-                    'taxRateAmount' => 0.1,
-                ])
+                false
+            )
             ->willReturn($firstShippingTaxAdjustment)
+        ;
+        $firstShippingTaxAdjustment
+            ->setDetails([
+                'shippingMethodCode' => 'fedex',
+                'shippingMethodName' => 'FedEx',
+                'taxRateCode' => 'simple_tax',
+                'taxRateName' => 'Simple tax',
+                'taxRateAmount' => 0.1,
+            ])
+            ->shouldBeCalled()
         ;
         $firstShipment->addAdjustment($firstShippingTaxAdjustment)->shouldBeCalled();
 
@@ -150,14 +158,18 @@ final class OrderShipmentTaxesApplicatorSpec extends ObjectBehavior
                 'Simple tax (10%)',
                 40,
                 false,
-                [
-                    'shippingMethodCode' => 'fedex',
-                    'shippingMethodName' => 'FedEx',
-                    'taxRateCode' => 'simple_tax',
-                    'taxRateName' => 'Simple tax',
-                    'taxRateAmount' => 0.1,
-                ])
+            )
             ->willReturn($secondShippingTaxAdjustment)
+        ;
+        $secondShippingTaxAdjustment
+            ->setDetails([
+                'shippingMethodCode' => 'fedex',
+                'shippingMethodName' => 'FedEx',
+                'taxRateCode' => 'simple_tax',
+                'taxRateName' => 'Simple tax',
+                'taxRateAmount' => 0.1,
+            ])
+            ->shouldBeCalled()
         ;
         $secondShipment->addAdjustment($secondShippingTaxAdjustment)->shouldBeCalled();
 

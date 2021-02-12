@@ -62,6 +62,7 @@ class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterface
             throw new \LogicException('Order should have at least one shipment.');
         }
 
+        /** @var ShipmentInterface $shipment */
         foreach ($order->getShipments() as $shipment) {
             $shippingMethod = $this->getShippingMethod($shipment);
 
@@ -86,19 +87,22 @@ class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterface
         TaxRateInterface $taxRate,
         ShippingMethodInterface $shippingMethod
     ): void {
-        $shipment->addAdjustment($this->adjustmentFactory->createWithData(
+        /** @var AdjustmentInterface $adjustment */
+        $adjustment = $this->adjustmentFactory->createWithData(
             AdjustmentInterface::TAX_ADJUSTMENT,
             $taxRate->getLabel(),
             $taxAmount,
-            $taxRate->isIncludedInPrice(),
-            [
-                'shippingMethodCode' => $shippingMethod->getCode(),
-                'shippingMethodName' => $shippingMethod->getName(),
-                'taxRateCode' => $taxRate->getCode(),
-                'taxRateName' => $taxRate->getName(),
-                'taxRateAmount' => $taxRate->getAmount(),
-            ]
-        ));
+            $taxRate->isIncludedInPrice()
+        );
+        $adjustment->setDetails([
+            'shippingMethodCode' => $shippingMethod->getCode(),
+            'shippingMethodName' => $shippingMethod->getName(),
+            'taxRateCode' => $taxRate->getCode(),
+            'taxRateName' => $taxRate->getName(),
+            'taxRateAmount' => $taxRate->getAmount(),
+        ]);
+
+        $shipment->addAdjustment($adjustment);
     }
 
     /**
