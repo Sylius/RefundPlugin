@@ -38,21 +38,29 @@
             options: []
     ````
     
-6. Copy plugin migrations to your migrations directory (e.g. `src/Migrations`) and apply them to your database:
+6. If you install the plugin on Sylius 1.9 or higher, exclude duplicated migrations:
 
     ```bash
-    cp -R vendor/sylius/refund-plugin/migrations/* src/Migrations
+    bin/console doctrine:migration:sync-metadata-storage
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201130071338' --add
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201204071301' --add
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add
+    ``` 
+
+7. Apply migrations to your database:
+
+    ```bash
     bin/console doctrine:migrations:migrate
     ```
 
-7. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
+8. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
 
     ```bash
     mkdir -p templates/bundles/SyliusAdminBundle/
     cp -R vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
     ```
 
-8. Clear cache:
+9. Clear cache:
 
     ```bash
     bin/console cache:clear

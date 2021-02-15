@@ -14,6 +14,15 @@
     bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add
     ```
 
+1. If you upgrade also Sylius to 1.9 version, exclude duplicated migrations:
+
+    ```bash
+    bin/console doctrine:migration:sync-metadata-storage
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201130071338' --add
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201204071301' --add
+    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add
+    ``` 
+
 1. Add traits that enhance Adjustment and Shipment models from Sylius. These traits are not covered by 
 the backward compatibility promise and it will be removed after update Sylius to 1.9. It is a duplication of a logic 
 from Sylius to provide proper adjustments handling.
