@@ -180,7 +180,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
     private function isRefundable(NodeElement $element): bool
     {
-        return $this->getUnitRefundedTotal($element) !== $this->getUnitTotal($element);
+        return $element->find('css', 'button')->getAttribute('disabled') === null;
     }
 
     private function getUnitRefundedTotal(NodeElement $orderShipment): string

@@ -31,7 +31,7 @@ use Webmozart\Assert\Assert;
  * This class is not covered by the backward compatibility promise and it will be removed after update Sylius to 1.9.
  * It is a duplication of a logic from Sylius to provide proper adjustments handling.
  */
-final class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterface
+class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterface
 {
     /** @var CalculatorInterface */
     private $calculator;
@@ -54,26 +54,31 @@ final class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterfac
 
     public function apply(OrderInterface $order, ZoneInterface $zone): void
     {
-        $shippingTotal = $order->getShippingTotal();
-        if (0 === $shippingTotal) {
+        if (0 === $order->getShippingTotal()) {
             return;
         }
 
-        $shipment = $this->getShipment($order);
-        $shippingMethod = $this->getShippingMethod($shipment);
-
-        /** @var TaxRateInterface|null $taxRate */
-        $taxRate = $this->taxRateResolver->resolve($shippingMethod, ['zone' => $zone]);
-        if (null === $taxRate) {
-            return;
+        if (!$order->hasShipments()) {
+            throw new \LogicException('Order should have at least one shipment.');
         }
 
-        $taxAmount = $this->calculator->calculate($shippingTotal, $taxRate);
-        if (0.00 === $taxAmount) {
-            return;
-        }
+        /** @var ShipmentInterface $shipment */
+        foreach ($order->getShipments() as $shipment) {
+            $shippingMethod = $this->getShippingMethod($shipment);
 
-        $this->addAdjustment($shipment, (int) $taxAmount, $taxRate, $shippingMethod);
+            /** @var TaxRateInterface|null $taxRate */
+            $taxRate = $this->taxRateResolver->resolve($shippingMethod, ['zone' => $zone]);
+            if (null === $taxRate) {
+                return;
+            }
+
+            $taxAmount = $this->calculator->calculate($shipment->getAdjustmentsTotal(), $taxRate);
+            if (0.00 === $taxAmount) {
+                return;
+            }
+
+            $this->addAdjustment($shipment, (int) $taxAmount, $taxRate, $shippingMethod);
+        }
     }
 
     private function addAdjustment(
@@ -82,14 +87,14 @@ final class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterfac
         TaxRateInterface $taxRate,
         ShippingMethodInterface $shippingMethod
     ): void {
-        /** @var AdjustmentInterface $shipmentTaxAdjustment */
-        $shipmentTaxAdjustment = $this->adjustmentFactory->createWithData(
+        /** @var AdjustmentInterface $adjustment */
+        $adjustment = $this->adjustmentFactory->createWithData(
             AdjustmentInterface::TAX_ADJUSTMENT,
             $taxRate->getLabel(),
             $taxAmount,
             $taxRate->isIncludedInPrice()
         );
-        $shipmentTaxAdjustment->setDetails([
+        $adjustment->setDetails([
             'shippingMethodCode' => $shippingMethod->getCode(),
             'shippingMethodName' => $shippingMethod->getName(),
             'taxRateCode' => $taxRate->getCode(),
@@ -97,21 +102,7 @@ final class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterfac
             'taxRateAmount' => $taxRate->getAmount(),
         ]);
 
-        $shipment->addAdjustment($shipmentTaxAdjustment);
-    }
-
-    /**
-     * @throws \LogicException
-     */
-    private function getShipment(OrderInterface $order): ShipmentInterface
-    {
-        /** @var ShipmentInterface|false $shipment */
-        $shipment = $order->getShipments()->first();
-        if (false === $shipment) {
-            throw new \LogicException('Order should have at least one shipment.');
-        }
-
-        return $shipment;
+        $shipment->addAdjustment($adjustment);
     }
 
     /**
