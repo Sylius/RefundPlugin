@@ -57,14 +57,6 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
     cp -R vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
     ```
 
-4. (optional) If you don't use `symfony/messenger` component yet, it is required to configure one of the message buses as a default bus:
-
-    ```yaml
-    framework:
-        messenger:
-            default_bus: sylius_refund_plugin.command_bus
-    ```
-
 #### Beware!
 
 This installation instruction assumes that you're using Symfony Flex. If you don't, take a look at the
