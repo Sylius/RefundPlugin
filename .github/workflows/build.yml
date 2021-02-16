@@ -136,22 +136,9 @@ jobs:
                 run: (cd tests/Application && yarn install)
 
             -
-                name: Create test application database
-                run: |
-                    (cd tests/Application && bin/console doctrine:database:create -vvv)
-
-            -
-                name: Exclude duplicated migrations
-                if: matrix.sylius != '~1.8.0'
-                run: |
-                    (cd tests/Application && bin/console doctrine:migration:sync-metadata-storage)
-                    (cd tests/Application && bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201130071338' --add)
-                    (cd tests/Application && bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201204071301' --add)
-                    (cd tests/Application && bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add)
-
-            -
                 name: Prepare test application database
                 run: |
+                    (cd tests/Application && bin/console doctrine:database:create -vvv)
                     (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
 
             -

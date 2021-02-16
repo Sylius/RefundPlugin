@@ -44,22 +44,13 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
 
     > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
 
-2. If you install the plugin on Sylius 1.9 or higher, exclude duplicated migrations:
-
-    ```bash
-    bin/console doctrine:migration:sync-metadata-storage
-    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201130071338' --add
-    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201204071301' --add
-    bin/console doctrine:migrations:version 'Sylius\RefundPlugin\Migrations\Version20201208105207' --add
-    ``` 
-
-3. Apply migration to your database:
+2. Apply migration to your database:
 
     ```bash
     bin/console doctrine:migrations:migrate
     ```
 
-4. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
+3. Copy Sylius templates overridden in plugin to your templates directory (e.g `templates/bundles/`):
 
     ```bash
     mkdir -p templates/bundles/SyliusAdminBundle/
