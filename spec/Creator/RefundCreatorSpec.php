@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Creator;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;

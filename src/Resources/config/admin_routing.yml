@@ -13,7 +13,7 @@ sylius_refund_credit_memo:
     resource: |
         alias: sylius_refund.credit_memo
         section: admin
-        templates: SyliusAdminBundle:Crud
+        templates: "@SyliusAdmin\\Crud"
         only: ['index']
         grid: sylius_refund_credit_memo
         permission: true

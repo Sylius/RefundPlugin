@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\StateResolver;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 

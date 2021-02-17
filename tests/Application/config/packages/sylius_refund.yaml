@@ -1,6 +1,2 @@
 imports:
     - { resource: "@SyliusRefundPlugin/Resources/config/app/config.yml" }
-
-framework:
-    messenger:
-        default_bus: sylius_refund_plugin.command_bus
