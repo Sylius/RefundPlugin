@@ -1,5 +1,40 @@
 # CHANGELOG
 
+### v1.0.0-RC.6 (2021-02-18)
+
+### Added
+- [#242](https://github.com/Sylius/RefundPlugin/issues/242) Refunding shipments with taxes ([@GSadee](https://github.com/GSadee))
+- [#255](https://github.com/Sylius/RefundPlugin/issues/255) Refund shipping cost with promotion applied ([@GSadee](https://github.com/GSadee))
+- [#254](https://github.com/Sylius/RefundPlugin/issues/254) Allow for Sylius 1.8 & 1.9 and Symfony 4.4 & 5.2 ([@pamil](https://github.com/pamil), [@GSadee](https://github.com/GSadee))
+
+### Changed
+- [#238](https://github.com/Sylius/RefundPlugin/issues/238) [Maintenance] Remove security checker config ([@clem21](https://github.com/clem21))
+- [#217](https://github.com/Sylius/RefundPlugin/issues/217) Add missing french translations ([@Nek-](https://github.com/Nek-))
+- [#209](https://github.com/Sylius/RefundPlugin/issues/209) Fix wrong type error if the error in some cases ([@Nek-](https://github.com/Nek-))
+- [#243](https://github.com/Sylius/RefundPlugin/issues/243) [Minor] Clean up behat scenarios ([@clem21](https://github.com/clem21))
+- [#244](https://github.com/Sylius/RefundPlugin/issues/244) [Maintenance] Drop Sylius 1.7 support ([@GSadee](https://github.com/GSadee))
+- [#245](https://github.com/Sylius/RefundPlugin/issues/245) Remove final tags from resource entities ([@GSadee](https://github.com/GSadee))
+- [#248](https://github.com/Sylius/RefundPlugin/issues/248) [Shipment] Improve interface inheritance ([@GSadee](https://github.com/GSadee))
+- [#250](https://github.com/Sylius/RefundPlugin/issues/250) [Pdf] set translation credit memo locale ([@SirDomin](https://github.com/SirDomin))
+- [#256](https://github.com/Sylius/RefundPlugin/issues/256) Make OrderShipmentTaxesApplicator final service again ([@GSadee](https://github.com/GSadee))
+- [#257](https://github.com/Sylius/RefundPlugin/issues/257) [Adjustment] Update down methods of duplicated migrations not to execute if the changes already exist in db ([@GSadee](https://github.com/GSadee))
+
+### Fixed
+- [#236](https://github.com/Sylius/RefundPlugin/issues/236) fix doctrine migration sql ([@arti0090](https://github.com/arti0090))
+- [#234](https://github.com/Sylius/RefundPlugin/issues/234) [UI/UX] Refund float price ([@TheGrimmChester](https://github.com/TheGrimmChester))
+- [#216](https://github.com/Sylius/RefundPlugin/issues/216) Refund list view fails if CreditMemo entity has been overridden ([@luca-rath](https://github.com/luca-rath))
+- [#240](https://github.com/Sylius/RefundPlugin/issues/240) [BUG] Credit memos and refund payment appears in different order ([@clem21](https://github.com/clem21))
+- [#251](https://github.com/Sylius/RefundPlugin/issues/251) Fix failing build ([@SirDomin](https://github.com/SirDomin))
+
+### v1.0.0-RC.5 (2020-11-30)
+
+### Changed
+- [#227](https://github.com/Sylius/RefundPlugin/issues/227) Switch from Travis to GitHub Actions ([@pamil](https://github.com/pamil))
+- [#230](https://github.com/Sylius/RefundPlugin/issues/230) Support Sylius 1.7 again ([@Zales0123](https://github.com/Zales0123))
+
+### Fixed
+- [#228](https://github.com/Sylius/RefundPlugin/issues/228) Fix Doctrine/Migrations configuration ([@Zales0123](https://github.com/Zales0123))
+
 ### v1.0.0-RC.4 (2020-10-22)
 
 ### Changed
