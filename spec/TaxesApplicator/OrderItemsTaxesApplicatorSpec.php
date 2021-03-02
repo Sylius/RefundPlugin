@@ -82,7 +82,7 @@ final class OrderItemsTaxesApplicatorSpec extends ObjectBehavior
         $taxRate->isIncludedInPrice()->willReturn(false);
 
         $orderItem->getUnits()->willReturn($units);
-        $units->getIterator()->willReturn(new \ArrayIterator([$unit1->getWrappedObject(), $unit2->getWrappedObject()]));
+        $units->getIterator()->willReturn(new \ArrayIterator([4 => $unit1->getWrappedObject(), 5 => $unit2->getWrappedObject()]));
 
         $distributor->distribute(100, 2)->willReturn([50, 50]);
 
@@ -191,7 +191,7 @@ final class OrderItemsTaxesApplicatorSpec extends ObjectBehavior
         $taxRate->isIncludedInPrice()->willReturn(false);
 
         $orderItem->getUnits()->willReturn($units);
-        $units->getIterator()->willReturn(new \ArrayIterator([$unit1->getWrappedObject(), $unit2->getWrappedObject()]));
+        $units->getIterator()->willReturn(new \ArrayIterator([4 => $unit1->getWrappedObject(), 5 => $unit2->getWrappedObject()]));
 
         $distributor->distribute(0, 2)->willReturn([0, 0]);
 
