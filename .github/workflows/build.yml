@@ -20,7 +20,7 @@ jobs:
             matrix:
                 php: [7.4, 7.3]
                 symfony: [^4.4, ^5.2]
-                sylius: [~1.8.0, ~1.9.0@beta]
+                sylius: [~1.8.0, ~1.9.0]
                 node: [10.x]
                 mysql: [5.7, 8.0]
 
@@ -95,11 +95,6 @@ jobs:
                     key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
                     restore-keys: |
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
-
-            -
-                name: Install Sylius version
-                run: |
-                    composer require "sylius/sylius:${{ matrix.sylius }}" --no-update
 
             -
                 name: Restrict Symfony version
