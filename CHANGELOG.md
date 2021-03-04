@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### v1.0.0-RC.7 (2021-03-04)
+
+### Added
+- [#261](https://github.com/Sylius/RefundPlugin/issues/261) Update GitHub Actions to run on Sylius 1.9 instead of 1.9-beta ([@GSadee](https://github.com/GSadee))
+
+### Fixed
+- [#260](https://github.com/Sylius/RefundPlugin/issues/260) Fix OrderItemsTaxesApplicator with removed units ([@aleho](https://github.com/aleho))
+
 ### v1.0.0-RC.6 (2021-02-18)
 
 ### Added
