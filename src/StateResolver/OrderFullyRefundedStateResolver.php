@@ -47,7 +47,7 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
 
         if (
             !$this->orderFullyRefundedTotalChecker->isOrderFullyRefunded($order) ||
-            OrderPaymentStates::STATE_REFUNDED === $order->getState()
+            OrderPaymentStates::STATE_REFUNDED === $order->getPaymentState()
         ) {
             return;
         }
