@@ -10,7 +10,9 @@ Feature: Viewing details of a credit memo
         And default tax zone is "US"
         And the store has "US VAT" tax rate of 10% for "Clothes" within the "US" zone
         And the store has included in price "VAT" tax rate of 20% for "Mugs" within the "US" zone
+        And the store has included in price "SHIPPING_VAT" tax rate of 15% for "Shipments" within the "US" zone
         And the store has "Galaxy Post" shipping method with "$10.00" fee
+        And shipping method "Galaxy Post" belongs to "Shipments" tax category
         And the store allows paying with "Space money"
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
@@ -23,9 +25,9 @@ Feature: Viewing details of a credit memo
         And the order "#00000022" is already paid
         And I am logged in as an administrator
 
-    @ui @application
+    @ui
     Scenario: Viewing details of a credit memo issued for a full refund
-        Given all units from the order "#00000022" are refunded with "Space money" payment
+        Given all units and shipment from the order "#00000022" are refunded with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"
         Then it should have sequential number generated from current date
         And it should be issued in "United States" channel
@@ -33,9 +35,11 @@ Feature: Viewing details of a credit memo
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And it should contain 1 "PHP T-Shirt" product with "10.00" net value, "1.00" tax amount and "11.00" gross value in "USD" currency
         And it should contain 1 "Symfony Mug" product with "17.50" net value, "3.50" tax amount and "21.00" gross value in "USD" currency
+        And it should contain 1 "Galaxy Post" shipment with "8.50" net value, "1.50" tax amount and "10.00" gross value in "USD" currency
         And it should contain a tax item "10%" with amount "1.00" in "USD" currency
         And it should contain a tax item "20%" with amount "3.50" in "USD" currency
-        And its total should be "32.00" in "USD" currency
+        And it should contain a tax item "15%" with amount "1.50" in "USD" currency
+        And its total should be "42.00" in "USD" currency
 
     @ui @application
     Scenario: Viewing details of a credit memo issued for a partial refund
