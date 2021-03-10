@@ -25,7 +25,7 @@ Feature: Viewing details of a credit memo
         And the order "#00000022" is already paid
         And I am logged in as an administrator
 
-    @ui
+    @ui @application
     Scenario: Viewing details of a credit memo issued for a full refund
         Given all units and shipment from the order "#00000022" are refunded with "Space money" payment
         When I browse the details of the only credit memo generated for order "#00000022"

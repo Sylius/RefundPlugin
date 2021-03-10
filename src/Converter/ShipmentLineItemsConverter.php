@@ -50,14 +50,31 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         Assert::isInstanceOf($shipment, AdjustableInterface::class);
         Assert::lessThanEq($shipmentRefund->total(), $shipment->getAdjustmentsTotal());
 
+        $grossValue = $shipmentRefund->total();
+
+        $taxAdjustment = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->first();
+        $taxRate = $this->getTaxRateAmount($taxAdjustment) . '%';
+        $taxAmount = (int) ($grossValue * $this->getTaxRateAmount($taxAdjustment));
+        $netValue = $grossValue - $taxAmount;
+
         return new LineItem(
             $shippingAdjustment->getLabel(),
             1,
-            $shipmentRefund->total(),
-            $shipmentRefund->total(),
-            $shipmentRefund->total(),
-            $shipmentRefund->total(),
-            0
+            $netValue,
+            $grossValue,
+            $netValue,
+            $grossValue,
+            $taxAmount,
+            $taxRate
         );
+    }
+
+    private function getTaxRateAmount(AdjustmentInterface $adjustment): ?float
+    {
+        if (key_exists('taxRateAmount', $adjustment->getDetails())) {
+            return $adjustment->getDetails()['taxRateAmount'];
+        }
+
+        return null;
     }
 }

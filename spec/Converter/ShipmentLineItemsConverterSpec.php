@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Converter;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
@@ -36,19 +37,25 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
             ->willReturn($shippingAdjustment)
         ;
 
-        $shippingAdjustment->getLabel()->willReturn('Galaxy post');
         $shippingAdjustment->getShipment()->willReturn($shipment);
+
+        $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->willReturn( new ArrayCollection([$shippingAdjustment->getWrappedObject()]));
+
+        $shippingAdjustment->getDetails()->willReturn(['taxRateAmount' => 0.15]);
+
+        $shippingAdjustment->getLabel()->willReturn('Galaxy post');
 
         $shipment->getAdjustmentsTotal()->willReturn(1000);
 
         $this->convert([$shipmentRefund])->shouldBeLike([new LineItem(
             'Galaxy post',
             1,
+            425,
             500,
+            425,
             500,
-            500,
-            500,
-            0
+            75,
+            '15%'
         )]);
     }
 
