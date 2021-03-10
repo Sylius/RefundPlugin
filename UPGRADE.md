@@ -1,3 +1,7 @@
+### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
+
+1. The `fully_refunded` state and the `refund` transition have been removed from `sylius_order` state machine. 
+
 ### UPGRADE FROM 1.0.0-RC.5 TO 1.0.0-RC.6
 
 1. The `Version20201208105207.php` migration was added which extends existing adjustments with additional details (context). Depending on the type of adjustment, additionally defined information are:
