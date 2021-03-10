@@ -34,13 +34,6 @@ framework:
                 default_middleware: allow_no_handlers
 
 winzou_state_machine:
-    sylius_order:
-        states:
-            fully_refunded: ~
-        transitions:
-            refund:
-                from: [new, fulfilled]
-                to: fully_refunded
     sylius_refund_refund_payment:
         class: Sylius\RefundPlugin\Entity\RefundPayment
         property_path: state
