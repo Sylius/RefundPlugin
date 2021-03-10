@@ -6,18 +6,18 @@ namespace spec\Sylius\RefundPlugin\Provider;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
-final class LabelBasedTaxRateProviderSpec extends ObjectBehavior
+final class TaxRateProviderSpec extends ObjectBehavior
 {
     function it_implements_tax_rate_provider_interface(): void
     {
         $this->shouldImplement(TaxRateProviderInterface::class);
     }
 
-    function it_provides_a_tax_rate_from_tax_adjustment_label(
+    function it_provides_a_tax_rate_from_tax_adjustment_details(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $taxAdjustment
     ): void {
@@ -26,21 +26,7 @@ final class LabelBasedTaxRateProviderSpec extends ObjectBehavior
             ->willReturn(new ArrayCollection([$taxAdjustment->getWrappedObject()]))
         ;
 
-        $taxAdjustment->getLabel()->willReturn('VAT (20%)');
-
-        $this->provide($orderItemUnit)->shouldReturn('20%');
-    }
-
-    function it_provides_a_tax_adjustment_label_if_the_value_does_not_match_the_pattern(
-        OrderItemUnitInterface $orderItemUnit,
-        AdjustmentInterface $taxAdjustment
-    ): void {
-        $orderItemUnit
-            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
-            ->willReturn(new ArrayCollection([$taxAdjustment->getWrappedObject()]))
-        ;
-
-        $taxAdjustment->getLabel()->willReturn('20%');
+        $taxAdjustment->getDetails()->willReturn(['taxRateAmount' => 0.2]);
 
         $this->provide($orderItemUnit)->shouldReturn('20%');
     }
@@ -51,6 +37,21 @@ final class LabelBasedTaxRateProviderSpec extends ObjectBehavior
             ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([]))
         ;
+
+        $this->provide($orderItemUnit)->shouldReturn(null);
+    }
+
+    function it_returns_null_if_there_is_no_adjustment_with_details_with_tax_rate_amount(
+        OrderItemUnitInterface $orderItemUnit,
+        AdjustmentInterface $taxAdjustment
+
+    ): void {
+        $orderItemUnit
+            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
+            ->willReturn(new ArrayCollection([$taxAdjustment->getWrappedObject()]))
+        ;
+
+        $taxAdjustment->getDetails()->willReturn([]);
 
         $this->provide($orderItemUnit)->shouldReturn(null);
     }

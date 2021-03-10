@@ -50,7 +50,7 @@
 
         <service
             id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface"
-            class="Sylius\RefundPlugin\Provider\LabelBasedTaxRateProvider"
+            class="Sylius\RefundPlugin\Provider\TaxRateProvider"
         />
     </services>
 </container>
