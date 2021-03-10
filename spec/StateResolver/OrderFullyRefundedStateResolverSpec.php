@@ -41,7 +41,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(true);
-        $order->getState()->willReturn(OrderInterface::STATE_NEW);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
 
         $stateMachineFactory->get($order, OrderPaymentTransitions::GRAPH)->willReturn($stateMachine);
         $stateMachine->apply(OrderPaymentTransitions::TRANSITION_REFUND)->shouldBeCalled();
@@ -59,7 +59,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(true);
-        $order->getState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
         $stateMachineFactory->get(Argument::any())->shouldNotBeCalled();
 
@@ -80,7 +80,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         $this->resolve('000222');
     }
 
-    function it_throws_exception_if_there_is_no_order_with_given_number(OrderRepositoryInterface $orderRepository): void
+    function it_throws_an_exception_if_there_is_no_order_with_given_number(OrderRepositoryInterface $orderRepository): void
     {
         $orderRepository->findOneByNumber('000222')->willReturn(null);
 
