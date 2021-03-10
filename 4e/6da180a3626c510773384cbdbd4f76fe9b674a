@@ -1,0 +1,35 @@
+---------------------------------------------------------------------------
+
+by GSadee at 2021-01-04T11:51:54Z
+
+Hello @diimpp! If I see correctly, this transition is used by `OrderFullyRefundedStateResolver`, which is called in `RefundPaymentProcessManager` after `UnitsRefunded` event. So, removing this transition could break the current behaviour and some end applications. Because of that, I'm closing this PR for now, but feel free to reopen it or comment here if you still think that this change is valid.
+
+---------------------------------------------------------------------------
+
+by diimpp at 2021-01-04T12:08:26Z
+
+@GSadee Hi!
+
+this state is not used by `OrderFullyRefundedStateResolver`, name of this resolver is misleading and it operates on `OrderPaymentState`, not `OrderState`.
+
+https://github.com/Sylius/RefundPlugin/search?q=fully_refunded
+
+`OrderState:fully_refunded` is an artifact from old big refactor at https://github.com/Sylius/RefundPlugin/pull/123 and not used anywhere in the app. This state in unreachable by the app.
+
+---------------------------------------------------------------------------
+
+by GSadee at 2021-01-04T12:14:06Z
+
+Ok, my mistake, I had a wrong look at the interface this transition is going from.
+
+---------------------------------------------------------------------------
+
+by diimpp at 2021-03-09T11:27:29Z
+
+Thanks @GSadee !
+
+---------------------------------------------------------------------------
+
+by GSadee at 2021-03-10T06:26:22Z
+
+Thank you, Dmitri! :1st_place_medal:
