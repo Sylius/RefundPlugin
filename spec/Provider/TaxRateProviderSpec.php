@@ -55,4 +55,21 @@ final class TaxRateProviderSpec extends ObjectBehavior
 
         $this->provide($orderItemUnit)->shouldReturn(null);
     }
+
+    function it_throws_exception_if_order_item_unit_has_more_than_1_tax_adjustment(
+        OrderItemUnitInterface $orderItemUnit,
+        AdjustmentInterface $firstTaxAdjustment,
+        AdjustmentInterface $secondTaxAdjustment
+
+    ): void {
+        $orderItemUnit
+            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
+            ->willReturn(new ArrayCollection([$firstTaxAdjustment->getWrappedObject(), $secondTaxAdjustment->getWrappedObject()]))
+        ;
+
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('provide', [$orderItemUnit])
+        ;
+    }
 }
