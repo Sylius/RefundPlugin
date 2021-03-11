@@ -12,12 +12,13 @@ use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Provider\TaxRateAmountProviderInterface;
 
 final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $adjustmentRepository): void
+    function let(RepositoryInterface $adjustmentRepository, TaxRateAmountProviderInterface $taxRateAmountProvider): void
     {
-        $this->beConstructedWith($adjustmentRepository);
+        $this->beConstructedWith($adjustmentRepository, $taxRateAmountProvider);
     }
 
     function it_implements_line_items_converter_interface(): void
@@ -28,7 +29,8 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
     function it_converts_shipment_unit_refunds_to_line_items(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment,
-        ShipmentInterface $shipment
+        ShipmentInterface $shipment,
+        TaxRateAmountProviderInterface $taxRateAmountProvider
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 500);
 
@@ -39,13 +41,13 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 
         $shippingAdjustment->getShipment()->willReturn($shipment);
 
+        $shipment->getAdjustmentsTotal()->willReturn(1000);
+
         $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->willReturn( new ArrayCollection([$shippingAdjustment->getWrappedObject()]));
 
-        $shippingAdjustment->getDetails()->willReturn(['taxRateAmount' => 0.15]);
+        $taxRateAmountProvider->provide($shippingAdjustment)->willReturn(0.15);
 
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
-
-        $shipment->getAdjustmentsTotal()->willReturn(1000);
 
         $this->convert([$shipmentRefund])->shouldBeLike([new LineItem(
             'Galaxy post',

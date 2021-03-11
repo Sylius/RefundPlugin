@@ -10,6 +10,7 @@ use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Provider\TaxRateAmountProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class ShipmentLineItemsConverter implements LineItemsConverterInterface
@@ -17,9 +18,15 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
     /** @var RepositoryInterface */
     private $adjustmentRepository;
 
-    public function __construct(RepositoryInterface $adjustmentRepository)
-    {
+    /** @var TaxRateAmountProviderInterface */
+    private $taxRateAmountProvider;
+
+    public function __construct(
+        RepositoryInterface $adjustmentRepository,
+        TaxRateAmountProviderInterface $taxRateAmountProvider
+    ) {
         $this->adjustmentRepository = $adjustmentRepository;
+        $this->taxRateAmountProvider = $taxRateAmountProvider;
     }
 
     public function convert(array $units): array
@@ -53,8 +60,11 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         $grossValue = $shipmentRefund->total();
 
         $taxAdjustment = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->first();
-        $taxRate = $this->getTaxRateAmount($taxAdjustment) . '%';
-        $taxAmount = (int) ($grossValue * $this->getTaxRateAmount($taxAdjustment)/100);
+
+        $taxAdjustmentAmount = $this->taxRateAmountProvider->provide($taxAdjustment);
+        $taxRate = $taxAdjustmentAmount * 100 . '%';
+        $taxAmount = (int) ($grossValue * $taxAdjustmentAmount);
+
         $netValue = $grossValue - $taxAmount;
 
         return new LineItem(
@@ -67,14 +77,5 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
             $taxAmount,
             $taxRate
         );
-    }
-
-    private function getTaxRateAmount(AdjustmentInterface $adjustment): ?float
-    {
-        if (key_exists('taxRateAmount', $adjustment->getDetails())) {
-            return $adjustment->getDetails()['taxRateAmount'] * 100;
-        }
-
-        return null;
     }
 }

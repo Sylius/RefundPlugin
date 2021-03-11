@@ -58,4 +58,4 @@ Feature: Viewing details of a credit memo
         Then it should have sequential number generated from current date
         And it should contain 1 "Galaxy Post" shipment with "4.25" net value, "0.75" tax amount and "5.00" gross value in "USD" currency
         And it should be issued in "United States" channel
-        And its total should be "4.50" in "USD" currency
+        And its total should be "5.00" in "USD" currency
