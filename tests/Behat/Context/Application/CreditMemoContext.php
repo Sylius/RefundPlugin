@@ -68,6 +68,7 @@ final class CreditMemoContext implements Context
 
     /**
      * @Then /^it should contain (\d+) "([^"]+)" product(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/
+     * @Then /^it should contain (\d+) "([^"]+)" shipment(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/
      */
     public function itShouldContainProductWithNetValueTaxAmountAndGrossValueInCurrency(
         int $quantity,
@@ -92,30 +93,6 @@ final class CreditMemoContext implements Context
         }
 
         throw new \InvalidArgumentException('There is no item with given data.');
-    }
-
-    /**
-     * @Then /^it should contain (\d+) "([^"]+)" shipment with ("[^"]+") gross value in "([^"]+)" currency$/
-     */
-    public function itShouldContainShipmentWithGrossValueInCurrency(
-        int $quantity,
-        string $shipmentName,
-        int $grossValue,
-        string $currencyCode
-    ): void {
-        $lineItems = $this->creditMemo->getLineItems();
-
-        foreach ($lineItems as $item) {
-            if (
-                $item->name() === $shipmentName &&
-                $item->quantity() === $quantity &&
-                $item->grossValue() === $grossValue
-            ) {
-                return;
-            }
-        }
-
-        throw new \InvalidArgumentException('There is no shipment item with given data.');
     }
 
     /**

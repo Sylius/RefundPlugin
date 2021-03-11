@@ -17,8 +17,6 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
         string $currencyCode
     ): bool;
 
-    public function hasShipmentItem(int $quantity, string $shipmentName, string $grossValue, string $currencyCode): bool;
-
     public function hasTaxItem(string $label, string $amount, string $currencyCode): bool;
 
     public function download(): void;

@@ -54,7 +54,7 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 
         $taxAdjustment = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->first();
         $taxRate = $this->getTaxRateAmount($taxAdjustment) . '%';
-        $taxAmount = (int) ($grossValue * $this->getTaxRateAmount($taxAdjustment));
+        $taxAmount = (int) ($grossValue * $this->getTaxRateAmount($taxAdjustment)/100);
         $netValue = $grossValue - $taxAmount;
 
         return new LineItem(
@@ -72,7 +72,7 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
     private function getTaxRateAmount(AdjustmentInterface $adjustment): ?float
     {
         if (key_exists('taxRateAmount', $adjustment->getDetails())) {
-            return $adjustment->getDetails()['taxRateAmount'];
+            return $adjustment->getDetails()['taxRateAmount'] * 100;
         }
 
         return null;

@@ -136,16 +136,18 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Then it should contain :quantity :shipmentName shipment with :grossValue gross value in :currencyCode currency
+     * @Then it should contain :quantity :productName shipment(s) with :netValue net value, :taxAmount tax amount and :grossValue gross value in :currencyCode currency
      */
-    public function itShouldContainShipmentWithGrossValueInCurrency(
+    public function itShouldContainShipmentWithNetValueTaxAmountAndGrossValueInCurrency(
         int $quantity,
-        string $shipmentName,
+        string $productName,
+        string $netValue,
+        string $taxAmount,
         string $grossValue,
         string $currencyCode
     ): void {
         Assert::true(
-            $this->creditMemoDetailsPage->hasShipmentItem($quantity, $shipmentName, $grossValue, $currencyCode)
+            $this->creditMemoDetailsPage->hasItem($quantity, $productName, $netValue, $grossValue, $taxAmount, $currencyCode)
         );
     }
 

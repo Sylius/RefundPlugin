@@ -57,24 +57,6 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         return true;
     }
 
-    public function hasShipmentItem(int $quantity, string $shipmentName, string $grossValue, string $currencyCode): bool
-    {
-        $table = $this->getElement('table');
-
-        try {
-            $this->tableAccessor->getRowWithFields($table, [
-                'name' => $shipmentName,
-                'quantity' => $quantity,
-                'gross_value' => $grossValue,
-                'currency_code' => $currencyCode,
-            ]);
-        } catch (\InvalidArgumentException $exception) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function hasTaxItem(string $label, string $amount, string $currencyCode): bool
     {
         $taxItemAmountElement = $this->getElement('tax_item_amount', ['%label%' => $label]);
