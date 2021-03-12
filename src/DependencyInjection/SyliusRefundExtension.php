@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\DependencyInjection;
 
+use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -12,12 +13,11 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 final class SyliusRefundExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    use PrependDoctrineMigrationsTrait;
+
     public function load(array $config, ContainerBuilder $container): void
     {
-        $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
+        $this->processConfiguration($this->getConfiguration([], $container), $config);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.xml');
@@ -25,29 +25,24 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
 
     public function prepend(ContainerBuilder $container): void
     {
-        if (!$container->hasExtension('doctrine_migrations') || !$container->hasExtension('sylius_labs_doctrine_migrations_extra')) {
-            return;
-        }
+        $this->prependDoctrineMigrations($container);
+    }
 
-        $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
+    protected function getMigrationsNamespace(): string
+    {
+        return 'Sylius\RefundPlugin\Migrations';
+    }
 
-        $migrationsPath = (array) \array_pop($doctrineConfig)['migrations_paths'];
-        $container->prependExtensionConfig('doctrine_migrations', [
-            'migrations_paths' => \array_merge(
-                $migrationsPath ?? [],
-                [
-                    'Sylius\RefundPlugin\Migrations' => '@SyliusRefundPlugin/Migrations',
-                ]
-            ),
-        ]);
+    protected function getMigrationsDirectory(): string
+    {
+        return '@SyliusRefundPlugin/Migrations';
+    }
 
-        $container->prependExtensionConfig('sylius_labs_doctrine_migrations_extra', [
-            'migrations' => [
-                'Sylius\RefundPlugin\Migrations' => [
-                    'Sylius\Bundle\CoreBundle\Migrations',
-                    'Sylius\Bundle\AdminApiBundle\Migrations',
-                ],
-            ],
-        ]);
+    protected function getNamespacesOfMigrationsExecutedBefore(): array
+    {
+        return [
+            'Sylius\Bundle\CoreBundle\Migrations',
+            'Sylius\Bundle\AdminApiBundle\Migrations',
+            ];
     }
 }
