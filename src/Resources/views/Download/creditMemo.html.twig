@@ -103,6 +103,18 @@
 
         <tr class="total">
             <td colspan="6"></td>
+            <td>{{ 'sylius_refund.ui.net_total'|trans([], 'messages', creditMemo.localeCode) }}:</td>
+            <td>{{ '%0.2f'|format(creditMemo.getNetValueTotal()/100) }}</td>
+            <td>{{ creditMemo.currencyCode }}</td>
+        </tr>
+        <tr class="total">
+            <td colspan="6"></td>
+            <td>{{ 'sylius_refund.ui.tax_total'|trans([], 'messages', creditMemo.localeCode) }}:</td>
+            <td>{{ '%0.2f'|format(creditMemo.getTaxTotal()/100) }}</td>
+            <td>{{ creditMemo.currencyCode }}</td>
+        </tr>
+        <tr class="total">
+            <td colspan="6"></td>
             <td>{{ 'sylius.ui.total'|trans([], 'messages', creditMemo.localeCode) }}:</td>
             <td>{{ '%0.2f'|format(creditMemo.total/100) }}</td>
             <td>{{ creditMemo.currencyCode }}</td>
