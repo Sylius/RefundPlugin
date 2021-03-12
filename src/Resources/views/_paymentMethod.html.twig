@@ -1,5 +1,6 @@
 {% if order.payments.first()  %}
-    {% set original_payment_method = order.payments.first().method %}
+    {% set completed = constant('Sylius\\Component\\Core\\Model\\PaymentInterface::STATE_COMPLETED') %}
+    {% set original_payment_method = order.lastPayment(completed).method %}
 
     <div class="ui hidden divider"></div>
 
