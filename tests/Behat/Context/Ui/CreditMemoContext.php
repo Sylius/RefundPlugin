@@ -221,6 +221,24 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Then its net total should be :total
+     */
+    public function itsNetTotalShouldBe(string $total): void
+    {
+        Assert::same($this->creditMemoDetailsPage->getNetTotal(), $total);
+
+    }
+
+    /**
+     * @Then its tax total should be :total
+     */
+    public function itsTaxTotalShouldBe(string $total): void
+    {
+        Assert::same($this->creditMemoDetailsPage->getTaxTotal(), $total);
+
+    }
+
+    /**
      * @Then it should be commented with :comment
      */
     public function itShouldBeCommentedWith(string $comment): void

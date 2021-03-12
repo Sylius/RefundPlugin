@@ -144,4 +144,28 @@ class CreditMemo implements CreditMemoInterface
     {
         return $this->to;
     }
+
+    public function getNetValueTotal(): int
+    {
+        $sum = 0;
+
+        /** @var LineItemInterface $lineItem */
+        foreach ($this->getLineItems() as $lineItem) {
+            $sum = $sum + $lineItem->netValue();
+        }
+
+        return $sum;
+    }
+
+    public function getTaxTotal(): int
+    {
+        $sum = 0;
+
+        /** @var LineItemInterface $lineItem */
+        foreach ($this->getLineItems() as $lineItem) {
+            $sum = $sum + $lineItem->taxAmount();
+        }
+
+        return $sum;
+    }
 }

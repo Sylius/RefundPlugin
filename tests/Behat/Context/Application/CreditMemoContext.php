@@ -128,6 +128,22 @@ final class CreditMemoContext implements Context
     }
 
     /**
+     * @Given /^its net total should be ("[^"]+")$/
+     */
+    public function itsNetTotalShouldBe(int $total): void
+    {
+        Assert::same($this->creditMemo->getNetValueTotal(), $total);
+    }
+
+    /**
+     * @Given /^its tax total should be ("[^"]+")$/
+     */
+    public function itsTaxTotalShouldBe(int $total): void
+    {
+        Assert::same($this->creditMemo->getTaxTotal(), $total);
+    }
+
+    /**
      * @Then it should be commented with :comment
      */
     public function itShouldBeCommentedWith(string $comment): void

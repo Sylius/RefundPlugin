@@ -36,4 +36,8 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
     public function getToAddress(): string;
 
     public function isCreditMemoInPosition(string $creditMemo, int $position): bool;
+
+    public function getNetTotal(): string;
+
+    public function getTaxTotal(): string;
 }

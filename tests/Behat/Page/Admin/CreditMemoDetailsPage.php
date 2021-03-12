@@ -116,12 +116,24 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         ]) !== null;
     }
 
+    public function getNetTotal(): string
+    {
+        return $this->getElement('net_total')->getText();
+    }
+
+    public function getTaxTotal(): string
+    {
+        return $this->getElement('tax_total')->getText();
+    }
+
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'credit_memo_in_given_position' => 'table tbody tr:nth-child(%position%) td:contains("%creditMemo%")',
+            'net_total' => '#credit-memo-net-value-total',
             'table' => 'table',
             'tax_item_amount' => 'tr.tax-item:contains("%label%") .tax-item-amount',
+            'tax_total' => '#credit-memo-tax-total',
             'total' => '#credit-memo-total',
             'total_currency_code' => '#credit-memo-total-currency-code',
         ]);

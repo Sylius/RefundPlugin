@@ -40,6 +40,8 @@ Feature: Viewing details of a credit memo
         And it should contain a tax item "20%" with amount "3.50" in "USD" currency
         And it should contain a tax item "15%" with amount "1.50" in "USD" currency
         And its total should be "42.00" in "USD" currency
+        And its net total should be "36.00"
+        And its tax total should be "6.00"
 
     @ui @application
     Scenario: Viewing details of a credit memo issued for a partial refund
