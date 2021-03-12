@@ -88,21 +88,20 @@ Configuration of all elements mentioned above can be found and customized in `co
 
 ## Payment requirements
 
-By default to refund your order, you need to have at least one available payment method configured with `offline` gateway.
+By default, to refund your order, you need to have at least one available payment method configured with `offline` gateway.
 In case your custom refund logic allows a different type of gateway (for example `stripe`), you should modify the specific parameter,
 as shown below:
 
-   ```xml
-        <parameters>
-            <parameter key="sylius_refund.supported_gateways" type="collection">
-                <parameter>offline</parameter>
-                <parameter>stripe</parameter>
-            </parameter>
-        </parameters>
-   ```
+```xml
+    <parameters>
+        <parameter key="sylius_refund.supported_gateways" type="collection">
+            <parameter>offline</parameter>
+            <parameter>stripe</parameter>
+        </parameter>
+    </parameters>
+```
 
-Online refund logic should be implemented if you need it.
-As the first try for the possible customization, you can check out `Sylius\RefundPlugin\Event\UnitsRefunded` event.
+Learn more in our [dedicated documentation](docs/online-payment.md).
 
 ## Security issues
 
