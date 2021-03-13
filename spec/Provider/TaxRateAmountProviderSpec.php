@@ -8,7 +8,6 @@ use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Provider\TaxRateAmountProviderInterface;
 
-
 final class TaxRateAmountProviderSpec extends ObjectBehavior
 {
     function it_implements_tax_rate_provider_interface(): void
@@ -22,7 +21,6 @@ final class TaxRateAmountProviderSpec extends ObjectBehavior
 
         $this->provide($adjustment)->shouldReturn(0.20);
     }
-
 
     function it_throws_exception_if_order_item_unit_has_more_than_1_tax_adjustment(AdjustmentInterface $adjustment): void
     {

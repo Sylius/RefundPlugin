@@ -44,7 +44,6 @@ final class TaxRateProviderSpec extends ObjectBehavior
     function it_returns_null_if_there_is_no_adjustment_with_details_with_tax_rate_amount(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $taxAdjustment
-
     ): void {
         $orderItemUnit
             ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
@@ -60,7 +59,6 @@ final class TaxRateProviderSpec extends ObjectBehavior
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $firstTaxAdjustment,
         AdjustmentInterface $secondTaxAdjustment
-
     ): void {
         $orderItemUnit
             ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)

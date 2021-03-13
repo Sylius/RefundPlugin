@@ -59,12 +59,15 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 
         $grossValue = $shipmentRefund->total();
 
-        $taxAdjustment = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->first();
+        $taxAdjustments = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
 
-        $taxAdjustmentAmount = $this->taxRateAmountProvider->provide($taxAdjustment);
+        $taxAdjustmentAmount = 0;
+        if (count($taxAdjustments) > 0) {
+            $taxAdjustmentAmount = $this->taxRateAmountProvider->provide($taxAdjustments->first());
+        }
+
         $taxRate = $taxAdjustmentAmount * 100 . '%';
         $taxAmount = (int) ($grossValue * $taxAdjustmentAmount);
-
         $netValue = $grossValue - $taxAmount;
 
         return new LineItem(

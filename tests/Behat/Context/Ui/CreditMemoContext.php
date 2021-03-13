@@ -226,7 +226,6 @@ final class CreditMemoContext implements Context
     public function itsNetTotalShouldBe(string $total): void
     {
         Assert::same($this->creditMemoDetailsPage->getNetTotal(), $total);
-
     }
 
     /**
@@ -235,7 +234,6 @@ final class CreditMemoContext implements Context
     public function itsTaxTotalShouldBe(string $total): void
     {
         Assert::same($this->creditMemoDetailsPage->getTaxTotal(), $total);
-
     }
 
     /**
