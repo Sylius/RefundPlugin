@@ -3,7 +3,7 @@
 1. Require plugin with composer:
 
     ```bash
-    composer require sylius/refund-plugin
+    composer require sylius/refund-plugin:1.0.0-RC.7
     ```
 
 1. Add plugin class and other required bundles to your `AppKernel`:
