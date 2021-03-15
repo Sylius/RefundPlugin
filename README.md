@@ -57,7 +57,7 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
     cp -R vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
     ```
    
-4. If you use sylius v1.8 you also need to change files `src/Entity/Shipping/Shipment.php` and `src/Entity/Order/Adjustment.php` to use proper traits and interfaces
+4. If you use Sylius v1.8 you also need to change files `src/Entity/Shipping/Shipment.php` and `src/Entity/Order/Adjustment.php` to use proper traits and interfaces:
 
    ```php
    <?php
@@ -93,7 +93,8 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
    use Sylius\Component\Core\Model\Shipment as BaseShipment;
    use Sylius\RefundPlugin\Entity\ShipmentTrait;
    use Sylius\RefundPlugin\Entity\ShipmentInterface as RefundShipmentInterface;
-   
+   use Sylius\Component\Core\Model\AdjustmentInterface as BaseAdjustmentInterface;
+
    /**
    * @ORM\Entity
    * @ORM\Table(name="sylius_shipment")
