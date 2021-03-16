@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
+use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class TaxRateProviderSpec extends ObjectBehavior
@@ -55,7 +56,7 @@ final class TaxRateProviderSpec extends ObjectBehavior
         $this->provide($orderItemUnit)->shouldReturn(null);
     }
 
-    function it_throws_exception_if_order_item_unit_has_more_than_1_tax_adjustment(
+    function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $firstTaxAdjustment,
         AdjustmentInterface $secondTaxAdjustment
@@ -65,9 +66,6 @@ final class TaxRateProviderSpec extends ObjectBehavior
             ->willReturn(new ArrayCollection([$firstTaxAdjustment->getWrappedObject(), $secondTaxAdjustment->getWrappedObject()]))
         ;
 
-        $this
-            ->shouldThrow(\InvalidArgumentException::class)
-            ->during('provide', [$orderItemUnit])
-        ;
+        $this->shouldThrow(MoreThanOneTaxAdjustment::class)->during('provide', [$orderItemUnit]);
     }
 }

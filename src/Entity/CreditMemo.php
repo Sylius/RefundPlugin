@@ -151,7 +151,7 @@ class CreditMemo implements CreditMemoInterface
 
         /** @var LineItemInterface $lineItem */
         foreach ($this->getLineItems() as $lineItem) {
-            $sum = $sum + $lineItem->netValue();
+            $sum += $lineItem->netValue();
         }
 
         return $sum;
@@ -163,7 +163,7 @@ class CreditMemo implements CreditMemoInterface
 
         /** @var LineItemInterface $lineItem */
         foreach ($this->getLineItems() as $lineItem) {
-            $sum = $sum + $lineItem->taxAmount();
+            $sum += $lineItem->taxAmount();
         }
 
         return $sum;

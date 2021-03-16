@@ -128,7 +128,7 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Given /^its net total should be ("[^"]+")$/
+     * @Then /^its net total should be ("[^"]+")$/
      */
     public function itsNetTotalShouldBe(int $total): void
     {
@@ -136,7 +136,7 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @Given /^its tax total should be ("[^"]+")$/
+     * @Then /^its tax total should be ("[^"]+")$/
      */
     public function itsTaxTotalShouldBe(int $total): void
     {

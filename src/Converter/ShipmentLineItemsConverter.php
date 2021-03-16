@@ -9,6 +9,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
+use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateAmountProviderInterface;
 use Webmozart\Assert\Assert;
@@ -61,13 +62,20 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 
         $taxAdjustments = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
 
-        $taxAdjustmentAmount = 0;
-        if (count($taxAdjustments) > 0) {
-            $taxAdjustmentAmount = $this->taxRateAmountProvider->provide($taxAdjustments->first());
+        if (count($taxAdjustments) > 1) {
+            throw MoreThanOneTaxAdjustment::occur();
         }
 
-        $taxRate = $taxAdjustmentAmount * 100 . '%';
-        $taxAmount = (int) ($grossValue * $taxAdjustmentAmount);
+        $taxRateAmount = 0;
+        $taxAmount = 0;
+        if (count($taxAdjustments) === 1) {
+            /** @var AdjustmentInterface $taxAdjustment */
+            $taxAdjustment = $taxAdjustments->first();
+            $taxRateAmount = $this->taxRateAmountProvider->provide($taxAdjustment);
+            $taxAmount = $taxAdjustment->getAmount();
+        }
+
+        $taxRate = $taxRateAmount * 100 . '%';
         $netValue = $grossValue - $taxAmount;
 
         return new LineItem(
