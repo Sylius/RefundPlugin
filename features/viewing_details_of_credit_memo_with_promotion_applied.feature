@@ -12,8 +12,9 @@ Feature: Viewing details of a credit memo for order with a promotion applied
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
         And the store has included in price "SHIPPING_VAT" tax rate of 15% for "Shipments" within the "US" zone
-        And the store has "Galaxy Post" shipping method with "$10.00" fee
+        And the store has "Galaxy Post" shipping method with "$11.50" fee within the "US" zone
         And shipping method "Galaxy Post" belongs to "Shipments" tax category
+        And the store allows paying with "Space money"
         And there is a promotion "Anatomy Park Promotion"
         And this promotion gives "$3.99" discount to every order with quantity at least 4
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
@@ -35,7 +36,7 @@ Feature: Viewing details of a credit memo for order with a promotion applied
         And it should be issued from "Rick Sanchez", "Seaside Fwy", "90802" "Los Angeles" in the "United States"
         And it should contain 3 "PHP T-Shirt" products with "27.00" net value, "2.70" tax amount and "29.70" gross value in "USD" currency
         And it should contain 1 "PHP T-Shirt" product with "9.01" net value, "0.90" tax amount and "9.91" gross value in "USD" currency
-        And it should contain 1 "Galaxy Post" shipment with "4.25" net value, "0.75" tax amount and "5.00" gross value in "USD" currency
+        And it should contain 1 "Galaxy Post" shipment with "5.00" net value, "0.75" tax amount and "5.75" gross value in "USD" currency
         And it should contain a tax item "10%" with amount "3.60" in "USD" currency
         And it should contain a tax item "15%" with amount "0.75" in "USD" currency
-        And its total should be "39.61" in "USD" currency
+        And its total should be "45.36" in "USD" currency
