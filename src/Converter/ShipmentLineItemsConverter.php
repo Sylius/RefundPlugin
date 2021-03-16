@@ -9,6 +9,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
+use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
@@ -50,13 +52,17 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         ;
         Assert::notNull($shippingAdjustment);
 
+        /** @var ShipmentInterface $shipment */
         $shipment = $shippingAdjustment->getShipment();
         Assert::notNull($shipment);
         Assert::isInstanceOf($shipment, AdjustableInterface::class);
         Assert::lessThanEq($shipmentRefund->total(), $shipment->getAdjustmentsTotal());
 
+        $taxAdjustment = $this->getTaxAdjustment($shipment);
+        $taxAdjustmentAmount = $taxAdjustment !== null ? $taxAdjustment->getAmount() : 0;
+
         $grossValue = $shipmentRefund->total();
-        $taxAmount = (int) ($grossValue * $shipment->getAdjustmentsTotal(AdjustmentInterface::TAX_ADJUSTMENT) / $shipment->getAdjustmentsTotal());
+        $taxAmount = (int) ($grossValue * $taxAdjustmentAmount / $shipment->getAdjustmentsTotal());
         $netValue = $grossValue - $taxAmount;
 
         return new LineItem(
@@ -69,5 +75,22 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
             $taxAmount,
             $this->taxRateProvider->provide($shipment)
         );
+    }
+
+    private function getTaxAdjustment(ShipmentInterface $shipment): ?AdjustmentInterface
+    {
+        $taxAdjustments = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
+        if ($taxAdjustments->isEmpty()) {
+            return null;
+        }
+
+        if ($taxAdjustments->count() > 1) {
+            throw MoreThanOneTaxAdjustment::occur();
+        }
+
+        /** @var AdjustmentInterface $taxAdjustment */
+        $taxAdjustment = $taxAdjustments->first();
+
+        return $taxAdjustment;
     }
 }

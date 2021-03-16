@@ -11,6 +11,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -120,13 +121,14 @@ final class RefundingContext implements Context
             return new OrderItemUnitRefund($unit->getId(), $unit->getTotal());
         }, $order->getItemUnits()->getValues());
 
-        /** @var AdjustmentInterface $shipment */
-        $shipment = $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        /** @var ShipmentInterface $shipment */
+        $shipment = $order->getShipments()->first();
+        $shippingAdjustment = $shipment->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         $this->commandBus->dispatch(new RefundUnits(
             $orderNumber,
             $units,
-            [new ShipmentRefund($shipment->getId(), $shipment->getAmount())],
+            [new ShipmentRefund($shippingAdjustment->getId(), $shipment->getAdjustmentsTotal())],
             $paymentMethod->getId(),
             ''
         ));

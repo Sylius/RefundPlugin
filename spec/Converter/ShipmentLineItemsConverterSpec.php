@@ -11,6 +11,7 @@ use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\ShipmentInterface;
+use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
@@ -33,7 +34,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         AdjustmentInterface $taxAdjustment,
         ShipmentInterface $shipment
     ): void {
-        $shipmentRefund = new ShipmentRefund(1, 500);
+        $shipmentRefund = new ShipmentRefund(1, 575);
 
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
@@ -42,23 +43,22 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         $shippingAdjustment->getLabel()->willReturn('Galaxy post');
         $shippingAdjustment->getShipment()->willReturn($shipment);
 
-        $shipment->getAdjustmentsTotal()->willReturn(1000);
-        $shipment->getAdjustmentsTotal(AdjustmentInterface::TAX_ADJUSTMENT)->willReturn(150);
+        $shipment->getAdjustmentsTotal()->willReturn(1150);
         $shipment
             ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([$taxAdjustment->getWrappedObject()]))
         ;
 
-        $taxAdjustment->getAmount()->willReturn(75);
+        $taxAdjustment->getAmount()->willReturn(150);
         $taxRateProvider->provide($shipment)->willReturn('15%');
 
         $this->convert([$shipmentRefund])->shouldBeLike([new LineItem(
             'Galaxy post',
             1,
-            425,
             500,
-            425,
+            575,
             500,
+            575,
             75,
             '15%'
         )]);
@@ -97,6 +97,37 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
+            ->during('convert', [[$shipmentRefund]])
+        ;
+    }
+
+    function it_throws_an_exception_if_shipment_has_more_tax_adjustments_than_one(
+        RepositoryInterface $adjustmentRepository,
+        TaxRateProviderInterface $taxRateProvider,
+        AdjustmentInterface $shippingAdjustment,
+        AdjustmentInterface $firstTaxAdjustment,
+        AdjustmentInterface $secondTaxAdjustment,
+        ShipmentInterface $shipment
+    ): void {
+        $shipmentRefund = new ShipmentRefund(1, 575);
+
+        $adjustmentRepository
+            ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
+            ->willReturn($shippingAdjustment)
+        ;
+        $shippingAdjustment->getLabel()->willReturn('Galaxy post');
+        $shippingAdjustment->getShipment()->willReturn($shipment);
+
+        $shipment->getAdjustmentsTotal()->willReturn(1150);
+        $shipment
+            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
+            ->willReturn(new ArrayCollection([$firstTaxAdjustment->getWrappedObject(), $secondTaxAdjustment->getWrappedObject()]))
+        ;
+
+        $taxRateProvider->provide($shipment)->shouldNotBeCalled();
+
+        $this
+            ->shouldThrow(MoreThanOneTaxAdjustment::class)
             ->during('convert', [[$shipmentRefund]])
         ;
     }
