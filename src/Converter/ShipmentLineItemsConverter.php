@@ -9,9 +9,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
-use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\TaxRateAmountProviderInterface;
+use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class ShipmentLineItemsConverter implements LineItemsConverterInterface
@@ -19,15 +18,13 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
     /** @var RepositoryInterface */
     private $adjustmentRepository;
 
-    /** @var TaxRateAmountProviderInterface */
-    private $taxRateAmountProvider;
+    /** @var TaxRateProviderInterface */
+    private $taxRateProvider;
 
-    public function __construct(
-        RepositoryInterface $adjustmentRepository,
-        TaxRateAmountProviderInterface $taxRateAmountProvider
-    ) {
+    public function __construct(RepositoryInterface $adjustmentRepository, TaxRateProviderInterface $taxRateProvider)
+    {
         $this->adjustmentRepository = $adjustmentRepository;
-        $this->taxRateAmountProvider = $taxRateAmountProvider;
+        $this->taxRateProvider = $taxRateProvider;
     }
 
     public function convert(array $units): array
@@ -59,23 +56,7 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         Assert::lessThanEq($shipmentRefund->total(), $shipment->getAdjustmentsTotal());
 
         $grossValue = $shipmentRefund->total();
-
-        $taxAdjustments = $shipment->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
-
-        if (count($taxAdjustments) > 1) {
-            throw MoreThanOneTaxAdjustment::occur();
-        }
-
-        $taxRateAmount = 0;
-        $taxAmount = 0;
-        if (count($taxAdjustments) === 1) {
-            /** @var AdjustmentInterface $taxAdjustment */
-            $taxAdjustment = $taxAdjustments->first();
-            $taxRateAmount = $this->taxRateAmountProvider->provide($taxAdjustment);
-            $taxAmount = $taxAdjustment->getAmount();
-        }
-
-        $taxRate = $taxRateAmount * 100 . '%';
+        $taxAmount = (int) ($grossValue * $shipment->getAdjustmentsTotal(AdjustmentInterface::TAX_ADJUSTMENT) / $shipment->getAdjustmentsTotal());
         $netValue = $grossValue - $taxAmount;
 
         return new LineItem(
@@ -86,7 +67,7 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
             $netValue,
             $grossValue,
             $taxAmount,
-            $taxRate
+            $this->taxRateProvider->provide($shipment)
         );
     }
 }

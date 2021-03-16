@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Order\Model\AdjustableInterface;
 
 interface TaxRateProviderInterface
 {
-    public function provide(OrderItemUnitInterface $orderItemUnit): ?string;
+    public function provide(AdjustableInterface $adjustable): ?string;
 }

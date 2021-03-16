@@ -42,7 +42,7 @@ final class TaxRateProviderSpec extends ObjectBehavior
         $this->provide($orderItemUnit)->shouldReturn(null);
     }
 
-    function it_returns_null_if_there_is_no_adjustment_with_details_with_tax_rate_amount(
+    function it_throws_an_exception_if_there_is_no_tax_rate_amount_in_details_of_adjustment(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $taxAdjustment
     ): void {
@@ -53,7 +53,7 @@ final class TaxRateProviderSpec extends ObjectBehavior
 
         $taxAdjustment->getDetails()->willReturn([]);
 
-        $this->provide($orderItemUnit)->shouldReturn(null);
+        $this->shouldThrow(\InvalidArgumentException::class)->during('provide', [$orderItemUnit]);
     }
 
     function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(

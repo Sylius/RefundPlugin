@@ -6,25 +6,34 @@ namespace Sylius\RefundPlugin\Provider;
 
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Order\Model\AdjustableInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Webmozart\Assert\Assert;
 
 final class TaxRateProvider implements TaxRateProviderInterface
 {
-    public function provide(OrderItemUnitInterface $orderItemUnit): ?string
+    public function provide(AdjustableInterface $adjustable): ?string
     {
         /** @var Collection|AdjustmentInterface[] $taxAdjustments */
-        $taxAdjustments = $orderItemUnit->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
+        $taxAdjustments = $adjustable->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT);
 
         if (count($taxAdjustments) > 1) {
             throw MoreThanOneTaxAdjustment::occur();
         }
 
-        if ($taxAdjustments->isEmpty() || !key_exists('taxRateAmount', $taxAdjustments->first()->getDetails())) {
+        if ($taxAdjustments->isEmpty()) {
             return null;
         }
 
-        return $taxAdjustments->first()->getDetails()['taxRateAmount'] * 100 . '%';
+        $details = $taxAdjustments->first()->getDetails();
+
+        Assert::keyExists(
+            $details,
+            'taxRateAmount',
+            'There is no tax rate amount in details of this adjustment'
+        );
+
+        return $details['taxRateAmount'] * 100 . '%';
     }
 }

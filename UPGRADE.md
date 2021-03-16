@@ -1,6 +1,9 @@
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 
-1. The `fully_refunded` state and the `refund` transition have been removed from `sylius_order` state machine. 
+1. The `fully_refunded` state and the `refund` transition have been removed from `sylius_order` state machine.
+2. `Sylius\RefundPlugin\Provider\LabelBasedTaxRateProvider` has been changed to `Sylius\RefundPlugin\Provider\TaxRateProvider`.
+3. The method `Sylius\RefundPlugin\Provider\TaxRateProviderInterface` has been changed 
+from `provide(OrderItemUnitInterface $orderItemUnit): ?string` to `provide(AdjustableInterface $adjustable): ?string`.
 
 ### UPGRADE FROM 1.0.0-RC.5 TO 1.0.0-RC.6
 
