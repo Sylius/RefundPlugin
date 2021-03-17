@@ -10,7 +10,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefunding;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
@@ -73,11 +73,11 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $refundUnitsCommandValidator
             ->validate($refundUnitsCommand)
-            ->willThrow(OrderNotAvailableForRefundingException::withOrderNumber('000222'))
+            ->willThrow(OrderNotAvailableForRefunding::withOrderNumber('000222'))
         ;
 
         $this
-            ->shouldThrow(OrderNotAvailableForRefundingException::withOrderNumber('000222'))
+            ->shouldThrow(OrderNotAvailableForRefunding::withOrderNumber('000222'))
             ->during('__invoke', [$refundUnitsCommand])
         ;
     }

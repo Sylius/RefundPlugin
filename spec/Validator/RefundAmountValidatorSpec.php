@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Validator;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
+use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
@@ -32,7 +32,7 @@ final class RefundAmountValidatorSpec extends ObjectBehavior
         $remainingTotalProvider->getTotalLeftToRefund(2, $refundType)->willReturn(5);
 
         $this
-            ->shouldThrow(InvalidRefundAmountException::class)
+            ->shouldThrow(InvalidRefundAmount::class)
             ->during('validateUnits', [[$correctOrderItemUnitRefund], $refundType])
         ;
     }
@@ -43,7 +43,7 @@ final class RefundAmountValidatorSpec extends ObjectBehavior
         $correctOrderItemUnitRefund = new OrderItemUnitRefund(2, 10);
 
         $this
-            ->shouldThrow(InvalidRefundAmountException::class)
+            ->shouldThrow(InvalidRefundAmount::class)
             ->during(
                 'validateUnits',
                 [
