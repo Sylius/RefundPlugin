@@ -37,13 +37,13 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 
         /** @var ShipmentRefund $shipmentRefund */
         foreach ($units as $shipmentRefund) {
-            $lineItems[] = $this->convertUnitRefundToLineItem($shipmentRefund);
+            $lineItems[] = $this->convertShipmentRefundToLineItem($shipmentRefund);
         }
 
         return $lineItems;
     }
 
-    private function convertUnitRefundToLineItem(ShipmentRefund $shipmentRefund): LineItemInterface
+    private function convertShipmentRefundToLineItem(ShipmentRefund $shipmentRefund): LineItemInterface
     {
         /** @var AdjustmentInterface|null $shippingAdjustment */
         $shippingAdjustment = $this

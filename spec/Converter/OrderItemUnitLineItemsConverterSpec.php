@@ -13,7 +13,7 @@ use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
-final class LineItemsConverterSpec extends ObjectBehavior
+final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 {
     function let(RepositoryInterface $orderItemUnitRepository, TaxRateProviderInterface $taxRateProvider): void
     {

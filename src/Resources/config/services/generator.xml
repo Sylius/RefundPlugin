@@ -12,8 +12,8 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
-            <argument type="service" id="Sylius\RefundPlugin\Converter\LineItemsConverterInterface" />
-            <argument type="service" id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverterInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter" />
+            <argument type="service" id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
