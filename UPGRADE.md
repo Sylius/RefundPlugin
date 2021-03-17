@@ -9,10 +9,16 @@ from `provide(OrderItemUnitInterface $orderItemUnit): ?string` to `provide(Adjus
 
 1. The `TaxRateProviderInterface $taxRateProvider` has been added as the second argument in constructor of `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter`
 
+1. Service definition for `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter` has been changed from 
+`Sylius\RefundPlugin\Converter\ShipmentLineItemsConverterInterface` to `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter`
+
+1. `Sylius\RefundPlugin\Converter\LineItemsConverter` has been changed to `Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter`
+and its service definition has been changed from `Sylius\RefundPlugin\Converter\LineItemsConverterInterface` to `Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter`
+
 1. The suffix `Exception` has been removed from classes: 
     * `Sylius\RefundPlugin\Exception\InvalidRefundAmountException` 
     * `Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException`
-    * `Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException` 
+    * `Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException`
 
 ### UPGRADE FROM 1.0.0-RC.5 TO 1.0.0-RC.6
 

@@ -13,7 +13,7 @@ use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
 
-final class LineItemsConverter implements LineItemsConverterInterface
+final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterface
 {
     /** @var RepositoryInterface */
     private $orderItemUnitRepository;

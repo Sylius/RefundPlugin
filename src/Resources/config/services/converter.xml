@@ -4,12 +4,12 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Converter\LineItemsConverterInterface" class="Sylius\RefundPlugin\Converter\LineItemsConverter">
+        <service id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter">
             <argument type="service" id="sylius.repository.order_item_unit" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverterInterface" class="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter">
+        <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter">
             <argument type="service" id="sylius.repository.adjustment" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
         </service>
