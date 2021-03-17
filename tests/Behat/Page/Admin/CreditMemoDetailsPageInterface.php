@@ -17,8 +17,6 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
         string $currencyCode
     ): bool;
 
-    public function hasShipmentItem(int $quantity, string $shipmentName, string $grossValue, string $currencyCode): bool;
-
     public function hasTaxItem(string $label, string $amount, string $currencyCode): bool;
 
     public function download(): void;
@@ -38,4 +36,8 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
     public function getToAddress(): string;
 
     public function isCreditMemoInPosition(string $creditMemo, int $position): bool;
+
+    public function getNetTotal(): string;
+
+    public function getTaxTotal(): string;
 }

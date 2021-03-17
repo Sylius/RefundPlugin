@@ -40,4 +40,8 @@ interface CreditMemoInterface extends ResourceInterface
     public function getFrom(): CustomerBillingDataInterface;
 
     public function getTo(): ?ShopBillingDataInterface;
+
+    public function getNetValueTotal(): int;
+
+    public function getTaxTotal(): int;
 }

@@ -11,6 +11,7 @@
 
         <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverterInterface" class="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter">
             <argument type="service" id="sylius.repository.adjustment" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
         </service>
     </services>
 </container>
