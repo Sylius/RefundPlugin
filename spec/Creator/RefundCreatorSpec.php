@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
-use Sylius\RefundPlugin\Exception\UnitAlreadyRefundedException;
+use Sylius\RefundPlugin\Exception\UnitAlreadyRefunded;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
@@ -58,7 +58,7 @@ final class RefundCreatorSpec extends ObjectBehavior
         $remainingTotalProvider->getTotalLeftToRefund(1, $refundType)->willReturn(0);
 
         $this
-            ->shouldThrow(UnitAlreadyRefundedException::class)
+            ->shouldThrow(UnitAlreadyRefunded::class)
             ->during('__invoke', ['000222', 1, 1000, $refundType])
         ;
     }

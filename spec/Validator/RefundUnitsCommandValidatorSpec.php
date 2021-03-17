@@ -7,8 +7,8 @@ namespace spec\Sylius\RefundPlugin\Validator;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
-use Sylius\RefundPlugin\Exception\InvalidRefundAmountException;
-use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException;
+use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
+use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefunding;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
@@ -31,7 +31,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
         $refundUnits = new RefundUnits('000001', [], [], 1, '');
 
         $this
-            ->shouldThrow(OrderNotAvailableForRefundingException::class)
+            ->shouldThrow(OrderNotAvailableForRefunding::class)
             ->during('validate', [$refundUnits])
         ;
     }
@@ -48,10 +48,10 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
         $refundAmountValidator
             ->validateUnits([$orderItemUnitRefund], RefundType::orderItemUnit())
-            ->willThrow(InvalidRefundAmountException::class)
+            ->willThrow(InvalidRefundAmount::class)
         ;
 
-        $this->shouldThrow(InvalidRefundAmountException::class)->during('validate', [$refundUnits]);
+        $this->shouldThrow(InvalidRefundAmount::class)->during('validate', [$refundUnits]);
     }
 
     function it_throws_exception_when_shipment_is_not_valid(
@@ -68,9 +68,9 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
         $refundAmountValidator
             ->validateUnits([$shipmentRefund], RefundType::shipment())
-            ->willThrow(InvalidRefundAmountException::class)
+            ->willThrow(InvalidRefundAmount::class)
         ;
 
-        $this->shouldThrow(InvalidRefundAmountException::class)->during('validate', [$refundUnits]);
+        $this->shouldThrow(InvalidRefundAmount::class)->during('validate', [$refundUnits]);
     }
 }

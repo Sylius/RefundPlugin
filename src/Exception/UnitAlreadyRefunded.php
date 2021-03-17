@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Exception;
 
-final class UnitAlreadyRefundedException extends \InvalidArgumentException
+final class UnitAlreadyRefunded extends \InvalidArgumentException
 {
     public static function withIdAndOrderNumber(int $unitId, string $orderNumber): self
     {
