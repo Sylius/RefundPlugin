@@ -7,6 +7,8 @@
 1. The method `Sylius\RefundPlugin\Provider\TaxRateProviderInterface` has been changed 
 from `provide(OrderItemUnitInterface $orderItemUnit): ?string` to `provide(AdjustableInterface $adjustable): ?string`.
 
+1. The `TaxRateProviderInterface $taxRateProvider` has been added as the second argument in constructor of `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter`
+
 1. The suffix `Exception` has been removed from classes: 
     * `Sylius\RefundPlugin\Exception\InvalidRefundAmountException` 
     * `Sylius\RefundPlugin\Exception\OrderNotAvailableForRefundingException`
