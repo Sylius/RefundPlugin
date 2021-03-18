@@ -1,5 +1,17 @@
 # CHANGELOG
 
+### v1.0.0-RC.8 (2021-03-18)
+
+- [#232](https://github.com/Sylius/RefundPlugin/issues/232) Drop unused order state-machine transtion to fully refunded ([@GSadee](https://github.com/GSadee))
+- [#263](https://github.com/Sylius/RefundPlugin/issues/263) Check proper state during resolving order refunded state ([@GSadee](https://github.com/GSadee))
+- [#265](https://github.com/Sylius/RefundPlugin/issues/265) Toggle doctrine migration ([@arti0090](https://github.com/arti0090))
+- [#267](https://github.com/Sylius/RefundPlugin/issues/267) Update installation guides to install proper version of plugin ([@GSadee](https://github.com/GSadee))
+- [#268](https://github.com/Sylius/RefundPlugin/issues/268) update installation guides for sylius 1.8 ([@arti0090](https://github.com/arti0090), [@GSadee](https://github.com/GSadee))
+- [#264](https://github.com/Sylius/RefundPlugin/issues/264) Taxes displayed properly on credit memo ([@AdamKasp](https://github.com/AdamKasp), [@GSadee](https://github.com/GSadee))
+- [#270](https://github.com/Sylius/RefundPlugin/issues/270) Unify custom exceptions ([@GSadee](https://github.com/GSadee))
+- [#272](https://github.com/Sylius/RefundPlugin/issues/272) Add missing note about changes in constructor of ShipmentLineItemsConverter ([@GSadee](https://github.com/GSadee))
+- [#271](https://github.com/Sylius/RefundPlugin/issues/271) Unify service definitions of line items converters ([@GSadee](https://github.com/GSadee))
+
 ### v1.0.0-RC.7 (2021-03-04)
 
 ### Added
