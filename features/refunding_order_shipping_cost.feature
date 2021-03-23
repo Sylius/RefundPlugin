@@ -39,8 +39,7 @@ Feature: Refunding an order shipping cost
 
     @ui @application
     Scenario: Refunding an order shipment with its tax
-        Given there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
-        And the customer bought a single "Mr. Meeseeks T-Shirt"
+        Given the customer bought a single "Mr. Meeseeks T-Shirt"
         And the customer chose "Space Pidgeons Post" shipping method to "United States" with "Space money" payment
         And the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
@@ -48,7 +47,7 @@ Feature: Refunding an order shipping cost
         Then this order refunded total should be "$12.30"
         And I should not be able to refund order shipment
 
-    @todo @ui @application
+    @ui @application
     Scenario: Refunding multiple order shipments
         Given the customer bought a single "Mr. Meeseeks T-Shirt"
         And the customer chose "Galaxy Post" shipping method to "United States"

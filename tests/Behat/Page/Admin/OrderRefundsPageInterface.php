@@ -20,7 +20,7 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
 
     public function pickAllUnitsToRefund(): void;
 
-    public function pickOrderShipment(): void;
+    public function pickOrderShipment(?string $shippingMethodName = null): void;
 
     public function pickPartOfOrderShipmentToRefund(string $amount): void;
 

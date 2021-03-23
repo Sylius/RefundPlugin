@@ -59,9 +59,9 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         $this->getDocument()->find('css', 'button[data-refund-all]')->click();
     }
 
-    public function pickOrderShipment(): void
+    public function pickOrderShipment(?string $shippingMethodName = null): void
     {
-        $orderShipment = $this->getOrderShipment();
+        $orderShipment = $this->getOrderShipment($shippingMethodName);
 
         $total = $this->getUnitTotal($orderShipment);
 
@@ -168,9 +168,13 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return $this->getDocument()->findAll('css', sprintf('#refunds .unit:contains("%s")', $productName));
     }
 
-    private function getOrderShipment(): NodeElement
+    private function getOrderShipment(?string $shippingMethodName = null): NodeElement
     {
-        return $this->getDocument()->find('css', '#refunds .shipment');
+        if (null === $shippingMethodName) {
+            return $this->getDocument()->find('css', '#refunds .shipment');
+        }
+
+        return $this->getDocument()->find('css', sprintf('#refunds .shipment:contains("%s")', $shippingMethodName));
     }
 
     private function getTextFromElement(?NodeElement $element): string

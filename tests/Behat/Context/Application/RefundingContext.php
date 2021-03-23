@@ -123,6 +123,21 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I decide to refund :shippingMethodName order shipment with :paymentMethod payment
+     */
+    public function iDecideToRefundOrderShipmentWithPayment(
+        string $shippingMethodName,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        $shippingAdjustment = $this->getShippingAdjustment($shippingMethodName);
+        $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($shippingAdjustment->getId(), RefundType::shipment());
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
+        ));
+    }
+
+    /**
      * @When /^I decide to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
      */
     public function decideToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
@@ -315,5 +330,18 @@ final class RefundingContext implements Context
         });
 
         return $unitsWithProduct->get($unitNumber-1);
+    }
+
+    private function getShippingAdjustment(string $shippingMethodName): AdjustmentInterface
+    {
+        $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT);
+
+        $shippingAdjustments = $this->order
+            ->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)
+            ->filter(function(AdjustmentInterface $adjustment) use ($shippingMethodName): bool {
+            return $adjustment->getLabel() === $shippingMethodName;
+        });
+
+        return $shippingAdjustments->first();
     }
 }

@@ -2,8 +2,7 @@
 
 {% set shipmentRefundType = constant('Sylius\\RefundPlugin\\Model\\RefundType::SHIPMENT') %}
 
-{% if order.getAdjustments('shipping')|length > 0 %}
-    {% set shippingAdjustment = order.getAdjustments('shipping').first() %}
+{% for shippingAdjustment in order.getAdjustments('shipping') %}
     {% set shipment = shippingAdjustment.shipment %}
 
     <tr class="shipment">
@@ -31,4 +30,4 @@
             </button>
         </td>
     </tr>
-{% endif %}
+{% endfor %}

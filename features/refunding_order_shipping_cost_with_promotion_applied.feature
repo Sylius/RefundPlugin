@@ -40,7 +40,7 @@ Feature: Refunding an order shipping cost
         Then this order refunded total should be "$6.15"
         And I should not be able to refund order shipment
 
-    @todo @ui @application
+    @ui @application
     Scenario: Refunding multiple order shipments with taxes and a promotion applied
         Given there is a promotion "50% shipping discount"
         And it gives "50%" discount on shipping to every order
