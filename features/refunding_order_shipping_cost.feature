@@ -6,24 +6,20 @@ Feature: Refunding an order shipping cost
 
     Background:
         Given the store operates on a single green channel in "United States"
-        And the store has "VAT" tax rate of 23% for "Pidgeons Services" within the "US" zone
+        And the store has "VAT" tax rate of 23% for "Shipping Services" within the "US" zone
         And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00"
         And the store has "Galaxy Post" shipping method with "$20.00" fee
         And the store has "Space Pidgeons Post" shipping method with "$10.00" fee within the "US" zone
-        And shipping method "Space Pidgeons Post" belongs to "Pidgeons Services" tax category
+        And shipping method "Space Pidgeons Post" belongs to "Shipping Services" tax category
         And the store allows paying with "Space money"
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
-        And the customer bought 2 "Mr. Meeseeks T-Shirt" products
-        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
-        And the order "#00000022" is already paid
-        And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000023"
-        And the customer bought a single "Mr. Meeseeks T-Shirt"
-        And the customer chose "Space Pidgeons Post" shipping method to "United States" with "Space money" payment
-        And the order "#00000023" is already paid
         And I am logged in as an administrator
 
     @ui @application
     Scenario: Refunding an order shipment
+        Given the customer bought 2 "Mr. Meeseeks T-Shirt" products
+        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment with "Space money" payment
         Then this order refunded total should be "$20.00"
@@ -31,6 +27,9 @@ Feature: Refunding an order shipping cost
 
     @ui @application
     Scenario: Refunding an order shipment along with order unit
+        Given the customer bought 2 "Mr. Meeseeks T-Shirt" products
+        And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
         When I want to refund some units of order "#00000022"
         And I decide to refund order shipment and 1st "Mr. Meeseeks T-Shirt" product with "Space money" payment
         Then I should be notified that selected order units have been successfully refunded
@@ -40,7 +39,24 @@ Feature: Refunding an order shipping cost
 
     @ui @application
     Scenario: Refunding an order shipment with its tax
-        When I want to refund some units of order "#00000023"
+        Given there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
+        And the customer bought a single "Mr. Meeseeks T-Shirt"
+        And the customer chose "Space Pidgeons Post" shipping method to "United States" with "Space money" payment
+        And the order "#00000022" is already paid
+        When I want to refund some units of order "#00000022"
         And I decide to refund order shipment with "Space money" payment
         Then this order refunded total should be "$12.30"
+        And I should not be able to refund order shipment
+
+    @todo @ui @application
+    Scenario: Refunding multiple order shipments
+        Given the customer bought a single "Mr. Meeseeks T-Shirt"
+        And the customer chose "Galaxy Post" shipping method to "United States"
+        And the customer bought another "Mr. Meeseeks T-Shirt" with separate "Space Pidgeons Post" shipment
+        And the customer chose "Space money" payment
+        And the order "#00000022" is already paid
+        When I want to refund some units of order "#00000022"
+        And I decide to refund "Galaxy Post" order shipment with "Space money" payment
+        And I decide to refund "Space Pidgeons Post" order shipment with "Space money" payment
+        Then this order refunded total should be "$32.30"
         And I should not be able to refund order shipment
