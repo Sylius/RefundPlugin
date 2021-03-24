@@ -70,6 +70,19 @@
             <argument type="service" id="sylius.manager.order" />
         </service>
 
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderShipmentContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.factory.order_item" />
+            <argument type="service" id="sylius.factory.shipment" />
+            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sylius.repository.payment_method" />
+            <argument type="service" id="sylius.repository.shipping_method" />
+            <argument type="service" id="sylius.product_variant_resolver.default" />
+            <argument type="service" id="sylius.order_item_quantity_modifier" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Transform\OrderContext">
             <argument type="service" id="sylius.repository.order" />
         </service>

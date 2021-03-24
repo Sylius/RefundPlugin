@@ -168,6 +168,18 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I decide to refund :shippingMethodName order shipment with :paymentMethodName payment
+     */
+    public function iDecideToRefundOrderShipmentWithPayment(
+        string $shippingMethodName,
+        string $paymentMethodName
+    ): void {
+        $this->orderRefundsPage->pickOrderShipment($shippingMethodName);
+        $this->orderRefundsPage->choosePaymentMethod($paymentMethodName);
+        $this->orderRefundsPage->refund();
+    }
+
+    /**
      * @When /^I decide to refund "\$([^"]+)" from order shipment with "([^"]+)" payment$/
      * @When /^I try to refund ("[^"]+") from order shipment with "([^"]+)" payment$/
      */

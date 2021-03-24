@@ -69,12 +69,12 @@ final class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterfac
             /** @var TaxRateInterface|null $taxRate */
             $taxRate = $this->taxRateResolver->resolve($shippingMethod, ['zone' => $zone]);
             if (null === $taxRate) {
-                return;
+                continue;
             }
 
             $taxAmount = $this->calculator->calculate($shipment->getAdjustmentsTotal(), $taxRate);
             if (0.00 === $taxAmount) {
-                return;
+                continue;
             }
 
             $this->addAdjustment($shipment, (int) $taxAmount, $taxRate, $shippingMethod);
