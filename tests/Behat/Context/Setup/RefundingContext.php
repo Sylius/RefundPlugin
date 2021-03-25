@@ -121,17 +121,13 @@ final class RefundingContext implements Context
             return new OrderItemUnitRefund($unit->getId(), $unit->getTotal());
         }, $order->getItemUnits()->getValues());
 
-        /** @var ShipmentInterface $shipment */
-        $shipment = $order->getShipments()->first();
-        $shippingAdjustment = $shipment->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
+        $shipments = array_map(function(ShipmentInterface $shipment) {
+            $shippingAdjustment = $shipment->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
-        $this->commandBus->dispatch(new RefundUnits(
-            $orderNumber,
-            $units,
-            [new ShipmentRefund($shippingAdjustment->getId(), $shipment->getAdjustmentsTotal())],
-            $paymentMethod->getId(),
-            ''
-        ));
+            return new ShipmentRefund($shippingAdjustment->getId(), $shipment->getAdjustmentsTotal());
+        }, $order->getShipments()->getValues());
+
+        $this->commandBus->dispatch(new RefundUnits($orderNumber, $units, $shipments, $paymentMethod->getId(), ''));
     }
 
     /**
