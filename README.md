@@ -39,7 +39,7 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
 1. Require plugin with composer:
 
     ```bash
-    composer require sylius/refund-plugin:1.0.0-RC.7
+    composer require sylius/refund-plugin:1.0.0-RC.8
     ```
 
     > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
