@@ -154,7 +154,7 @@ as shown below:
     parameters:
         sylius_refund.supported_gateways:
             - offline
-            - stripe_checkout_session
+            - stripe
 
 ```
 
