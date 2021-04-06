@@ -39,7 +39,7 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
 1. Require plugin with composer:
 
     ```bash
-    composer require sylius/refund-plugin:1.0.0-RC.7
+    composer require sylius/refund-plugin:1.0.0-RC.8
     ```
 
     > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
@@ -148,14 +148,15 @@ By default to refund your order, you need to have at least one available payment
 In case your custom refund logic allows a different type of gateway (for example `stripe`), you should modify the specific parameter,
 as shown below:
 
-   ```xml
-        <parameters>
-            <parameter key="sylius_refund.supported_gateways" type="collection">
-                <parameter>offline</parameter>
-                <parameter>stripe</parameter>
-            </parameter>
-        </parameters>
-   ```
+```yaml
+    # config/services.yaml
+    
+    parameters:
+        sylius_refund.supported_gateways:
+            - offline
+            - stripe
+
+```
 
 Online refund logic should be implemented if you need it.
 As the first try for the possible customization, you can check out `Sylius\RefundPlugin\Event\UnitsRefunded` event.
