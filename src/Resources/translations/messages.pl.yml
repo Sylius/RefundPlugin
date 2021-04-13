@@ -1,0 +1,38 @@
+sylius_refund:
+    ui:
+        buyer: Klient
+        clear_refunds: Wyczyść wszystko
+        new: Nowy
+        completed: Zakończony
+        credit_memo: Nota kredytowa
+        credit_memos: Noty kredytowe
+        download: Pobierz
+        gross_value: Wartość brutto
+        issued_at: Wystawiono
+        issued_for_order: Wystawiono dla zamówienia
+        issued_from: Wydane od
+        manage_credit_memos: Zarządzaj notami kredytowymi
+        net_total: Suma netto
+        net_value: Wartość netto
+        no: Nr
+        order_number: Numer zamówienia
+        partial_refund: Częściowy zwrot
+        refund: Zwrot
+        refund_all: Zwróć wszystko
+        refund_payment_completed: Zwrot środków został pomyślnie zakończony
+        refund_payments: Zwrot kosztów
+        refund_value: Wartość zwrotu
+        refunded: Zwrócono
+        refunded_total: Łączna kwota, za którą zwrócono środki
+        refunds: Zwroty
+        resend: Wyślij ponownie
+        seller: Sprzedawca
+        tax_amount: Tax amount
+        tax_rate: Stawka podatku %
+        tax_total: Suma podatku
+        unit_net_price: Cena jednostkowa netto
+
+sylius:
+    ui:
+        original_payment_method: Oryginalna metoda płatności
+        partially_refunded: Częściowy zwrot

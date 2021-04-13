@@ -1,0 +1,12 @@
+sylius_refund:
+    at_least_one_unit_should_be_selected_to_refund: 'Co najmniej jeden produkt powinien by wybrany do zwrotu'
+    error_occurred: 'Pojawił się nieoczekiwany błąd'
+    free_order_should_not_be_refund: 'Nie możesz zrefundować darmowego zamówienia'
+    order_should_be_paid: 'Zamówienie powinno zostać opłacone, aby środki mogły zostać zwrócone'
+    refund_amount_must_be_greater: 'Refundowana kwota musi być większa od 0'
+    refund_amount_must_be_less: 'Nie możesz zwrócić kwoty większej niż całkowita kwota zamówienia'
+    refund_payment_completed: 'Zwrot środków został pomyślnie zakończony'
+    resend_credit_memo_failed: 'Ponowne wysłanie noty kredytowej nie powiodło się'
+    resend_credit_memo_success: 'Wybrana nota kredytowa została pomyślnie wysłana ponownie'
+    unit_refund_exceeded: 'Nie możesz zwrócić kwoty większej niż całkowita kwota zamówienia'
+    units_successfully_refunded: 'Zwrot środków za wybrane produkty zamówienia został pomyślnie zrealizowany'
