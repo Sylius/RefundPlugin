@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### v1.0.0-RC.9 (2021-04-13)
+
+- [#273](https://github.com/Sylius/RefundPlugin/issues/273) Refunding multiple shipments ([@GSadee](https://github.com/GSadee))
+- [#274](https://github.com/Sylius/RefundPlugin/issues/274) [CreditMemo] Add scenarios for viewing multiple shipments on credit memo ([@GSadee](https://github.com/GSadee))
+- [#275](https://github.com/Sylius/RefundPlugin/issues/275) docs: new release ([@xchopin](https://github.com/xchopin))
+- [#280](https://github.com/Sylius/RefundPlugin/issues/280) Polish translations ([@mysiar](https://github.com/mysiar))
+- [#281](https://github.com/Sylius/RefundPlugin/issues/281) Remove conflict for Api-Platform with Sylius/Sylius ^1.9 ([@Tomanhez](https://github.com/Tomanhez))
+
 ### v1.0.0-RC.8 (2021-03-18)
 
 - [#232](https://github.com/Sylius/RefundPlugin/issues/232) Drop unused order state-machine transtion to fully refunded ([@GSadee](https://github.com/GSadee))
