@@ -65,8 +65,7 @@
         }
     },
     "conflict": {
-        "symplify/package-builder": "8.3.25",
-        "api-platform/core": "^2.6"
+        "symplify/package-builder": "8.3.25"
     },
     "scripts": {
         "analyse": [
