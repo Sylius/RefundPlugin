@@ -42,7 +42,7 @@
         "lakion/mink-debug-extension": "^1.2.3",
         "matthiasnoback/symfony-config-test": "^4.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
-        "phpspec/phpspec": "^6.0",
+        "phpspec/phpspec": "^7.0",
         "phpstan/phpstan": "0.12.29",
         "phpstan/phpstan-webmozart-assert": "0.12.6",
         "phpunit/phpunit": "^8.5",
