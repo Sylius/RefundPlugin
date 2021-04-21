@@ -55,8 +55,12 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterfa
         $taxAmount = (int) ($grossValue * $orderItemUnit->getTaxTotal() / $orderItemUnit->getTotal());
         $netValue = $grossValue - $taxAmount;
 
+        /** @var string|null $productName */
+        $productName = $orderItem->getProductName();
+        Assert::notNull($productName);
+
         return new LineItem(
-            $orderItem->getProductName(),
+            $productName,
             1,
             $netValue,
             $grossValue,

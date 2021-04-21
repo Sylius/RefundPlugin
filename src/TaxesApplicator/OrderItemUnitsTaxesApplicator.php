@@ -16,12 +16,14 @@ namespace Sylius\RefundPlugin\TaxesApplicator;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Model\TaxRateInterface;
 use Sylius\Component\Core\Taxation\Applicator\OrderTaxesApplicatorInterface;
 use Sylius\Component\Order\Factory\AdjustmentFactoryInterface;
 use Sylius\Component\Taxation\Calculator\CalculatorInterface;
 use Sylius\Component\Taxation\Resolver\TaxRateResolverInterface;
 use Sylius\RefundPlugin\Entity\AdjustmentInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * @internal
@@ -53,8 +55,12 @@ final class OrderItemUnitsTaxesApplicator implements OrderTaxesApplicatorInterfa
     public function apply(OrderInterface $order, ZoneInterface $zone): void
     {
         foreach ($order->getItems() as $item) {
+            /** @var ProductVariantInterface|null $variant */
+            $variant = $item->getVariant();
+            Assert::notNull($variant);
+
             /** @var TaxRateInterface|null $taxRate */
-            $taxRate = $this->taxRateResolver->resolve($item->getVariant(), ['zone' => $zone]);
+            $taxRate = $this->taxRateResolver->resolve($variant, ['zone' => $zone]);
             if (null === $taxRate) {
                 continue;
             }
@@ -73,10 +79,14 @@ final class OrderItemUnitsTaxesApplicator implements OrderTaxesApplicatorInterfa
 
     private function addAdjustment(OrderItemUnitInterface $unit, int $taxAmount, TaxRateInterface $taxRate): void
     {
+        /** @var string|null $label */
+        $label = $taxRate->getLabel();
+        Assert::notNull($label);
+
         /** @var AdjustmentInterface $unitTaxAdjustment */
         $unitTaxAdjustment = $this->adjustmentFactory->createWithData(
             AdjustmentInterface::TAX_ADJUSTMENT,
-            $taxRate->getLabel(),
+            $label,
             $taxAmount,
             $taxRate->isIncludedInPrice()
         );

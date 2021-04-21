@@ -87,10 +87,14 @@ final class OrderShipmentTaxesApplicator implements OrderTaxesApplicatorInterfac
         TaxRateInterface $taxRate,
         ShippingMethodInterface $shippingMethod
     ): void {
+        /** @var string|null $label */
+        $label = $taxRate->getLabel();
+        Assert::notNull($label);
+
         /** @var AdjustmentInterface $adjustment */
         $adjustment = $this->adjustmentFactory->createWithData(
             AdjustmentInterface::TAX_ADJUSTMENT,
-            $taxRate->getLabel(),
+            $label,
             $taxAmount,
             $taxRate->isIncludedInPrice()
         );

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\CommandHandler;
 
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\SendCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -39,8 +40,14 @@ final class SendCreditMemoHandler
 
         $order = $creditMemo->getOrder();
 
-        Assert::notNull($order->getCustomer(), 'Credit memo order has no customer');
+        /** @var CustomerInterface|null $customer */
+        $customer = $order->getCustomer();
+        Assert::notNull($customer, 'Credit memo order has no customer');
 
-        $this->creditMemoEmailSender->send($creditMemo, $order->getCustomer()->getEmail());
+        /** @var string|null $recipient */
+        $recipient = $customer->getEmail();
+        Assert::notNull($recipient);
+
+        $this->creditMemoEmailSender->send($creditMemo, $recipient);
     }
 }

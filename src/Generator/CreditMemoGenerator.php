@@ -64,10 +64,21 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
         Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
 
-        /** @var ChannelInterface $channel */
+        /** @var ChannelInterface|null $channel */
         $channel = $order->getChannel();
-
         Assert::notNull($channel);
+
+        /** @var string|null $currencyCode */
+        $currencyCode = $order->getCurrencyCode();
+        Assert::notNull($currencyCode);
+
+        /** @var string|null $localeCode */
+        $localeCode = $order->getLocaleCode();
+        Assert::notNull($localeCode);
+
+        /** @var AddressInterface|null $billingAddress */
+        $billingAddress = $order->getBillingAddress();
+        Assert::notNull($billingAddress);
 
         $lineItems = array_merge(
             $this->lineItemsConverter->convert($units),
@@ -79,20 +90,27 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $this->creditMemoNumberGenerator->generate(),
             $order,
             $total,
-            $order->getCurrencyCode(),
-            $order->getLocaleCode(),
+            $currencyCode,
+            $localeCode,
             $channel,
             $lineItems,
             $this->taxItemsGenerator->generate($lineItems),
             $comment,
             $this->currentDateTimeImmutableProvider->now(),
-            $this->getFromAddress($order->getBillingAddress()),
+            $this->getFromAddress($billingAddress),
             $this->getToAddress($channel->getShopBillingData())
         );
     }
 
     private function getFromAddress(AddressInterface $address): CustomerBillingData
     {
+        Assert::notNull($address->getFirstName());
+        Assert::notNull($address->getLastName());
+        Assert::notNull($address->getStreet());
+        Assert::notNull($address->getPostcode());
+        Assert::notNull($address->getCountryCode());
+        Assert::notNull($address->getCity());
+
         return new CustomerBillingData(
             $address->getFirstName(),
             $address->getLastName(),

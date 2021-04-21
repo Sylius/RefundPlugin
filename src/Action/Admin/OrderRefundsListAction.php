@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
+use Webmozart\Assert\Assert;
 
 final class OrderRefundsListAction
 {
@@ -64,10 +66,14 @@ final class OrderRefundsListAction
             return $this->redirectToReferer($order, 'sylius_refund.order_should_be_paid');
         }
 
+        /** @var ChannelInterface|null $channel */
+        $channel = $order->getChannel();
+        Assert::notNull($channel);
+
         return new Response(
             $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', [
                 'order' => $order,
-                'payment_methods' => $this->refundPaymentMethodsProvider->findForChannel($order->getChannel()),
+                'payment_methods' => $this->refundPaymentMethodsProvider->findForChannel($channel),
             ])
         );
     }

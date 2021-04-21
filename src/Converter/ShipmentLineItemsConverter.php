@@ -65,8 +65,12 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         $taxAmount = (int) ($grossValue * $taxAdjustmentAmount / $shipment->getAdjustmentsTotal());
         $netValue = $grossValue - $taxAmount;
 
+        /** @var string|null $label */
+        $label = $shippingAdjustment->getLabel();
+        Assert::notNull($label);
+
         return new LineItem(
-            $shippingAdjustment->getLabel(),
+            $label,
             1,
             $netValue,
             $grossValue,
