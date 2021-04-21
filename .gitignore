@@ -10,6 +10,6 @@
 
 /tests/Application/yarn.lock
 
-.env.test
-
 phpspec.yml
+
+/.phpunit.result.cache
