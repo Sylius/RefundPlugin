@@ -43,8 +43,8 @@
         "matthiasnoback/symfony-config-test": "^4.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpspec/phpspec": "^7.0",
-        "phpstan/phpstan": "0.12.29",
-        "phpstan/phpstan-webmozart-assert": "0.12.6",
+        "phpstan/phpstan": "0.12.84",
+        "phpstan/phpstan-webmozart-assert": "0.12.12",
         "phpunit/phpunit": "^9.5",
         "sylius-labs/coding-standard": "^3.2",
         "symfony/browser-kit": "^4.4 || ^5.2",
@@ -70,7 +70,7 @@
     "scripts": {
         "analyse": [
             "@composer validate --strict",
-            "vendor/bin/phpstan.phar analyse -c phpstan.neon -l max src/"
+            "vendor/bin/phpstan analyse -c phpstan.neon -l max src/"
         ],
         "fix": [
             "vendor/bin/ecs check src/ spec/ --fix"

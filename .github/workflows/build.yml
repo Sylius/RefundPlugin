@@ -155,8 +155,12 @@ jobs:
                 run: symfony security:check
 
             -
-                name: Run analysis
-                run: composer analyse
+                name: Validate composer.json
+                run: composer validate --ansi --strict
+
+            -
+                name: Run PHPStan
+                run: vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
             -
                 name: Run PHPSpec
