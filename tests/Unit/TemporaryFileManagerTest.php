@@ -47,6 +47,6 @@ final class TemporaryFileManagerTest extends TestCase
         $fileManager->createWithContent('file-to-remove.txt', 'test file content');
         $fileManager->remove('file-to-remove.txt');
 
-        $this->assertFileNotExists(sys_get_temp_dir().'/file-to-remove.txt');
+        $this->assertFileDoesNotExist(sys_get_temp_dir().'/file-to-remove.txt');
     }
 }
