@@ -45,17 +45,13 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
             ->container
             ->getExtensionConfig('sylius_labs_doctrine_migrations_extra')
         ;
-        
+
         self::assertTrue(isset(
             $syliusLabsDoctrineMigrationsExtraExtensionConfig[0]['migrations']['Sylius\RefundPlugin\Migrations']
         ));
         self::assertSame(
             'Sylius\Bundle\CoreBundle\Migrations',
             $syliusLabsDoctrineMigrationsExtraExtensionConfig[0]['migrations']['Sylius\RefundPlugin\Migrations'][0]
-        );
-        self::assertSame(
-            'Sylius\Bundle\AdminApiBundle\Migrations',
-            $syliusLabsDoctrineMigrationsExtraExtensionConfig[0]['migrations']['Sylius\RefundPlugin\Migrations'][1]
         );
     }
 
