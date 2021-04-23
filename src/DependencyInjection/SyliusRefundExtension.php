@@ -46,7 +46,6 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
     {
         return [
             'Sylius\Bundle\CoreBundle\Migrations',
-            'Sylius\Bundle\AdminApiBundle\Migrations',
         ];
     }
 }
