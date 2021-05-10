@@ -29,8 +29,7 @@ sylius_mailer:
 framework:
     messenger:
         buses:
-            sylius_refund_plugin.command_bus: ~
-            sylius_refund_plugin.event_bus:
+            sylius_event.bus:
                 default_middleware: allow_no_handlers
 
 winzou_state_machine:
