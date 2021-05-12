@@ -28,8 +28,13 @@ sylius_mailer:
 
 framework:
     messenger:
+        default_bus: sylius.command_bus
         buses:
-            sylius_event.bus:
+            sylius.command_bus:
+                middleware:
+                    - 'validation'
+                    - 'doctrine_transaction'
+            sylius.event_bus:
                 default_middleware: allow_no_handlers
 
 winzou_state_machine:
