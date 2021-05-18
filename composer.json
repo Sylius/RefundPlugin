@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "knplabs/knp-snappy-bundle": "^1.7",
         "myclabs/php-enum": "^1.7",
         "sylius/resource-bundle": "^1.6",
