@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
-use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 

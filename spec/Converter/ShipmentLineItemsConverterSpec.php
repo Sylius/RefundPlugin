@@ -6,11 +6,11 @@ namespace spec\Sylius\RefundPlugin\Converter;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
-use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
-use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;

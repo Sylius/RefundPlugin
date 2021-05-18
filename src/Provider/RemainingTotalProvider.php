@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
+use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\AdjustableInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Webmozart\Assert\Assert;

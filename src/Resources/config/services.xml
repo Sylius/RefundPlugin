@@ -123,42 +123,5 @@
             <argument type="service" id="sylius.context.customer"/>
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
         </service>
-
-        <service id="sylius.order_processing.shipping_charges_processor" class="Sylius\RefundPlugin\OrderProcessor\ShippingChargesProcessor">
-            <argument type="service" id="sylius.factory.adjustment" />
-            <argument type="service" id="sylius.shipping_calculator" />
-            <tag name="sylius.order_processor" priority="30"/>
-        </service>
-
-        <service id="sylius.order_processing.order_taxes_processor" class="Sylius\RefundPlugin\OrderProcessor\OrderTaxesProcessor">
-            <argument type="service" id="sylius.provider.channel_based_default_zone_provider" />
-            <argument type="service" id="sylius.zone_matcher" />
-            <argument type="service" id="sylius.registry.tax_calculation_strategy" />
-            <tag name="sylius.order_processor" priority="10"/>
-        </service>
-
-        <service id="sylius.taxation.order_shipment_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderShipmentTaxesApplicator">
-            <argument type="service" id="sylius.tax_calculator" />
-            <argument type="service" id="sylius.factory.adjustment" />
-            <argument type="service" id="sylius.tax_rate_resolver" />
-        </service>
-
-        <service id="sylius.taxation.order_items_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderItemsTaxesApplicator">
-            <argument type="service" id="sylius.tax_calculator" />
-            <argument type="service" id="sylius.factory.adjustment" />
-            <argument type="service" id="sylius.integer_distributor" />
-            <argument type="service" id="sylius.tax_rate_resolver" />
-        </service>
-
-        <service id="sylius.taxation.order_item_units_taxes_applicator" class="Sylius\RefundPlugin\TaxesApplicator\OrderItemUnitsTaxesApplicator">
-            <argument type="service" id="sylius.tax_calculator" />
-            <argument type="service" id="sylius.factory.adjustment" />
-            <argument type="service" id="sylius.tax_rate_resolver" />
-        </service>
-
-        <service id="sylius.promotion_action.shipping_percentage_discount" class="Sylius\RefundPlugin\PromotionAction\ShippingPercentageDiscountPromotionActionCommand">
-            <argument type="service" id="sylius.factory.adjustment" />
-            <tag name="sylius.promotion_action" type="shipping_percentage_discount" label="sylius.form.promotion_action.shipping_percentage_discount" form-type="Sylius\Bundle\PromotionBundle\Form\Type\Action\PercentageDiscountConfigurationType" />
-        </service>
     </services>
 </container>
