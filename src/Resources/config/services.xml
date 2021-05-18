@@ -124,15 +124,6 @@
             <argument type="service" id="sylius_refund.repository.credit_memo"/>
         </service>
 
-        <service id="Sylius\RefundPlugin\Form\Type\ChannelFilterType">
-            <argument type="service" id="sylius.repository.channel" />
-            <tag name="form.type" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Grid\Filter\ChannelFilter">
-            <tag name="sylius.grid_filter" type="credit_memo_channel" form_type="Sylius\RefundPlugin\Form\Type\ChannelFilterType" />
-        </service>
-
         <service id="sylius.order_processing.shipping_charges_processor" class="Sylius\RefundPlugin\OrderProcessor\ShippingChargesProcessor">
             <argument type="service" id="sylius.factory.adjustment" />
             <argument type="service" id="sylius.shipping_calculator" />

@@ -1,7 +1,11 @@
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
-Command bus `sylius_refund_plugin.command_bus` has been replaced with `sylius.command_bus`.
-Event bus `sylius_refund_plugin.event_bus` has been replaced with `sylius.event_bus`.
+1. Command bus `sylius_refund_plugin.command_bus` has been replaced with `sylius.command_bus`.
+
+1. Event bus `sylius_refund_plugin.event_bus` has been replaced with `sylius.event_bus`.
+
+1. `Sylius\RefundPlugin\Grid\Filter\ChannelFilter` and `Sylius\RefundPlugin\Form\Type\ChannelFilterType` services 
+have been removed and channel filter configuration in grid has been replaced by entity filter.
 
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 

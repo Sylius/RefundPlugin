@@ -35,4 +35,3 @@ Feature: Filtering credit memos
         And I filter credit memos by "Web-US" channel
         Then there should be 1 credit memo generated
         And the only credit memo should be generated for order "#00000001"
-
