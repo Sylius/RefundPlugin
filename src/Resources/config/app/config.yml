@@ -28,7 +28,6 @@ sylius_mailer:
 
 framework:
     messenger:
-        default_bus: sylius.command_bus
         buses:
             sylius.command_bus:
                 middleware:
