@@ -31,7 +31,7 @@
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="sylius_refund.repository.refund" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
-            <argument type="service" id="sylius_refund_plugin.command_bus" />
+            <argument type="service" id="sylius.command_bus" />
             <argument type="service" id="sylius.behat.email_checker" />
         </service>
 
@@ -63,7 +63,7 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext">
             <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="sylius_refund_plugin.command_bus" />
+            <argument type="service" id="sylius.command_bus" />
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderContext">
