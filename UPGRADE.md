@@ -1,3 +1,8 @@
+### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
+
+Command bus `sylius_refund_plugin.command_bus` has been replaced with `sylius.command_bus`.
+Event bus `sylius_refund_plugin.event_bus` has been replaced with `sylius.event_bus`.
+
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 
 1. The `fully_refunded` state and the `refund` transition have been removed from `sylius_order` state machine.
