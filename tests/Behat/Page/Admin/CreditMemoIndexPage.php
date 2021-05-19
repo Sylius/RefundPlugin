@@ -19,7 +19,7 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
 
     public function filterByChannel(string $channelName): void
     {
-        $this->getDocument()->find('css', '#criteria_channel_channel')->selectOption($channelName);
+        $this->getDocument()->find('css', '#criteria_channel')->selectOption($channelName);
     }
 
     public function hasCreditMemoWithOrderNumber(int $index, string $orderNumber): bool
