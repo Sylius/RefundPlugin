@@ -1,0 +1,12 @@
+sylius_refund:
+    at_least_one_unit_should_be_selected_to_refund: 'Er moet ten minste één eenheid worden geselecteerd om terug te betalen'
+    error_occurred: 'Er is een onverwachte fout opgetreden'
+    free_order_should_not_be_refund: 'U kunt een gratis bestelling niet terugbetalen'
+    order_should_be_paid: 'De bestelling moet betaald zijn voordat de eenheden kunnen worden terugbetaald'
+    refund_amount_must_be_greater: 'Het terugbetalingsbedrag moet groter zijn dan 0'
+    refund_amount_must_be_less: 'U kunt niet meer geld terugbetalen dan het betaalde totaal van de eenheid'
+    refund_payment_completed: 'De terugbetaling is succesvol afgerond'
+    resend_credit_memo_failed: 'Het opnieuw verzenden van de creditnota is mislukt'
+    resend_credit_memo_success: 'De geselecteerde creditnota is opnieuw verzonden'
+    unit_refund_exceeded: 'Het terugbetalingsbedrag kan niet hoger zijn dan het totaal van de eenheid'
+    units_successfully_refunded: 'De geselecteerde eenheden zijn succesvol terugbetaald'
