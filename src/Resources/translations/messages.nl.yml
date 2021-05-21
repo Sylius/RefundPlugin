@@ -1,0 +1,33 @@
+sylius_refund:
+    ui:
+        buyer: Klant
+        clear_refunds: Wissen
+        new: Nieuw
+        completed: Afgerond
+        credit_memo: Creditnota
+        credit_memos: Creditnota's
+        download: Download
+        gross_value: Bruto bedrag
+        issued_at: Afgegeven op
+        issued_for_order: Afgegeven order
+        issued_from: Afgegeven door
+        manage_credit_memos: Beheer Creditnota's
+        net_total: Netto bedrag
+        net_value: Netto waarde
+        no: Nr.
+        order_number: Ordernummer
+        partial_refund: Gedeeltelijke terugbetaling
+        refund: Terugbetaling
+        refund_all: Betaal alles terug
+        refund_payment_completed: Terugbetaling succesvol afgerond
+        refund_payments: Terugbetalingen
+        refund_value: Terug te betalen bedrag
+        refunded: Terugbetaald
+        refunded_total: Totaal terugbetaald
+        refunds: Terugbetalingen
+        resend: Opnieuw versturen
+        seller: Verkoper
+        tax_amount: BTW bedrag
+        tax_rate: BTW %
+        tax_total: BTW totaal
+        unit_net_price: Netto stukprijs
