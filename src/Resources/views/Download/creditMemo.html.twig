@@ -29,7 +29,7 @@
                 <table>
                     <tr>
                         <td colspan="2" class="title">
-                            <img src="https://demo.sylius.com/assets/shop/img/logo.png" style="width:300px;">
+                            <img src="{{ creditMemoLogoPath }}" style="width:300px;">
                         </td>
                         <td>
                             {{ 'sylius_refund.ui.issued_at'|trans([], 'messages', creditMemo.localeCode) }}: {{ creditMemo.issuedAt|date('Y-m-d H:i:s') }}<br>
