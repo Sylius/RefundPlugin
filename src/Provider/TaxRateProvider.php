@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Provider;
 
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\OrderItemUnitInterface;
+use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Order\Model\AdjustableInterface;
-use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Webmozart\Assert\Assert;
 

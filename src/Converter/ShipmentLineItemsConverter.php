@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
+use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Order\Model\AdjustableInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Entity\AdjustmentInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
-use Sylius\RefundPlugin\Entity\ShipmentInterface;
 use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;

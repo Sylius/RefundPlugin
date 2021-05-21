@@ -41,15 +41,15 @@ final class Kernel extends BaseKernel
 
     public function registerBundles(): iterable
     {
-        foreach ($this->getConfigurationDirectories() as $confDir) {
-            yield from $this->registerBundlesFromFile($confDir . '/bundles.php');
+        foreach ($this->getBundleListFiles() as $file) {
+            yield from $this->registerBundlesFromFile($file);
         }
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        foreach ($this->getConfigurationDirectories() as $confDir) {
-            $container->addResource(new FileResource($confDir . '/bundles.php'));
+        foreach ($this->getBundleListFiles() as $file) {
+            $container->addResource(new FileResource($file));
         }
 
         $container->setParameter('container.dumper.inline_class_loader', true);
@@ -111,9 +111,29 @@ final class Kernel extends BaseKernel
     /**
      * @return string[]
      */
-    private function getConfigurationDirectories(): iterable
+    private function getBundleListFiles(): array
     {
-        yield $this->getProjectDir() . '/config';
-        yield $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '.' . SyliusKernel::MINOR_VERSION;
+        return array_filter(
+            array_map(
+                static function (string $directory): string {
+                    return $directory . '/bundles.php';
+                },
+                $this->getConfigurationDirectories()
+            ),
+            'file_exists'
+        );
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getConfigurationDirectories(): array
+    {
+        $directories = [
+            $this->getProjectDir() . '/config',
+            $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '.' . SyliusKernel::MINOR_VERSION,
+        ];
+
+        return array_filter($directories, 'file_exists');
     }
 }

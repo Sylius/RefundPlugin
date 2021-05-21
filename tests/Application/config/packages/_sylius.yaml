@@ -14,15 +14,3 @@ parameters:
 sylius_shop:
     product_grid:
         include_all_descendants: true
-
-sylius_order:
-    resources:
-        adjustment:
-            classes:
-                model: Tests\Sylius\RefundPlugin\Application\Entity\Adjustment
-
-sylius_shipping:
-    resources:
-        shipment:
-            classes:
-                model: Tests\Sylius\RefundPlugin\Application\Entity\Shipment
