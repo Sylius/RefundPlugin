@@ -11,10 +11,12 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
+use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
 use Sylius\RefundPlugin\Generator\NumberGenerator;
@@ -29,17 +31,13 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
-        NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
-        CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator
+        CreditMemoFactoryInterface $creditMemoFactory
     ): void {
         $this->beConstructedWith(
             $lineItemsConverter,
             $shipmentLineItemsConverter,
             $taxItemsGenerator,
-            $creditMemoNumberGenerator,
-            $currentDateTimeImmutableProvider,
-            $creditMemoIdentifierGenerator
+            $creditMemoFactory
         );
     }
 
@@ -52,30 +50,21 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
-        NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
-        CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
+        CreditMemoFactoryInterface $creditMemoFactory,
+        CreditMemoInterface $creditMemo,
         OrderInterface $order,
         ChannelInterface $channel,
         ShopBillingDataInterface $shopBillingData,
         AddressInterface $customerBillingAddress,
         LineItemInterface $firstLineItem,
         LineItemInterface $secondLineItem,
-        TaxItemInterface $taxItem,
-        \DateTimeImmutable $dateTime
+        TaxItemInterface $taxItem
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 500);
         $shipmentRefund = new ShipmentRefund(3, 400);
 
-        $order->getCurrencyCode()->willReturn('GBP');
-        $order->getLocaleCode()->willReturn('en_US');
-
         $order->getChannel()->willReturn($channel);
-        $channel->getCode()->willReturn('WEB-US');
-        $channel->getName()->willReturn('United States');
-        $channel->getColor()->willReturn('Linen');
-
         $channel->getShopBillingData()->willReturn($shopBillingData);
         $shopBillingData->getCompany()->willReturn('Needful Things');
         $shopBillingData->getTaxId()->willReturn('000222');
@@ -100,26 +89,19 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $taxItemsGenerator->generate([$firstLineItem, $secondLineItem])->willReturn([$taxItem]);
 
-        $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
+        $creditMemoFactory
+            ->createWithData(
+                $order,
+                1400,
+                [$firstLineItem, $secondLineItem],
+                [$taxItem],
+                'Comment',
+                new CustomerBillingData('Rick', 'Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
+                new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
+            )
+            ->willReturn($creditMemo)
+        ;
 
-        $currentDateTimeImmutableProvider->now()->willReturn($dateTime);
-
-        $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
-
-        $this->generate($order, 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldBeLike(new CreditMemo(
-            '7903c83a-4c5e-4bcf-81d8-9dc304c6a353',
-            '2018/07/00001111',
-            $order->getWrappedObject(),
-            1400,
-            'GBP',
-            'en_US',
-            $channel->getWrappedObject(),
-            [$firstLineItem->getWrappedObject(), $secondLineItem->getWrappedObject()],
-            [$taxItem->getWrappedObject()],
-            'Comment',
-            $dateTime->getWrappedObject(),
-            new CustomerBillingData('Rick', 'Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
-            new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
-        ));
+        $this->generate($order, 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldReturn($creditMemo);
     }
 }
