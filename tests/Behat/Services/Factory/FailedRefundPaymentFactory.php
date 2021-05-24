@@ -9,6 +9,8 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
 {
+    private const FAILED_FILE = __DIR__.'/refund-payment-failed.json';
+
     /** @var RefundPaymentFactoryInterface */
     private $baseRefundPaymentFactory;
 
@@ -24,8 +26,8 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
         string $state,
         int $paymentMethodId
     ): RefundPaymentInterface {
-        if (file_exists(__DIR__.'/refund-payment-failed.json')) {
-            unlink(__DIR__.'/refund-payment-failed.json');
+        if (file_exists(self::FAILED_FILE)) {
+            unlink(self::FAILED_FILE);
 
             throw new \Exception('Refund payment creation failed');
         }
@@ -35,6 +37,6 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
 
     public function failRefundPaymentCreation(): void
     {
-        touch(__DIR__.'/refund-payment-failed.json');
+        touch(self::FAILED_FILE);
     }
 }

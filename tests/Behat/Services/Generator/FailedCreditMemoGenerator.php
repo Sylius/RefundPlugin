@@ -10,6 +10,8 @@ use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 
 final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
 {
+    private const FAILED_FILE = __DIR__.'/credit-memo-failed.json';
+
     /** @var CreditMemoGeneratorInterface */
     private $baseCreditMemoGenerator;
 
@@ -25,8 +27,8 @@ final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
         array $shipments,
         string $comment
     ): CreditMemoInterface {
-        if (file_exists(__DIR__.'/credit-memo-failed.json')) {
-            unlink(__DIR__.'/credit-memo-failed.json');
+        if (file_exists(self::FAILED_FILE)) {
+            unlink(self::FAILED_FILE);
 
             throw new \Exception('Credit memo generation failed');
         }
@@ -36,6 +38,6 @@ final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
 
     public function failCreditMemoGeneration(): void
     {
-        touch(__DIR__.'/credit-memo-failed.json');
+        touch(self::FAILED_FILE);
     }
 }

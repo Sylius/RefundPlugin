@@ -8,23 +8,19 @@ use Sylius\RefundPlugin\Event\UnitsRefunded;
 
 final class UnitsRefundedProcessManager implements UnitsRefundedProcessManagerInterface
 {
-    /** @var UnitsRefundedProcessStepInterface */
-    private $creditMemoProcessManager;
+    /** @var iterable|UnitsRefundedProcessStepInterface[] */
+    private $steps;
 
-    /** @var UnitsRefundedProcessStepInterface */
-    private $refundPaymentProcessManager;
-
-    public function __construct(
-        UnitsRefundedProcessStepInterface $creditMemoProcessManager,
-        UnitsRefundedProcessStepInterface $refundPaymentProcessManager
-    ) {
-        $this->creditMemoProcessManager = $creditMemoProcessManager;
-        $this->refundPaymentProcessManager = $refundPaymentProcessManager;
+    public function __construct(iterable $steps)
+    {
+        $this->steps = $steps;
     }
 
     public function __invoke(UnitsRefunded $event): void
     {
-        $this->creditMemoProcessManager->next($event);
-        $this->refundPaymentProcessManager->next($event);
+        /** @var UnitsRefundedProcessStepInterface $step */
+        foreach ($this->steps as $step) {
+            $step->next($event);
+        }
     }
 }

@@ -17,7 +17,7 @@ final class UnitsRefundedProcessManagerSpec extends ObjectBehavior
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
         UnitsRefundedProcessStepInterface $refundPaymentProcessManager
     ): void {
-        $this->beConstructedWith($creditMemoProcessManager, $refundPaymentProcessManager);
+        $this->beConstructedWith([$creditMemoProcessManager, $refundPaymentProcessManager]);
     }
 
     function it_implements_units_refunded_process_manager_interface(): void
