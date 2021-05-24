@@ -14,7 +14,7 @@
             class="Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager"
         >
             <argument type="service" id="Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager" />
-            UnitsRefundedProcessManagerSpec           <argument type="service" id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager" />
+            <argument type="service" id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager" />
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>
 

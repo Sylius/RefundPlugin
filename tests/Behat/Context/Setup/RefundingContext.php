@@ -15,6 +15,8 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory;
+use Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator;
 use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
@@ -25,10 +27,22 @@ final class RefundingContext implements Context
     /** @var MessageBusInterface */
     private $commandBus;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, MessageBusInterface $commandBus)
-    {
+    /** @var FailedCreditMemoGenerator */
+    private $failedCreditMemoGenerator;
+
+    /** @var FailedRefundPaymentFactory */
+    private $failedRefundPaymentFactory;
+
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        MessageBusInterface $commandBus,
+        FailedCreditMemoGenerator $failedCreditMemoGenerator,
+        FailedRefundPaymentFactory $failedRefundPaymentFactory
+    ) {
         $this->orderRepository = $orderRepository;
         $this->commandBus = $commandBus;
+        $this->failedCreditMemoGenerator = $failedCreditMemoGenerator;
+        $this->failedRefundPaymentFactory = $failedRefundPaymentFactory;
     }
 
     /**
@@ -151,6 +165,22 @@ final class RefundingContext implements Context
             $paymentMethod->getId(),
             ''
         ));
+    }
+
+    /**
+     * @Given the credit memo generation is broken
+     */
+    public function theCreditMemoGenerationIsBroken(): void
+    {
+        $this->failedCreditMemoGenerator->failCreditMemoGeneration();;
+    }
+
+    /**
+     * @Given the refund payment generation is broken
+     */
+    public function theRefundPaymentGenerationIsBroken(): void
+    {
+        $this->failedRefundPaymentFactory->failRefundPaymentCreation();
     }
 
     private function getUnitsWithProduct(OrderInterface $order, string $productName): array
