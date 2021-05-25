@@ -6,6 +6,7 @@
         <import resource="services/command_bus.xml" />
         <import resource="services/converter.xml" />
         <import resource="services/event_bus.xml" />
+        <import resource="services/factory.xml" />
         <import resource="services/generator.xml" />
         <import resource="services/provider.xml" />
         <import resource="services/validator.xml" />
@@ -34,8 +35,6 @@
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
             <argument type="service" id="sylius.event_bus" />
         </service>
-
-        <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
 
         <service id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker">
             <argument type="service" id="sylius.repository.order" />
@@ -107,10 +106,6 @@
         </service>
 
         <service id="Sylius\RefundPlugin\File\TemporaryFileManager" />
-
-        <service id="Sylius\RefundPlugin\Factory\RefundPaymentFactory">
-            <argument type="service" id="sylius.repository.payment_method"/>
-        </service>
 
         <service id="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplier">
             <argument type="service" id="sm.factory" />

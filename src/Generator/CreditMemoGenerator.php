@@ -9,13 +9,12 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingData;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
-use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
@@ -29,29 +28,19 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     /** @var TaxItemsGeneratorInterface */
     private $taxItemsGenerator;
 
-    /** @var NumberGenerator */
-    private $creditMemoNumberGenerator;
-
-    /** @var CurrentDateTimeImmutableProviderInterface */
-    private $currentDateTimeImmutableProvider;
-
-    /** @var CreditMemoIdentifierGeneratorInterface */
-    private $uuidCreditMemoIdentifierGenerator;
+    /** @var CreditMemoFactoryInterface */
+    private $creditMemoFactory;
 
     public function __construct(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
-        NumberGenerator $creditMemoNumberGenerator,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
-        CreditMemoIdentifierGeneratorInterface $uuidCreditMemoIdentifierGenerator
+        CreditMemoFactoryInterface $creditMemoFactory
     ) {
         $this->lineItemsConverter = $lineItemsConverter;
         $this->shipmentLineItemsConverter = $shipmentLineItemsConverter;
         $this->taxItemsGenerator = $taxItemsGenerator;
-        $this->creditMemoNumberGenerator = $creditMemoNumberGenerator;
-        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
-        $this->uuidCreditMemoIdentifierGenerator = $uuidCreditMemoIdentifierGenerator;
+        $this->creditMemoFactory = $creditMemoFactory;
     }
 
     public function generate(
@@ -68,14 +57,6 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         $channel = $order->getChannel();
         Assert::notNull($channel);
 
-        /** @var string|null $currencyCode */
-        $currencyCode = $order->getCurrencyCode();
-        Assert::notNull($currencyCode);
-
-        /** @var string|null $localeCode */
-        $localeCode = $order->getLocaleCode();
-        Assert::notNull($localeCode);
-
         /** @var AddressInterface|null $billingAddress */
         $billingAddress = $order->getBillingAddress();
         Assert::notNull($billingAddress);
@@ -85,18 +66,12 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $this->shipmentLineItemsConverter->convert($shipments)
         );
 
-        return new CreditMemo(
-            $this->uuidCreditMemoIdentifierGenerator->generate(),
-            $this->creditMemoNumberGenerator->generate(),
+        return $this->creditMemoFactory->createWithData(
             $order,
             $total,
-            $currencyCode,
-            $localeCode,
-            $channel,
             $lineItems,
             $this->taxItemsGenerator->generate($lineItems),
             $comment,
-            $this->currentDateTimeImmutableProvider->now(),
             $this->getFromAddress($billingAddress),
             $this->getToAddress($channel->getShopBillingData())
         );

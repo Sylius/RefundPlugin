@@ -11,35 +11,55 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface CreditMemoInterface extends ResourceInterface
 {
+    public function setId(string $id): void;
+
     public function getNumber(): string;
+
+    public function setNumber(string $number): void;
 
     public function getOrder(): OrderInterface;
 
+    public function setOrder(OrderInterface $order): void;
+
     public function getTotal(): int;
+
+    public function setTotal(int $total): void;
 
     public function getCurrencyCode(): string;
 
+    public function setCurrencyCode(string $currencyCode): void;
+
     public function getLocaleCode(): string;
+
+    public function setLocaleCode(string $localeCode): void;
 
     public function getChannel(): ChannelInterface;
 
-    /**
-     * @return Collection|LineItemInterface[]
-     */
+    public function setChannel(ChannelInterface $channel): void;
+
     public function getLineItems(): Collection;
 
-    /**
-     * @return Collection|TaxItemInterface[]
-     */
+    public function setLineItems(Collection $lineItems): void;
+
     public function getTaxItems(): Collection;
+
+    public function setTaxItems(Collection $taxItems): void;
 
     public function getComment(): string;
 
+    public function setComment(string $comment): void;
+
     public function getIssuedAt(): \DateTimeImmutable;
+
+    public function setIssuedAt(\DateTimeImmutable $issuedAt): void;
 
     public function getFrom(): CustomerBillingDataInterface;
 
+    public function setFrom(CustomerBillingDataInterface $from): void;
+
     public function getTo(): ?ShopBillingDataInterface;
+
+    public function setTo(?ShopBillingDataInterface $to): void;
 
     public function getNetValueTotal(): int;
 

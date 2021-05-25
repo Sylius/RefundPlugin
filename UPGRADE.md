@@ -7,6 +7,25 @@
 1. `Sylius\RefundPlugin\Grid\Filter\ChannelFilter` and `Sylius\RefundPlugin\Form\Type\ChannelFilterType` services 
 have been removed and channel filter configuration in grid has been replaced by entity filter.
 
+1. Constructor of `Sylius\RefundPlugin\Entity\CreditMemo` has been removed and now `CreditMemo` entity 
+is created by `Sylius\RefundPlugin\Factory\CreditMemoFactory`.
+
+1. The constructor of `Sylius\RefundPlugin\Generator\CreditMemoGenerator` has been changed:
+
+    ```diff
+        public function __construct(
+            LineItemsConverterInterface $lineItemsConverter,
+            LineItemsConverterInterface $shipmentLineItemsConverter,
+            TaxItemsGeneratorInterface $taxItemsGenerator,
+    -       NumberGenerator $creditMemoNumberGenerator,
+    -       CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
+    -       CreditMemoIdentifierGeneratorInterface $uuidCreditMemoIdentifierGenerator
+    +       CreditMemoFactoryInterface $creditMemoFactory
+        ) {
+            ...
+        }
+    ```
+
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 
 1. The `fully_refunded` state and the `refund` transition have been removed from `sylius_order` state machine.
