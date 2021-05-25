@@ -7,17 +7,16 @@
         <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
 
         <service id="Sylius\RefundPlugin\Factory\RefundPaymentFactory">
-            <argument type="service" id="sylius.repository.payment_method"/>
+            <argument type="service" id="sylius.repository.payment_method" />
         </service>
 
         <service
-            id="sylius_refund.custom_factory.credit_memo"
-            class="Sylius\RefundPlugin\Factory\CreditMemoFactory"
+            id="Sylius\RefundPlugin\Factory\CreditMemoFactory"
             decorates="sylius_refund.factory.credit_memo"
             decoration-priority="256"
             public="false"
         >
-            <argument type="service" id="sylius_refund.custom_factory.credit_memo.inner" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoFactory.inner" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
