@@ -14,6 +14,11 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         return count($this->getDocument()->findAll('css', '#credit-memos tbody tr'));
     }
 
+    public function countRefundPayments(): int
+    {
+        return count($this->getDocument()->findAll('css', '#refund-payments tbody tr'));
+    }
+
     public function downloadCreditMemo(int $index): void
     {
         /** @var NodeElement $creditMemoRow */

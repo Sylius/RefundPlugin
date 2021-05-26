@@ -19,8 +19,11 @@
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>
 
-        <service id="Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager">
-            <argument type="service" id="sylius.command_bus" />
+        <service
+            id="Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManagerInterface"
+            class="Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager"
+        >
+            <argument type="tagged_iterator" tag="sylius_refund.units_refunded.process_step"/>
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>
 
@@ -30,7 +33,12 @@
             <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />
             <argument type="service" id="sylius.event_bus" />
-            <tag name="messenger.message_handler" bus="sylius.event_bus" />
+            <tag name="sylius_refund.units_refunded.process_step" priority="50" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager">
+            <argument type="service" id="sylius.command_bus" />
+            <tag name="sylius_refund.units_refunded.process_step" priority="100" />
         </service>
     </services>
 </container>

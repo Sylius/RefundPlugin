@@ -13,7 +13,7 @@ use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class RefundPaymentProcessManager
+final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInterface
 {
     /** @var OrderFullyRefundedStateResolverInterface */
     private $orderFullyRefundedStateResolver;
@@ -44,14 +44,14 @@ final class RefundPaymentProcessManager
         $this->eventBus = $eventBus;
     }
 
-    public function __invoke(UnitsRefunded $event): void
+    public function next(UnitsRefunded $unitsRefunded): void
     {
         $refundPayment = $this->refundPaymentFactory->createWithData(
-            $event->orderNumber(),
-            $event->amount(),
-            $event->currencyCode(),
+            $unitsRefunded->orderNumber(),
+            $unitsRefunded->amount(),
+            $unitsRefunded->currencyCode(),
             RefundPaymentInterface::STATE_NEW,
-            $event->paymentMethodId()
+            $unitsRefunded->paymentMethodId()
         );
 
         $this->entityManager->persist($refundPayment);
@@ -59,13 +59,13 @@ final class RefundPaymentProcessManager
 
         $this->eventBus->dispatch(new RefundPaymentGenerated(
             $refundPayment->getId(),
-            $event->orderNumber(),
-            $event->amount(),
-            $event->currencyCode(),
-            $event->paymentMethodId(),
+            $unitsRefunded->orderNumber(),
+            $unitsRefunded->amount(),
+            $unitsRefunded->currencyCode(),
+            $unitsRefunded->paymentMethodId(),
             $this->relatedPaymentIdProvider->getForRefundPayment($refundPayment)
         ));
 
-        $this->orderFullyRefundedStateResolver->resolve($event->orderNumber());
+        $this->orderFullyRefundedStateResolver->resolve($unitsRefunded->orderNumber());
     }
 }
