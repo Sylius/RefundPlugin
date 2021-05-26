@@ -9,7 +9,7 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
 {
-    private const FAILED_FILE = __DIR__.'/refund-payment-failed.json';
+    public const FAILED_FILE = __DIR__.'/refund-payment-failed.json';
 
     /** @var RefundPaymentFactoryInterface */
     private $baseRefundPaymentFactory;

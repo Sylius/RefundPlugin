@@ -1,8 +1,8 @@
 @refunds
 Feature: Not seeing refund payments and credit memos on admin order view
-    In order to be prevented from having incorrectly generated credit memos or refund payments
+    In order to have consistent documents and payment in a refunded order
     As an Administrator
-    I want not to see them if process fails on any step
+    I don't want to have a credit memo or refund payment generated alone
 
     Background:
         Given the store operates on a single green channel in "United States"
@@ -22,7 +22,7 @@ Feature: Not seeing refund payments and credit memos on admin order view
         And I decided to refund 1st "Mr. Meeseeks T-Shirt" product of the order "00000023" with "Space money" payment
         When I view the summary of the order "#00000023"
         Then I should not see any refund payments
-        Then I should not see any credit memos
+        And I should not see any credit memos
 
     @ui
     Scenario: Not seeing credit memo and refund payment on order view if refund generation failed
@@ -30,4 +30,4 @@ Feature: Not seeing refund payments and credit memos on admin order view
         And I decided to refund 1st "Mr. Meeseeks T-Shirt" product of the order "00000023" with "Space money" payment
         When I view the summary of the order "#00000023"
         Then I should not see any refund payments
-        Then I should not see any credit memos
+        And I should not see any credit memos

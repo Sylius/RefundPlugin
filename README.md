@@ -167,13 +167,13 @@ After units are refunded, there are multiple other processes that should be trig
 **RefundPayment** generated. As they're strictly coupled with each other, **RefundPayment** is always created after the **CreditMemo**. Moreover, if **RefundPayment**
 fails, related **CreditMemo** should not be created as well.
 
-`\Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager` service facilitates the whole process. If you want to add one or more steps to it, you should create
-a service implementing `\Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface`, and register if with proper tag:
+`Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager` service facilitates the whole process. If you want to add one or more steps to it, you should create
+a service implementing `Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface`, and register if with proper tag:
 
-```xml
-    <service id="App\ProcessManager\CustomAfterRefundProcessManager">
-        <tag name="sylius_refund.units_refunded.process_step" priority="0" />
-    </service>
+```yaml
+    App\ProcessManager\CustomAfterRefundProcessManager:
+       tags:
+          - { name: sylius_refund.units_refunded.process_step, priority: 0 }
 ```
 
 Tagged services would be executed according to their priority (descending). 

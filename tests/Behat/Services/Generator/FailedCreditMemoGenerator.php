@@ -10,7 +10,7 @@ use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 
 final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
 {
-    private const FAILED_FILE = __DIR__.'/credit-memo-failed.json';
+    public const FAILED_FILE = __DIR__.'/credit-memo-failed.json';
 
     /** @var CreditMemoGeneratorInterface */
     private $baseCreditMemoGenerator;

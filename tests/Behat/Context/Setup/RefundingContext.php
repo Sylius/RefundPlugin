@@ -172,7 +172,7 @@ final class RefundingContext implements Context
      */
     public function theCreditMemoGenerationIsBroken(): void
     {
-        $this->failedCreditMemoGenerator->failCreditMemoGeneration();;
+        $this->failedCreditMemoGenerator->failCreditMemoGeneration();
     }
 
     /**
@@ -181,6 +181,19 @@ final class RefundingContext implements Context
     public function theRefundPaymentGenerationIsBroken(): void
     {
         $this->failedRefundPaymentFactory->failRefundPaymentCreation();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function removeFailedGenerationFiles(): void
+    {
+        if (file_exists(FailedCreditMemoGenerator::FAILED_FILE)) {
+            unlink(FailedCreditMemoGenerator::FAILED_FILE);
+        }
+        if (file_exists(FailedRefundPaymentFactory::FAILED_FILE)) {
+            unlink(FailedRefundPaymentFactory::FAILED_FILE);
+        }
     }
 
     private function getUnitsWithProduct(OrderInterface $order, string $productName): array

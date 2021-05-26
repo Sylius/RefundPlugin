@@ -26,12 +26,12 @@ is created by `Sylius\RefundPlugin\Factory\CreditMemoFactory`.
         }
     ```
 
-1. Post-units refunded process (containing credit memo and refund payment generation) was changed to synchronous step. Refund payment is therfore
+1. Post-units refunded process (containing credit memo and refund payment generation) was changed to synchronous step. Refund payment is therefore
 always generated after credit memo. Technical changes:
-    * `\Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager` and `\Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager` no longer 
-       directly listen to `\Sylius\RefundPlugin\Event\UnitsRefunded` event. `\Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager` uses them to 
+    * `Sylius\RefundPlugin\ProcessManager\CreditMemoProcessManager` and `Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager` no longer 
+       directly listen to `Sylius\RefundPlugin\Event\UnitsRefunded` event. `Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager` uses them to 
        facilitate post-units refunding process.
-    * Their `__invoke` methods were replaced by `\Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface::next(UnitsRefunded $unitsRefunded)`. 
+    * Their `__invoke` methods were replaced by `Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface::next(UnitsRefunded $unitsRefunded)`. 
 
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 
