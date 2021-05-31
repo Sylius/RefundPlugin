@@ -8,24 +8,22 @@ use Doctrine\Persistence\ObjectRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
-use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
+use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface;
 
-final class SequentialNumberGeneratorSpec extends ObjectBehavior
+final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
 {
     function let(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
-        EntityManagerInterface $sequenceManager,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
+        EntityManagerInterface $sequenceManager
     ): void {
         $this->beConstructedWith(
             $sequenceRepository,
             $sequenceFactory,
             $sequenceManager,
-            $currentDateTimeImmutableProvider,
             1,
             9
         );
@@ -33,18 +31,17 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
 
     function it_is_number_generator_interface(): void
     {
-        $this->shouldImplement(NumberGeneratorInterface::class);
+        $this->shouldImplement(CreditMemoNumberGeneratorInterface::class);
     }
 
     function it_generates_sequential_number(
         ObjectRepository $sequenceRepository,
         EntityManagerInterface $sequenceManager,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoSequenceInterface $sequence,
-        \DateTimeImmutable $now
+        \DateTimeImmutable $issuedAt,
+        OrderInterface $order
     ): void {
-        $currentDateTimeImmutableProvider->now()->willReturn($now);
-        $now->format('Y/m')->willReturn('2018/05');
+        $issuedAt->format('Y/m')->willReturn('2018/05');
 
         $sequenceRepository->findOneBy([])->willReturn($sequence);
 
@@ -55,19 +52,18 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
 
         $sequence->incrementIndex()->shouldBeCalled();
 
-        $this->generate()->shouldReturn('2018/05/000000006');
+        $this->generate($order, $issuedAt)->shouldReturn('2018/05/000000006');
     }
 
     function it_generates_invoice_number_when_sequence_is_null(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoSequenceInterface $sequence,
-        \DateTimeImmutable $now
+        \DateTimeImmutable $issuedAt,
+        OrderInterface $order
     ): void {
-        $currentDateTimeImmutableProvider->now()->willReturn($now);
-        $now->format('Y/m')->willReturn('2018/05');
+        $issuedAt->format('Y/m')->willReturn('2018/05');
 
         $sequenceRepository->findOneBy([])->willReturn(null);
 
@@ -82,6 +78,6 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
 
         $sequence->incrementIndex()->shouldBeCalled();
 
-        $this->generate()->shouldReturn('2018/05/000000001');
+        $this->generate($order, $issuedAt)->shouldReturn('2018/05/000000001');
     }
 }

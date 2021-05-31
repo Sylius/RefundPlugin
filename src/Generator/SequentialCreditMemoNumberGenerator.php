@@ -7,11 +7,11 @@ namespace Sylius\RefundPlugin\Generator;
 use Doctrine\Persistence\ObjectRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
-final class SequentialNumberGenerator implements NumberGeneratorInterface
+final class SequentialCreditMemoNumberGenerator implements CreditMemoNumberGeneratorInterface
 {
     /** @var ObjectRepository */
     private $sequenceRepository;
@@ -21,9 +21,6 @@ final class SequentialNumberGenerator implements NumberGeneratorInterface
 
     /** @var EntityManagerInterface */
     private $sequenceManager;
-
-    /** @var CurrentDateTimeImmutableProviderInterface */
-    private $currentDateTimeImmutableProvider;
 
     /** @var int */
     private $startNumber;
@@ -35,21 +32,19 @@ final class SequentialNumberGenerator implements NumberGeneratorInterface
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         int $startNumber = 1,
         int $numberLength = 9
     ) {
         $this->sequenceRepository = $sequenceRepository;
         $this->sequenceFactory = $sequenceFactory;
         $this->sequenceManager = $sequenceManager;
-        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
         $this->startNumber = $startNumber;
         $this->numberLength = $numberLength;
     }
 
-    public function generate(): string
+    public function generate(OrderInterface $order, \DateTimeInterface $issuedAt): string
     {
-        $identifierPrefix = $this->currentDateTimeImmutableProvider->now()->format('Y/m') . '/';
+        $identifierPrefix = $issuedAt->format('Y/m') . '/';
 
         /** @var CreditMemoSequenceInterface $sequence */
         $sequence = $this->getSequence();

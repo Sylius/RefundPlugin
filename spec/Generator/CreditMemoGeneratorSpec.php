@@ -10,7 +10,6 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
-use Sylius\RefundPlugin\Entity\CreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingData;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
@@ -18,12 +17,9 @@ use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
-use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
 use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {

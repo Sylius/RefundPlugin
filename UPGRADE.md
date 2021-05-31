@@ -33,7 +33,11 @@ always generated after credit memo. Technical changes:
        facilitate post-units refunding process.
     * Their `__invoke` methods were replaced by `Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface::next(UnitsRefunded $unitsRefunded)`. 
 
-1. `Sylius\RefundPlugin\Generator\NumberGenerator` has been changed to `Sylius\RefundPlugin\Generator\NumberGeneratorInterface`.
+1. `Sylius\RefundPlugin\Generator\NumberGenerator` has been changed to `Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface`
+and its method has been changed from `public function generate(): string` to `public function generate(OrderInterface $order, \DateTimeInterface $issuedAt): string`.
+
+1. Service name and definition has been changed from `Sylius\RefundPlugin\Generator\SequentialNumberGenerator` to `Sylius\RefundPlugin\Generator\SequentialCreditMemoNumberGenerator`
+and its last argument `CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider` has been removed from constructor.
 
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 

@@ -25,7 +25,7 @@ use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
+use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoFactorySpec extends ObjectBehavior
@@ -33,7 +33,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
     function let(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
-        NumberGeneratorInterface $creditMemoNumberGenerator,
+        CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,
         CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
     ): void {
         $this->beConstructedWith(
@@ -61,7 +61,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
     function it_creates_a_new_credit_memo_with_data(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
-        NumberGeneratorInterface $creditMemoNumberGenerator,
+        CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,
         CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoInterface $creditMemo,
         OrderInterface $order,
@@ -73,7 +73,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
         ShopBillingDataInterface $to
     ): void {
         $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
-        $creditMemoNumberGenerator->generate()->willReturn('2018/07/00001111');
+        $creditMemoNumberGenerator->generate($order, new \DateTimeImmutable('01-01-2020 10:10:10'))->willReturn('2018/07/00001111');
         $currentDateTimeImmutableProvider->now()->willReturn(new \DateTimeImmutable('01-01-2020 10:10:10'));
 
         $order->getChannel()->willReturn($channel);

@@ -4,11 +4,10 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator">
+        <service id="Sylius\RefundPlugin\Generator\SequentialCreditMemoNumberGenerator">
             <argument type="service" id="sylius_refund_plugin.repository.credit_memo_sequence" />
             <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
