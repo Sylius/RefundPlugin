@@ -28,19 +28,26 @@ final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterf
     {
         Assert::true($request->attributes->has('orderNumber'), 'Refunded order number not provided');
 
-        $units = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_units', []));
-        $shipments = $this->filterEmptyRefundUnits($request->request->get('sylius_refund_shipments', []));
+        $units = $this->filterEmptyRefundUnits(
+            $request->request->has('sylius_refund_units') ? $request->request->all()['sylius_refund_units'] : []
+        );
+        $shipments = $this->filterEmptyRefundUnits(
+            $request->request->has('sylius_refund_shipments') ? $request->request->all()['sylius_refund_shipments'] : []
+        );
 
         if (count($units) === 0 && count($shipments) === 0) {
             throw InvalidRefundAmount::withValidationConstraint('sylius_refund.at_least_one_unit_should_be_selected_to_refund');
         }
+
+        /** @var string $comment */
+        $comment = $request->request->get('sylius_refund_comment', '');
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
             $this->parseIdsToUnitRefunds($units, RefundType::orderItemUnit(), OrderItemUnitRefund::class),
             $this->parseIdsToUnitRefunds($shipments, RefundType::shipment(), ShipmentRefund::class),
             (int) $request->request->get('sylius_refund_payment_method'),
-            $request->request->get('sylius_refund_comment', '')
+            $comment
         );
     }
 
