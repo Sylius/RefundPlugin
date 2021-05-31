@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="true" />
+
+        <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface" class="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver">
+            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius.manager.order" />
+            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface" />
+            <argument type="service" id="sylius.repository.order" />
+        </service>
+        <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" alias="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface instead.</deprecated>
+        </service>
+
+        <service id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface" class="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver">
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius.manager.order" />
+        </service>
+        <service id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver" alias="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface instead.</deprecated>
+        </service>
+
+        <service id="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplierInterface" class="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplier">
+            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius_refund.manager.refund_payment" />
+        </service>
+        <service id="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplier" alias="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplierInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplierInterface instead.</deprecated>
+        </service>
+    </services>
+</container>
