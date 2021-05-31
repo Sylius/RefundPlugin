@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
 use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;

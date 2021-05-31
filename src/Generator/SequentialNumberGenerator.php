@@ -11,7 +11,7 @@ use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
-final class SequentialNumberGenerator implements NumberGenerator
+final class SequentialNumberGenerator implements NumberGeneratorInterface
 {
     /** @var ObjectRepository */
     private $sequenceRepository;
