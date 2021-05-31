@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class SequentialNumberGeneratorSpec extends ObjectBehavior
@@ -33,7 +33,7 @@ final class SequentialNumberGeneratorSpec extends ObjectBehavior
 
     function it_is_number_generator_interface(): void
     {
-        $this->shouldImplement(NumberGenerator::class);
+        $this->shouldImplement(NumberGeneratorInterface::class);
     }
 
     function it_generates_sequential_number(

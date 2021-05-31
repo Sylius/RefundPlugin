@@ -33,6 +33,8 @@ always generated after credit memo. Technical changes:
        facilitate post-units refunding process.
     * Their `__invoke` methods were replaced by `Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface::next(UnitsRefunded $unitsRefunded)`. 
 
+1. `Sylius\RefundPlugin\Generator\NumberGenerator` has been changed to `Sylius\RefundPlugin\Generator\NumberGeneratorInterface`.
+
 ### UPGRADE FROM 1.0.0-RC.7 TO 1.0.0-RC.8
 
 1. The `fully_refunded` state and the `refund` transition have been removed from `sylius_order` state machine.

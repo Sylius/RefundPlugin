@@ -21,7 +21,7 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -33,7 +33,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
     /** @var CreditMemoIdentifierGeneratorInterface */
     private $creditMemoIdentifierGenerator;
 
-    /** @var NumberGenerator */
+    /** @var NumberGeneratorInterface */
     private $creditMemoNumberGenerator;
 
     /** @var CurrentDateTimeImmutableProviderInterface */
@@ -42,7 +42,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
     public function __construct(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
-        NumberGenerator $creditMemoNumberGenerator,
+        NumberGeneratorInterface $creditMemoNumberGenerator,
         CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
     ) {
         $this->creditMemoFactory = $creditMemoFactory;

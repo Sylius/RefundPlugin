@@ -25,7 +25,7 @@ use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\NumberGenerator;
+use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoFactorySpec extends ObjectBehavior
@@ -33,7 +33,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
     function let(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
-        NumberGenerator $creditMemoNumberGenerator,
+        NumberGeneratorInterface $creditMemoNumberGenerator,
         CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
     ): void {
         $this->beConstructedWith(
@@ -61,7 +61,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
     function it_creates_a_new_credit_memo_with_data(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
-        NumberGenerator $creditMemoNumberGenerator,
+        NumberGeneratorInterface $creditMemoNumberGenerator,
         CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
         CreditMemoInterface $creditMemo,
         OrderInterface $order,
