@@ -21,7 +21,7 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface;
-use Sylius\RefundPlugin\Generator\NumberGeneratorInterface;
+use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -33,7 +33,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
     /** @var CreditMemoIdentifierGeneratorInterface */
     private $creditMemoIdentifierGenerator;
 
-    /** @var NumberGeneratorInterface */
+    /** @var CreditMemoNumberGeneratorInterface */
     private $creditMemoNumberGenerator;
 
     /** @var CurrentDateTimeImmutableProviderInterface */
@@ -42,7 +42,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
     public function __construct(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
-        NumberGeneratorInterface $creditMemoNumberGenerator,
+        CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,
         CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
     ) {
         $this->creditMemoFactory = $creditMemoFactory;
@@ -80,9 +80,11 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
         $localeCode = $order->getLocaleCode();
         Assert::notNull($localeCode);
 
+        $issuedAt = $this->currentDateTimeImmutableProvider->now();
+
         $creditMemo = $this->createNew();
         $creditMemo->setId($this->creditMemoIdentifierGenerator->generate());
-        $creditMemo->setNumber($this->creditMemoNumberGenerator->generate());
+        $creditMemo->setNumber($this->creditMemoNumberGenerator->generate($order, $issuedAt));
         $creditMemo->setOrder($order);
         $creditMemo->setChannel($channel);
         $creditMemo->setCurrencyCode($currencyCode);
@@ -91,7 +93,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
         $creditMemo->setLineItems(new ArrayCollection($lineItems));
         $creditMemo->setTaxItems(new ArrayCollection($taxItems));
         $creditMemo->setComment($comment);
-        $creditMemo->setIssuedAt($this->currentDateTimeImmutableProvider->now());
+        $creditMemo->setIssuedAt($issuedAt);
         $creditMemo->setFrom($from);
         $creditMemo->setTo($to);
 

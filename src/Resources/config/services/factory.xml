@@ -18,7 +18,7 @@
         >
             <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoFactory.inner" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
-            <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialNumberGenerator" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\SequentialCreditMemoNumberGenerator" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
         </service>
     </services>
