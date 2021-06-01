@@ -37,12 +37,12 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
 
         $value = $units[$unitNumber]->find('css','td:nth-child(2)');
 
-        $refunded = substr($this->getUnitRefundedTotal($value), 1);
+        $refunded = (double) substr($this->getUnitRefundedTotal($value), 1);
 
         $total = substr($this->getUnitTotal($value), 1);
 
         /** @var double $total */
-        $total = $total - $refunded;
+        $total -= $refunded;
 
         $units[$unitNumber]->find('css','td:nth-child(3) input')->setValue($total);
     }
@@ -68,7 +68,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         if ($this->getUnitRefundedTotal($orderShipment) !== null) {
             $refunded = $this->getUnitRefundedTotal($orderShipment);
 
-            $total = substr($total, 1) - substr($refunded, 1);
+            $total = (double) substr($total, 1) - (double) substr($refunded, 1);
         }
 
         $orderShipment->find('css','td:nth-child(3) input')->setValue($total);
