@@ -26,12 +26,6 @@ jobs:
 
                 exclude:
                     -
-                        php: 7.3
-                        mysql: 8.0
-                    -
-                        sylius: ~1.8.0
-                        symfony: ^5.2
-                    -
                         php: 8.0
                         sylius: ~1.9.0
 
