@@ -28,9 +28,6 @@ jobs:
                     -
                         php: 7.3
                         mysql: 8.0
-                    -
-                        sylius: ~1.8.0
-                        symfony: ^5.2
 
         env:
             APP_ENV: test
