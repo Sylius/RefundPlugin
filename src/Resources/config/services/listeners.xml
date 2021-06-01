@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="true" />
+
+        <service id="Sylius\RefundPlugin\Menu\AdminMainMenuListener">
+            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addCreditMemosSection" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
+            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker" />
+            <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
+        </service>
+
+        <service id="sylius_refund_plugin.block_event_listener.account.order_show" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+            <argument>@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig</argument>
+            <tag name="kernel.event_listener" event="sonata.block.event.sylius.shop.account.order.show.after_summary" method="onBlockEvent" />
+        </service>
+
+        <service id="sylius_refund_plugin.block_event_listener.order_show.credit_memos" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+            <argument>@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig</argument>
+            <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
+        </service>
+
+        <service id="sylius_refund_plugin.block_event_listener.order_show.refund_payments" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
+            <argument>@SyliusRefundPlugin/Order/Admin/refundPayments.html.twig</argument>
+            <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
+        </service>
+    </services>
+</container>

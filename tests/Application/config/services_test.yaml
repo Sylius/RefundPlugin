@@ -4,11 +4,11 @@ imports:
 
 services:
     Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator:
-        decorates: 'Sylius\RefundPlugin\Generator\CreditMemoGenerator'
+        decorates: 'Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface'
         arguments:
             - '@Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator.inner'
 
     Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory:
-        decorates: 'Sylius\RefundPlugin\Factory\RefundPaymentFactory'
+        decorates: 'Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface'
         arguments:
             - '@Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory.inner'

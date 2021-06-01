@@ -1,92 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
     <imports>
-        <import resource="services/actions.xml" />
-        <import resource="services/command_bus.xml" />
-        <import resource="services/converter.xml" />
-        <import resource="services/event_bus.xml" />
-        <import resource="services/factory.xml" />
-        <import resource="services/generator.xml" />
-        <import resource="services/provider.xml" />
-        <import resource="services/validator.xml" />
+        <import resource="services/**/*.xml" />
     </imports>
+
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Creator\RefundCreator">
-            <argument type="service" id="sylius_refund.factory.refund" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
-            <argument type="service" id="sylius_refund.manager.refund" />
+        <service id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface" class="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" />
         </service>
-        <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
-            <argument type="service" id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
+        <service id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator" alias="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
-            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
+            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreatorInterface" />
             <argument type="service" id="sylius.event_bus" />
         </service>
+
         <service id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder">
-            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreator" />
+            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreatorInterface" />
             <argument type="service" id="sylius.event_bus" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker">
-            <argument type="service" id="sylius.repository.order" />
-        </service>
-        <service id="Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker">
-            <argument type="service" id="sylius.repository.order" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" />
         </service>
 
         <service id="Sylius\RefundPlugin\Twig\OrderRefundsExtension">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider" />
-            <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\UnitRefundedTotalProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface" />
             <tag name="twig.extension"/>
-        </service>
-
-        <service id="Sylius\RefundPlugin\Menu\OrderShowMenuListener">
-            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker" />
-            <tag name="kernel.event_listener" event="sylius.menu.admin.order.show" method="addRefundsButton" />
-        </service>
-        <service id="Sylius\RefundPlugin\Menu\AdminMainMenuListener">
-            <tag name="kernel.event_listener" event="sylius.menu.admin.main" method="addCreditMemosSection" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver">
-            <argument type="service" id="sm.factory" />
-            <argument type="service" id="sylius.manager.order" />
-            <argument type="service" id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker" />
-            <argument type="service" id="sylius.repository.order" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver">
-            <argument type="service" id="sylius.repository.order" />
-            <argument type="service" id="sm.factory" />
-            <argument type="service" id="sylius.manager.order" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProvider" />
-        </service>
-
-        <service id="sylius_refund_plugin.block_event_listener.order_show.credit_memos" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig</argument>
-            <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
-        </service>
-
-        <service id="sylius_refund_plugin.block_event_listener.order_show.refund_payments" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SyliusRefundPlugin/Order/Admin/refundPayments.html.twig</argument>
-            <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
         </service>
 
         <service id="sylius_refund_plugin.repository.credit_memo_sequence" class="Doctrine\ORM\EntityRepository">
@@ -94,29 +40,20 @@
             <argument type="string">Sylius\RefundPlugin\Entity\CreditMemoSequence</argument>
         </service>
 
-        <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender">
-            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" />
+        <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface" class="Sylius\RefundPlugin\Sender\CreditMemoEmailSender">
+            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="Sylius\RefundPlugin\File\TemporaryFileManager" />
         </service>
-
-        <service id="sylius_refund_plugin.block_event_listener.account.order_show" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig</argument>
-            <tag name="kernel.event_listener" event="sonata.block.event.sylius.shop.account.order.show.after_summary" method="onBlockEvent" />
+        <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender" alias="Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\File\TemporaryFileManager" />
 
-        <service id="Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplier">
-            <argument type="service" id="sm.factory" />
-            <argument type="service" id="sylius_refund.manager.refund_payment" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" />
-
-        <service id="Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationChecker">
-            <argument type="service" id="sylius.context.customer"/>
-            <argument type="service" id="sylius_refund.repository.credit_memo"/>
+        <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface" class="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" />
+        <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" alias="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface instead.</deprecated>
         </service>
     </services>
 </container>
