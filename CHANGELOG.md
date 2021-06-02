@@ -1,5 +1,29 @@
 # CHANGELOG
 
+### v1.0.0-RC.10 (2021-06-02)
+
+- [#282](https://github.com/Sylius/RefundPlugin/issues/282) [Maintenance] Upgrade PHPSpec package ([@GSadee](https://github.com/GSadee))
+- [#283](https://github.com/Sylius/RefundPlugin/issues/283) [Maintenance] Upgrade PHPUnit package ([@GSadee](https://github.com/GSadee))
+- [#284](https://github.com/Sylius/RefundPlugin/issues/284) [Maintenance] Upgrade PHPStan packages ([@GSadee](https://github.com/GSadee))
+- [#285](https://github.com/Sylius/RefundPlugin/issues/285) Remove AdminApi dependencies ([@Tomanhez](https://github.com/Tomanhez))
+- [#288](https://github.com/Sylius/RefundPlugin/issues/288) bus-unification ([@SirDomin](https://github.com/SirDomin))
+- [#289](https://github.com/Sylius/RefundPlugin/issues/289) [CreditMemo] Replace unnecessary custom ChannelFilter with the Sylius entity filter ([@GSadee](https://github.com/GSadee))
+- [#291](https://github.com/Sylius/RefundPlugin/issues/291) Remove support for Sylius 1.8 ([@pamil](https://github.com/pamil))
+- [#294](https://github.com/Sylius/RefundPlugin/issues/294) Added Dutch messages translations ([@j92](https://github.com/j92))
+- [#293](https://github.com/Sylius/RefundPlugin/issues/293) Added Dutch flash message translations ([@j92](https://github.com/j92))
+- [#295](https://github.com/Sylius/RefundPlugin/issues/295) [CreditMemo] Refactor creating CreditMemo to use a factory ([@GSadee](https://github.com/GSadee))
+- [#296](https://github.com/Sylius/RefundPlugin/issues/296) Always create RefundPayment after CreditMemo ([@Zales0123](https://github.com/Zales0123))
+- [#292](https://github.com/Sylius/RefundPlugin/issues/292) Use creditMemoLogoPath ([@j92](https://github.com/j92))
+- [#297](https://github.com/Sylius/RefundPlugin/issues/297) Add interface prefix to number generator ([@GSadee](https://github.com/GSadee))
+- [#301](https://github.com/Sylius/RefundPlugin/issues/301) Fix build for version 5.3.0 of symfony/http-foundation ([@GSadee](https://github.com/GSadee))
+- [#300](https://github.com/Sylius/RefundPlugin/issues/300) Use explicit bus in handlers configurations ([@GSadee](https://github.com/GSadee))
+- [#299](https://github.com/Sylius/RefundPlugin/issues/299) Refactor credit memo number generator ([@GSadee](https://github.com/GSadee))
+- [#303](https://github.com/Sylius/RefundPlugin/issues/303) Change mink-debug-extension and remove unnedded params ([@arti0090](https://github.com/arti0090))
+- [#302](https://github.com/Sylius/RefundPlugin/issues/302) Use interfaces instead of FQCN as services ids + minor files refactor ([@GSadee](https://github.com/GSadee))
+- [#304](https://github.com/Sylius/RefundPlugin/issues/304) Remove unneeded exclude from GitHub Actions ([@GSadee](https://github.com/GSadee))
+- [#298](https://github.com/Sylius/RefundPlugin/issues/298) Add sylius 1.10 to composer and workflow ([@arti0090](https://github.com/arti0090))
+- [#305](https://github.com/Sylius/RefundPlugin/issues/305) Bring back easy-coding-standard + apply CS fixes ([@GSadee](https://github.com/GSadee))
+
 ### v1.0.0-RC.9 (2021-04-13)
 
 - [#273](https://github.com/Sylius/RefundPlugin/issues/273) Refunding multiple shipments ([@GSadee](https://github.com/GSadee))
