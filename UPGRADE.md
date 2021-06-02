@@ -1,5 +1,21 @@
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
+1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 
+or [Sylius 1.10](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.10.md). 
+
+1. Remove usage of:
+    * `Sylius\RefundPlugin\Entity\AdjustmentInterface`
+    * `Sylius\RefundPlugin\Entity\AdjustmentTrait`
+    * `Sylius\RefundPlugin\Entity\ShipmentInterface`
+    * `Sylius\RefundPlugin\Entity\ShipmentTrait`
+
+1. Delete removed migrations from the migrations table by running:  
+    ```
+    bin/console doctrine:migrations:version Sylius\\RefundPlugin\\Migrations\\Version20201208105207 --delete
+    bin/console doctrine:migrations:version Sylius\\RefundPlugin\\Migrations\\Version20201130071338 --delete
+    bin/console doctrine:migrations:version Sylius\\RefundPlugin\\Migrations\\Version20201204071301 --delete
+    ```
+
 1. Command bus `sylius_refund_plugin.command_bus` has been replaced with `sylius.command_bus`.
 
 1. Event bus `sylius_refund_plugin.event_bus` has been replaced with `sylius.event_bus`.
