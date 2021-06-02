@@ -10,12 +10,12 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Listener\UnitRefundedEventListener">
-            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver" />
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface" />
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>
 
         <service id="Sylius\RefundPlugin\Listener\ShipmentRefundedEventListener">
-            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver" />
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface" />
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>
 
@@ -28,9 +28,9 @@
         </service>
 
         <service id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager">
-            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver" />
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface" />
-            <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface" />
             <argument type="service" id="doctrine.orm.default_entity_manager" />
             <argument type="service" id="sylius.event_bus" />
             <tag name="sylius_refund.units_refunded.process_step" priority="50" />

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <defaults autowire="false" autoconfigure="false" public="true" />
+
+        <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface" class="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
+        <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" alias="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface instead.</deprecated>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface" class="Sylius\RefundPlugin\Factory\RefundPaymentFactory">
+            <argument type="service" id="sylius.repository.payment_method" />
+        </service>
+        <service id="Sylius\RefundPlugin\Factory\RefundPaymentFactory" alias="Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface">
+            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface instead.</deprecated>
+        </service>
+
+        <service
+            id="Sylius\RefundPlugin\Factory\CreditMemoFactory"
+            decorates="sylius_refund.factory.credit_memo"
+            decoration-priority="256"
+            public="false"
+        >
+            <argument type="service" id="Sylius\RefundPlugin\Factory\CreditMemoFactory.inner" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
+        </service>
+    </services>
+</container>
