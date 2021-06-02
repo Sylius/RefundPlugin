@@ -15,7 +15,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class RefundCreatorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RefundFactoryInterface $refundFactory,
         RemainingTotalProviderInterface $remainingTotalProvider,
         ObjectManager $refundEntityManager
@@ -27,12 +27,12 @@ final class RefundCreatorSpec extends ObjectBehavior
         );
     }
 
-    function it_implements_refund_creator_interface(): void
+    public function it_implements_refund_creator_interface(): void
     {
         $this->shouldImplement(RefundCreatorInterface::class);
     }
 
-    function it_creates_refund_with_given_data_and_save_it_in_database(
+    public function it_creates_refund_with_given_data_and_save_it_in_database(
         RefundFactoryInterface $refundFactory,
         RemainingTotalProviderInterface $remainingTotalProvider,
         ObjectManager $refundEntityManager,
@@ -50,7 +50,7 @@ final class RefundCreatorSpec extends ObjectBehavior
         $this('000222', 1, 1000, $refundType);
     }
 
-    function it_throws_exception_if_unit_has_already_been_refunded(
+    public function it_throws_exception_if_unit_has_already_been_refunded(
         RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
         $refundType = RefundType::shipment();

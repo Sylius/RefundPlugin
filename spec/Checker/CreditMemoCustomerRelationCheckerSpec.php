@@ -16,24 +16,24 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository
     ): void {
         $this->beConstructedWith($customerContext, $creditMemoRepository);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(CreditMemoCustomerRelationChecker::class);
     }
 
-    function it_implements_credit_memo_customer_relation_checker_interface(): void
+    public function it_implements_credit_memo_customer_relation_checker_interface(): void
     {
         $this->shouldImplement(CreditMemoCustomerRelationCheckerInterface::class);
     }
 
-    function it_checks_if_customer_id_from_order_is_equal_to_customer_id_from_customer_context(
+    public function it_checks_if_customer_id_from_order_is_equal_to_customer_id_from_customer_context(
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository,
         CreditMemo $creditMemo,
@@ -52,7 +52,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         $this->check('00001');
     }
 
-    function it_throws_exception_if_customer_id_from_order_is_not_equal_to_id_from_context(
+    public function it_throws_exception_if_customer_id_from_order_is_not_equal_to_id_from_context(
         CustomerContextInterface $customerContext,
         RepositoryInterface $creditMemoRepository,
         CreditMemo $creditMemo,

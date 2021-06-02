@@ -27,7 +27,9 @@ final class RefundEnumType extends Type
             throw new \InvalidArgumentException(sprintf(
                 'The value "%s" is not valid for the enum "%s". Expected one of ["%s"]',
                 $value,
-                RefundType::class, implode('", "', RefundType::keys())))
+                RefundType::class,
+                implode('", "', RefundType::keys())
+            ))
             ;
         }
 

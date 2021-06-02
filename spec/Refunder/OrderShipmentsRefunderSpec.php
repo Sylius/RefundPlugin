@@ -15,17 +15,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderShipmentsRefunderSpec extends ObjectBehavior
 {
-    function let(RefundCreatorInterface $refundCreator, MessageBusInterface $eventBus): void
+    public function let(RefundCreatorInterface $refundCreator, MessageBusInterface $eventBus): void
     {
         $this->beConstructedWith($refundCreator, $eventBus);
     }
 
-    function it_implements_refunder_interface(): void
+    public function it_implements_refunder_interface(): void
     {
         $this->shouldImplement(RefunderInterface::class);
     }
 
-    function it_creates_refund_for_each_shipment_and_dispatch_proper_event(
+    public function it_creates_refund_for_each_shipment_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus
     ): void {

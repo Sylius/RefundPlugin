@@ -11,17 +11,17 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 
 final class OrderRefundedTotalProviderSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $refundRepository): void
+    public function let(RepositoryInterface $refundRepository): void
     {
         $this->beConstructedWith($refundRepository);
     }
 
-    function it_implements_order_refunded_total_provider_interface(): void
+    public function it_implements_order_refunded_total_provider_interface(): void
     {
         $this->shouldImplement(OrderRefundedTotalProviderInterface::class);
     }
 
-    function it_returns_refunded_total_of_order_with_given_number(
+    public function it_returns_refunded_total_of_order_with_given_number(
         RepositoryInterface $refundRepository,
         RefundInterface $firstRefund,
         RefundInterface $secondRefund

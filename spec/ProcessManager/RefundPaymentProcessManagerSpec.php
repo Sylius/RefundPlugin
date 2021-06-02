@@ -20,7 +20,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
@@ -36,12 +36,12 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         );
     }
 
-    function it_implements_units_refunded_process_step_interface(): void
+    public function it_implements_units_refunded_process_step_interface(): void
     {
         $this->shouldImplement(UnitsRefundedProcessStepInterface::class);
     }
 
-    function it_reacts_on_units_refunded_event_and_creates_refund_payment(
+    public function it_reacts_on_units_refunded_event_and_creates_refund_payment(
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,

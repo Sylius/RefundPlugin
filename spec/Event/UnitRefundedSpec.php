@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 final class UnitRefundedSpec extends ObjectBehavior
 {
-    function it_represents_an_immutable_fact_that_unit_has_been_refunded(): void
+    public function it_represents_an_immutable_fact_that_unit_has_been_refunded(): void
     {
         $this->beConstructedWith('000222', 1, 1000);
 

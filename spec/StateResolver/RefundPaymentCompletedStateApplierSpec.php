@@ -15,22 +15,22 @@ use Sylius\RefundPlugin\StateResolver\RefundPaymentTransitions;
 
 final class RefundPaymentCompletedStateApplierSpec extends ObjectBehavior
 {
-    function let(StateMachineFactoryInterface $stateMachineFactory, ObjectManager $refundPaymentManager): void
+    public function let(StateMachineFactoryInterface $stateMachineFactory, ObjectManager $refundPaymentManager): void
     {
         $this->beConstructedWith($stateMachineFactory, $refundPaymentManager);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(RefundPaymentCompletedStateApplier::class);
     }
 
-    function it_implements_refund_payment_completed_state_applier_interface(): void
+    public function it_implements_refund_payment_completed_state_applier_interface(): void
     {
         $this->shouldImplement(RefundPaymentCompletedStateApplierInterface::class);
     }
 
-    function it_applies_complete_transition_on_refund_payment(
+    public function it_applies_complete_transition_on_refund_payment(
         StateMachineFactoryInterface $stateMachineFactory,
         StateMachineInterface $stateMachine,
         ObjectManager $refundPaymentManager,

@@ -15,17 +15,17 @@ use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $orderItemUnitRepository, TaxRateProviderInterface $taxRateProvider): void
+    public function let(RepositoryInterface $orderItemUnitRepository, TaxRateProviderInterface $taxRateProvider): void
     {
         $this->beConstructedWith($orderItemUnitRepository, $taxRateProvider);
     }
 
-    function it_implements_line_items_converter_interface(): void
+    public function it_implements_line_items_converter_interface(): void
     {
         $this->shouldImplement(LineItemsConverterInterface::class);
     }
 
-    function it_converts_unit_refunds_to_line_items(
+    public function it_converts_unit_refunds_to_line_items(
         RepositoryInterface $orderItemUnitRepository,
         TaxRateProviderInterface $taxRateProvider,
         OrderItemUnitInterface $orderItemUnit,
@@ -55,7 +55,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         )]);
     }
 
-    function it_groups_the_same_line_items_during_converting(
+    public function it_groups_the_same_line_items_during_converting(
         RepositoryInterface $orderItemUnitRepository,
         TaxRateProviderInterface $taxRateProvider,
         OrderItemUnitInterface $firstOrderItemUnit,
@@ -111,7 +111,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         ]);
     }
 
-    function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
+    public function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
         RepositoryInterface $orderItemUnitRepository
     ): void {
         $unitRefund = new OrderItemUnitRefund(1, 500);
@@ -124,7 +124,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
+    public function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
         RepositoryInterface $orderItemUnitRepository,
         OrderItemUnitInterface $orderItemUnit
     ): void {

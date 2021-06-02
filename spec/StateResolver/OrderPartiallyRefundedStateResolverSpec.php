@@ -17,7 +17,7 @@ use Sylius\RefundPlugin\Exception\OrderNotFound;
 
 final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager
@@ -25,7 +25,7 @@ final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
         $this->beConstructedWith($orderRepository, $stateMachineFactory, $orderManager);
     }
 
-    function it_marks_order_as_partially_refunded(
+    public function it_marks_order_as_partially_refunded(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager,
@@ -44,7 +44,7 @@ final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
         $this->resolve('000777');
     }
 
-    function it_does_nothing_if_order_is_already_marked_as_partially_refunded(
+    public function it_does_nothing_if_order_is_already_marked_as_partially_refunded(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
         OrderInterface $order
@@ -58,7 +58,7 @@ final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
         $this->resolve('000777');
     }
 
-    function it_throws_exception_if_there_is_no_order_with_given_number(OrderRepositoryInterface $orderRepository): void
+    public function it_throws_exception_if_there_is_no_order_with_given_number(OrderRepositoryInterface $orderRepository): void
     {
         $orderRepository->findOneByNumber('000777')->willReturn(null);
 

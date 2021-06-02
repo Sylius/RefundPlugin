@@ -19,7 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
@@ -28,7 +28,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($creditMemoGenerator, $creditMemoManager, $eventBus, $orderRepository);
     }
 
-    function it_generates_credit_memo(
+    public function it_generates_credit_memo(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,

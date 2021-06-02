@@ -15,17 +15,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoProcessManagerSpec extends ObjectBehavior
 {
-    function let(MessageBusInterface $commandBus): void
+    public function let(MessageBusInterface $commandBus): void
     {
         $this->beConstructedWith($commandBus);
     }
 
-    function it_implements_units_refunded_process_step_interface(): void
+    public function it_implements_units_refunded_process_step_interface(): void
     {
         $this->shouldImplement(UnitsRefundedProcessStepInterface::class);
     }
 
-    function it_reacts_on_units_generated_event_and_dispatch_generate_credit_memo_command(MessageBusInterface $commandBus)
+    public function it_reacts_on_units_generated_event_and_dispatch_generate_credit_memo_command(MessageBusInterface $commandBus)
     {
         $unitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
         $shipmentRefunds = [new ShipmentRefund(1, 500), new ShipmentRefund(2, 1000)];

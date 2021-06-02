@@ -16,7 +16,7 @@ use Twig\Environment;
 
 final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RepositoryInterface $creditMemoRepository,
         Environment $twig,
         GeneratorInterface $pdfGenerator,
@@ -32,12 +32,12 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         );
     }
 
-    function it_implements_credit_memo_pdf_file_generator_interface(): void
+    public function it_implements_credit_memo_pdf_file_generator_interface(): void
     {
         $this->shouldImplement(CreditMemoPdfFileGeneratorInterface::class);
     }
 
-    function it_creates_credit_memo_pdf_with_generated_content_and_filename_basing_on_credit_memo_number(
+    public function it_creates_credit_memo_pdf_with_generated_content_and_filename_basing_on_credit_memo_number(
         RepositoryInterface $creditMemoRepository,
         Environment $twig,
         GeneratorInterface $pdfGenerator,
@@ -65,7 +65,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_exception_if_credit_memo_with_given_id_has_not_been_found(
+    public function it_throws_exception_if_credit_memo_with_given_id_has_not_been_found(
         RepositoryInterface $creditMemoRepository
     ): void {
         $creditMemoRepository->find('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->willReturn(null);

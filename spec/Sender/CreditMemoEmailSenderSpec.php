@@ -14,7 +14,7 @@ use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
 
 final class CreditMemoEmailSenderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager
@@ -22,12 +22,12 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         $this->beConstructedWith($creditMemoPdfFileGenerator, $sender, $fileManager);
     }
 
-    function it_implements_credit_memo_email_sender_interface()
+    public function it_implements_credit_memo_email_sender_interface()
     {
         $this->shouldImplement(CreditMemoEmailSenderInterface::class);
     }
 
-    function it_sends_email_with_credit_memo_to_customer(
+    public function it_sends_email_with_credit_memo_to_customer(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,

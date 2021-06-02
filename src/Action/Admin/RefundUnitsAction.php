@@ -66,7 +66,8 @@ final class RefundUnitsAction
         }
 
         return new RedirectResponse($this->router->generate(
-            'sylius_refund_order_refunds_list', ['orderNumber' => $request->attributes->get('orderNumber')]
+            'sylius_refund_order_refunds_list',
+            ['orderNumber' => $request->attributes->get('orderNumber')]
         ));
     }
 

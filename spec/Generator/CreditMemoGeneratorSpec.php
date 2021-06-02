@@ -23,7 +23,7 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
@@ -37,12 +37,12 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         );
     }
 
-    function it_implements_credit_memo_generator_interface(): void
+    public function it_implements_credit_memo_generator_interface(): void
     {
         $this->shouldImplement(CreditMemoGeneratorInterface::class);
     }
 
-    function it_generates_credit_memo_basing_on_event_data(
+    public function it_generates_credit_memo_basing_on_event_data(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,

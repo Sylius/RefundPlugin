@@ -15,17 +15,17 @@ use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 
 final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
 {
-    function let(OrderRepositoryInterface $orderRepository): void
+    public function let(OrderRepositoryInterface $orderRepository): void
     {
         $this->beConstructedWith($orderRepository);
     }
 
-    function it_implements_related_payment_id_provider_interface(): void
+    public function it_implements_related_payment_id_provider_interface(): void
     {
         $this->shouldImplement(RelatedPaymentIdProviderInterface::class);
     }
 
-    function it_provides_id_of_last_completed_payment_from_refund_payment_order(
+    public function it_provides_id_of_last_completed_payment_from_refund_payment_order(
         OrderRepositoryInterface $orderRepository,
         RefundPaymentInterface $refundPayment,
         OrderInterface $order,
@@ -42,7 +42,7 @@ final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
         $this->getForRefundPayment($refundPayment)->shouldReturn(4);
     }
 
-    function it_throws_exception_if_there_is_no_order_with_given_number(
+    public function it_throws_exception_if_there_is_no_order_with_given_number(
         OrderRepositoryInterface $orderRepository,
         RefundPaymentInterface $refundPayment
     ): void {
@@ -55,7 +55,7 @@ final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_exception_if_order_has_no_completed_payments(
+    public function it_throws_exception_if_order_has_no_completed_payments(
         OrderRepositoryInterface $orderRepository,
         RefundPaymentInterface $refundPayment,
         OrderInterface $order

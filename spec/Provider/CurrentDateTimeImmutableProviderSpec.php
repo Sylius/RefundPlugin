@@ -9,12 +9,12 @@ use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CurrentDateTimeImmutableProviderSpec extends ObjectBehavior
 {
-    function it_implements_current_date_time_immutable_provider_interface(): void
+    public function it_implements_current_date_time_immutable_provider_interface(): void
     {
         $this->shouldImplement(CurrentDateTimeImmutableProviderInterface::class);
     }
 
-    function it_provides_current_immutable_date_and_time(): void
+    public function it_provides_current_immutable_date_and_time(): void
     {
         $this->now()->shouldReturnDate(new \DateTimeImmutable());
     }

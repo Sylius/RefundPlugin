@@ -17,17 +17,17 @@ use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class ShipmentLineItemsConverterSpec extends ObjectBehavior
 {
-    function let(RepositoryInterface $adjustmentRepository, TaxRateProviderInterface $taxRateProvider): void
+    public function let(RepositoryInterface $adjustmentRepository, TaxRateProviderInterface $taxRateProvider): void
     {
         $this->beConstructedWith($adjustmentRepository, $taxRateProvider);
     }
 
-    function it_implements_line_items_converter_interface(): void
+    public function it_implements_line_items_converter_interface(): void
     {
         $this->shouldImplement(LineItemsConverterInterface::class);
     }
 
-    function it_converts_shipment_unit_refunds_to_line_items(
+    public function it_converts_shipment_unit_refunds_to_line_items(
         RepositoryInterface $adjustmentRepository,
         TaxRateProviderInterface $taxRateProvider,
         AdjustmentInterface $shippingAdjustment,
@@ -64,7 +64,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         )]);
     }
 
-    function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
+    public function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
         RepositoryInterface $adjustmentRepository
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 500);
@@ -80,7 +80,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
+    public function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment,
         ShipmentInterface $shipment
@@ -101,7 +101,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_an_exception_if_shipment_has_more_tax_adjustments_than_one(
+    public function it_throws_an_exception_if_shipment_has_more_tax_adjustments_than_one(
         RepositoryInterface $adjustmentRepository,
         TaxRateProviderInterface $taxRateProvider,
         AdjustmentInterface $shippingAdjustment,

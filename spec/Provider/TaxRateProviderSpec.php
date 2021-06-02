@@ -13,12 +13,12 @@ use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class TaxRateProviderSpec extends ObjectBehavior
 {
-    function it_implements_tax_rate_provider_interface(): void
+    public function it_implements_tax_rate_provider_interface(): void
     {
         $this->shouldImplement(TaxRateProviderInterface::class);
     }
 
-    function it_provides_a_tax_rate_from_tax_adjustment_details(
+    public function it_provides_a_tax_rate_from_tax_adjustment_details(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $taxAdjustment
     ): void {
@@ -32,7 +32,7 @@ final class TaxRateProviderSpec extends ObjectBehavior
         $this->provide($orderItemUnit)->shouldReturn('20%');
     }
 
-    function it_returns_null_if_there_is_no_tax_adjustment(OrderItemUnitInterface $orderItemUnit): void
+    public function it_returns_null_if_there_is_no_tax_adjustment(OrderItemUnitInterface $orderItemUnit): void
     {
         $orderItemUnit
             ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
@@ -42,7 +42,7 @@ final class TaxRateProviderSpec extends ObjectBehavior
         $this->provide($orderItemUnit)->shouldReturn(null);
     }
 
-    function it_throws_an_exception_if_there_is_no_tax_rate_amount_in_details_of_adjustment(
+    public function it_throws_an_exception_if_there_is_no_tax_rate_amount_in_details_of_adjustment(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $taxAdjustment
     ): void {
@@ -56,7 +56,7 @@ final class TaxRateProviderSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->during('provide', [$orderItemUnit]);
     }
 
-    function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(
+    public function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(
         OrderItemUnitInterface $orderItemUnit,
         AdjustmentInterface $firstTaxAdjustment,
         AdjustmentInterface $secondTaxAdjustment

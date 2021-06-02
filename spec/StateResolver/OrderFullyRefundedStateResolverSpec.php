@@ -17,7 +17,7 @@ use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalCheckerInterface;
 
 final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
@@ -31,7 +31,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         );
     }
 
-    function it_applies_refund_transition_on_order(
+    public function it_applies_refund_transition_on_order(
         OrderRepositoryInterface $orderRepository,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
         FactoryInterface $stateMachineFactory,
@@ -51,7 +51,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         $this->resolve('000222');
     }
 
-    function it_does_nothing_if_order_state_is_fully_refunded(
+    public function it_does_nothing_if_order_state_is_fully_refunded(
         OrderRepositoryInterface $orderRepository,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
         FactoryInterface $stateMachineFactory,
@@ -66,7 +66,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         $this->resolve('000222');
     }
 
-    function it_does_nothing_if_order_is_not_fully_refunded(
+    public function it_does_nothing_if_order_is_not_fully_refunded(
         OrderRepositoryInterface $orderRepository,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
         FactoryInterface $stateMachineFactory,
@@ -80,7 +80,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         $this->resolve('000222');
     }
 
-    function it_throws_an_exception_if_there_is_no_order_with_given_number(OrderRepositoryInterface $orderRepository): void
+    public function it_throws_an_exception_if_there_is_no_order_with_given_number(OrderRepositoryInterface $orderRepository): void
     {
         $orderRepository->findOneByNumber('000222')->willReturn(null);
 

@@ -11,18 +11,18 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundingAvailabilityCheckerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
         $this->beConstructedWith($remainingTotalProvider);
     }
 
-    function it_implements_unit_refunding_availability_checker_interface(): void
+    public function it_implements_unit_refunding_availability_checker_interface(): void
     {
         $this->shouldImplement(UnitRefundingAvailabilityCheckerInterface::class);
     }
 
-    function it_returns_false_if_remaining_unit_total_is_0(
+    public function it_returns_false_if_remaining_unit_total_is_0(
         RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
         $type = RefundType::orderItemUnit();
@@ -32,7 +32,7 @@ final class UnitRefundingAvailabilityCheckerSpec extends ObjectBehavior
         $this->__invoke(1, $type)->shouldReturn(false);
     }
 
-    function it_returns_true_if_remaining_unit_total_is_more_than_0(
+    public function it_returns_true_if_remaining_unit_total_is_more_than_0(
         RemainingTotalProviderInterface $remainingTotalProvider
     ): void {
         $type = RefundType::shipment();

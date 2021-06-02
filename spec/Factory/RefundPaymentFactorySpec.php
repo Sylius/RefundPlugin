@@ -14,22 +14,22 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class RefundPaymentFactorySpec extends ObjectBehavior
 {
-    function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
+    public function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
     {
         $this->beConstructedWith($paymentMethodRepository);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(RefundPaymentFactory::class);
     }
 
-    function it_implements_refund_payment_factory_interface(): void
+    public function it_implements_refund_payment_factory_interface(): void
     {
         $this->shouldImplement(RefundPaymentFactoryInterface::class);
     }
 
-    function it_creates_new_refund_payment(
+    public function it_creates_new_refund_payment(
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         PaymentMethodInterface $paymentMethod
     ): void {
@@ -41,12 +41,14 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
             'USD',
             RefundPaymentInterface::STATE_NEW,
             1
-        )->shouldBeLike(new RefundPayment(
-            '0002',
-            1000,
-            'USD',
-            RefundPaymentInterface::STATE_NEW,
-            $paymentMethod->getWrappedObject())
+        )->shouldBeLike(
+            new RefundPayment(
+                '0002',
+                1000,
+                'USD',
+                RefundPaymentInterface::STATE_NEW,
+                $paymentMethod->getWrappedObject()
+            )
         );
     }
 }
