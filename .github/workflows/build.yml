@@ -156,6 +156,10 @@ jobs:
                 run: composer validate --ansi --strict
 
             -
+                name: Run ECS
+                run: vendor/bin/ecs check src/ spec/
+
+            -
                 name: Run PHPStan
                 run: vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 

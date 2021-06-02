@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Entity;
@@ -11,47 +20,47 @@ use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
 final class RefundPaymentSpec extends ObjectBehavior
 {
-    function let(PaymentMethodInterface $paymentMethod): void
+    public function let(PaymentMethodInterface $paymentMethod): void
     {
         $this->beConstructedWith('000002', 100, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod);
     }
 
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(RefundPayment::class);
     }
 
-    function it_implements_refund_payment_interface(): void
+    public function it_implements_refund_payment_interface(): void
     {
         $this->shouldImplement(RefundPaymentInterface::class);
     }
 
-    function it_has_no_id_by_default(): void
+    public function it_has_no_id_by_default(): void
     {
         $this->getId()->shouldReturn(null);
     }
 
-    function it_has_order_number(): void
+    public function it_has_order_number(): void
     {
         $this->getOrderNumber()->shouldReturn('000002');
     }
 
-    function it_has_amount(): void
+    public function it_has_amount(): void
     {
         $this->getAmount()->shouldReturn(100);
     }
 
-    function it_has_currency_code(): void
+    public function it_has_currency_code(): void
     {
         $this->getCurrencyCode()->shouldReturn('USD');
     }
 
-    function it_has_state(): void
+    public function it_has_state(): void
     {
         $this->getState()->shouldReturn(RefundPaymentInterface::STATE_NEW);
     }
 
-    function it_has_payment_method(): void
+    public function it_has_payment_method(): void
     {
         $this->getPaymentMethod()->shouldBeAnInstanceOf(PaymentMethodInterface::class);
     }

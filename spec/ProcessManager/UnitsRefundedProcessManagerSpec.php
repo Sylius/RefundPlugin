@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\ProcessManager;
@@ -13,19 +22,19 @@ use Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface;
 
 final class UnitsRefundedProcessManagerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
         UnitsRefundedProcessStepInterface $refundPaymentProcessManager
     ): void {
         $this->beConstructedWith([$creditMemoProcessManager, $refundPaymentProcessManager]);
     }
 
-    function it_implements_units_refunded_process_manager_interface(): void
+    public function it_implements_units_refunded_process_manager_interface(): void
     {
         $this->shouldImplement(UnitsRefundedProcessManagerInterface::class);
     }
 
-    function it_triggers_all_process_steps_if_all_are_successful(
+    public function it_triggers_all_process_steps_if_all_are_successful(
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
         UnitsRefundedProcessStepInterface $refundPaymentProcessManager
     ): void {

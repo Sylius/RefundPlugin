@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Creator;
@@ -16,18 +25,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator
     ): void {
         $this->beConstructedWith($unitRefundTotalCalculator);
     }
 
-    function it_implements_refund_units_command_creator_interface(): void
+    public function it_implements_refund_units_command_creator_interface(): void
     {
         $this->shouldImplement(RefundUnitsCommandCreatorInterface::class);
     }
 
-    function it_creates_refund_units_command_from_request_with_full_prices(
+    public function it_creates_refund_units_command_from_request_with_full_prices(
         UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator,
         Request $request
     ): void {
@@ -57,7 +66,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ));
     }
 
-    function it_creates_refund_units_command_from_request_with_partial_prices(
+    public function it_creates_refund_units_command_from_request_with_partial_prices(
         UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator,
         Request $request
     ): void {
@@ -87,7 +96,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ));
     }
 
-    function it_throws_exception_if_there_is_no_units_nor_shipments_provided(Request $request): void
+    public function it_throws_exception_if_there_is_no_units_nor_shipments_provided(Request $request): void
     {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
         $request->request = new ParameterBag(['sylius_refund_payment_method' => 1]);
@@ -98,7 +107,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_exception_if_there_is_no_order_number_provided(Request $request): void
+    public function it_throws_exception_if_there_is_no_order_number_provided(Request $request): void
     {
         $request->attributes = new ParameterBag([]);
 

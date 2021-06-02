@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Provider;
@@ -13,17 +22,17 @@ use Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface;
 
 final class SupportedRefundPaymentMethodsProviderSpec extends ObjectBehavior
 {
-    function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
+    public function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
     {
         $this->beConstructedWith($paymentMethodRepository, ['offline', 'stripe']);
     }
 
-    function it_implements_refund_payment_methods_provider_interface(): void
+    public function it_implements_refund_payment_methods_provider_interface(): void
     {
         $this->shouldImplement(RefundPaymentMethodsProviderInterface::class);
     }
 
-    function it_provides_only_supported_payment_methods(
+    public function it_provides_only_supported_payment_methods(
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         ChannelInterface $channel,
         PaymentMethodInterface $offlinePaymentMethod,

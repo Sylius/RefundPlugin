@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\CommandHandler;
@@ -19,7 +28,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
@@ -28,7 +37,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $this->beConstructedWith($creditMemoGenerator, $creditMemoManager, $eventBus, $orderRepository);
     }
 
-    function it_generates_credit_memo(
+    public function it_generates_credit_memo(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,

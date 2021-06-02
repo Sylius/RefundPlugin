@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Sender;
@@ -14,7 +23,7 @@ use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
 
 final class CreditMemoEmailSenderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager
@@ -22,12 +31,12 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         $this->beConstructedWith($creditMemoPdfFileGenerator, $sender, $fileManager);
     }
 
-    function it_implements_credit_memo_email_sender_interface()
+    public function it_implements_credit_memo_email_sender_interface()
     {
         $this->shouldImplement(CreditMemoEmailSenderInterface::class);
     }
 
-    function it_sends_email_with_credit_memo_to_customer(
+    public function it_sends_email_with_credit_memo_to_customer(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,

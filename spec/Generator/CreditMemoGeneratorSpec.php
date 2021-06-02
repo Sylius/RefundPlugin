@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Generator;
@@ -23,7 +32,7 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
@@ -37,12 +46,12 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         );
     }
 
-    function it_implements_credit_memo_generator_interface(): void
+    public function it_implements_credit_memo_generator_interface(): void
     {
         $this->shouldImplement(CreditMemoGeneratorInterface::class);
     }
 
-    function it_generates_credit_memo_basing_on_event_data(
+    public function it_generates_credit_memo_basing_on_event_data(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,

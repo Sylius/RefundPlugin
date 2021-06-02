@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\CommandHandler;
@@ -20,7 +29,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         MessageBusInterface $eventBus,
@@ -36,7 +45,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         );
     }
 
-    function it_handles_command_and_create_refund_for_each_refunded_unit(
+    public function it_handles_command_and_create_refund_for_each_refunded_unit(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         MessageBusInterface $eventBus,
@@ -61,10 +70,11 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
     }
 
-    function it_throws_an_exception_if_order_is_not_available_for_refund(
+    public function it_throws_an_exception_if_order_is_not_available_for_refund(
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
     ): void {
-        $refundUnitsCommand = new RefundUnits('000222',
+        $refundUnitsCommand = new RefundUnits(
+            '000222',
             [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)],
             [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
             1,

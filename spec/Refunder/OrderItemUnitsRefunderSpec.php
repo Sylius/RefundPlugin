@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Refunder;
@@ -15,19 +24,19 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus
     ): void {
         $this->beConstructedWith($refundCreator, $eventBus);
     }
 
-    function it_implements_refunder_interface(): void
+    public function it_implements_refunder_interface(): void
     {
         $this->shouldImplement(RefunderInterface::class);
     }
 
-    function it_creates_refund_for_each_unit_and_dispatch_proper_event(
+    public function it_creates_refund_for_each_unit_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus
     ): void {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Factory;
@@ -11,12 +20,12 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundFactorySpec extends ObjectBehavior
 {
-    function it_implements_refund_factory_interface(): void
+    public function it_implements_refund_factory_interface(): void
     {
         $this->shouldImplement(RefundFactoryInterface::class);
     }
 
-    function it_allows_to_create_refund_with_given_data(): void
+    public function it_allows_to_create_refund_with_given_data(): void
     {
         $this
             ->createWithData('0001', 1, 1000, RefundType::orderItemUnit())

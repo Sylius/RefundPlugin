@@ -1,12 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Generator;
 
-use Doctrine\Persistence\ObjectRepository;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
@@ -15,7 +24,7 @@ use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface;
 
 final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager
@@ -29,12 +38,12 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
         );
     }
 
-    function it_is_number_generator_interface(): void
+    public function it_is_number_generator_interface(): void
     {
         $this->shouldImplement(CreditMemoNumberGeneratorInterface::class);
     }
 
-    function it_generates_sequential_number(
+    public function it_generates_sequential_number(
         ObjectRepository $sequenceRepository,
         EntityManagerInterface $sequenceManager,
         CreditMemoSequenceInterface $sequence,
@@ -55,7 +64,7 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
         $this->generate($order, $issuedAt)->shouldReturn('2018/05/000000006');
     }
 
-    function it_generates_invoice_number_when_sequence_is_null(
+    public function it_generates_invoice_number_when_sequence_is_null(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
