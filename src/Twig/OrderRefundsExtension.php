@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Twig;
 
+use spec\Sylius\Component\User\Security\Generator\UniquePinGeneratorSpec;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
@@ -29,14 +32,19 @@ final class OrderRefundsExtension extends \Twig_Extension
     /** @var UnitRefundingAvailabilityCheckerInterface */
     private $unitRefundingAvailabilityChecker;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     public function __construct(
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,
         UnitRefundedTotalProviderInterface $unitRefundedTotalProvider,
-        UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker
+        UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
+        OrderRepositoryInterface $orderRepository
     ) {
         $this->orderRefundedTotalProvider = $orderRefundedTotalProvider;
         $this->unitRefundedTotalProvider = $unitRefundedTotalProvider;
         $this->unitRefundingAvailabilityChecker = $unitRefundingAvailabilityChecker;
+        $this->orderRepository = $orderRepository;
     }
 
     public function getFunctions(): array
@@ -44,7 +52,7 @@ final class OrderRefundsExtension extends \Twig_Extension
         return [
             new \Twig_Function(
                 'order_refunded_total',
-                [$this->orderRefundedTotalProvider, '__invoke']
+                [$this, 'getRefundedTotal']
             ),
             new \Twig_Function(
                 'unit_refunded_total',
@@ -74,5 +82,13 @@ final class OrderRefundsExtension extends \Twig_Extension
     public function getUnitRefundLeft(int $unitId, string $refundType, int $unitTotal): float
     {
         return ($unitTotal - $this->getUnitRefundedTotal($unitId, $refundType)) / 100;
+    }
+
+    public function getRefundedTotal(string $orderNumber): int
+    {
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+
+        return ($this->orderRefundedTotalProvider)($order);
     }
 }

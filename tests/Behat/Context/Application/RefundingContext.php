@@ -193,7 +193,7 @@ final class RefundingContext implements Context
      */
     public function refundedTotalShouldBe(int $refundedTotal): void
     {
-        $orderRefunds = $this->refundRepository->findBy(['orderNumber' => $this->order->getNumber()]);
+        $orderRefunds = $this->refundRepository->findBy(['order' => $this->order]);
 
         $orderRefundedTotal = array_sum(array_map(function(RefundInterface $refund): int {
             return $refund->getAmount();
