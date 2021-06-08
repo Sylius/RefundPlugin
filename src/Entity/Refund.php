@@ -53,7 +53,7 @@ class Refund implements RefundInterface
 
     public function getOrderNumber(): string
     {
-        return $this->order->getNumber();
+        return (string) $this->order->getNumber();
     }
 
     public function getAmount(): int

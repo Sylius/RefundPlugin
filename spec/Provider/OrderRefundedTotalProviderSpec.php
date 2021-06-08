@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Provider;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
@@ -33,13 +34,14 @@ final class OrderRefundedTotalProviderSpec extends ObjectBehavior
     public function it_returns_refunded_total_of_order_with_given_number(
         RepositoryInterface $refundRepository,
         RefundInterface $firstRefund,
-        RefundInterface $secondRefund
+        RefundInterface $secondRefund,
+        OrderInterface $order
     ): void {
-        $refundRepository->findBy(['orderNumber' => '000222'])->willReturn([$firstRefund, $secondRefund]);
+        $refundRepository->findBy(['order' => $order])->willReturn([$firstRefund, $secondRefund]);
 
         $firstRefund->getAmount()->willReturn(1000);
         $secondRefund->getAmount()->willReturn(500);
 
-        $this->__invoke('000222')->shouldReturn(1500);
+        $this->__invoke($order)->shouldReturn(1500);
     }
 }

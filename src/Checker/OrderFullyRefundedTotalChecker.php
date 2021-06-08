@@ -15,7 +15,6 @@ namespace Sylius\RefundPlugin\Checker;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
-use Webmozart\Assert\Assert;
 
 final class OrderFullyRefundedTotalChecker implements OrderFullyRefundedTotalCheckerInterface
 {

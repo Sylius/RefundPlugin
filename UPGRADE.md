@@ -1,3 +1,13 @@
+### UPGRADE FROM 1.0.0-RC.10 TO 1.0.0-RC.11
+
+1. `orderNumber` field on `Sylius\RefundPlugin\Entity\Refund` has been removed and replaced with relation to `Order` entity.
+1. `Sylius\RefundPlugin\Entity\RefundInterface::getOrderNumber` function is left due to easier and smoother upgrades,
+   but is also deprecated and will be removed in the `v1.0.0` release. Use `Sylius\RefundPlugin\Entity\RefundInterface::getOrder` instead.
+1. `Sylius\RefundPlugin\Creator\RefundCreator` takes `\Sylius\Component\Core\Repository\OrderRepositoryInterface`
+   as the 3rd argument.
+1. `Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface::invoke` takes `OrderInterface $order` as an argument
+   instead of `string $orderNumber`
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 

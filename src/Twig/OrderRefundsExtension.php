@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Twig;
 
-use spec\Sylius\Component\User\Security\Generator\UniquePinGeneratorSpec;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
