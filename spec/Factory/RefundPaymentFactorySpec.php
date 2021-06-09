@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Factory;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPayment;
@@ -40,19 +41,21 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
 
     public function it_creates_new_refund_payment(
         PaymentMethodRepositoryInterface $paymentMethodRepository,
-        PaymentMethodInterface $paymentMethod
+        PaymentMethodInterface $paymentMethod,
+        OrderInterface $order
     ): void {
         $paymentMethodRepository->find(1)->willReturn($paymentMethod);
 
-        $this->createWithData(
-            '0002',
-            1000,
-            'USD',
-            RefundPaymentInterface::STATE_NEW,
-            1
-        )->shouldBeLike(
-            new RefundPayment(
-                '0002',
+        $this
+            ->createWithData(
+                $order,
+                1000,
+                'USD',
+                RefundPaymentInterface::STATE_NEW,
+                1
+            )
+            ->shouldBeLike(new RefundPayment(
+                    $order->getWrappedObject(),
                 1000,
                 'USD',
                 RefundPaymentInterface::STATE_NEW,

@@ -15,6 +15,8 @@ namespace spec\Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -33,6 +35,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
+        OrderRepositoryInterface $orderRepository,
         EntityManagerInterface $entityManager,
         MessageBusInterface $eventBus
     ): void {
@@ -40,6 +43,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
             $orderFullyRefundedStateResolver,
             $relatedPaymentIdProvider,
             $refundPaymentFactory,
+            $orderRepository,
             $entityManager,
             $eventBus
         );
@@ -54,12 +58,16 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
+        OrderRepositoryInterface $orderRepository,
         EntityManagerInterface $entityManager,
+        MessageBusInterface $eventBus,
         RefundPaymentInterface $refundPayment,
-        MessageBusInterface $eventBus
+        OrderInterface $order
     ): void {
+        $orderRepository->findOneByNumber('000222')->willReturn($order);
+
         $refundPaymentFactory->createWithData(
-            '000222',
+            $order,
             1000,
             'USD',
             RefundPaymentInterface::STATE_NEW,
@@ -72,7 +80,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         $orderFullyRefundedStateResolver->resolve('000222')->shouldBeCalled();
 
         $refundPayment->getId()->willReturn(10);
-        $refundPayment->getOrderNumber()->willReturn('000222');
+        $refundPayment->getOrder()->willReturn($order);
         $refundPayment->getAmount()->willReturn(1000);
 
         $relatedPaymentIdProvider->getForRefundPayment($refundPayment)->willReturn(3);

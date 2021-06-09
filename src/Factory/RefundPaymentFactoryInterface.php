@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Factory;
 
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
 interface RefundPaymentFactoryInterface
 {
     public function createWithData(
-        string $orderNumber,
+        OrderInterface $order,
         int $amount,
         string $currencyCode,
         string $state,

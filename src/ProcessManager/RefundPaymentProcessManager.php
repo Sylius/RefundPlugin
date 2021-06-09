@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -21,6 +23,7 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInterface
 {
@@ -33,6 +36,9 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
     /** @var RefundPaymentFactoryInterface */
     private $refundPaymentFactory;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -43,20 +49,26 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
+        OrderRepositoryInterface $orderRepository,
         EntityManagerInterface $entityManager,
         MessageBusInterface $eventBus
     ) {
         $this->orderFullyRefundedStateResolver = $orderFullyRefundedStateResolver;
         $this->relatedPaymentIdProvider = $relatedPaymentIdProvider;
         $this->refundPaymentFactory = $refundPaymentFactory;
+        $this->orderRepository = $orderRepository;
         $this->entityManager = $entityManager;
         $this->eventBus = $eventBus;
     }
 
     public function next(UnitsRefunded $unitsRefunded): void
     {
+        /** @var OrderInterface|null $order */
+        $order = $this->orderRepository->findOneByNumber($unitsRefunded->orderNumber());
+        Assert::notNull($order);
+
         $refundPayment = $this->refundPaymentFactory->createWithData(
-            $unitsRefunded->orderNumber(),
+            $order,
             $unitsRefunded->amount(),
             $unitsRefunded->currencyCode(),
             RefundPaymentInterface::STATE_NEW,
