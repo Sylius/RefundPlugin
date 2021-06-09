@@ -54,13 +54,14 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
                 RefundPaymentInterface::STATE_NEW,
                 1
             )
-            ->shouldBeLike(new RefundPayment(
+            ->shouldBeLike(
+                new RefundPayment(
                     $order->getWrappedObject(),
-                1000,
-                'USD',
-                RefundPaymentInterface::STATE_NEW,
-                $paymentMethod->getWrappedObject()
-            )
-        );
+                    1000,
+                    'USD',
+                    RefundPaymentInterface::STATE_NEW,
+                    $paymentMethod->getWrappedObject()
+                )
+            );
     }
 }

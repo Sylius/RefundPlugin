@@ -45,7 +45,8 @@ final class Version20210609071246 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_EC283EA58D9F6D38 ON sylius_refund_refund_payment');
         $this->addSql('ALTER TABLE sylius_refund_refund_payment ADD order_number VARCHAR(255) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`');
 
-        $this->addSql('
+        $this->addSql(
+            '
             UPDATE sylius_refund_refund_payment
             SET sylius_refund_refund_payment.order_number = (
                 SELECT sylius_order.number FROM sylius_order WHERE sylius_order.id = sylius_refund_refund_payment.order_id

@@ -62,7 +62,7 @@ class RefundPayment implements RefundPaymentInterface
 
     public function getOrderNumber(): string
     {
-        return $this->getOrder()->getNumber();
+        return (string) $this->getOrder()->getNumber();
     }
 
     public function getAmount(): int
