@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
+use Sylius\Component\Core\Model\OrderInterface;
+
 interface OrderRefundedTotalProviderInterface
 {
-    public function __invoke(string $orderNumber): int;
+    public function __invoke(OrderInterface $order): int;
 }

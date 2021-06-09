@@ -15,7 +15,6 @@ namespace Sylius\RefundPlugin\Checker;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
-use Webmozart\Assert\Assert;
 
 final class OrderFullyRefundedTotalChecker implements OrderFullyRefundedTotalCheckerInterface
 {
@@ -29,10 +28,6 @@ final class OrderFullyRefundedTotalChecker implements OrderFullyRefundedTotalChe
 
     public function isOrderFullyRefunded(OrderInterface $order): bool
     {
-        /** @var string|null $orderNumber */
-        $orderNumber = $order->getNumber();
-        Assert::notNull($orderNumber);
-
-        return $order->getTotal() === $this->orderRefundedTotalProvider->__invoke($orderNumber);
+        return $order->getTotal() === $this->orderRefundedTotalProvider->__invoke($order);
     }
 }

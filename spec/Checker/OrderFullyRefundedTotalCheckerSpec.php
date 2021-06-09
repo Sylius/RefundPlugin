@@ -41,9 +41,8 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {
         $order->getTotal()->willReturn(1000);
-        $order->getNumber()->willReturn('0000001');
 
-        $orderRefundedTotalProvider->__invoke('0000001')->willReturn(500);
+        $orderRefundedTotalProvider->__invoke($order)->willReturn(500);
 
         $this->isOrderFullyRefunded($order)->shouldReturn(false);
     }
@@ -53,9 +52,8 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {
         $order->getTotal()->willReturn(1000);
-        $order->getNumber()->willReturn('0000001');
 
-        $orderRefundedTotalProvider->__invoke('0000001')->willReturn(1000);
+        $orderRefundedTotalProvider->__invoke($order)->willReturn(1000);
 
         $this->isOrderFullyRefunded($order)->shouldReturn(true);
     }

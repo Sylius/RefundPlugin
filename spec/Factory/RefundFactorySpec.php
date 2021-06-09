@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Factory;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\Refund;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 use Sylius\RefundPlugin\Model\RefundType;
@@ -25,11 +26,11 @@ final class RefundFactorySpec extends ObjectBehavior
         $this->shouldImplement(RefundFactoryInterface::class);
     }
 
-    public function it_allows_to_create_refund_with_given_data(): void
+    public function it_allows_to_create_refund_with_given_data(OrderInterface $order): void
     {
         $this
-            ->createWithData('0001', 1, 1000, RefundType::orderItemUnit())
-            ->shouldBeLike(new Refund('0001', 1000, 1, RefundType::orderItemUnit()))
+            ->createWithData($order, 1, 1000, RefundType::orderItemUnit())
+            ->shouldBeLike(new Refund($order->getWrappedObject(), 1000, 1, RefundType::orderItemUnit()))
         ;
     }
 }

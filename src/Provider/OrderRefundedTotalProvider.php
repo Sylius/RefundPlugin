@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 
@@ -26,9 +27,9 @@ final class OrderRefundedTotalProvider implements OrderRefundedTotalProviderInte
         $this->refundRepository = $refundRepository;
     }
 
-    public function __invoke(string $orderNumber): int
+    public function __invoke(OrderInterface $order): int
     {
-        $refunds = $this->refundRepository->findBy(['orderNumber' => $orderNumber]);
+        $refunds = $this->refundRepository->findBy(['order' => $order]);
 
         $orderRefundedTotal = 0;
         /** @var RefundInterface $refund */

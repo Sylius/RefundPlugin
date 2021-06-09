@@ -10,6 +10,7 @@
         <service id="Sylius\RefundPlugin\Creator\RefundCreatorInterface" class="Sylius\RefundPlugin\Creator\RefundCreator">
             <argument type="service" id="sylius_refund.factory.refund" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" />
+            <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="sylius_refund.manager.refund" />
         </service>
         <service id="Sylius\RefundPlugin\Creator\RefundCreator" alias="Sylius\RefundPlugin\Creator\RefundCreatorInterface">

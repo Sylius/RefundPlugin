@@ -11,9 +11,12 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="orderNumber" column="order_number" type="string" />
         <field name="amount" column="amount" type="integer" />
         <field name="refundedUnitId" column="refunded_unit_id" type="integer" nullable="true" />
         <field name="type" column="type" type="sylius_refund_refund_type" />
+
+        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">
+            <join-column name="order_id" />
+        </many-to-one>
     </mapped-superclass>
 </doctrine-mapping>

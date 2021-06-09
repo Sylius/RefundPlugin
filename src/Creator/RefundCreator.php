@@ -14,10 +14,13 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Creator;
 
 use Doctrine\Persistence\ObjectManager;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefunded;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundCreator implements RefundCreatorInterface
 {
@@ -27,28 +30,37 @@ final class RefundCreator implements RefundCreatorInterface
     /** @var RemainingTotalProviderInterface */
     private $remainingTotalProvider;
 
+    /** @var OrderRepositoryInterface */
+    private $orderRepository;
+
     /** @var ObjectManager */
     private $refundManager;
 
     public function __construct(
         RefundFactoryInterface $refundFactory,
         RemainingTotalProviderInterface $remainingTotalProvider,
+        OrderRepositoryInterface $orderRepository,
         ObjectManager $refundManager
     ) {
         $this->refundFactory = $refundFactory;
         $this->remainingTotalProvider = $remainingTotalProvider;
+        $this->orderRepository = $orderRepository;
         $this->refundManager = $refundManager;
     }
 
     public function __invoke(string $orderNumber, int $unitId, int $amount, RefundType $refundType): void
     {
+        /** @var OrderInterface|null $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
+        Assert::notNull($order);
+
         $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($unitId, $refundType);
 
         if ($remainingTotal === 0) {
             throw UnitAlreadyRefunded::withIdAndOrderNumber($unitId, $orderNumber);
         }
 
-        $refund = $this->refundFactory->createWithData($orderNumber, $unitId, $amount, $refundType);
+        $refund = $this->refundFactory->createWithData($order, $unitId, $amount, $refundType);
 
         $this->refundManager->persist($refund);
         $this->refundManager->flush();
