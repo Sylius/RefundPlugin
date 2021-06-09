@@ -19,6 +19,7 @@ sylius_resource:
         sylius_refund.refund_payment:
             classes:
                 model: Sylius\RefundPlugin\Entity\RefundPayment
+                repository: Sylius\RefundPlugin\Doctrine\ORM\RefundPaymentRepository
 
 sylius_mailer:
     emails:
