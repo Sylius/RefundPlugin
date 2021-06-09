@@ -21,6 +21,8 @@
 1. `Sylius\RefundPlugin\Factory\RefundPaymentFactory::createWithData` takes `OrderInterface $order` as an argument
    instead of `string $orderNumber`
 
+1. The constructor of `Sylius\RefundPlugin\Provider\DefaultRelatedPaymentIdProvider` has been removed.
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 
