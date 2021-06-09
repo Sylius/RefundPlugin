@@ -59,8 +59,8 @@ sylius_refund_order_refund_payment_list:
         _sylius:
             template: "@SyliusRefundPlugin/Order/Admin/RefundPayment/list.html.twig"
             repository:
-                method: findByOrderNumber
-                arguments: $orderNumber
+                method: findByOrder
+                arguments: expr:service('sylius.repository.order').findOneByNumber($orderNumber)
 
 sylius_refund_complete_refund_payment:
     path: /orders/{orderNumber}/refund-payments/{id}/complete
