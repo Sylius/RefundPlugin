@@ -9,7 +9,7 @@
             {% include '@SyliusAdmin/Order/Show/_payment.html.twig' %}
         {% endfor %}
     </div>
-    {% include '@SyliusAdmin/Order/Show/_refund.html.twig' %}
+    {% include '@SyliusRefundPlugin/Order/Admin/_refundPayments.html.twig' %}
 </div>
 {% else %}
 <div class="ui segment center aligned" id="no-payments">

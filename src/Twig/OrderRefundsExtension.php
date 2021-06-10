@@ -73,8 +73,8 @@ final class OrderRefundsExtension extends \Twig_Extension
                 [$this, 'getUnitRefundLeft']
             ),
             new TwigFunction(
-                'get_all_refund_payments_by_order_number',
-                [$this, 'getAllRefundPaymentsByOrderNumber']
+                'get_all_refund_payments_by_order',
+                [$this, 'getAllRefundPaymentsByOrder']
             )
         ];
     }
@@ -102,8 +102,8 @@ final class OrderRefundsExtension extends \Twig_Extension
         return ($this->orderRefundedTotalProvider)($order);
     }
 
-    public function getAllRefundPaymentsByOrderNumber(string $orderNumber): array
+    public function getAllRefundPaymentsByOrder(OrderInterface $order): array
     {
-        return $this->refundPaymentRepository->findBy(['orderNumber' => $orderNumber]);
+        return $this->refundPaymentRepository->findBy(['order' => $order]);
     }
 }
