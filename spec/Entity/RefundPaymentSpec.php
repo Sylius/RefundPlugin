@@ -14,15 +14,16 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\RefundPlugin\Entity\RefundPayment;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
 final class RefundPaymentSpec extends ObjectBehavior
 {
-    public function let(PaymentMethodInterface $paymentMethod): void
+    public function let(OrderInterface $order, PaymentMethodInterface $paymentMethod): void
     {
-        $this->beConstructedWith('000002', 100, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod);
+        $this->beConstructedWith($order, 100, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod);
     }
 
     public function it_is_initializable(): void
@@ -40,8 +41,11 @@ final class RefundPaymentSpec extends ObjectBehavior
         $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_order_number(): void
+    public function it_has_an_order(OrderInterface $order): void
     {
+        $order->getNumber()->willReturn('000002');
+
+        $this->getOrder()->shouldReturn($order);
         $this->getOrderNumber()->shouldReturn('000002');
     }
 

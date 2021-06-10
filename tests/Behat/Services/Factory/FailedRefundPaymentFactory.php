@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Behat\Services\Factory;
 
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
@@ -20,7 +21,7 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
     }
 
     public function createWithData(
-        string $orderNumber,
+        OrderInterface $order,
         int $amount,
         string $currencyCode,
         string $state,
@@ -32,7 +33,7 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
             throw new \Exception('Refund payment creation failed');
         }
 
-        return $this->baseRefundPaymentFactory->createWithData($orderNumber, $amount, $currencyCode, $state, $paymentMethodId);
+        return $this->baseRefundPaymentFactory->createWithData($order, $amount, $currencyCode, $state, $paymentMethodId);
     }
 
     public function failRefundPaymentCreation(): void
