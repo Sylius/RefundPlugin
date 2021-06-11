@@ -25,10 +25,5 @@
             <argument>@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig</argument>
             <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
         </service>
-
-        <service id="sylius_refund_plugin.block_event_listener.order_show.refund_payments" class="Sylius\Bundle\UiBundle\Block\BlockEventListener">
-            <argument>@SyliusRefundPlugin/Order/Admin/refundPayments.html.twig</argument>
-            <tag name="kernel.event_listener" event="sonata.block.event.sylius.admin.order.show.after_summary" method="onBlockEvent" />
-        </service>
     </services>
 </container>
