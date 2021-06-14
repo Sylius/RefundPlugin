@@ -32,7 +32,7 @@
             <argument type="service" id="knp_snappy.pdf" />
             <argument type="service" id="file_locator" />
             <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
-            <argument>@SyliusRefundPlugin/Resources/assets/sylius-logo.png</argument>
+            <argument>%sylius.refund.template.logo_file%</argument>
         </service>
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface instead.</deprecated>
