@@ -17,8 +17,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
-final class RefundEnumType extends Type
+class RefundEnumType extends Type
 {
     public function getName(): string
     {
@@ -30,21 +31,21 @@ final class RefundEnumType extends Type
         return 'VARCHAR(256)';
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): RefundType
+    public function convertToPHPValue($value, AbstractPlatform $platform): RefundTypeInterface
     {
-        if (!RefundType::isValid($value)) {
+        if ($value instanceof RefundType && !$value::isValid($value)) {
             throw new \InvalidArgumentException(sprintf(
                 'The value "%s" is not valid for the enum "%s". Expected one of ["%s"]',
                 $value,
-                RefundType::class,
-                implode('", "', RefundType::keys())
-            ))
-            ;
+                RefundTypeInterface::class,
+                implode('", "', $value::keys())
+            ));
         }
 
-        return new RefundType($value);
+        return $this->createType($value);
     }
 
+    /** @param mixed $value */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
@@ -52,9 +53,15 @@ final class RefundEnumType extends Type
         }
 
         if ($value instanceof RefundType) {
-            return (string) $value;
+            return (string) $value->getValue();
         }
 
-        throw ConversionException::conversionFailed($value, 'sylius_refund_refund_type');
+        throw ConversionException::conversionFailed((string) $value, 'sylius_refund_refund_type');
+    }
+
+    /** @param RefundTypeInterface|string $value */
+    protected function createType($value): RefundTypeInterface
+    {
+        return new RefundType($value);
     }
 }

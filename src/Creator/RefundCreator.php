@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Exception\UnitAlreadyRefunded;
 use Sylius\RefundPlugin\Factory\RefundFactoryInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -48,7 +48,7 @@ final class RefundCreator implements RefundCreatorInterface
         $this->refundManager = $refundManager;
     }
 
-    public function __invoke(string $orderNumber, int $unitId, int $amount, RefundType $refundType): void
+    public function __invoke(string $orderNumber, int $unitId, int $amount, RefundTypeInterface $refundType): void
     {
         /** @var OrderInterface|null $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);

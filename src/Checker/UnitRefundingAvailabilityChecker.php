@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Checker;
 
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundingAvailabilityChecker implements UnitRefundingAvailabilityCheckerInterface
@@ -21,13 +21,12 @@ final class UnitRefundingAvailabilityChecker implements UnitRefundingAvailabilit
     /** @var RemainingTotalProviderInterface */
     private $remainingTotalProvider;
 
-    public function __construct(
-        RemainingTotalProviderInterface $remainingTotalProvider
-    ) {
+    public function __construct(RemainingTotalProviderInterface $remainingTotalProvider)
+    {
         $this->remainingTotalProvider = $remainingTotalProvider;
     }
 
-    public function __invoke(int $unitId, RefundType $refundType): bool
+    public function __invoke(int $unitId, RefundTypeInterface $refundType): bool
     {
         return $this->remainingTotalProvider->getTotalLeftToRefund($unitId, $refundType) > 0;
     }

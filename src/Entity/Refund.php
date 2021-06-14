@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Entity;
 
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 class Refund implements RefundInterface
 {
@@ -30,10 +30,10 @@ class Refund implements RefundInterface
     /** @var int */
     protected $refundedUnitId;
 
-    /** @var RefundType */
+    /** @var RefundTypeInterface */
     protected $type;
 
-    public function __construct(OrderInterface $order, int $amount, int $refundedUnitId, RefundType $type)
+    public function __construct(OrderInterface $order, int $amount, int $refundedUnitId, RefundTypeInterface $type)
     {
         $this->order = $order;
         $this->amount = $amount;
@@ -66,7 +66,7 @@ class Refund implements RefundInterface
         return $this->refundedUnitId;
     }
 
-    public function getType(): RefundType
+    public function getType(): RefundTypeInterface
     {
         return $this->type;
     }

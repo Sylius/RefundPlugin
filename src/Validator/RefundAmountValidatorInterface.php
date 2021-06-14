@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Validator;
 
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 interface RefundAmountValidatorInterface
 {
-    public function validateUnits(array $unitRefunds, RefundType $refundType): void;
+    public function validateUnits(array $unitRefunds, RefundTypeInterface $refundType): void;
 }

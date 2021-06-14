@@ -15,12 +15,8 @@ namespace Sylius\RefundPlugin\Model;
 
 use MyCLabs\Enum\Enum;
 
-final class RefundType extends Enum
+class RefundType extends Enum implements RefundTypeInterface
 {
-    public const ORDER_ITEM_UNIT = 'order_item_unit';
-
-    public const SHIPMENT = 'shipment';
-
     public static function orderItemUnit(): self
     {
         return new self(self::ORDER_ITEM_UNIT);
