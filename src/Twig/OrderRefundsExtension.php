@@ -20,9 +20,10 @@ use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 use Sylius\RefundPlugin\Provider\UnitRefundedTotalProviderInterface;
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-final class OrderRefundsExtension extends \Twig_Extension
+final class OrderRefundsExtension extends AbstractExtension
 {
     /** @var OrderRefundedTotalProviderInterface */
     private $orderRefundedTotalProvider;
