@@ -17,8 +17,9 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
-final class RefundEnumType extends Type
+class RefundEnumType extends Type
 {
     public function getName(): string
     {
@@ -30,16 +31,15 @@ final class RefundEnumType extends Type
         return 'VARCHAR(256)';
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): RefundType
+    public function convertToPHPValue($value, AbstractPlatform $platform): RefundTypeInterface
     {
-        if (!RefundType::isValid($value)) {
+        if ($value instanceof RefundType && !$value::isValid($value)) {
             throw new \InvalidArgumentException(sprintf(
                 'The value "%s" is not valid for the enum "%s". Expected one of ["%s"]',
                 $value,
-                RefundType::class,
-                implode('", "', RefundType::keys())
-            ))
-            ;
+                RefundTypeInterface::class,
+                implode('", "', $value::keys())
+            ));
         }
 
         return new RefundType($value);

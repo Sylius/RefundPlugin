@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 interface UnitRefundedTotalProviderInterface
 {
-    public function __invoke(int $unitId, RefundType $type): int;
+    public function __invoke(int $unitId, RefundTypeInterface $type): int;
 }

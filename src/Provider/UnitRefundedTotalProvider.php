@@ -15,7 +15,7 @@ namespace Sylius\RefundPlugin\Provider;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 final class UnitRefundedTotalProvider implements UnitRefundedTotalProviderInterface
 {
@@ -27,7 +27,7 @@ final class UnitRefundedTotalProvider implements UnitRefundedTotalProviderInterf
         $this->refundRepository = $refundRepository;
     }
 
-    public function __invoke(int $unitId, RefundType $type): int
+    public function __invoke(int $unitId, RefundTypeInterface $type): int
     {
         $refunds = $this->refundRepository->findBy(['refundedUnitId' => $unitId, 'type' => $type]);
 
