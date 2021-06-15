@@ -11,11 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Creator;
+namespace Sylius\RefundPlugin\Factory;
 
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
-interface RefundCreatorInterface
+final class RefundTypeFactory implements RefundTypeFactoryInterface
 {
-    public function __invoke(string $orderNumber, int $unitId, int $amount, RefundTypeInterface $refundType): void;
+    public function new(string $refundType): RefundTypeInterface
+    {
+        return new RefundType($refundType);
+    }
 }
