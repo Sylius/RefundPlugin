@@ -22,4 +22,9 @@ interface RefundTypeInterface
     public static function orderItemUnit(): self;
 
     public static function shipment(): self;
+
+    /**
+     * @psalm-return mixed
+     */
+    public function getValue();
 }

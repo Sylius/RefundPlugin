@@ -26,4 +26,12 @@ class RefundType extends Enum implements RefundTypeInterface
     {
         return new self(self::SHIPMENT);
     }
+
+    /**
+     * @psalm-return mixed
+     */
+    public function getValue()
+    {
+        return parent::getValue();
+    }
 }

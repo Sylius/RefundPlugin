@@ -133,6 +133,68 @@
         }
     ```
 
+1. The constructor of `Sylius\RefundPlugin\Twig\OrderRefundsExtension` has been changed:
+
+    ```diff
+        public function __construct(
+            OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,
+            UnitRefundedTotalProviderInterface $unitRefundedTotalProvider,
+            UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
+            OrderRepositoryInterface $orderRepository,
+            RepositoryInterface $refundPaymentRepository
+            RepositoryInterface $refundPaymentRepository,
+    +       RefundTypeFactoryInterface $refundTypeFactory
+        ) {
+            ...
+        }
+    ```
+
+1. Return type on `getType` method of `Sylius\RefundPlugin\Entity\Refund` and `Sylius\RefundPlugin\Entity\RefundInterface` has been changed from `RefundType` to `RefundTypeInterface`
+
+1. Return type on `convertToPHPValue` method of `Sylius\RefundPlugin\Entity\Type\RefundEnumType` has been changed from `RefundType` to `RefundTypeInterface`
+
+1. We replaced `RefundType` with `RefundTypeInterface` in the given list of classes:
+   * `Sylius\RefundPlugin\Creator\RefundCreator`
+   * `Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker`
+   * `Sylius\RefundPlugin\Entity\Type\RefundEnumType`
+   * `Sylius\RefundPlugin\Entity\Refund`
+   * `Sylius\RefundPlugin\Factory\RefundFactory`
+   * `Sylius\RefundPlugin\Provider\RemainingTotalProvider`
+   * `Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider`
+   * `Sylius\RefundPlugin\Validator\RefundAmountValidator`
+   
+1. `Sylius\RefundPlugin\Model\RefundType` implements `Sylius\RefundPlugin\Model\RefundTypeInterface` and consts `ORDER_ITEM_UNIT` and `SHIPMENT` has been moved to `RefundTypeInterface`
+
+1. Service `Sylius\RefundPlugin\Twig\OrderRefundsExtension` has been changed:
+
+    ```diff
+        <service id="Sylius\RefundPlugin\Twig\OrderRefundsExtension">
+            <argument type="service" id="Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\UnitRefundedTotalProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface" />
+            <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sylius_refund.repository.refund_payment" />
+    +       <argument type="service" id="Sylius\RefundPlugin\Factory\RefundTypeFactoryInterface" />
+            <tag name="twig.extension"/>
+        </service>
+    ```
+
+1. The constructor of `Sylius\RefundPlugin\Twig\OrderRefundsExtension` has been changed:
+
+    ```diff
+        public function __construct(
+            OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,
+            UnitRefundedTotalProviderInterface $unitRefundedTotalProvider,
+            UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
+            OrderRepositoryInterface $orderRepository,
+            RepositoryInterface $refundPaymentRepository
+            RepositoryInterface $refundPaymentRepository,
+    +       RefundTypeFactoryInterface $refundTypeFactory
+        ) {
+            ...
+        }
+    ```
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 

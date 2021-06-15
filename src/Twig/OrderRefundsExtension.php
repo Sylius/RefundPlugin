@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Factory\RefundTypeFactoryInterface;
 use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 use Sylius\RefundPlugin\Provider\UnitRefundedTotalProviderInterface;
 use Twig\Extension\AbstractExtension;
@@ -40,18 +40,23 @@ final class OrderRefundsExtension extends AbstractExtension
     /** @var RepositoryInterface */
     private $refundPaymentRepository;
 
+    /** @var RefundTypeFactoryInterface */
+    private $refundTypeFactory;
+
     public function __construct(
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,
         UnitRefundedTotalProviderInterface $unitRefundedTotalProvider,
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         OrderRepositoryInterface $orderRepository,
-        RepositoryInterface $refundPaymentRepository
+        RepositoryInterface $refundPaymentRepository,
+        RefundTypeFactoryInterface $refundTypeFactory
     ) {
         $this->orderRefundedTotalProvider = $orderRefundedTotalProvider;
         $this->unitRefundedTotalProvider = $unitRefundedTotalProvider;
         $this->unitRefundingAvailabilityChecker = $unitRefundingAvailabilityChecker;
         $this->orderRepository = $orderRepository;
         $this->refundPaymentRepository = $refundPaymentRepository;
+        $this->refundTypeFactory = $refundTypeFactory;
     }
 
     public function getFunctions(): array
@@ -82,12 +87,12 @@ final class OrderRefundsExtension extends AbstractExtension
 
     public function canUnitBeRefunded(int $unitId, string $refundType): bool
     {
-        return $this->unitRefundingAvailabilityChecker->__invoke($unitId, new RefundType($refundType));
+        return $this->unitRefundingAvailabilityChecker->__invoke($unitId, $this->refundTypeFactory->createNew($refundType));
     }
 
     public function getUnitRefundedTotal(int $unitId, string $refundType): int
     {
-        return $this->unitRefundedTotalProvider->__invoke($unitId, new RefundType($refundType));
+        return $this->unitRefundedTotalProvider->__invoke($unitId, $this->refundTypeFactory->createNew($refundType));
     }
 
     public function getUnitRefundLeft(int $unitId, string $refundType, int $unitTotal): float

@@ -1,5 +1,6 @@
 parameters:
-    sylius_refund.refund_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
+    sylius_refund.refund_enum_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
+    sylius_refund.refund_type: Sylius\RefundPlugin\Model\RefundType
 
 sylius_resource:
     resources:
@@ -158,4 +159,4 @@ sylius_ui:
 doctrine:
     dbal:
         types:
-            sylius_refund_refund_type: "%sylius_refund.refund_type%"
+            sylius_refund_refund_type: "%sylius_refund.refund_enum_type%"
