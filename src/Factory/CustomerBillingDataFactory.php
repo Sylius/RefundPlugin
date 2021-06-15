@@ -16,6 +16,7 @@ namespace Sylius\RefundPlugin\Factory;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
+use Webmozart\Assert\Assert;
 
 class CustomerBillingDataFactory implements CustomerBillingDataFactoryInterface
 {
@@ -63,6 +64,13 @@ class CustomerBillingDataFactory implements CustomerBillingDataFactoryInterface
 
     public function createWithAddress(AddressInterface $address): CustomerBillingDataInterface
     {
+        Assert::notNull($address->getFirstName());
+        Assert::notNull($address->getLastName());
+        Assert::notNull($address->getStreet());
+        Assert::notNull($address->getPostcode());
+        Assert::notNull($address->getCountryCode());
+        Assert::notNull($address->getCity());
+
         return $this->createWithData(
             $address->getFirstName(),
             $address->getLastName(),

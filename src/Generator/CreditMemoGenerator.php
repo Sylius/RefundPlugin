@@ -94,12 +94,6 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 
     private function getFromAddress(AddressInterface $address): CustomerBillingDataInterface
     {
-        Assert::notNull($address->getFirstName());
-        Assert::notNull($address->getLastName());
-        Assert::notNull($address->getStreet());
-        Assert::notNull($address->getPostcode());
-        Assert::notNull($address->getCountryCode());
-
         return $this->customerBillingDataFactory->createWithAddress($address);
     }
 
