@@ -42,9 +42,10 @@ class RefundEnumType extends Type
             ));
         }
 
-        return new RefundType($value);
+        return $this->createType($value);
     }
 
+    /** @param mixed $value */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
@@ -52,9 +53,15 @@ class RefundEnumType extends Type
         }
 
         if ($value instanceof RefundType) {
-            return (string) $value;
+            return (string) $value->getValue();
         }
 
-        throw ConversionException::conversionFailed($value, 'sylius_refund_refund_type');
+        throw ConversionException::conversionFailed((string) $value, 'sylius_refund_refund_type');
+    }
+
+    /** @param RefundTypeInterface|string $value */
+    protected function createType($value): RefundTypeInterface
+    {
+        return new RefundType($value);
     }
 }
