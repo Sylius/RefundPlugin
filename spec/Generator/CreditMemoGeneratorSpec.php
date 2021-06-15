@@ -20,11 +20,12 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
+use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
@@ -36,13 +37,15 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
-        CreditMemoFactoryInterface $creditMemoFactory
+        CreditMemoFactoryInterface $creditMemoFactory,
+        CustomerBillingDataFactoryInterface $customerBillingDataFactory
     ): void {
         $this->beConstructedWith(
             $lineItemsConverter,
             $shipmentLineItemsConverter,
             $taxItemsGenerator,
-            $creditMemoFactory
+            $creditMemoFactory,
+            $customerBillingDataFactory
         );
     }
 
@@ -56,7 +59,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         CreditMemoFactoryInterface $creditMemoFactory,
+        CustomerBillingDataFactoryInterface $customerBillingDataFactory,
         CreditMemoInterface $creditMemo,
+        CustomerBillingDataInterface $customerBillingData,
         OrderInterface $order,
         ChannelInterface $channel,
         ShopBillingDataInterface $shopBillingData,
@@ -93,6 +98,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $shipmentLineItemsConverter->convert([$shipmentRefund])->willReturn([$secondLineItem]);
 
         $taxItemsGenerator->generate([$firstLineItem, $secondLineItem])->willReturn([$taxItem]);
+        $customerBillingDataFactory->createWithAddress($customerBillingAddress)->willReturn($customerBillingData);
 
         $creditMemoFactory
             ->createWithData(
@@ -101,7 +107,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 [$firstLineItem, $secondLineItem],
                 [$taxItem],
                 'Comment',
-                new CustomerBillingData('Rick', 'Sanchez', 'Universe St. 444', '000333', 'US', 'Los Angeles', 'Curse Purge Plus!'),
+                $customerBillingData,
                 new ShopBillingData('Needful Things', '000222', 'US', 'Main St. 123', 'New York', '90222')
             )
             ->willReturn($creditMemo)

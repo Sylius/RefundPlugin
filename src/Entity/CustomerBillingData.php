@@ -46,80 +46,108 @@ class CustomerBillingData implements CustomerBillingDataInterface
     /** @var string|null */
     protected $provinceCode;
 
-    public function __construct(
-        string $firstName,
-        string $lastName,
-        string $street,
-        string $postcode,
-        string $countryCode,
-        string $city,
-        ?string $company = null,
-        ?string $provinceName = null,
-        ?string $provinceCode = null
-    ) {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->street = $street;
-        $this->postcode = $postcode;
-        $this->countryCode = $countryCode;
-        $this->city = $city;
-        $this->company = $company;
-        $this->provinceName = $provinceName;
-        $this->provinceCode = $provinceCode;
-    }
-
-    public function id(): ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function firstName(): string
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    public function lastName(): string
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    public function fullName(): string
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function getFullName(): string
     {
         return trim(sprintf('%s %s', $this->firstName, $this->lastName));
     }
 
-    public function street(): string
+    public function getStreet(): string
     {
         return $this->street;
     }
 
-    public function postcode(): string
+    public function setStreet(string $street): void
+    {
+        $this->street = $street;
+    }
+
+    public function getPostcode(): string
     {
         return $this->postcode;
     }
 
-    public function countryCode(): string
+    public function setPostcode(string $postcode): void
+    {
+        $this->postcode = $postcode;
+    }
+
+    public function getCountryCode(): string
     {
         return $this->countryCode;
     }
 
-    public function city(): string
+    public function setCountryCode(string $countryCode): void
+    {
+        $this->countryCode = $countryCode;
+    }
+
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function company(): ?string
+    public function setCity(string $city): void
+    {
+        $this->city = $city;
+    }
+
+    public function getCompany(): ?string
     {
         return $this->company;
     }
 
-    public function provinceName(): ?string
+    public function setCompany(?string $company): void
+    {
+        $this->company = $company;
+    }
+
+    public function getProvinceName(): ?string
     {
         return $this->provinceName;
     }
 
-    public function provinceCode(): ?string
+    public function setProvinceName(?string $provinceName): void
+    {
+        $this->provinceName = $provinceName;
+    }
+
+    public function getProvinceCode(): ?string
     {
         return $this->provinceCode;
+    }
+
+    public function setProvinceCode(?string $provinceCode): void
+    {
+        $this->provinceCode = $provinceCode;
     }
 }

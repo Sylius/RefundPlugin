@@ -13,27 +13,47 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-interface CustomerBillingDataInterface
+use Sylius\Component\Resource\Model\ResourceInterface;
+
+interface CustomerBillingDataInterface extends ResourceInterface
 {
-    public function id(): ?int;
+    public function setId(?int $id): void;
 
-    public function firstName(): string;
+    public function getFirstName(): string;
 
-    public function lastName(): string;
+    public function setFirstName(string $firstName): void;
 
-    public function fullName(): string;
+    public function getLastName(): string;
 
-    public function street(): string;
+    public function setLastName(string $lastName): void;
 
-    public function postcode(): string;
+    public function getFullName(): string;
 
-    public function countryCode(): string;
+    public function getStreet(): string;
 
-    public function city(): string;
+    public function setStreet(string $street): void;
 
-    public function company(): ?string;
+    public function getPostcode(): string;
 
-    public function provinceName(): ?string;
+    public function setPostcode(string $postcode): void;
 
-    public function provinceCode(): ?string;
+    public function getCountryCode(): string;
+
+    public function setCountryCode(string $countryCode): void;
+
+    public function getCity(): string;
+
+    public function setCity(string $city): void;
+
+    public function getCompany(): ?string;
+
+    public function setCompany(?string $company): void;
+
+    public function getProvinceName(): ?string;
+
+    public function setProvinceName(?string $provinceName): void;
+
+    public function getProvinceCode(): ?string;
+
+    public function setProvinceCode(?string $provinceCode): void;
 }

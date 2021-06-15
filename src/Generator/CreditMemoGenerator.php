@@ -19,9 +19,10 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingData;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
+use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Webmozart\Assert\Assert;
@@ -40,16 +41,21 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     /** @var CreditMemoFactoryInterface */
     private $creditMemoFactory;
 
+    /** @var CustomerBillingDataFactoryInterface */
+    private $customerBillingDataFactory;
+
     public function __construct(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
-        CreditMemoFactoryInterface $creditMemoFactory
+        CreditMemoFactoryInterface $creditMemoFactory,
+        CustomerBillingDataFactoryInterface $customerBillingDataFactory
     ) {
         $this->lineItemsConverter = $lineItemsConverter;
         $this->shipmentLineItemsConverter = $shipmentLineItemsConverter;
         $this->taxItemsGenerator = $taxItemsGenerator;
         $this->creditMemoFactory = $creditMemoFactory;
+        $this->customerBillingDataFactory = $customerBillingDataFactory;
     }
 
     public function generate(
@@ -86,26 +92,15 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         );
     }
 
-    private function getFromAddress(AddressInterface $address): CustomerBillingData
+    private function getFromAddress(AddressInterface $address): CustomerBillingDataInterface
     {
         Assert::notNull($address->getFirstName());
         Assert::notNull($address->getLastName());
         Assert::notNull($address->getStreet());
         Assert::notNull($address->getPostcode());
         Assert::notNull($address->getCountryCode());
-        Assert::notNull($address->getCity());
 
-        return new CustomerBillingData(
-            $address->getFirstName(),
-            $address->getLastName(),
-            $address->getStreet(),
-            $address->getPostcode(),
-            $address->getCountryCode(),
-            $address->getCity(),
-            $address->getCompany(),
-            $address->getProvinceName(),
-            $address->getProvinceCode()
-        );
+        return $this->customerBillingDataFactory->createWithAddress($address);
     }
 
     private function getToAddress(?ChannelShopBillingData $channelShopBillingData): ?ShopBillingData

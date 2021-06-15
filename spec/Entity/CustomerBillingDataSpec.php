@@ -18,21 +18,6 @@ use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 
 final class CustomerBillingDataSpec extends ObjectBehavior
 {
-    public function let(): void
-    {
-        $this->beConstructedWith(
-            'Rick',
-            'Sanchez',
-            'Main St. 3322',
-            '90802',
-            'US',
-            'Los Angeles',
-            'Curse Purge Plus!',
-            'Baldwin Hills',
-            '323'
-        );
-    }
-
     public function it_implements_customer_billing_data_interface(): void
     {
         $this->shouldImplement(CustomerBillingDataInterface::class);
@@ -40,56 +25,73 @@ final class CustomerBillingDataSpec extends ObjectBehavior
 
     public function it_has_no_id_by_default(): void
     {
-        $this->id()->shouldReturn(null);
+        $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_first_name(): void
+    public function it_has_an_id(): void
     {
-        $this->firstName()->shouldReturn('Rick');
+        $this->setId(1234);
+        $this->getId()->shouldReturn(1234);
     }
 
-    public function it_has_last_name(): void
+    public function it_has_a_first_name(): void
     {
-        $this->lastName()->shouldReturn('Sanchez');
+        $this->setFirstName('Rick');
+        $this->getFirstName()->shouldReturn('Rick');
     }
 
-    public function it_has_full_name(): void
+    public function it_has_a_last_name(): void
     {
-        $this->fullName()->shouldReturn('Rick Sanchez');
+        $this->setLastName('Sanchez');
+        $this->getLastName()->shouldReturn('Sanchez');
     }
 
-    public function it_has_company(): void
+    public function it_has_a_full_name(): void
     {
-        $this->company()->shouldReturn('Curse Purge Plus!');
+        $this->setFirstName('Rick');
+        $this->setLastName('Sanchez');
+        $this->getFullName()->shouldReturn('Rick Sanchez');
     }
 
-    public function it_has_street(): void
+    public function it_has_a_company(): void
     {
-        $this->street()->shouldReturn('Main St. 3322');
+        $this->setCompany('Curse Purge Plus!');
+        $this->getCompany()->shouldReturn('Curse Purge Plus!');
     }
 
-    public function it_has_postcode(): void
+    public function it_has_a_street(): void
     {
-        $this->postcode()->shouldReturn('90802');
+        $this->setStreet('Main St. 3322');
+        $this->getStreet()->shouldReturn('Main St. 3322');
     }
 
-    public function it_has_country_code(): void
+    public function it_has_a_postcode(): void
     {
-        $this->countryCode()->shouldReturn('US');
+        $this->setPostcode('90802');
+        $this->getPostcode()->shouldReturn('90802');
     }
 
-    public function it_has_city(): void
+    public function it_has_a_country_code(): void
     {
-        $this->city()->shouldReturn('Los Angeles');
+        $this->setCountryCode('US');
+        $this->getCountryCode()->shouldReturn('US');
     }
 
-    public function it_has_province_name(): void
+    public function it_has_a_city(): void
     {
-        $this->provinceName()->shouldReturn('Baldwin Hills');
+        $this->setCity('Los Angeles');
+        $this->getCity()->shouldReturn('Los Angeles');
     }
 
-    public function it_has_province_code(): void
+    public function it_has_a_province_name(): void
     {
-        $this->provinceCode()->shouldReturn('323');
+        $this->setProvinceName('Baldwin Hills');
+        $this->getProvinceName()->shouldReturn('Baldwin Hills');
+    }
+
+    public function it_has_a_province_code(): void
+    {
+        $this->setProvinceCode('323');
+        $this->getProvinceCode()->shouldReturn('323');
     }
 }

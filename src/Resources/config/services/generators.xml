@@ -21,6 +21,7 @@
             <argument type="service" id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" />
             <argument type="service" id="sylius_refund.factory.credit_memo" />
+            <argument type="service" id="sylius_refund.factory.customer_billing_data" />
         </service>
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface instead.</deprecated>

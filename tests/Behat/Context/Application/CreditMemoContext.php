@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\Persistence\ObjectRepository;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Sylius\RefundPlugin\Entity\CustomerBillingData;
-use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 use Webmozart\Assert\Assert;
@@ -163,11 +160,11 @@ final class CreditMemoContext implements Context
     ): void {
         $customerBillingData = $this->creditMemo->getFrom();
 
-        Assert::same($customerBillingData->fullName(), $customerName);
-        Assert::same($customerBillingData->street(), $street);
-        Assert::same($customerBillingData->postcode(), $postcode);
-        Assert::same($customerBillingData->city(), $city);
-        Assert::same($customerBillingData->countryCode(), $country->getCode());
+        Assert::same($customerBillingData->getFullName(), $customerName);
+        Assert::same($customerBillingData->getStreet(), $street);
+        Assert::same($customerBillingData->getPostcode(), $postcode);
+        Assert::same($customerBillingData->getCity(), $city);
+        Assert::same($customerBillingData->getCountryCode(), $country->getCode());
     }
 
     /**
