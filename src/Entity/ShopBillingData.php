@@ -37,54 +37,73 @@ class ShopBillingData implements ShopBillingDataInterface
     /** @var string|null */
     protected $postcode;
 
-    public function __construct(
-        ?string $company,
-        ?string $taxId,
-        ?string $countryCode,
-        ?string $street,
-        ?string $city,
-        ?string $postcode
-    ) {
-        $this->company = $company;
-        $this->taxId = $taxId;
-        $this->countryCode = $countryCode;
-        $this->street = $street;
-        $this->city = $city;
-        $this->postcode = $postcode;
-    }
-
-    public function id(): ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function company(): ?string
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getCompany(): ?string
     {
         return $this->company;
     }
 
-    public function taxId(): ?string
+    public function setCompany(?string $company): void
+    {
+        $this->company = $company;
+    }
+
+    public function getTaxId(): ?string
     {
         return $this->taxId;
     }
 
-    public function countryCode(): ?string
+    public function setTaxId(?string $taxId): void
+    {
+        $this->taxId = $taxId;
+    }
+
+    public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
 
-    public function street(): ?string
+    public function setCountryCode(?string $countryCode): void
+    {
+        $this->countryCode = $countryCode;
+    }
+
+    public function getStreet(): ?string
     {
         return $this->street;
     }
 
-    public function city(): ?string
+    public function setStreet(?string $street): void
+    {
+        $this->street = $street;
+    }
+
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function postcode(): ?string
+    public function setCity(?string $city): void
+    {
+        $this->city = $city;
+    }
+
+    public function getPostcode(): ?string
     {
         return $this->postcode;
+    }
+
+    public function setPostcode(?string $postcode): void
+    {
+        $this->postcode = $postcode;
     }
 }

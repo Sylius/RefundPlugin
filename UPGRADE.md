@@ -26,6 +26,9 @@
 1. Constructor of `Sylius\RefundPlugin\Entity\CustomerBillingData` has been removed and now `CustomerBillingData` entity
    is created by `Sylius\RefundPlugin\Factory\CustomerBillingDataFactory`.
 
+1. Constructor of `Sylius\RefundPlugin\Entity\ShopBillingData` has been removed and now `ShopBillingData` entity
+   is created by `Sylius\RefundPlugin\Factory\ShopBillingDataFactory`.
+
 1. The constructor of `Sylius\RefundPlugin\Generator\CreditMemoGenerator` has been changed:
 
     ```diff
@@ -35,6 +38,7 @@
             TaxItemsGeneratorInterface $taxItemsGenerator,
             CreditMemoFactoryInterface $creditMemoFactory,
     +       CustomerBillingDataFactoryInterface $customerBillingDataFactory
+    +       ShopBillingDataFactoryInterface $shopBillingDataFactory
         ) {
             ...
         }

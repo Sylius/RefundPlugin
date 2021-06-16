@@ -22,7 +22,9 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" />
             <argument type="service" id="sylius_refund.factory.credit_memo" />
             <argument type="service" id="sylius_refund.factory.customer_billing_data" />
+            <argument type="service" id="sylius_refund.factory.shop_billing_data" />
         </service>
+
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface instead.</deprecated>
         </service>
@@ -35,6 +37,16 @@
             <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
             <argument>%sylius.refund.template.logo_file%</argument>
         </service>
+
+        <service
+                id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory"
+                decorates="sylius_refund.factory.shop_billing_data"
+                decoration-priority="256"
+                public="false"
+        >
+            <argument type="service" id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory.inner" />
+        </service>
+
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface instead.</deprecated>
         </service>
