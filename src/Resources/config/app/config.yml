@@ -29,12 +29,14 @@ sylius_mailer:
 framework:
     messenger:
         buses:
-            sylius.command_bus:
+            sylius.command_bus: &command_bus
                 middleware:
                     - 'validation'
                     - 'doctrine_transaction'
-            sylius.event_bus:
+            sylius.event_bus: &event_bus
                 default_middleware: allow_no_handlers
+            sylius_refund_plugin.command_bus: *command_bus
+            sylius_refund_plugin.event_bus: *event_bus
 
 winzou_state_machine:
     sylius_refund_refund_payment:
