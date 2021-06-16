@@ -17,7 +17,10 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface CustomerBillingDataInterface extends ResourceInterface
 {
-    public function setId(?int $id): void;
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getId() instead */
+    public function id();
+
+    public function setId($id): void;
 
     public function getFirstName(): string;
 

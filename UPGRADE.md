@@ -40,11 +40,19 @@
         }
     ```
 
-1. The getter methods of `Sylius\RefundPlugin\Entity\CustomerBillingData` has been changed:
+1. The `id` method from `Sylius\RefundPlugin\Entity\CustomerBillingData` has its return type removed:
+    
+    ```diff
+    -   public function id(): ?int;
+    +   public function id();
+    ```
+   
+
+1. The getter methods of `Sylius\RefundPlugin\Entity\CustomerBillingData` are now deprecated and will be replaced with:
 
     ```diff
     -   public function id(): ?int
-    +   public function getId(): ?int
+    +   public function getId()
     -   public function firstName(): string
     +   public function getFirstName(): string
     -   public function lastName(): string
