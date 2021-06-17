@@ -19,6 +19,9 @@ sylius_resource:
         sylius_refund.refund_payment:
             classes:
                 model: Sylius\RefundPlugin\Entity\RefundPayment
+        sylius_refund.customer_billing_data:
+            classes:
+                model: Sylius\RefundPlugin\Entity\CustomerBillingData
 
 sylius_mailer:
     emails:

@@ -14,3 +14,8 @@ parameters:
         - 'tests/Application/src/**.php'
 
     ignoreErrors:
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::id\(\) has no return typehint specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::getId\(\) has no return typehint specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::setId\(\) has parameter \$id with no typehint specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::id\(\) has no return typehint specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::setId\(\) has parameter \$id with no typehint specified./'

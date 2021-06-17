@@ -23,6 +23,56 @@
 
 1. The constructor of `Sylius\RefundPlugin\Provider\DefaultRelatedPaymentIdProvider` has been removed.
 
+1. Constructor of `Sylius\RefundPlugin\Entity\CustomerBillingData` has been removed and now `CustomerBillingData` entity
+   is created by `Sylius\RefundPlugin\Factory\CustomerBillingDataFactory`.
+
+1. The constructor of `Sylius\RefundPlugin\Generator\CreditMemoGenerator` has been changed:
+
+    ```diff
+        public function __construct(
+            LineItemsConverterInterface $lineItemsConverter,
+            LineItemsConverterInterface $shipmentLineItemsConverter,
+            TaxItemsGeneratorInterface $taxItemsGenerator,
+            CreditMemoFactoryInterface $creditMemoFactory,
+    +       CustomerBillingDataFactoryInterface $customerBillingDataFactory
+        ) {
+            ...
+        }
+    ```
+
+1. The `id` method from `Sylius\RefundPlugin\Entity\CustomerBillingData` has its return type removed:
+    
+    ```diff
+    -   public function id(): ?int;
+    +   public function id();
+    ```
+   
+
+1. The getter methods of `Sylius\RefundPlugin\Entity\CustomerBillingData` are now deprecated and will be replaced with:
+
+    ```diff
+    -   public function id(): ?int
+    +   public function getId()
+    -   public function firstName(): string
+    +   public function getFirstName(): string
+    -   public function lastName(): string
+    +   public function getLastName(): string
+    -   public function fullName(): string
+    +   public function getFullName(): string
+    -   public function street(): string
+    +   public function getStreet(): string
+    -   public function postcode(): string
+    +   public function getPostcode(): string
+    -   public function city(): string
+    +   public function getCity(): string
+    -   public function company(): ?string
+    +   public function getCompany(): ?string
+    -   public function provinceName(): ?string
+    +   public function getProvinceName(): ?string
+    -   public function provinceCode(): ?string
+    +   public function getProvinceCode(): ?string
+   ```
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 

@@ -30,5 +30,14 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
         </service>
+
+        <service
+            id="Sylius\RefundPlugin\Factory\CustomerBillingDataFactory"
+            decorates="sylius_refund.factory.customer_billing_data"
+            decoration-priority="256"
+            public="false"
+        >
+            <argument type="service" id="Sylius\RefundPlugin\Factory\CustomerBillingDataFactory.inner" />
+        </service>
     </services>
 </container>
