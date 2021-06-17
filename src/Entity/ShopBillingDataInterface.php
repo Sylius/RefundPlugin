@@ -17,9 +17,9 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface ShopBillingDataInterface extends ResourceInterface
 {
-    public function getId(): ?int;
+    public function getId();
 
-    public function setId(?int $id): void;
+    public function setId($id): void;
 
     public function getCompany(): ?string;
 
@@ -44,4 +44,25 @@ interface ShopBillingDataInterface extends ResourceInterface
     public function getPostcode(): ?string;
 
     public function setPostcode(?string $postcode): void;
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getId() instead */
+    public function id();
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCompany() instead */
+    public function company(): ?string;
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getTaxId() instead */
+    public function taxId(): ?string;
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCountryCode() instead */
+    public function countryCode(): ?string;
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getStreet() instead */
+    public function street(): ?string;
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCity() instead */
+    public function city(): ?string;
+
+    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getPostcode() instead */
+    public function postcode(): ?string;
 }

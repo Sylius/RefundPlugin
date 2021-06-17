@@ -37,7 +37,7 @@
             LineItemsConverterInterface $shipmentLineItemsConverter,
             TaxItemsGeneratorInterface $taxItemsGenerator,
             CreditMemoFactoryInterface $creditMemoFactory,
-    +       CustomerBillingDataFactoryInterface $customerBillingDataFactory
+    +       CustomerBillingDataFactoryInterface $customerBillingDataFactory,
     +       ShopBillingDataFactoryInterface $shopBillingDataFactory
         ) {
             ...

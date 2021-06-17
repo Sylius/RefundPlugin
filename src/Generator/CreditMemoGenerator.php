@@ -20,9 +20,9 @@ use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingDa
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
+use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
-use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Factory\ShopBillingDataFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;

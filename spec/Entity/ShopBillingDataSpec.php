@@ -28,37 +28,37 @@ final class ShopBillingDataSpec extends ObjectBehavior
         $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_company(): void
+    public function it_has_a_company(): void
     {
         $this->setCompany('Needful Things');
         $this->getCompany()->shouldReturn('Needful Things');
     }
 
-    public function it_has_tax_id(): void
+    public function it_has_a_tax_id(): void
     {
         $this->setTaxId('000222');
         $this->getTaxId()->shouldReturn('000222');
     }
 
-    public function it_has_country_code(): void
+    public function it_has_a_country_code(): void
     {
         $this->setCountryCode('US');
         $this->getCountryCode()->shouldReturn('US');
     }
 
-    public function it_has_street(): void
+    public function it_has_a_street(): void
     {
         $this->setStreet('Main St. 123');
         $this->getStreet()->shouldReturn('Main St. 123');
     }
 
-    public function it_has_city(): void
+    public function it_has_a_city(): void
     {
         $this->setCity('Los Angeles');
         $this->getCity()->shouldReturn('Los Angeles');
     }
 
-    public function it_has_postcode(): void
+    public function it_has_a_postcode(): void
     {
         $this->setPostcode('90001');
         $this->getPostcode()->shouldReturn('90001');

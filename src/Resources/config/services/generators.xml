@@ -39,10 +39,10 @@
         </service>
 
         <service
-                id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory"
-                decorates="sylius_refund.factory.shop_billing_data"
-                decoration-priority="256"
-                public="false"
+            id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory"
+            decorates="sylius_refund.factory.shop_billing_data"
+            decoration-priority="256"
+            public="false"
         >
             <argument type="service" id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory.inner" />
         </service>
