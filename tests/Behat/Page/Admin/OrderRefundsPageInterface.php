@@ -41,4 +41,6 @@ interface OrderRefundsPageInterface extends SymfonyPageInterface
     public function canChoosePaymentMethod(): bool;
 
     public function isPaymentMethodVisible(string $paymentMethodName): bool;
+
+    public function getOriginalPaymentMethodName(): string;
 }
