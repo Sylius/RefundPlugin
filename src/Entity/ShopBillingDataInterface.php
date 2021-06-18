@@ -48,6 +48,7 @@ interface ShopBillingDataInterface extends ResourceInterface
 
     /**
      * @return mixed
+     *
      * @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getId() instead
      * @see CustomerBillingDataInterface::getId
      */

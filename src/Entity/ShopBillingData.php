@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-use Sylius\Component\Resource\Exception\UnsupportedMethodException;
-
 /** final */
 class ShopBillingData implements ShopBillingDataInterface
 {
@@ -39,19 +37,6 @@ class ShopBillingData implements ShopBillingDataInterface
     /** @var string|null */
     protected $postcode;
 
-    public function __construct(
-        ?string $company,
-        ?string $taxId,
-        ?string $countryCode,
-        ?string $street,
-        ?string $city,
-        ?string $postcode
-    ) {
-        throw new UnsupportedMethodException('construct');
-    }
-    /**
-     * @return mixed
-     */
     public function getId()
     {
         return $this->id;
@@ -117,9 +102,6 @@ class ShopBillingData implements ShopBillingDataInterface
         $this->postcode = $postcode;
     }
 
-    /**
-     * @return mixed
-     */
     public function id()
     {
         return $this->id;

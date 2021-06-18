@@ -38,15 +38,6 @@
             <argument>%sylius.refund.template.logo_file%</argument>
         </service>
 
-        <service
-            id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory"
-            decorates="sylius_refund.factory.shop_billing_data"
-            decoration-priority="256"
-            public="false"
-        >
-            <argument type="service" id="Sylius\RefundPlugin\Factory\ShopBillingDataFactory.inner" />
-        </service>
-
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface instead.</deprecated>
         </service>

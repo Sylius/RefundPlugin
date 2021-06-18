@@ -13,25 +13,15 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Factory;
 
-use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Component\Resource\Exception\UnsupportedMethodException;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 
 final class ShopBillingDataFactory implements ShopBillingDataFactoryInterface
 {
-    /** @var FactoryInterface */
-    private $shopBillingDataFactory;
-
-    public function __construct(FactoryInterface $shopBillingDataFactory)
-    {
-        $this->shopBillingDataFactory = $shopBillingDataFactory;
-    }
-
     public function createNew(): ShopBillingDataInterface
     {
-        /** @var ShopBillingDataInterface $shopBillingData */
-        $shopBillingData = $this->shopBillingDataFactory->createNew();
-
-        return $shopBillingData;
+        throw new UnsupportedMethodException('This object is not default constructable.');
     }
 
     public function createWithData(
@@ -42,7 +32,7 @@ final class ShopBillingDataFactory implements ShopBillingDataFactoryInterface
         ?string $city,
         ?string $postcode
     ): ShopBillingDataInterface {
-        $shopBillingData = $this->createNew();
+        $shopBillingData = new ShopBillingData();
 
         $shopBillingData->setCompany($company);
         $shopBillingData->setTaxId($taxId);

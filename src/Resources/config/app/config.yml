@@ -25,6 +25,7 @@ sylius_resource:
         sylius_refund.shop_billing_data:
             classes:
                 model: Sylius\RefundPlugin\Entity\ShopBillingData
+                factory: Sylius\RefundPlugin\Factory\ShopBillingDataFactory
 
 sylius_mailer:
     emails:
