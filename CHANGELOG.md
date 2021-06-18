@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### v1.0.0-RC.11 (2021-06-18)
+
+- [#314](https://github.com/Sylius/RefundPlugin/issues/314) Add backward compatibility for old refund buses ([@Tomanhez](https://github.com/Tomanhez))
+- [#316](https://github.com/Sylius/RefundPlugin/issues/316) fix original payment method of refund ([@AdamKasp](https://github.com/AdamKasp))
+
 ### v1.0.0-RC.10 (2021-06-02)
 
 - [#282](https://github.com/Sylius/RefundPlugin/issues/282) [Maintenance] Upgrade PHPSpec package ([@GSadee](https://github.com/GSadee))
