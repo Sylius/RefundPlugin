@@ -154,9 +154,15 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         return true;
     }
 
+    public function getOriginalPaymentMethodName(): string
+    {
+        return $this->getTextFromElement($this->getElement('original_payment_method'));
+    }
+
     protected function getDefinedElements(): array
     {
         return [
+            'original_payment_method' => '#original-payment-method',
             'payment_methods' => '#payment-methods',
             'refunded_total' => '#refunded-total',
         ];
