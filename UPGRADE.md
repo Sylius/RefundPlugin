@@ -73,6 +73,9 @@
     +   public function getProvinceCode(): ?string
    ```
 
+1. `sylius_refund_plugin.block_event_listener.account.order_show` and `sylius_refund_plugin.block_event_listener.order_show.credit_memos`
+    listeners have been replaced by `sylius_ui` configuration
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 

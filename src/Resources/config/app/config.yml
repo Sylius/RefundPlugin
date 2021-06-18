@@ -135,6 +135,19 @@ sylius_grid:
                     form_options:
                         class: "%sylius.model.channel.class%"
 
+sylius_ui:
+    events:
+        sylius.admin.order.show.summary:
+            blocks:
+                credit_memos:
+                    template: '@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig'
+                    priority: 5
+        sylius.shop.account.order.show.subcontent:
+            blocks:
+                credit_memos:
+                    template: '@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig'
+                    priority: 5
+
 doctrine:
     dbal:
         types:
