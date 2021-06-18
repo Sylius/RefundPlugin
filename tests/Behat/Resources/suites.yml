@@ -41,6 +41,7 @@ default:
                 - sylius.behat.context.ui.admin.managing_orders
 
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\EmailsContext
+                - Tests\Sylius\RefundPlugin\Behat\Context\Setup\PaymentContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext

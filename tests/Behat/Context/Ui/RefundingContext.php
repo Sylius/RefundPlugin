@@ -369,6 +369,14 @@ final class RefundingContext implements Context
         }
     }
 
+    /**
+     * @Then I should see original payment method :paymentMethodName
+     */
+    public function iShouldSeeOriginalPaymentMethod(string $paymentMethodName): void
+    {
+        Assert::same($this->orderRefundsPage->getOriginalPaymentMethodName(), sprintf('Original Payment Method: %s', $paymentMethodName));
+    }
+
     private function provideLongComment(): string
     {
         return 'Tu ne quaesieris scire nefas, quem mihi quem tibi finem di dederint, Leuconoe, nec Babylonios temptaris numeros. Ut melius quidquid erit pati. Seu plures hiemes sue tribuit Iuppiter ultimam. Qae nunc oppositis debilitat pumicibus mare Tyrrenum: sapias vina liques et spatio brevi. Spem longam resecens. Dum loquimur fugerit invida Aetas: CARPE DIEM, quam minimum credula postero.';

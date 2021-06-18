@@ -1,6 +1,6 @@
 {% if order.payments.first()  %}
-    {% set original_payment_method = order.payments.first().method %}
-
+    {% set completed = constant('Sylius\\Component\\Core\\Model\\PaymentInterface::STATE_COMPLETED') %}
+    {% set original_payment_method = order.lastPayment(completed).method %}
     <div class="ui hidden divider"></div>
 
     <div class="ui stackable grid">
@@ -15,7 +15,7 @@
                             </option>
                         {% endfor %}
                     </select>
-                    <small>{{ 'sylius.ui.original_payment_method'|trans }}: <strong>{{ original_payment_method }}</strong></small>
+                    <small id="original-payment-method">{{ 'sylius.ui.original_payment_method'|trans }}: <strong>{{ original_payment_method }}</strong></small>
                 </div>
             </div>
             <div class="ui form column">

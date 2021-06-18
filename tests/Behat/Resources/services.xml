@@ -85,6 +85,11 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
 
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\PaymentContext">
+            <argument type="service" id="SM\Factory\Factory" />
+            <argument type="service" id="sylius.behat.shared_storage" />
+        </service>
+
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Transform\OrderContext">
             <argument type="service" id="sylius.repository.order" />
         </service>
