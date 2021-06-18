@@ -17,9 +17,10 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface ShopBillingDataInterface extends ResourceInterface
 {
+    /**
+     * @return mixed
+     */
     public function getId();
-
-    public function setId($id): void;
 
     public function getCompany(): ?string;
 
@@ -45,7 +46,11 @@ interface ShopBillingDataInterface extends ResourceInterface
 
     public function setPostcode(?string $postcode): void;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getId() instead */
+    /**
+     * @return mixed
+     * @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getId() instead
+     * @see CustomerBillingDataInterface::getId
+     */
     public function id();
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCompany() instead */
