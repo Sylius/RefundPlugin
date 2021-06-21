@@ -18,8 +18,6 @@ use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 
 interface ShopBillingDataFactoryInterface extends FactoryInterface
 {
-    public function createNew(): ShopBillingDataInterface;
-
     public function createWithData(
         ?string $company,
         ?string $taxId,
