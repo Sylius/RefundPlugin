@@ -1,5 +1,6 @@
 parameters:
     sylius_refund.refund_enum_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
+    sylius_refund.refund_type: Sylius\RefundPlugin\Model\RefundType
 
 sylius_resource:
     resources:

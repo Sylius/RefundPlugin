@@ -17,5 +17,5 @@ use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 interface RefundTypeFactoryInterface
 {
-    public function new(string $refundType): RefundTypeInterface;
+    public function createNew(string $refundType): RefundTypeInterface;
 }

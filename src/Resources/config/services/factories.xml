@@ -12,7 +12,9 @@
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface instead.</deprecated>
         </service>
 
-        <service id="Sylius\RefundPlugin\Factory\RefundTypeFactoryInterface" class="Sylius\RefundPlugin\Factory\RefundTypeFactory" />
+        <service id="Sylius\RefundPlugin\Factory\RefundTypeFactoryInterface" class="Sylius\RefundPlugin\Factory\RefundTypeFactory">
+            <argument type="string">%sylius_refund.refund_type%</argument>
+        </service>
         <service id="Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface" class="Sylius\RefundPlugin\Factory\RefundPaymentFactory">
             <argument type="service" id="sylius.repository.payment_method" />
         </service>

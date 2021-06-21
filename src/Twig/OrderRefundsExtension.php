@@ -87,12 +87,12 @@ final class OrderRefundsExtension extends AbstractExtension
 
     public function canUnitBeRefunded(int $unitId, string $refundType): bool
     {
-        return $this->unitRefundingAvailabilityChecker->__invoke($unitId, $this->refundTypeFactory->new($refundType));
+        return $this->unitRefundingAvailabilityChecker->__invoke($unitId, $this->refundTypeFactory->createNew($refundType));
     }
 
     public function getUnitRefundedTotal(int $unitId, string $refundType): int
     {
-        return $this->unitRefundedTotalProvider->__invoke($unitId, $this->refundTypeFactory->new($refundType));
+        return $this->unitRefundedTotalProvider->__invoke($unitId, $this->refundTypeFactory->createNew($refundType));
     }
 
     public function getUnitRefundLeft(int $unitId, string $refundType, int $unitTotal): float

@@ -33,10 +33,10 @@ class RefundEnumType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): RefundTypeInterface
     {
-        if ($value instanceof RefundType && !$value::isValid($value)) {
+        if ($value instanceof RefundTypeInterface && !$value::isValid($value)) {
             throw new \InvalidArgumentException(sprintf(
                 'The value "%s" is not valid for the enum "%s". Expected one of ["%s"]',
-                $value,
+                (string) $value->getValue(),
                 RefundTypeInterface::class,
                 implode('", "', $value::keys())
             ));
@@ -52,15 +52,14 @@ class RefundEnumType extends Type
             return null;
         }
 
-        if ($value instanceof RefundType) {
+        if ($value instanceof RefundTypeInterface) {
             return (string) $value->getValue();
         }
 
         throw ConversionException::conversionFailed((string) $value, 'sylius_refund_refund_type');
     }
 
-    /** @param RefundTypeInterface|string $value */
-    protected function createType($value): RefundTypeInterface
+    protected function createType(string $value): RefundTypeInterface
     {
         return new RefundType($value);
     }

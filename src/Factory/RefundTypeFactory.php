@@ -13,13 +13,20 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Factory;
 
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 final class RefundTypeFactory implements RefundTypeFactoryInterface
 {
-    public function new(string $refundType): RefundTypeInterface
+    /** @var string */
+    public $className;
+
+    public function __construct(string $className)
     {
-        return new RefundType($refundType);
+        $this->className = $className;
+    }
+
+    public function createNew(string $refundType): RefundTypeInterface
+    {
+        return new $this->className($refundType);
     }
 }

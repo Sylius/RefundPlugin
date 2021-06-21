@@ -80,7 +80,6 @@
 1. `sylius_refund_plugin.block_event_listener.account.order_show` and `sylius_refund_plugin.block_event_listener.order_show.credit_memos`
     listeners have been replaced by `sylius_ui` configuration
 
-<<<<<<< HEAD
 1. `Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface` and `Sylius\RefundPlugin\Factory\RefundPaymentFactory`
     service definitions have been removed and replaced by default resource factory `sylius_refund.factory.refund_payment`
 
@@ -150,79 +149,21 @@
         }
     ```
 
-1. The `__invoke` method of `Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker` and `Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface` has been changed:
-
-    ```diff
-        public function __invoke(
-            int $unitId, 
-    -        RefundType $refundType
-    +        RefundTypeInterface $refundType
-        )
-        ...
-    ```
-
-
-1. The `__invoke` method of `Sylius\RefundPlugin\Creator\RefundCreator` and `Sylius\RefundPlugin\Creator\RefundCreatorInterface` has been changed:
-
-    ```diff
-        public function __invoke(
-            string $orderNumber, 
-            int $unitId, 
-            int $amount, 
-    -        RefundType $refundType
-    +        RefundTypeInterface $refundType
-       )
-        ...
-    ```
-
-1. The `__invoke` method of `Sylius\RefundPlugin\Entity\Refund` and `Sylius\RefundPlugin\Entity\RefundInterface` has been changed:
-
-    ```diff
-        public function __invoke(
-            OrderInterface $order, 
-            int $amount, 
-            int $refundedUnitId, 
-    -       RefundType $type
-    +       RefundTypeInterface $type
-       )
-        ...
-    ```
-
 1. Return type on `getType` method of `Sylius\RefundPlugin\Entity\Refund` and `Sylius\RefundPlugin\Entity\RefundInterface` has been changed from `RefundType` to `RefundTypeInterface`
 
 1. Return type on `convertToPHPValue` method of `Sylius\RefundPlugin\Entity\Type\RefundEnumType` has been changed from `RefundType` to `RefundTypeInterface`
 
-1. The `__createWithData` method of `Sylius\RefundPlugin\Factory\RefundFactory` and `Sylius\RefundPlugin\Factory\RefundFactoryInterface` has been changed:            int $unitId,
-            int $amount,
-    -       RefundType $type
-    +       RefundTypeInterface $type
-        ): RefundInterface 
-        ...
-    ```
+1. We replaced `RefundType` with `RefundTypeInterface` in the given list of classes:
+   * `Sylius\RefundPlugin\Creator\RefundCreator`
+   * `Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker`
+   * `Sylius\RefundPlugin\Entity\Type\RefundEnumType`
+   * `Sylius\RefundPlugin\Entity\Refund`
+   * `Sylius\RefundPlugin\Factory\RefundFactory`
+   * `Sylius\RefundPlugin\Provider\RemainingTotalProvider`
+   * `Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider`
+   * `Sylius\RefundPlugin\Validator\RefundAmountValidator`
    
 1. `Sylius\RefundPlugin\Model\RefundType` implements `Sylius\RefundPlugin\Model\RefundTypeInterface` and consts `ORDER_ITEM_UNIT` and `SHIPMENT` has been moved to `RefundTypeInterface`
-
-1. The `getTotalLeftToRefund` method of `Sylius\RefundPlugin\Provider\RemainingTotalProvider` and `Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface` has been changed:
-
-    ```diff
-        public function getTotalLeftToRefund(
-            int $id, 
-    -       RefundType $type
-    +       RefundTypeInterface $type
-        ): int
-        ...
-    ```
-
-1. The `__invoke` method of `Sylius\RefundPlugin\Provider\UnitRefundedTotalProvider` and `Sylius\RefundPlugin\Provider\UnitRefundedTotalProviderInterface` has been changed:
-
-    ```diff
-        public function __invoke(
-            int $unitId,    
-    -       RefundType $type
-    +       RefundTypeInterface $type
-        ): int
-        ...
-    ```
 
 1. Service `Sylius\RefundPlugin\Twig\OrderRefundsExtension` has been changed:
 
@@ -252,17 +193,6 @@
         ) {
             ...
         }
-    ```
-
-1. The `validateUnits` method of `Sylius\RefundPlugin\Validator\RefundAmountValidator` and `Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface` has been changed:
-
-    ```diff
-        public function validateUnits(
-            array $unitRefunds, 
-    -       RefundType $refundType
-    +       RefundTypeInterface $refundType
-        ): void
-        ...
     ```
 
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
