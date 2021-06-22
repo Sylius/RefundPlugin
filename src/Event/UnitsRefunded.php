@@ -17,7 +17,7 @@ use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Webmozart\Assert\Assert;
 
-final class UnitsRefunded
+class UnitsRefunded
 {
     /** @var string */
     private $orderNumber;

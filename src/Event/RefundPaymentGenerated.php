@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Event;
 
-final class RefundPaymentGenerated
+class RefundPaymentGenerated
 {
     /** @var int */
     private $id;

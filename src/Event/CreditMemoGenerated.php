@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Event;
 
-final class CreditMemoGenerated
+class CreditMemoGenerated
 {
     /** @var string */
     private $number;
