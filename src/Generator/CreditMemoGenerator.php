@@ -20,9 +20,10 @@ use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingDa
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
-use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Factory\CreditMemoFactoryInterface;
 use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
+use Sylius\RefundPlugin\Factory\ShopBillingDataFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Webmozart\Assert\Assert;
@@ -44,18 +45,23 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     /** @var CustomerBillingDataFactoryInterface */
     private $customerBillingDataFactory;
 
+    /** @var ShopBillingDataFactoryInterface */
+    private $shopBillingDataFactory;
+
     public function __construct(
         LineItemsConverterInterface $lineItemsConverter,
         LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         CreditMemoFactoryInterface $creditMemoFactory,
-        CustomerBillingDataFactoryInterface $customerBillingDataFactory
+        CustomerBillingDataFactoryInterface $customerBillingDataFactory,
+        ShopBillingDataFactoryInterface $shopBillingDataFactory
     ) {
         $this->lineItemsConverter = $lineItemsConverter;
         $this->shipmentLineItemsConverter = $shipmentLineItemsConverter;
         $this->taxItemsGenerator = $taxItemsGenerator;
         $this->creditMemoFactory = $creditMemoFactory;
         $this->customerBillingDataFactory = $customerBillingDataFactory;
+        $this->shopBillingDataFactory = $shopBillingDataFactory;
     }
 
     public function generate(
@@ -97,7 +103,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         return $this->customerBillingDataFactory->createWithAddress($address);
     }
 
-    private function getToAddress(?ChannelShopBillingData $channelShopBillingData): ?ShopBillingData
+    private function getToAddress(?ChannelShopBillingData $channelShopBillingData): ?ShopBillingDataInterface
     {
         if (
             $channelShopBillingData === null ||
@@ -106,7 +112,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             return null;
         }
 
-        return new ShopBillingData(
+        return $this->shopBillingDataFactory->createWithData(
             $channelShopBillingData->getCompany(),
             $channelShopBillingData->getTaxId(),
             $channelShopBillingData->getCountryCode(),

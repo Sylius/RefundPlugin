@@ -18,11 +18,6 @@ use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 
 final class ShopBillingDataSpec extends ObjectBehavior
 {
-    public function let(): void
-    {
-        $this->beConstructedWith('Needful Things', '000222', 'US', 'Main St. 123', 'Los Angeles', '90001');
-    }
-
     public function it_implements_shop_billing_data_interface(): void
     {
         $this->shouldImplement(ShopBillingDataInterface::class);
@@ -30,36 +25,42 @@ final class ShopBillingDataSpec extends ObjectBehavior
 
     public function it_has_no_id_by_default(): void
     {
-        $this->id()->shouldReturn(null);
+        $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_company(): void
+    public function it_has_a_company(): void
     {
-        $this->company()->shouldReturn('Needful Things');
+        $this->setCompany('Needful Things');
+        $this->getCompany()->shouldReturn('Needful Things');
     }
 
-    public function it_has_tax_id(): void
+    public function it_has_a_tax_id(): void
     {
-        $this->taxId()->shouldReturn('000222');
+        $this->setTaxId('000222');
+        $this->getTaxId()->shouldReturn('000222');
     }
 
-    public function it_has_country_code(): void
+    public function it_has_a_country_code(): void
     {
-        $this->countryCode()->shouldReturn('US');
+        $this->setCountryCode('US');
+        $this->getCountryCode()->shouldReturn('US');
     }
 
-    public function it_has_street(): void
+    public function it_has_a_street(): void
     {
-        $this->street()->shouldReturn('Main St. 123');
+        $this->setStreet('Main St. 123');
+        $this->getStreet()->shouldReturn('Main St. 123');
     }
 
-    public function it_has_city(): void
+    public function it_has_a_city(): void
     {
-        $this->city()->shouldReturn('Los Angeles');
+        $this->setCity('Los Angeles');
+        $this->getCity()->shouldReturn('Los Angeles');
     }
 
-    public function it_has_postcode(): void
+    public function it_has_a_postcode(): void
     {
-        $this->postcode()->shouldReturn('90001');
+        $this->setPostcode('90001');
+        $this->getPostcode()->shouldReturn('90001');
     }
 }
