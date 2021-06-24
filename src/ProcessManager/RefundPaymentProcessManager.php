@@ -15,7 +15,9 @@ namespace Sylius\RefundPlugin\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -39,6 +41,9 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
     /** @var OrderRepositoryInterface */
     private $orderRepository;
 
+    /** @var PaymentMethodRepositoryInterface */
+    private $paymentMethodRepository;
+
     /** @var EntityManagerInterface */
     private $entityManager;
 
@@ -50,6 +55,7 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         OrderRepositoryInterface $orderRepository,
+        PaymentMethodRepositoryInterface $paymentMethodRepository,
         EntityManagerInterface $entityManager,
         MessageBusInterface $eventBus
     ) {
@@ -57,6 +63,7 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
         $this->relatedPaymentIdProvider = $relatedPaymentIdProvider;
         $this->refundPaymentFactory = $refundPaymentFactory;
         $this->orderRepository = $orderRepository;
+        $this->paymentMethodRepository = $paymentMethodRepository;
         $this->entityManager = $entityManager;
         $this->eventBus = $eventBus;
     }
@@ -67,12 +74,16 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
         $order = $this->orderRepository->findOneByNumber($unitsRefunded->orderNumber());
         Assert::notNull($order);
 
+        /** @var PaymentMethodInterface|null $paymentMethod */
+        $paymentMethod = $this->paymentMethodRepository->find($unitsRefunded->paymentMethodId());
+        Assert::notNull($paymentMethod);
+
         $refundPayment = $this->refundPaymentFactory->createWithData(
             $order,
             $unitsRefunded->amount(),
             $unitsRefunded->currencyCode(),
             RefundPaymentInterface::STATE_NEW,
-            $unitsRefunded->paymentMethodId()
+            $paymentMethod
         );
 
         $this->entityManager->persist($refundPayment);

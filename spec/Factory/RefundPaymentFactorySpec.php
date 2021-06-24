@@ -16,7 +16,6 @@ namespace spec\Sylius\RefundPlugin\Factory;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPayment;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactory;
@@ -24,9 +23,9 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class RefundPaymentFactorySpec extends ObjectBehavior
 {
-    public function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
+    function let(): void
     {
-        $this->beConstructedWith($paymentMethodRepository);
+        $this->beConstructedWith(RefundPayment::class);
     }
 
     public function it_is_initializable(): void
@@ -39,12 +38,16 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
         $this->shouldImplement(RefundPaymentFactoryInterface::class);
     }
 
-    public function it_creates_new_refund_payment(
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
+    function it_creates_a_new_refund_payment(
+        OrderInterface $order,
         PaymentMethodInterface $paymentMethod,
-        OrderInterface $order
+        RefundPaymentInterface $refundPayment
     ): void {
-        $paymentMethodRepository->find(1)->willReturn($paymentMethod);
+        $refundPayment->getOrder()->willReturn($order);
+        $refundPayment->getAmount()->willReturn(1000);
+        $refundPayment->getCurrencyCode()->willReturn('USD');
+        $refundPayment->getState()->willReturn(RefundPaymentInterface::STATE_NEW);
+        $refundPayment->getPaymentMethod()->willReturn($paymentMethod);
 
         $this
             ->createWithData(
@@ -52,16 +55,28 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
                 1000,
                 'USD',
                 RefundPaymentInterface::STATE_NEW,
-                1
+                $paymentMethod
             )
-            ->shouldBeLike(
-                new RefundPayment(
-                    $order->getWrappedObject(),
-                    1000,
-                    'USD',
-                    RefundPaymentInterface::STATE_NEW,
-                    $paymentMethod->getWrappedObject()
-                )
-            );
+            ->shouldBeSameAs($refundPayment)
+        ;
+    }
+
+    public function getMatchers(): array
+    {
+        return [
+            'beSameAs' => function ($subject, $key) {
+                if (!$subject instanceof RefundPaymentInterface || !$key instanceof RefundPaymentInterface) {
+                    return false;
+                }
+
+                return
+                    $subject->getOrder() === $key->getOrder() &&
+                    $subject->getAmount() === $key->getAmount() &&
+                    $subject->getCurrencyCode() === $key->getCurrencyCode() &&
+                    $subject->getState() === $key->getState() &&
+                    $subject->getPaymentMethod() === $key->getPaymentMethod()
+                ;
+            },
+        ];
     }
 }

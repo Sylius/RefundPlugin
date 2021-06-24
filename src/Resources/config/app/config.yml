@@ -19,6 +19,7 @@ sylius_resource:
         sylius_refund.refund_payment:
             classes:
                 model: Sylius\RefundPlugin\Entity\RefundPayment
+                factory: Sylius\RefundPlugin\Factory\RefundPaymentFactory
         sylius_refund.customer_billing_data:
             classes:
                 model: Sylius\RefundPlugin\Entity\CustomerBillingData
