@@ -23,7 +23,7 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class RefundPaymentFactorySpec extends ObjectBehavior
 {
-    function let(): void
+    public function let(): void
     {
         $this->beConstructedWith(RefundPayment::class);
     }
@@ -38,7 +38,7 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
         $this->shouldImplement(RefundPaymentFactoryInterface::class);
     }
 
-    function it_creates_a_new_refund_payment(
+    public function it_creates_a_new_refund_payment(
         OrderInterface $order,
         PaymentMethodInterface $paymentMethod,
         RefundPaymentInterface $refundPayment
