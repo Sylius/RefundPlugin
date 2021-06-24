@@ -98,6 +98,17 @@
             <tag name="sylius_refund.units_refunded.process_step" priority="50" />
         </service>
 
+1. The constructor of `Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator` has been changed:
+
+    ```diff
+    -   public function __construct(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator)
+    +   public function __construct(RefundUnitsConverterInterface $refundUnitsConverter)
+        {
+    -       $this->unitRefundTotalCalculator = $unitRefundTotalCalculator;
+    +       $this->refundUnitsConverter = $refundUnitsConverter;
+        }
+    ```
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 

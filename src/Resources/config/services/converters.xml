@@ -9,6 +9,10 @@
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
         </service>
 
+        <service id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" class="Sylius\RefundPlugin\Converter\RefundUnitsConverter">
+            <argument type="service" id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface" />
+        </service>
+
         <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter">
             <argument type="service" id="sylius.repository.adjustment" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
