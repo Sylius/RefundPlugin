@@ -24,19 +24,7 @@ interface RefundTypeInterface
     public static function shipment(): self;
 
     /**
-     * @psalm-param mixed $variable
-     */
-    public function equals($variable = null): bool;
-
-    /**
-     * @psalm-param mixed $value
-     */
-    public static function isValid($value): bool;
-
-    /**
      * @psalm-return mixed
      */
     public function getValue();
-
-    public static function keys(): array;
 }

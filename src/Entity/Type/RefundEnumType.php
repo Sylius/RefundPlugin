@@ -16,6 +16,7 @@ namespace Sylius\RefundPlugin\Entity\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
+use MyCLabs\Enum\Enum;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
@@ -33,7 +34,7 @@ class RefundEnumType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): RefundTypeInterface
     {
-        if ($value instanceof RefundTypeInterface && !$value::isValid($value)) {
+        if ($value instanceof RefundTypeInterface && $value instanceof Enum && !$value::isValid($value)) {
             throw new \InvalidArgumentException(sprintf(
                 'The value "%s" is not valid for the enum "%s". Expected one of ["%s"]',
                 (string) $value->getValue(),

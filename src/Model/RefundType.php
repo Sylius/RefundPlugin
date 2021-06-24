@@ -27,16 +27,6 @@ class RefundType extends Enum implements RefundTypeInterface
         return new self(self::SHIPMENT);
     }
 
-    public static function keys(): array
-    {
-        return parent::keys();
-    }
-
-    public static function isValid($value): bool
-    {
-        return parent::isValid($value);
-    }
-
     /**
      * @psalm-return mixed
      */

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
+use MyCLabs\Enum\Enum;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\AdjustableInterface;
@@ -63,7 +64,7 @@ final class RemainingTotalProvider implements RemainingTotalProviderInterface
 
     private function getRefundUnitTotal(int $id, RefundTypeInterface $refundType): int
     {
-        if ($refundType->equals(RefundType::orderItemUnit())) {
+        if ($refundType instanceof Enum && $refundType->equals(RefundType::orderItemUnit())) {
             /** @var OrderItemUnitInterface $orderItemUnit */
             $orderItemUnit = $this->orderItemUnitRepository->find($id);
             Assert::notNull($orderItemUnit);
