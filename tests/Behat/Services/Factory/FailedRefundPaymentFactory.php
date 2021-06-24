@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Services\Factory;
 
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
@@ -25,7 +26,7 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        int $paymentMethodId
+        PaymentMethodInterface $paymentMethod
     ): RefundPaymentInterface {
         if (file_exists(self::FAILED_FILE)) {
             unlink(self::FAILED_FILE);
@@ -33,7 +34,7 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
             throw new \Exception('Refund payment creation failed');
         }
 
-        return $this->baseRefundPaymentFactory->createWithData($order, $amount, $currencyCode, $state, $paymentMethodId);
+        return $this->baseRefundPaymentFactory->createWithData($order, $amount, $currencyCode, $state, $paymentMethod);
     }
 
     public function failRefundPaymentCreation(): void

@@ -96,6 +96,20 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @Given /^the (\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has a refund of ("[^"]+") with ("[^"]+" payment) done later$/
+     */
+    public function theProductFromOrderHasARefundOfWithPaymentDoneLater(
+        int $unitNumber,
+        string $productName,
+        string $orderNumber,
+        int $partialTotal,
+        PaymentMethodInterface $paymentMethod
+    ): void {
+        sleep(1);
+        $this->theProductFromOrderHasARefundOfWith($unitNumber, $productName, $orderNumber, $partialTotal, $paymentMethod);
+    }
+
+    /**
      * @Given /^all units from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/
      */
     public function allUnitsFromOrderAreRefunded(

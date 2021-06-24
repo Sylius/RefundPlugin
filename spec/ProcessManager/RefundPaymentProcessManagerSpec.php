@@ -16,7 +16,9 @@ namespace spec\Sylius\RefundPlugin\ProcessManager;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -36,6 +38,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         OrderRepositoryInterface $orderRepository,
+        PaymentMethodRepositoryInterface $paymentMethodRepository,
         EntityManagerInterface $entityManager,
         MessageBusInterface $eventBus
     ): void {
@@ -44,6 +47,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
             $relatedPaymentIdProvider,
             $refundPaymentFactory,
             $orderRepository,
+            $paymentMethodRepository,
             $entityManager,
             $eventBus
         );
@@ -59,20 +63,20 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         RelatedPaymentIdProviderInterface $relatedPaymentIdProvider,
         RefundPaymentFactoryInterface $refundPaymentFactory,
         OrderRepositoryInterface $orderRepository,
+        PaymentMethodRepositoryInterface $paymentMethodRepository,
         EntityManagerInterface $entityManager,
         MessageBusInterface $eventBus,
         RefundPaymentInterface $refundPayment,
-        OrderInterface $order
+        OrderInterface $order,
+        PaymentMethodInterface $paymentMethod
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
+        $paymentMethodRepository->find(1)->willReturn($paymentMethod);
 
-        $refundPaymentFactory->createWithData(
-            $order,
-            1000,
-            'USD',
-            RefundPaymentInterface::STATE_NEW,
-            1
-        )->willReturn($refundPayment);
+        $refundPaymentFactory
+            ->createWithData($order, 1000, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod)
+            ->willReturn($refundPayment)
+        ;
 
         $entityManager->persist($refundPayment)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();

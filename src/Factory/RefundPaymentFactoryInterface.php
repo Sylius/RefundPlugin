@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
 interface RefundPaymentFactoryInterface
@@ -23,6 +24,6 @@ interface RefundPaymentFactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        int $paymentMethodId
+        PaymentMethodInterface $paymentMethod
     ): RefundPaymentInterface;
 }

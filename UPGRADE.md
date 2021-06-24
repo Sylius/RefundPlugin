@@ -80,6 +80,59 @@
 1. `sylius_refund_plugin.block_event_listener.account.order_show` and `sylius_refund_plugin.block_event_listener.order_show.credit_memos`
     listeners have been replaced by `sylius_ui` configuration
 
+1. `Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface` and `Sylius\RefundPlugin\Factory\RefundPaymentFactory`
+    service definitions have been removed and replaced by default resource factory `sylius_refund.factory.refund_payment`
+
+1. The constructor of `Sylius\RefundPlugin\Factory\RefundPaymentFactory` has been changed:
+
+    ```diff
+    -   public function __construct(PaymentMethodRepositoryInterface $paymentMethodRepository)
+    +   public function __construct(string $className)
+        {
+    -       $this->paymentMethodRepository = $paymentMethodRepository;
+    +       $this->className = $className;
+        }
+    ```
+
+1. The `createWithData` method of `Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface` has been changed:
+
+    ```diff
+        public function createWithData(
+            OrderInterface $order,
+            int $amount,
+            string $currencyCode,
+            string $state,
+    -       int $paymentMethodId
+    +       PaymentMethodInterface $paymentMethod
+        ): RefundPaymentInterface;
+    ```
+
+1. The definition of `Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager` has been changed:
+
+    ```diff
+        <service id="Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager">
+            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolverInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface" />
+    -       <argument type="service" id="Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface" />
+    +       <argument type="service" id="sylius_refund.factory.refund_payment" />
+            <argument type="service" id="sylius.repository.order" />
+    +       <argument type="service" id="sylius.repository.payment_method" />
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument type="service" id="sylius.event_bus" />
+            <tag name="sylius_refund.units_refunded.process_step" priority="50" />
+        </service>
+
+1. The constructor of `Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator` has been changed:
+
+    ```diff
+    -   public function __construct(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator)
+    +   public function __construct(RefundUnitsConverterInterface $refundUnitsConverter)
+        {
+    -       $this->unitRefundTotalCalculator = $unitRefundTotalCalculator;
+    +       $this->refundUnitsConverter = $refundUnitsConverter;
+        }
+    ```
+
 ### UPGRADE FROM 1.0.0-RC.9 TO 1.0.0-RC.10
 
 1. Support for Sylius 1.8 has been dropped, upgrade your application to [Sylius 1.9](https://github.com/Sylius/Sylius/blob/master/UPGRADE-1.9.md) 

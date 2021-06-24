@@ -13,35 +13,39 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Creator;
 
-use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
 final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterface
 {
-    /** @var UnitRefundTotalCalculatorInterface */
-    private $unitRefundTotalCalculator;
+    /** @var RefundUnitsConverterInterface */
+    private $refundUnitsConverter;
 
-    public function __construct(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator)
+    public function __construct(RefundUnitsConverterInterface $refundUnitsConverter)
     {
-        $this->unitRefundTotalCalculator = $unitRefundTotalCalculator;
+        $this->refundUnitsConverter = $refundUnitsConverter;
     }
 
     public function fromRequest(Request $request): RefundUnits
     {
         Assert::true($request->attributes->has('orderNumber'), 'Refunded order number not provided');
 
-        $units = $this->filterEmptyRefundUnits(
-            $request->request->has('sylius_refund_units') ? $request->request->all()['sylius_refund_units'] : []
+        $units = $this->refundUnitsConverter->convert(
+            $request->request->has('sylius_refund_units') ? $request->request->all()['sylius_refund_units'] : [],
+            RefundType::orderItemUnit(),
+            OrderItemUnitRefund::class
         );
-        $shipments = $this->filterEmptyRefundUnits(
-            $request->request->has('sylius_refund_shipments') ? $request->request->all()['sylius_refund_shipments'] : []
+
+        $shipments = $this->refundUnitsConverter->convert(
+            $request->request->has('sylius_refund_shipments') ? $request->request->all()['sylius_refund_shipments'] : [],
+            RefundType::shipment(),
+            ShipmentRefund::class
         );
 
         if (count($units) === 0 && count($shipments) === 0) {
@@ -53,51 +57,10 @@ final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterf
 
         return new RefundUnits(
             $request->attributes->get('orderNumber'),
-            $this->parseIdsToUnitRefunds($units, RefundType::orderItemUnit(), OrderItemUnitRefund::class),
-            $this->parseIdsToUnitRefunds($shipments, RefundType::shipment(), ShipmentRefund::class),
+            $units,
+            $shipments,
             (int) $request->request->get('sylius_refund_payment_method'),
             $comment
         );
-    }
-
-    /**
-     * Parse shipment id's to ShipmentRefund with id and remaining total or amount passed in request
-     *
-     * @return array|UnitRefundInterface[]
-     */
-    private function parseIdsToUnitRefunds(array $units, RefundType $refundType, string $unitRefundClass): array
-    {
-        $refundUnits = [];
-        foreach ($units as $id => $unit) {
-            $total = $this
-                ->unitRefundTotalCalculator
-                ->calculateForUnitWithIdAndType($id, $refundType, $this->getAmount($unit))
-            ;
-
-            $refundUnits[] = new $unitRefundClass((int) $id, $total);
-        }
-
-        return $refundUnits;
-    }
-
-    private function filterEmptyRefundUnits(array $units): array
-    {
-        return array_filter($units, function (array $refundUnit): bool {
-            return
-                (isset($refundUnit['amount']) && $refundUnit['amount'] !== '')
-                || isset($refundUnit['full'])
-            ;
-        });
-    }
-
-    private function getAmount(array $unit): ?float
-    {
-        if (isset($unit['full'])) {
-            return null;
-        }
-
-        Assert::keyExists($unit, 'amount');
-
-        return (float) $unit['amount'];
     }
 }

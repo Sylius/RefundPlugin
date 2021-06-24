@@ -16,7 +16,6 @@ namespace spec\Sylius\RefundPlugin\Factory;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPayment;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactory;
@@ -24,9 +23,9 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class RefundPaymentFactorySpec extends ObjectBehavior
 {
-    public function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
+    public function let(): void
     {
-        $this->beConstructedWith($paymentMethodRepository);
+        $this->beConstructedWith(RefundPayment::class);
     }
 
     public function it_is_initializable(): void
@@ -39,29 +38,25 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
         $this->shouldImplement(RefundPaymentFactoryInterface::class);
     }
 
-    public function it_creates_new_refund_payment(
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
-        PaymentMethodInterface $paymentMethod,
-        OrderInterface $order
+    public function it_creates_a_new_refund_payment(
+        OrderInterface $order,
+        PaymentMethodInterface $paymentMethod
     ): void {
-        $paymentMethodRepository->find(1)->willReturn($paymentMethod);
-
         $this
             ->createWithData(
                 $order,
                 1000,
                 'USD',
                 RefundPaymentInterface::STATE_NEW,
-                1
+                $paymentMethod
             )
-            ->shouldBeLike(
-                new RefundPayment(
-                    $order->getWrappedObject(),
-                    1000,
-                    'USD',
-                    RefundPaymentInterface::STATE_NEW,
-                    $paymentMethod->getWrappedObject()
-                )
-            );
+            ->shouldBeLike(new RefundPayment(
+                $order->getWrappedObject(),
+                1000,
+                'USD',
+                RefundPaymentInterface::STATE_NEW,
+                $paymentMethod->getWrappedObject()
+            ))
+        ;
     }
 }

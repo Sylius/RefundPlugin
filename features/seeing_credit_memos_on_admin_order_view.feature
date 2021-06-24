@@ -16,11 +16,11 @@ Feature: Seeing credit memos in admin order view
     And the customer chose "Galaxy Post" shipping method with "Space money" payment
     And the order "#00000022" is already paid
     And I am logged in as an administrator
-    
+
   @ui
   Scenario: Having all credit memos listed on the order page in ascending order
     Given the "#00000022" order's shipping cost already has a refund of "$4.50" with "Space money" payment
-    And the 1st "PHP T-Shirt" product from order "#00000022" has a refund of "$5.50" with "Space money" payment
+    And the 1st "PHP T-Shirt" product from order "#00000022" has a refund of "$5.50" with "Space money" payment done later
     When I view the summary of the order "#00000022"
     Then I should see the credit memo with "$4.50" total as 1st in the list
     And I should see the credit memo with "$5.50" total as 2nd in the list

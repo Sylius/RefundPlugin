@@ -15,18 +15,16 @@ namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
-use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
-use Sylius\RefundPlugin\Entity\RefundPayment;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
 final class RefundPaymentFactory implements RefundPaymentFactoryInterface
 {
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
+    /** @var string */
+    private $className;
 
-    public function __construct(PaymentMethodRepositoryInterface $paymentMethodRepository)
+    public function __construct(string $className)
     {
-        $this->paymentMethodRepository = $paymentMethodRepository;
+        $this->className = $className;
     }
 
     public function createWithData(
@@ -34,11 +32,8 @@ final class RefundPaymentFactory implements RefundPaymentFactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        int $paymentMethodId
+        PaymentMethodInterface $paymentMethod
     ): RefundPaymentInterface {
-        /** @var PaymentMethodInterface $paymentMethod */
-        $paymentMethod = $this->paymentMethodRepository->find($paymentMethodId);
-
-        return new RefundPayment($order, $amount, $currencyCode, $state, $paymentMethod);
+        return new $this->className($order, $amount, $currencyCode, $state, $paymentMethod);
     }
 }

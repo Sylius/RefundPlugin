@@ -18,7 +18,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface" class="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator">
-            <argument type="service" id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" />
         </service>
         <service id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator" alias="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface instead.</deprecated>
