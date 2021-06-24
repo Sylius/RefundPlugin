@@ -9,6 +9,6 @@ services:
             - '@Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator.inner'
 
     Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory:
-        decorates: 'Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface'
+        decorates: 'sylius_refund.factory.refund_payment'
         arguments:
             - '@Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory.inner'
