@@ -81,7 +81,31 @@
     listeners have been replaced by `sylius_ui` configuration
 
 1. `Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface` and `Sylius\RefundPlugin\Factory\RefundPaymentFactory`
-    have been removed and replaced by default resource factory `sylius_refund.factory.refund_payment`
+    service definitions have been removed and replaced by default resource factory `sylius_refund.factory.refund_payment`
+
+1. The constructor of `Sylius\RefundPlugin\Factory\RefundPaymentFactory` has been changed:
+
+    ```diff
+    -   public function __construct(PaymentMethodRepositoryInterface $paymentMethodRepository)
+    +   public function __construct(string $className)
+        {
+    -       $this->paymentMethodRepository = $paymentMethodRepository;
+    +       $this->className = $className;
+        }
+    ```
+
+1. The `createWithData` method of `Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface` has been changed:
+
+    ```diff
+        public function createWithData(
+            OrderInterface $order,
+            int $amount,
+            string $currencyCode,
+            string $state,
+    -       int $paymentMethodId
+    +       PaymentMethodInterface $paymentMethod
+        ): RefundPaymentInterface;
+    ```
 
 1. The definition of `Sylius\RefundPlugin\ProcessManager\RefundPaymentProcessManager` has been changed:
 
