@@ -32,7 +32,8 @@ final class RefundUnitsConverter implements RefundUnitsConverterInterface
         $units = $this->filterEmptyRefundUnits($units);
         $refundUnits = [];
         foreach ($units as $id => $unit) {
-            $total = $this->unitRefundTotalCalculator
+            $total = $this
+                ->unitRefundTotalCalculator
                 ->calculateForUnitWithIdAndType($id, $refundType, $this->getAmount($unit))
             ;
 

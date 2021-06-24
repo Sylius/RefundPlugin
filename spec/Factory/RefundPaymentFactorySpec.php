@@ -40,15 +40,8 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
 
     public function it_creates_a_new_refund_payment(
         OrderInterface $order,
-        PaymentMethodInterface $paymentMethod,
-        RefundPaymentInterface $refundPayment
+        PaymentMethodInterface $paymentMethod
     ): void {
-        $refundPayment->getOrder()->willReturn($order);
-        $refundPayment->getAmount()->willReturn(1000);
-        $refundPayment->getCurrencyCode()->willReturn('USD');
-        $refundPayment->getState()->willReturn(RefundPaymentInterface::STATE_NEW);
-        $refundPayment->getPaymentMethod()->willReturn($paymentMethod);
-
         $this
             ->createWithData(
                 $order,
@@ -57,26 +50,13 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
                 RefundPaymentInterface::STATE_NEW,
                 $paymentMethod
             )
-            ->shouldBeSameAs($refundPayment)
+            ->shouldBeLike(new RefundPayment(
+                $order->getWrappedObject(),
+                1000,
+                'USD',
+                RefundPaymentInterface::STATE_NEW,
+                $paymentMethod->getWrappedObject()
+            ))
         ;
-    }
-
-    public function getMatchers(): array
-    {
-        return [
-            'beSameAs' => function ($subject, $key) {
-                if (!$subject instanceof RefundPaymentInterface || !$key instanceof RefundPaymentInterface) {
-                    return false;
-                }
-
-                return
-                    $subject->getOrder() === $key->getOrder() &&
-                    $subject->getAmount() === $key->getAmount() &&
-                    $subject->getCurrencyCode() === $key->getCurrencyCode() &&
-                    $subject->getState() === $key->getState() &&
-                    $subject->getPaymentMethod() === $key->getPaymentMethod()
-                ;
-            },
-        ];
     }
 }

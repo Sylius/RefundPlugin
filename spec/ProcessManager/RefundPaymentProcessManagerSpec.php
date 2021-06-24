@@ -74,13 +74,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         $paymentMethodRepository->find(1)->willReturn($paymentMethod);
 
         $refundPaymentFactory
-            ->createWithData(
-                $order,
-                1000,
-                'USD',
-                RefundPaymentInterface::STATE_NEW,
-                $paymentMethod
-            )
+            ->createWithData($order, 1000, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod)
             ->willReturn($refundPayment)
         ;
 
