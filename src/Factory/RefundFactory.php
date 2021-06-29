@@ -29,7 +29,7 @@ final class RefundFactory implements RefundFactoryInterface
 
     public function createNew(): RefundInterface
     {
-        throw new \InvalidArgumentException('This object is not default constructable.');
+        throw new \InvalidArgumentException('Default creation method is forbidden for this object. Use `createWithData` instead.');
     }
 
     public function createWithData(OrderInterface $order, int $unitId, int $amount, RefundType $type): RefundInterface

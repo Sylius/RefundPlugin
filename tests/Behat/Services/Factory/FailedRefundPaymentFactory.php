@@ -23,7 +23,7 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
 
     public function createNew(): RefundPaymentInterface
     {
-        throw new \InvalidArgumentException('This object is not default constructable.');
+        throw new \InvalidArgumentException('Default creation method is forbidden for this object. Use `createWithData` instead.');
     }
 
     public function createWithData(
