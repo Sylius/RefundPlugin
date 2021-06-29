@@ -59,4 +59,9 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
             ))
         ;
     }
+
+    public function it_throws_exception_if_it_tries_to_create_default_refund_payment_without_data(): void
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('createNew');
+    }
 }

@@ -14,12 +14,19 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\RefundPlugin\Entity\Refund;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundFactory implements RefundFactoryInterface
 {
+    /** @var string */
+    private $className;
+
+    public function __construct(string $className)
+    {
+        $this->className = $className;
+    }
+
     public function createNew(): RefundInterface
     {
         throw new \InvalidArgumentException('This object is not default constructable.');
@@ -27,6 +34,6 @@ final class RefundFactory implements RefundFactoryInterface
 
     public function createWithData(OrderInterface $order, int $unitId, int $amount, RefundType $type): RefundInterface
     {
-        return new Refund($order, $amount, $unitId, $type);
+        return new $this->className($order, $amount, $unitId, $type);
     }
 }

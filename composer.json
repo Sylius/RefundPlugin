@@ -51,7 +51,8 @@
         "symfony/debug-bundle": "^4.4 || ^5.2",
         "symfony/dotenv": "^4.4 || ^5.2",
         "symfony/intl": "^4.4 || ^5.2",
-        "symfony/web-profiler-bundle": "^4.4 || ^5.2"
+        "symfony/web-profiler-bundle": "^4.4 || ^5.2",
+        "symplify/easy-coding-standard": "9.3.26"
     },
     "autoload": {
         "psr-4": {

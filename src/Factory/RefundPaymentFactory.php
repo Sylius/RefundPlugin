@@ -27,6 +27,11 @@ final class RefundPaymentFactory implements RefundPaymentFactoryInterface
         $this->className = $className;
     }
 
+    public function createNew(): RefundPaymentInterface
+    {
+        throw new \InvalidArgumentException('This object is not default constructable.');
+    }
+
     public function createWithData(
         OrderInterface $order,
         int $amount,

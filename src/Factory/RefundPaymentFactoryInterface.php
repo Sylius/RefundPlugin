@@ -15,9 +15,10 @@ namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
-interface RefundPaymentFactoryInterface
+interface RefundPaymentFactoryInterface extends FactoryInterface
 {
     public function createWithData(
         OrderInterface $order,
