@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 interface RefundUnitsConverterInterface
@@ -21,5 +21,5 @@ interface RefundUnitsConverterInterface
     /**
      * @return UnitRefundInterface[]
      */
-    public function convert(array $units, RefundType $refundType, string $unitRefundClass): array;
+    public function convert(array $units, RefundTypeInterface $refundType, string $unitRefundClass): array;
 }

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Converter;
 
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundUnitsConverter implements RefundUnitsConverterInterface
@@ -27,7 +27,7 @@ final class RefundUnitsConverter implements RefundUnitsConverterInterface
         $this->unitRefundTotalCalculator = $unitRefundTotalCalculator;
     }
 
-    public function convert(array $units, RefundType $refundType, string $unitRefundClass): array
+    public function convert(array $units, RefundTypeInterface $refundType, string $unitRefundClass): array
     {
         $units = $this->filterEmptyRefundUnits($units);
         $refundUnits = [];
