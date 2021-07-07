@@ -41,7 +41,12 @@ final class OrderItemUnitsRefunder implements RefunderInterface
 
         /** @var UnitRefundInterface $unit */
         foreach ($units as $unit) {
-            $this->refundCreator->__invoke($orderNumber, $unit->id(), $unit->total(), RefundType::orderItemUnit());
+            $this->refundCreator->__invoke(
+                $orderNumber,
+                $unit->id(),
+                $unit->total(),
+                RefundType::orderItemUnit()
+            );
 
             $refundedTotal += $unit->total();
 

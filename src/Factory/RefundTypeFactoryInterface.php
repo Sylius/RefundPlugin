@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Validator;
+namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
-interface RefundAmountValidatorInterface
+interface RefundTypeFactoryInterface
 {
-    public function validateUnits(array $unitRefunds, RefundTypeInterface $refundType): void;
+    public function createNew(string $refundType): RefundTypeInterface;
 }

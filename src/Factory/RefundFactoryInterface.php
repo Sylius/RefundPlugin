@@ -16,9 +16,14 @@ namespace Sylius\RefundPlugin\Factory;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 interface RefundFactoryInterface extends FactoryInterface
 {
-    public function createWithData(OrderInterface $order, int $unitId, int $amount, RefundType $type): RefundInterface;
+    public function createWithData(
+        OrderInterface $order,
+        int $unitId,
+        int $amount,
+        RefundTypeInterface $type
+    ): RefundInterface;
 }

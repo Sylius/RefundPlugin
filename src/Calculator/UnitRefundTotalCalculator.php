@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Calculator;
 
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundTotalCalculator implements UnitRefundTotalCalculatorInterface
@@ -26,7 +26,7 @@ final class UnitRefundTotalCalculator implements UnitRefundTotalCalculatorInterf
         $this->remainingTotalProvider = $remainingTotalProvider;
     }
 
-    public function calculateForUnitWithIdAndType(int $id, RefundType $refundType, ?float $amount = null): int
+    public function calculateForUnitWithIdAndType(int $id, RefundTypeInterface $refundType, ?float $amount = null): int
     {
         if ($amount !== null) {
             return (int) round($amount * 100);

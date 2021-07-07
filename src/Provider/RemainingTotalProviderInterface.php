@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 interface RemainingTotalProviderInterface
 {
-    public function getTotalLeftToRefund(int $id, RefundType $type): int;
+    public function getTotalLeftToRefund(int $id, RefundTypeInterface $type): int;
 }

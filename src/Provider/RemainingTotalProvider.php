@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Order\Model\AdjustableInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
-use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Webmozart\Assert\Assert;
 
 final class RemainingTotalProvider implements RemainingTotalProviderInterface
@@ -42,7 +42,7 @@ final class RemainingTotalProvider implements RemainingTotalProviderInterface
         $this->refundRepository = $refundRepository;
     }
 
-    public function getTotalLeftToRefund(int $id, RefundType $type): int
+    public function getTotalLeftToRefund(int $id, RefundTypeInterface $type): int
     {
         $unitTotal = $this->getRefundUnitTotal($id, $type);
         $refunds = $this->refundRepository->findBy(['refundedUnitId' => $id, 'type' => $type]);
@@ -60,9 +60,9 @@ final class RemainingTotalProvider implements RemainingTotalProviderInterface
         return $unitTotal - $refundedTotal;
     }
 
-    private function getRefundUnitTotal(int $id, RefundType $refundType): int
+    private function getRefundUnitTotal(int $id, RefundTypeInterface $refundType): int
     {
-        if ($refundType->equals(RefundType::orderItemUnit())) {
+        if ($refundType->getValue() === RefundTypeInterface::ORDER_ITEM_UNIT) {
             /** @var OrderItemUnitInterface $orderItemUnit */
             $orderItemUnit = $this->orderItemUnitRepository->find($id);
             Assert::notNull($orderItemUnit);
