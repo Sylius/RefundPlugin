@@ -1,4 +1,4 @@
-### UPGRADE FROM 1.0.0-RC.11 TO 1.0.0-RC.12
+### UPGRADE FROM 1.0.0-RC.11 TO 1.0.0
 
 1. `orderNumber` field on `Sylius\RefundPlugin\Entity\Refund` and `Sylius\RefundPlugin\Entity\RefundPayment` has been removed 
     and replaced with relation to `Order` entity.

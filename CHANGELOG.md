@@ -1,5 +1,26 @@
 # CHANGELOG
 
+### v1.0.0 (2021-07-14)
+
+- [#306](https://github.com/Sylius/RefundPlugin/issues/306) Change order number to Order relation on Refund ([@Zales0123](https://github.com/Zales0123))
+- [#307](https://github.com/Sylius/RefundPlugin/issues/307) [RefundPayment] Change order number to Order relation on RefundPayment ([@GSadee](https://github.com/GSadee))
+- [#309](https://github.com/Sylius/RefundPlugin/issues/309) Order refund admin show rebuild ([@Tomanhez](https://github.com/Tomanhez))
+- [#310](https://github.com/Sylius/RefundPlugin/issues/310) Replace deprecated twig extension ([@Tomanhez](https://github.com/Tomanhez))
+- [#308](https://github.com/Sylius/RefundPlugin/issues/308) Logo as parameter ([@Mateuszry](https://github.com/Mateuszry))
+- [#313](https://github.com/Sylius/RefundPlugin/issues/313) Change CustomerBillingData to resource and create via factory ([@arti0090](https://github.com/arti0090))
+- [#314](https://github.com/Sylius/RefundPlugin/issues/314) Add backward compatibility for old refund buses ([@Tomanhez](https://github.com/Tomanhez))
+- [#317](https://github.com/Sylius/RefundPlugin/issues/317) Replace Sonata block events with Sylius template events ([@GSadee](https://github.com/GSadee))
+- [#316](https://github.com/Sylius/RefundPlugin/issues/316) fix original payment method of refund ([@AdamKasp](https://github.com/AdamKasp))
+- [#318](https://github.com/Sylius/RefundPlugin/issues/318) Fix plugin versions in UPGRADE file ([@GSadee](https://github.com/GSadee))
+- [#315](https://github.com/Sylius/RefundPlugin/issues/315) Shop billing data as resource ([@SirDomin](https://github.com/SirDomin))
+- [#312](https://github.com/Sylius/RefundPlugin/issues/312) Improve dx with extending refund type ([@AdamKasp](https://github.com/AdamKasp))
+- [#320](https://github.com/Sylius/RefundPlugin/issues/320) [RefundPayment] Make the Refund customization easier ([@GSadee](https://github.com/GSadee))
+- [#321](https://github.com/Sylius/RefundPlugin/issues/321) Minor improvements for RefundFactory and RefundPaymentFactory ([@GSadee](https://github.com/GSadee))
+- [#322](https://github.com/Sylius/RefundPlugin/issues/322) Change to a more meaningful message in factory exception ([@GSadee](https://github.com/GSadee))
+- [#323](https://github.com/Sylius/RefundPlugin/issues/323) Improve customization of RefundType ([@Tomanhez](https://github.com/Tomanhez), [@GSadee](https://github.com/GSadee))
+- [#324](https://github.com/Sylius/RefundPlugin/issues/324) Upgrade to stable Sylius 1.10 ([@GSadee](https://github.com/GSadee))
+- [#325](https://github.com/Sylius/RefundPlugin/issues/325) [Maintenance] Update README ([@GSadee](https://github.com/GSadee))
+
 ### v1.0.0-RC.11 (2021-06-18)
 
 - [#314](https://github.com/Sylius/RefundPlugin/issues/314) Add backward compatibility for old refund buses ([@Tomanhez](https://github.com/Tomanhez))
