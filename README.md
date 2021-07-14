@@ -14,7 +14,9 @@
 
 ![Screenshot showing order's refund section](docs/refunds.png)
 
-![Screenshot showing order's credit memos and refund payments](docs/credit_memo.png)
+![Screenshot showing order's credit memos and refund payments](docs/credit_memo_refund_payment.png)
+
+![Screenshot showing credit memo details page](docs/credit_memo.png)
 
 ## Business value
 
