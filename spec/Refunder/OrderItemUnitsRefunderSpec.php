@@ -24,19 +24,19 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus
     ): void {
         $this->beConstructedWith($refundCreator, $eventBus);
     }
 
-    public function it_implements_refunder_interface(): void
+    function it_implements_refunder_interface(): void
     {
         $this->shouldImplement(RefunderInterface::class);
     }
 
-    public function it_creates_refund_for_each_unit_and_dispatch_proper_event(
+    function it_creates_refund_for_each_unit_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus
     ): void {

@@ -20,17 +20,17 @@ use Sylius\RefundPlugin\Factory\ShopBillingDataFactoryInterface;
 
 final class ShopBillingDataFactorySpec extends ObjectBehavior
 {
-    public function let(FactoryInterface $shopBillingDataFactory): void
+    function let(FactoryInterface $shopBillingDataFactory): void
     {
         $this->beConstructedWith($shopBillingDataFactory);
     }
 
-    public function it_implements_shop_billing_data_factory_interface(): void
+    function it_implements_shop_billing_data_factory_interface(): void
     {
         $this->shouldImplement(ShopBillingDataFactoryInterface::class);
     }
 
-    public function it_creates_new_shop_billing_data(
+    function it_creates_new_shop_billing_data(
         FactoryInterface $shopBillingDataFactory,
         ShopBillingDataInterface $shopBillingData
     ): void {
@@ -39,7 +39,7 @@ final class ShopBillingDataFactorySpec extends ObjectBehavior
         $this->createNew()->shouldReturn($shopBillingData);
     }
 
-    public function it_creates_new_shop_billing_data_with_data(
+    function it_creates_new_shop_billing_data_with_data(
         ShopBillingDataInterface $shopBillingData,
         FactoryInterface $shopBillingDataFactory
     ): void {

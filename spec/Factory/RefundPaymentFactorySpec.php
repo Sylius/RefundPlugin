@@ -23,22 +23,22 @@ use Sylius\RefundPlugin\Factory\RefundPaymentFactoryInterface;
 
 final class RefundPaymentFactorySpec extends ObjectBehavior
 {
-    public function let(): void
+    function let(): void
     {
         $this->beConstructedWith(RefundPayment::class);
     }
 
-    public function it_is_initializable(): void
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(RefundPaymentFactory::class);
     }
 
-    public function it_implements_refund_payment_factory_interface(): void
+    function it_implements_refund_payment_factory_interface(): void
     {
         $this->shouldImplement(RefundPaymentFactoryInterface::class);
     }
 
-    public function it_creates_a_new_refund_payment(
+    function it_creates_a_new_refund_payment(
         OrderInterface $order,
         PaymentMethodInterface $paymentMethod
     ): void {
@@ -60,7 +60,7 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
         ;
     }
 
-    public function it_throws_exception_if_it_tries_to_create_default_refund_payment_without_data(): void
+    function it_throws_exception_if_it_tries_to_create_default_refund_payment_without_data(): void
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('createNew');
     }

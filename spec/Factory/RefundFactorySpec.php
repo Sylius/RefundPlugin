@@ -21,17 +21,17 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundFactorySpec extends ObjectBehavior
 {
-    public function let(): void
+    function let(): void
     {
         $this->beConstructedWith(Refund::class);
     }
 
-    public function it_implements_refund_factory_interface(): void
+    function it_implements_refund_factory_interface(): void
     {
         $this->shouldImplement(RefundFactoryInterface::class);
     }
 
-    public function it_allows_to_create_refund_with_given_data(OrderInterface $order): void
+    function it_allows_to_create_refund_with_given_data(OrderInterface $order): void
     {
         $this
             ->createWithData($order, 1, 1000, RefundType::orderItemUnit())
@@ -39,7 +39,7 @@ final class RefundFactorySpec extends ObjectBehavior
         ;
     }
 
-    public function it_throws_exception_if_it_tries_to_create_default_refund_without_data(): void
+    function it_throws_exception_if_it_tries_to_create_default_refund_without_data(): void
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('createNew');
     }

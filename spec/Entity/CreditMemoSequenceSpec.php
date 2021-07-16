@@ -18,17 +18,17 @@ use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
 
 final class CreditMemoSequenceSpec extends ObjectBehavior
 {
-    public function it_implements_credit_memo_sequence_interface(): void
+    function it_implements_credit_memo_sequence_interface(): void
     {
         $this->shouldImplement(CreditMemoSequenceInterface::class);
     }
 
-    public function it_has_no_id_by_default(): void
+    function it_has_no_id_by_default(): void
     {
         $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_incrementable_index(): void
+    function it_has_incrementable_index(): void
     {
         $this->getIndex()->shouldReturn(0);
 
@@ -38,7 +38,7 @@ final class CreditMemoSequenceSpec extends ObjectBehavior
         $this->getIndex()->shouldReturn(2);
     }
 
-    public function it_has_version(): void
+    function it_has_version(): void
     {
         $this->getVersion()->shouldReturn(1);
 

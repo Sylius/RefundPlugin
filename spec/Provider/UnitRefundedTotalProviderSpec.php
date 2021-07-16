@@ -21,17 +21,17 @@ use Sylius\RefundPlugin\Provider\UnitRefundedTotalProviderInterface;
 
 final class UnitRefundedTotalProviderSpec extends ObjectBehavior
 {
-    public function let(RepositoryInterface $refundRepository): void
+    function let(RepositoryInterface $refundRepository): void
     {
         $this->beConstructedWith($refundRepository);
     }
 
-    public function it_implements_unit_refunded_total_provider_interface(): void
+    function it_implements_unit_refunded_total_provider_interface(): void
     {
         $this->shouldImplement(UnitRefundedTotalProviderInterface::class);
     }
 
-    public function it_returns_refunded_total_of_unit_with_id(
+    function it_returns_refunded_total_of_unit_with_id(
         RepositoryInterface $refundRepository,
         RefundInterface $firstRefund,
         RefundInterface $secondRefund

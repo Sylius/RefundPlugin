@@ -19,12 +19,12 @@ use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterfa
 
 final class UnitRefundedEventListenerSpec extends ObjectBehavior
 {
-    public function let(OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver): void
+    function let(OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver): void
     {
         $this->beConstructedWith($orderPartiallyRefundedStateResolver);
     }
 
-    public function it_resolves_order_partially_refunded_state(
+    function it_resolves_order_partially_refunded_state(
         OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver
     ): void {
         $orderPartiallyRefundedStateResolver->resolve('000777')->shouldBeCalled();

@@ -22,19 +22,19 @@ use Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface;
 
 final class UnitsRefundedProcessManagerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
         UnitsRefundedProcessStepInterface $refundPaymentProcessManager
     ): void {
         $this->beConstructedWith([$creditMemoProcessManager, $refundPaymentProcessManager]);
     }
 
-    public function it_implements_units_refunded_process_manager_interface(): void
+    function it_implements_units_refunded_process_manager_interface(): void
     {
         $this->shouldImplement(UnitsRefundedProcessManagerInterface::class);
     }
 
-    public function it_triggers_all_process_steps_if_all_are_successful(
+    function it_triggers_all_process_steps_if_all_are_successful(
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
         UnitsRefundedProcessStepInterface $refundPaymentProcessManager
     ): void {

@@ -1,5 +1,6 @@
 <?php
 
+use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use SlevomatCodingStandard\Sniffs\Commenting\InlineDocCommentDeclarationSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -21,6 +22,7 @@ file that was distributed with this source code.',
     ]]);
 
     $containerConfigurator->parameters()->set(Option::SKIP, [
+        VisibilityRequiredFixer::class => ['*Spec.php'],
         InlineDocCommentDeclarationSniff::class . '.MissingVariable',
         '**/var/*',
     ]);

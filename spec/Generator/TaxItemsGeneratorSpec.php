@@ -20,12 +20,12 @@ use Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface;
 
 final class TaxItemsGeneratorSpec extends ObjectBehavior
 {
-    public function it_implements_tax_items_generator_interface(): void
+    function it_implements_tax_items_generator_interface(): void
     {
         $this->shouldImplement(TaxItemsGeneratorInterface::class);
     }
 
-    public function it_generates_tax_items(LineItemInterface $firstLineItem, LineItemInterface $secondLineItem): void
+    function it_generates_tax_items(LineItemInterface $firstLineItem, LineItemInterface $secondLineItem): void
     {
         $firstLineItem->taxRate()->willReturn('VAT');
         $firstLineItem->taxAmount()->willReturn(500);

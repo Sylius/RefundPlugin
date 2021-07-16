@@ -22,17 +22,17 @@ use Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface;
 
 final class SupportedRefundPaymentMethodsProviderSpec extends ObjectBehavior
 {
-    public function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
+    function let(PaymentMethodRepositoryInterface $paymentMethodRepository): void
     {
         $this->beConstructedWith($paymentMethodRepository, ['offline', 'stripe']);
     }
 
-    public function it_implements_refund_payment_methods_provider_interface(): void
+    function it_implements_refund_payment_methods_provider_interface(): void
     {
         $this->shouldImplement(RefundPaymentMethodsProviderInterface::class);
     }
 
-    public function it_provides_only_supported_payment_methods(
+    function it_provides_only_supported_payment_methods(
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         ChannelInterface $channel,
         PaymentMethodInterface $offlinePaymentMethod,

@@ -17,7 +17,7 @@ use PhpSpec\ObjectBehavior;
 
 final class RefundPaymentGeneratedSpec extends ObjectBehavior
 {
-    public function it_represents_an_immutable_fact_that_refund_payment_has_been_generated(): void
+    function it_represents_an_immutable_fact_that_refund_payment_has_been_generated(): void
     {
         $this->beConstructedWith(1, '000222', 10000, 'GBP', 2, 3);
 

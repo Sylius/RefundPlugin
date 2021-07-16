@@ -17,7 +17,7 @@ use PhpSpec\ObjectBehavior;
 
 final class CreditMemoGeneratedSpec extends ObjectBehavior
 {
-    public function it_represents_an_immutable_fact_that_credit_memo_has_been_generated(): void
+    function it_represents_an_immutable_fact_that_credit_memo_has_been_generated(): void
     {
         $this->beConstructedWith('2018/01/000001', '000222');
 

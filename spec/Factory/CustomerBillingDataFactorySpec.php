@@ -21,17 +21,17 @@ use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
 
 final class CustomerBillingDataFactorySpec extends ObjectBehavior
 {
-    public function let(FactoryInterface $customerBillingDataFactory): void
+    function let(FactoryInterface $customerBillingDataFactory): void
     {
         $this->beConstructedWith($customerBillingDataFactory);
     }
 
-    public function it_implements_customer_billing_data_factory_interface(): void
+    function it_implements_customer_billing_data_factory_interface(): void
     {
         $this->shouldImplement(CustomerBillingDataFactoryInterface::class);
     }
 
-    public function it_creates_a_new_customer_billing_data(
+    function it_creates_a_new_customer_billing_data(
         FactoryInterface $customerBillingDataFactory,
         CustomerBillingDataInterface $billingData
     ): void {
@@ -40,7 +40,7 @@ final class CustomerBillingDataFactorySpec extends ObjectBehavior
         $this->createNew()->shouldReturn($billingData);
     }
 
-    public function it_creates_a_new_customer_billing_data_with_data(
+    function it_creates_a_new_customer_billing_data_with_data(
         CustomerBillingDataInterface $customerBillingData,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory
     ): void {
@@ -62,7 +62,7 @@ final class CustomerBillingDataFactorySpec extends ObjectBehavior
         ;
     }
 
-    public function it_creates_a_new_customer_billing_data_with_address(
+    function it_creates_a_new_customer_billing_data_with_address(
         CustomerBillingDataInterface $customerBillingData,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory,
         AddressInterface $address
