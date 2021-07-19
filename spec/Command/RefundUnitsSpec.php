@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class RefundUnitsSpec extends ObjectBehavior
 {
-    public function it_represents_an_intention_to_refund_specific_order_units_and_shipments(): void
+    function it_represents_an_intention_to_refund_specific_order_units_and_shipments(): void
     {
         $unitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
         $shipmentRefunds = [new ShipmentRefund(1, 1000)];

@@ -20,22 +20,22 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundSpec extends ObjectBehavior
 {
-    public function let(OrderInterface $order): void
+    function let(OrderInterface $order): void
     {
         $this->beConstructedWith($order, 1000, 3, RefundType::orderItemUnit());
     }
 
-    public function it_implements_refund_interface(): void
+    function it_implements_refund_interface(): void
     {
         $this->shouldImplement(RefundInterface::class);
     }
 
-    public function it_has_no_id_by_default(): void
+    function it_has_no_id_by_default(): void
     {
         $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_order(OrderInterface $order): void
+    function it_has_order(OrderInterface $order): void
     {
         $order->getNumber()->willReturn('000555');
 
@@ -43,17 +43,17 @@ final class RefundSpec extends ObjectBehavior
         $this->getOrderNumber()->shouldReturn('000555');
     }
 
-    public function it_has_amount(): void
+    function it_has_amount(): void
     {
         $this->getAmount()->shouldReturn(1000);
     }
 
-    public function it_has_refunded_unit_id(): void
+    function it_has_refunded_unit_id(): void
     {
         $this->getRefundedUnitId()->shouldReturn(3);
     }
 
-    public function it_has_type(): void
+    function it_has_type(): void
     {
         $this->getType()->shouldBeLike(RefundType::orderItemUnit());
     }

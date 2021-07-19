@@ -21,22 +21,22 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 
 final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
 {
-    public function let(OrderRefundedTotalProviderInterface $orderRefundedTotalProvider): void
+    function let(OrderRefundedTotalProviderInterface $orderRefundedTotalProvider): void
     {
         $this->beConstructedWith($orderRefundedTotalProvider);
     }
 
-    public function it_is_initializable(): void
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(OrderFullyRefundedTotalChecker::class);
     }
 
-    public function it_implements_order_fully_refunded_total_checker_interface(): void
+    function it_implements_order_fully_refunded_total_checker_interface(): void
     {
         $this->shouldImplement(OrderFullyRefundedTotalCheckerInterface::class);
     }
 
-    public function it_returns_false_if_order_refunded_total_is_lower_than_order_total(
+    function it_returns_false_if_order_refunded_total_is_lower_than_order_total(
         OrderInterface $order,
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {
@@ -47,7 +47,7 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
         $this->isOrderFullyRefunded($order)->shouldReturn(false);
     }
 
-    public function it_returns_true_if_order_refunded_total_is_equal_to_order_total(
+    function it_returns_true_if_order_refunded_total_is_equal_to_order_total(
         OrderInterface $order,
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
     ): void {

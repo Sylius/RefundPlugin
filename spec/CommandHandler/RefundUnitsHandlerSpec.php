@@ -29,7 +29,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundUnitsHandlerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         MessageBusInterface $eventBus,
@@ -45,7 +45,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         );
     }
 
-    public function it_handles_command_and_create_refund_for_each_refunded_unit(
+    function it_handles_command_and_create_refund_for_each_refunded_unit(
         RefunderInterface $orderItemUnitsRefunder,
         RefunderInterface $orderShipmentsRefunder,
         MessageBusInterface $eventBus,
@@ -70,7 +70,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
     }
 
-    public function it_throws_an_exception_if_order_is_not_available_for_refund(
+    function it_throws_an_exception_if_order_is_not_available_for_refund(
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
     ): void {
         $refundUnitsCommand = new RefundUnits(

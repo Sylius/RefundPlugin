@@ -19,17 +19,17 @@ use Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator;
 
 final class UuidCreditMemoIdentifierGeneratorSpec extends ObjectBehavior
 {
-    public function it_is_initializable(): void
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(UuidCreditMemoIdentifierGenerator::class);
     }
 
-    public function it_implements_credit_memo_identifier_generator_interface(): void
+    function it_implements_credit_memo_identifier_generator_interface(): void
     {
         $this->shouldImplement(CreditMemoIdentifierGeneratorInterface::class);
     }
 
-    public function it_returns_two_different_strings_on_subsequent_calls(): void
+    function it_returns_two_different_strings_on_subsequent_calls(): void
     {
         $this->generate()->shouldNotReturn($this->generate());
     }

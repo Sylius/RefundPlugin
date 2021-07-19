@@ -24,7 +24,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class RemainingTotalProviderSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $adjustmentRepository,
         RepositoryInterface $refundRepository
@@ -32,12 +32,12 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         $this->beConstructedWith($orderItemUnitRepository, $adjustmentRepository, $refundRepository);
     }
 
-    public function it_implements_remaining_total_provider_interface(): void
+    function it_implements_remaining_total_provider_interface(): void
     {
         $this->shouldImplement(RemainingTotalProviderInterface::class);
     }
 
-    public function it_returns_unit_remaining_total_to_refund(
+    function it_returns_unit_remaining_total_to_refund(
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $refundRepository,
         OrderItemUnitInterface $orderItemUnit,
@@ -57,7 +57,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         $this->getTotalLeftToRefund(1, $refundType)->shouldReturn(500);
     }
 
-    public function it_returns_unit_total_if_there_is_no_refund_for_this_unit_yet(
+    function it_returns_unit_total_if_there_is_no_refund_for_this_unit_yet(
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $refundRepository,
         OrderItemUnitInterface $orderItemUnit
@@ -75,7 +75,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         $this->getTotalLeftToRefund(1, $refundType)->shouldReturn(1000);
     }
 
-    public function it_returns_shipment_remaining_total_to_refund(
+    function it_returns_shipment_remaining_total_to_refund(
         RepositoryInterface $adjustmentRepository,
         RepositoryInterface $refundRepository,
         AdjustmentInterface $shippingAdjustment,
@@ -101,7 +101,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         $this->getTotalLeftToRefund(1, $refundType)->shouldReturn(500);
     }
 
-    public function it_returns_shipment_total_if_there_is_no_refund_for_this_unit_yet(
+    function it_returns_shipment_total_if_there_is_no_refund_for_this_unit_yet(
         RepositoryInterface $adjustmentRepository,
         RepositoryInterface $refundRepository,
         AdjustmentInterface $shippingAdjustment,
@@ -125,7 +125,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         $this->getTotalLeftToRefund(1, $refundType)->shouldReturn(1000);
     }
 
-    public function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(
+    function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(
         RepositoryInterface $orderItemUnitRepository
     ): void {
         $orderItemUnitRepository->find(1)->willReturn(null);
@@ -136,7 +136,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         ;
     }
 
-    public function it_throws_exception_if_there_is_no_shipment_with_given_id(
+    function it_throws_exception_if_there_is_no_shipment_with_given_id(
         RepositoryInterface $adjustmentRepository
     ): void {
         $adjustmentRepository

@@ -21,12 +21,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoGeneratedEventListenerSpec extends ObjectBehavior
 {
-    public function let(MessageBusInterface $commandBus): void
+    function let(MessageBusInterface $commandBus): void
     {
         $this->beConstructedWith($commandBus);
     }
 
-    public function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(
+    function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(
         MessageBusInterface $commandBus
     ): void {
         $event = new CreditMemoGenerated('01/01/000002', '000222');

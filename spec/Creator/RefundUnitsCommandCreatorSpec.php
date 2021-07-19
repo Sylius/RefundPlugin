@@ -25,17 +25,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 {
-    public function let(RefundUnitsConverterInterface $refundUnitsConverter): void
+    function let(RefundUnitsConverterInterface $refundUnitsConverter): void
     {
         $this->beConstructedWith($refundUnitsConverter);
     }
 
-    public function it_implements_refund_units_command_creator_interface(): void
+    function it_implements_refund_units_command_creator_interface(): void
     {
         $this->shouldImplement(RefundUnitsCommandCreatorInterface::class);
     }
 
-    public function it_creates_refund_units_command_from_request(
+    function it_creates_refund_units_command_from_request(
         RefundUnitsConverterInterface $refundUnitsConverter,
         Request $request
     ): void {
@@ -85,7 +85,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ));
     }
 
-    public function it_throws_exception_if_there_is_no_units_nor_shipments_provided(
+    function it_throws_exception_if_there_is_no_units_nor_shipments_provided(
         RefundUnitsConverterInterface $refundUnitsConverter,
         Request $request
     ): void {
@@ -101,7 +101,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ;
     }
 
-    public function it_throws_exception_if_there_is_no_order_number_provided(Request $request): void
+    function it_throws_exception_if_there_is_no_order_number_provided(Request $request): void
     {
         $request->attributes = new ParameterBag([]);
 
@@ -111,7 +111,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
         ;
     }
 
-    public function getMatchers(): array
+    function getMatchers(): array
     {
         return [
             'returnCommand' => function (RefundUnits $command, RefundUnits $expectedCommand): bool {

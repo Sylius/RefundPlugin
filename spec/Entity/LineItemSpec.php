@@ -20,28 +20,28 @@ use Sylius\RefundPlugin\Exception\LineItemsCannotBeMerged;
 
 final class LineItemSpec extends ObjectBehavior
 {
-    public function let(): void
+    function let(): void
     {
         $this->beConstructedWith('Mjolnir', 2, 1000, 1100, 2000, 2200, 200, '10%');
     }
 
-    public function it_implements_line_item_interface(): void
+    function it_implements_line_item_interface(): void
     {
         $this->shouldImplement(LineItemInterface::class);
     }
 
-    public function it_implements_resource_interface(): void
+    function it_implements_resource_interface(): void
     {
         $this->shouldImplement(ResourceInterface::class);
     }
 
-    public function it_has_no_id_by_default(): void
+    function it_has_no_id_by_default(): void
     {
         $this->getId()->shouldReturn(null);
         $this->id()->shouldReturn(null);
     }
 
-    public function it_has_proper_line_item_data(): void
+    function it_has_proper_line_item_data(): void
     {
         $this->name()->shouldReturn('Mjolnir');
         $this->quantity()->shouldReturn(2);
@@ -53,7 +53,7 @@ final class LineItemSpec extends ObjectBehavior
         $this->taxRate()->shouldReturn('10%');
     }
 
-    public function it_merges_with_another_line_item(LineItemInterface $newLineItem): void
+    function it_merges_with_another_line_item(LineItemInterface $newLineItem): void
     {
         $newLineItem->name()->willReturn('Mjolnir');
         $newLineItem->quantity()->willReturn(1);
@@ -72,7 +72,7 @@ final class LineItemSpec extends ObjectBehavior
         $this->taxAmount()->shouldReturn(300);
     }
 
-    public function it_throws_an_exception_if_another_line_item_is_different_during_merging(LineItemInterface $newLineItem): void
+    function it_throws_an_exception_if_another_line_item_is_different_during_merging(LineItemInterface $newLineItem): void
     {
         $newLineItem->name()->willReturn('Stormbreaker');
         $newLineItem->unitNetPrice()->willReturn(1000);
@@ -82,7 +82,7 @@ final class LineItemSpec extends ObjectBehavior
         $this->shouldThrow(LineItemsCannotBeMerged::class)->during('merge', [$newLineItem]);
     }
 
-    public function it_compares_with_another_line_item(LineItemInterface $theSameLineItem, LineItemInterface $differentLineItem): void
+    function it_compares_with_another_line_item(LineItemInterface $theSameLineItem, LineItemInterface $differentLineItem): void
     {
         $theSameLineItem->name()->willReturn('Mjolnir');
         $theSameLineItem->unitNetPrice()->willReturn(1000);

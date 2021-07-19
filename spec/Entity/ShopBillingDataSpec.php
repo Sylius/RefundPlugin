@@ -18,47 +18,47 @@ use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 
 final class ShopBillingDataSpec extends ObjectBehavior
 {
-    public function it_implements_shop_billing_data_interface(): void
+    function it_implements_shop_billing_data_interface(): void
     {
         $this->shouldImplement(ShopBillingDataInterface::class);
     }
 
-    public function it_has_no_id_by_default(): void
+    function it_has_no_id_by_default(): void
     {
         $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_a_company(): void
+    function it_has_a_company(): void
     {
         $this->setCompany('Needful Things');
         $this->getCompany()->shouldReturn('Needful Things');
     }
 
-    public function it_has_a_tax_id(): void
+    function it_has_a_tax_id(): void
     {
         $this->setTaxId('000222');
         $this->getTaxId()->shouldReturn('000222');
     }
 
-    public function it_has_a_country_code(): void
+    function it_has_a_country_code(): void
     {
         $this->setCountryCode('US');
         $this->getCountryCode()->shouldReturn('US');
     }
 
-    public function it_has_a_street(): void
+    function it_has_a_street(): void
     {
         $this->setStreet('Main St. 123');
         $this->getStreet()->shouldReturn('Main St. 123');
     }
 
-    public function it_has_a_city(): void
+    function it_has_a_city(): void
     {
         $this->setCity('Los Angeles');
         $this->getCity()->shouldReturn('Los Angeles');
     }
 
-    public function it_has_a_postcode(): void
+    function it_has_a_postcode(): void
     {
         $this->setPostcode('90001');
         $this->getPostcode()->shouldReturn('90001');

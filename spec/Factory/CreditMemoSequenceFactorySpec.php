@@ -19,12 +19,12 @@ use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
 
 final class CreditMemoSequenceFactorySpec extends ObjectBehavior
 {
-    public function it_implements_sequence_factory_interface(): void
+    function it_implements_sequence_factory_interface(): void
     {
         $this->shouldImplement(CreditMemoSequenceFactoryInterface::class);
     }
 
-    public function it_creates_new_credit_memo_sequence(): void
+    function it_creates_new_credit_memo_sequence(): void
     {
         $this->createNew()->shouldBeLike(new CreditMemoSequence());
     }

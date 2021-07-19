@@ -22,12 +22,12 @@ use Sylius\RefundPlugin\Provider\RelatedPaymentIdProviderInterface;
 
 final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
 {
-    public function it_implements_related_payment_id_provider_interface(): void
+    function it_implements_related_payment_id_provider_interface(): void
     {
         $this->shouldImplement(RelatedPaymentIdProviderInterface::class);
     }
 
-    public function it_provides_id_of_last_completed_payment_from_refund_payment_order(
+    function it_provides_id_of_last_completed_payment_from_refund_payment_order(
         RefundPaymentInterface $refundPayment,
         OrderInterface $order,
         PaymentInterface $payment
@@ -41,7 +41,7 @@ final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
         $this->getForRefundPayment($refundPayment)->shouldReturn(4);
     }
 
-    public function it_throws_exception_if_order_has_no_completed_payments(
+    function it_throws_exception_if_order_has_no_completed_payments(
         RefundPaymentInterface $refundPayment,
         OrderInterface $order
     ): void {

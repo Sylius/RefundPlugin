@@ -20,17 +20,17 @@ use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 
 final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
 {
-    public function let(RepositoryInterface $adjustmentRepository): void
+    function let(RepositoryInterface $adjustmentRepository): void
     {
         $this->beConstructedWith($adjustmentRepository);
     }
 
-    public function it_implements_refunded_shipment_fee_provider_interface()
+    function it_implements_refunded_shipment_fee_provider_interface()
     {
         $this->shouldImplement(RefundedShipmentFeeProviderInterface::class);
     }
 
-    public function it_returns_fee_from_shipping_adjustment(
+    function it_returns_fee_from_shipping_adjustment(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment
     ): void {
@@ -41,7 +41,7 @@ final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
         $this->getFeeOfShipment(1)->shouldReturn(1000);
     }
 
-    public function it_throws_exception_if_there_is_no_adjustment_with_given_id(
+    function it_throws_exception_if_there_is_no_adjustment_with_given_id(
         RepositoryInterface $adjustmentRepository
     ): void {
         $adjustmentRepository->find(1)->willReturn(null);
@@ -52,7 +52,7 @@ final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
         ;
     }
 
-    public function it_throws_exception_if_adjustment_is_not_shipping_adjustment(
+    function it_throws_exception_if_adjustment_is_not_shipping_adjustment(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $adjustment
     ): void {

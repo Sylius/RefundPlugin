@@ -30,7 +30,7 @@ use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoFactorySpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,
@@ -44,12 +44,12 @@ final class CreditMemoFactorySpec extends ObjectBehavior
         );
     }
 
-    public function it_implements_a_credit_memo_factory_interface(): void
+    function it_implements_a_credit_memo_factory_interface(): void
     {
         $this->shouldImplement(CreditMemoFactoryInterface::class);
     }
 
-    public function it_creates_a_new_credit_memo(
+    function it_creates_a_new_credit_memo(
         FactoryInterface $creditMemoFactory,
         CreditMemoInterface $creditMemo
     ): void {
@@ -58,7 +58,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
         $this->createNew()->shouldReturn($creditMemo);
     }
 
-    public function it_creates_a_new_credit_memo_with_data(
+    function it_creates_a_new_credit_memo_with_data(
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,

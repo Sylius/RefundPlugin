@@ -24,7 +24,7 @@ use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface;
 
 final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager
@@ -38,12 +38,12 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
         );
     }
 
-    public function it_is_number_generator_interface(): void
+    function it_is_number_generator_interface(): void
     {
         $this->shouldImplement(CreditMemoNumberGeneratorInterface::class);
     }
 
-    public function it_generates_sequential_number(
+    function it_generates_sequential_number(
         ObjectRepository $sequenceRepository,
         EntityManagerInterface $sequenceManager,
         CreditMemoSequenceInterface $sequence,
@@ -64,7 +64,7 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
         $this->generate($order, $issuedAt)->shouldReturn('2018/05/000000006');
     }
 
-    public function it_generates_invoice_number_when_sequence_is_null(
+    function it_generates_invoice_number_when_sequence_is_null(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,

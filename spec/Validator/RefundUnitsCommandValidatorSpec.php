@@ -25,14 +25,14 @@ use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface;
 
 final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator
     ): void {
         $this->beConstructedWith($orderRefundingAvailabilityChecker, $refundAmountValidator);
     }
 
-    public function it_throws_exception_when_order_is_not_available_for_refund(
+    function it_throws_exception_when_order_is_not_available_for_refund(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(false);
@@ -45,7 +45,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
         ;
     }
 
-    public function it_throws_exception_when_order_item_units_are_not_valid(
+    function it_throws_exception_when_order_item_units_are_not_valid(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator
     ): void {
@@ -63,7 +63,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
         $this->shouldThrow(InvalidRefundAmount::class)->during('validate', [$refundUnits]);
     }
 
-    public function it_throws_exception_when_shipment_is_not_valid(
+    function it_throws_exception_when_shipment_is_not_valid(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator
     ): void {

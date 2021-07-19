@@ -21,17 +21,17 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundUnitsConverterSpec extends ObjectBehavior
 {
-    public function let(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator): void
+    function let(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator): void
     {
         $this->beConstructedWith($unitRefundTotalCalculator);
     }
 
-    public function it_implements_refund_units_converter_interface(): void
+    function it_implements_refund_units_converter_interface(): void
     {
         $this->shouldImplement(RefundUnitsConverterInterface::class);
     }
 
-    public function it_converts_refund_units_from_request_with_full_prices_to_models(
+    function it_converts_refund_units_from_request_with_full_prices_to_models(
         UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator
     ): void {
         $unitRefundTotalCalculator->calculateForUnitWithIdAndType(1, RefundType::orderItemUnit(), null)->willReturn(1000);
@@ -50,7 +50,7 @@ final class RefundUnitsConverterSpec extends ObjectBehavior
         ;
     }
 
-    public function it_converts_refund_units_from_request_with_partial_prices_to_models(
+    function it_converts_refund_units_from_request_with_partial_prices_to_models(
         UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator
     ): void {
         $unitRefundTotalCalculator->calculateForUnitWithIdAndType(1, RefundType::orderItemUnit(), 10.00)->willReturn(1000);

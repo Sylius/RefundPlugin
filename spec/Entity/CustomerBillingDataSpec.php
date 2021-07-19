@@ -18,78 +18,78 @@ use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 
 final class CustomerBillingDataSpec extends ObjectBehavior
 {
-    public function it_implements_customer_billing_data_interface(): void
+    function it_implements_customer_billing_data_interface(): void
     {
         $this->shouldImplement(CustomerBillingDataInterface::class);
     }
 
-    public function it_has_no_id_by_default(): void
+    function it_has_no_id_by_default(): void
     {
         $this->getId()->shouldReturn(null);
     }
 
-    public function it_has_an_id(): void
+    function it_has_an_id(): void
     {
         $this->setId(1234);
         $this->getId()->shouldReturn(1234);
     }
 
-    public function it_has_a_first_name(): void
+    function it_has_a_first_name(): void
     {
         $this->setFirstName('Rick');
         $this->getFirstName()->shouldReturn('Rick');
     }
 
-    public function it_has_a_last_name(): void
+    function it_has_a_last_name(): void
     {
         $this->setLastName('Sanchez');
         $this->getLastName()->shouldReturn('Sanchez');
     }
 
-    public function it_has_a_full_name(): void
+    function it_has_a_full_name(): void
     {
         $this->setFirstName('Rick');
         $this->setLastName('Sanchez');
         $this->getFullName()->shouldReturn('Rick Sanchez');
     }
 
-    public function it_has_a_company(): void
+    function it_has_a_company(): void
     {
         $this->setCompany('Curse Purge Plus!');
         $this->getCompany()->shouldReturn('Curse Purge Plus!');
     }
 
-    public function it_has_a_street(): void
+    function it_has_a_street(): void
     {
         $this->setStreet('Main St. 3322');
         $this->getStreet()->shouldReturn('Main St. 3322');
     }
 
-    public function it_has_a_postcode(): void
+    function it_has_a_postcode(): void
     {
         $this->setPostcode('90802');
         $this->getPostcode()->shouldReturn('90802');
     }
 
-    public function it_has_a_country_code(): void
+    function it_has_a_country_code(): void
     {
         $this->setCountryCode('US');
         $this->getCountryCode()->shouldReturn('US');
     }
 
-    public function it_has_a_city(): void
+    function it_has_a_city(): void
     {
         $this->setCity('Los Angeles');
         $this->getCity()->shouldReturn('Los Angeles');
     }
 
-    public function it_has_a_province_name(): void
+    function it_has_a_province_name(): void
     {
         $this->setProvinceName('Baldwin Hills');
         $this->getProvinceName()->shouldReturn('Baldwin Hills');
     }
 
-    public function it_has_a_province_code(): void
+    function it_has_a_province_code(): void
     {
         $this->setProvinceCode('323');
         $this->getProvinceCode()->shouldReturn('323');
