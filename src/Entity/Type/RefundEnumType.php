@@ -64,4 +64,9 @@ class RefundEnumType extends Type
     {
         return new RefundType($value);
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
