@@ -24,23 +24,17 @@ use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
 {
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var RepositoryInterface */
-    private $refundRepository;
+    private RepositoryInterface $refundRepository;
 
-    /** @var RemainingTotalProviderInterface */
-    private $remainingTotalProvider;
+    private RemainingTotalProviderInterface $remainingTotalProvider;
 
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
-    /** @var EmailCheckerInterface */
-    private $emailChecker;
+    private EmailCheckerInterface $emailChecker;
 
-    /** @var OrderInterface|null */
-    private $order;
+    private ?\Sylius\Component\Order\Model\OrderInterface $order = null;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

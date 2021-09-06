@@ -14,14 +14,11 @@ use Webmozart\Assert\Assert;
 
 final class ManagingOrdersContext implements Context
 {
-    /** @var ShowPageInterface */
-    private $showPage;
+    private ShowPageInterface $showPage;
 
-    /** @var IndexPageInterface */
-    private $indexPage;
+    private IndexPageInterface $indexPage;
 
-    /** @var NotificationCheckerInterface */
-    private $notificationChecker;
+    private NotificationCheckerInterface $notificationChecker;
 
     public function __construct(
         ShowPageInterface $showPage,

@@ -29,35 +29,25 @@ use Sylius\Component\Shipping\Repository\ShippingMethodRepositoryInterface;
 if (Kernel::MAJOR_VERSION === '1' && Kernel::MINOR_VERSION === '8') {
     final class OrderShipmentContext implements Context
     {
-        /** @var SharedStorageInterface */
-        private $sharedStorage;
+        private SharedStorageInterface $sharedStorage;
 
-        /** @var FactoryInterface */
-        private $orderItemFactory;
+        private \Sylius\Component\Resource\Factory\FactoryInterface $orderItemFactory;
 
-        /** @var FactoryInterface */
-        private $shipmentFactory;
+        private \Sylius\Component\Resource\Factory\FactoryInterface $shipmentFactory;
 
-        /** @var StateMachineFactoryInterface */
-        private $stateMachineFactory;
+        private StateMachineFactoryInterface $stateMachineFactory;
 
-        /** @var OrderRepositoryInterface */
-        private $orderRepository;
+        private OrderRepositoryInterface $orderRepository;
 
-        /** @var PaymentMethodRepositoryInterface */
-        private $paymentMethodRepository;
+        private PaymentMethodRepositoryInterface $paymentMethodRepository;
 
-        /** @var ShippingMethodRepositoryInterface */
-        private $shippingMethodRepository;
+        private ShippingMethodRepositoryInterface $shippingMethodRepository;
 
-        /** @var ProductVariantResolverInterface */
-        private $variantResolver;
+        private ProductVariantResolverInterface $variantResolver;
 
-        /** @var OrderItemQuantityModifierInterface */
-        private $itemQuantityModifier;
+        private OrderItemQuantityModifierInterface $itemQuantityModifier;
 
-        /** @var ObjectManager */
-        private $objectManager;
+        private ObjectManager $objectManager;
 
         public function __construct(
             SharedStorageInterface $sharedStorage,

@@ -12,8 +12,7 @@ final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
 {
     public const FAILED_FILE = __DIR__.'/credit-memo-failed.json';
 
-    /** @var CreditMemoGeneratorInterface */
-    private $baseCreditMemoGenerator;
+    private CreditMemoGeneratorInterface $baseCreditMemoGenerator;
 
     public function __construct(CreditMemoGeneratorInterface $baseCreditMemoGenerator)
     {

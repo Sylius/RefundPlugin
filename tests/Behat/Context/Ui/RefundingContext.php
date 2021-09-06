@@ -15,14 +15,11 @@ use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
 {
-    /** @var OrderRefundsPageInterface */
-    private $orderRefundsPage;
+    private OrderRefundsPageInterface $orderRefundsPage;
 
-    /** @var NotificationCheckerInterface */
-    private $notificationChecker;
+    private NotificationCheckerInterface $notificationChecker;
 
-    /** @var EmailCheckerInterface */
-    private $emailChecker;
+    private EmailCheckerInterface $emailChecker;
 
     public function __construct(
         OrderRefundsPageInterface $orderRefundsPage,

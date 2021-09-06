@@ -10,8 +10,7 @@ use Webmozart\Assert\Assert;
 
 final class EmailsContext implements Context
 {
-    /** @var MessagesProvider */
-    private $messagesProvider;
+    private MessagesProvider $messagesProvider;
 
     public function __construct(MessagesProvider $messagesProvider)
     {
