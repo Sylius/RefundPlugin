@@ -29,26 +29,19 @@ use Webmozart\Assert\Assert;
 
 final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInterface
 {
-    /** @var OrderFullyRefundedStateResolverInterface */
-    private $orderFullyRefundedStateResolver;
+    private OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver;
 
-    /** @var RelatedPaymentIdProviderInterface */
-    private $relatedPaymentIdProvider;
+    private RelatedPaymentIdProviderInterface $relatedPaymentIdProvider;
 
-    /** @var RefundPaymentFactoryInterface */
-    private $refundPaymentFactory;
+    private RefundPaymentFactoryInterface $refundPaymentFactory;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
+    private PaymentMethodRepositoryInterface $paymentMethodRepository;
 
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var MessageBusInterface */
-    private $eventBus;
+    private MessageBusInterface $eventBus;
 
     public function __construct(
         OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver,

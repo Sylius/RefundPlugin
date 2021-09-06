@@ -24,8 +24,7 @@ use Webmozart\Assert\Assert;
 
 final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterface
 {
-    /** @var RefundUnitsConverterInterface */
-    private $refundUnitsConverter;
+    private RefundUnitsConverterInterface $refundUnitsConverter;
 
     public function __construct(RefundUnitsConverterInterface $refundUnitsConverter)
     {

@@ -15,23 +15,17 @@ namespace Sylius\RefundPlugin\Event;
 
 class RefundPaymentGenerated
 {
-    /** @var int */
-    private $id;
+    private int $id;
 
-    /** @var string */
-    private $orderNumber;
+    private string $orderNumber;
 
-    /** @var int */
-    private $amount;
+    private int $amount;
 
-    /** @var string */
-    private $currencyCode;
+    private string $currencyCode;
 
-    /** @var int */
-    private $paymentMethodId;
+    private int $paymentMethodId;
 
-    /** @var int */
-    private $paymentId;
+    private int $paymentId;
 
     public function __construct(
         int $id,

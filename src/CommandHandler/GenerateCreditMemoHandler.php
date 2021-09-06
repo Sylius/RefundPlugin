@@ -23,17 +23,13 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GenerateCreditMemoHandler
 {
-    /** @var CreditMemoGeneratorInterface */
-    private $creditMemoGenerator;
+    private CreditMemoGeneratorInterface $creditMemoGenerator;
 
-    /** @var ObjectManager */
-    private $creditMemoManager;
+    private ObjectManager $creditMemoManager;
 
-    /** @var MessageBusInterface */
-    private $eventBus;
+    private MessageBusInterface $eventBus;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     public function __construct(
         CreditMemoGeneratorInterface $creditMemoGenerator,

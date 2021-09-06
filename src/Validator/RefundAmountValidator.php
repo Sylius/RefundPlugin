@@ -21,8 +21,7 @@ use Webmozart\Assert\Assert;
 
 final class RefundAmountValidator implements RefundAmountValidatorInterface
 {
-    /** @var RemainingTotalProviderInterface */
-    private $remainingTotalProvider;
+    private RemainingTotalProviderInterface $remainingTotalProvider;
 
     public function __construct(RemainingTotalProviderInterface $unitRefundedTotalProvider)
     {

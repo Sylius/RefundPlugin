@@ -15,11 +15,9 @@ namespace Sylius\RefundPlugin\Model;
 
 final class OrderItemUnitRefund implements UnitRefundInterface
 {
-    /** @var int */
-    private $unitId;
+    private int $unitId;
 
-    /** @var int */
-    private $total;
+    private int $total;
 
     public function __construct(int $unitId, int $total)
     {

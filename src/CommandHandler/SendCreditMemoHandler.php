@@ -23,11 +23,9 @@ use Webmozart\Assert\Assert;
 
 final class SendCreditMemoHandler
 {
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
+    private RepositoryInterface $creditMemoRepository;
 
-    /** @var CreditMemoEmailSenderInterface */
-    private $creditMemoEmailSender;
+    private CreditMemoEmailSenderInterface $creditMemoEmailSender;
 
     public function __construct(
         RepositoryInterface $creditMemoRepository,

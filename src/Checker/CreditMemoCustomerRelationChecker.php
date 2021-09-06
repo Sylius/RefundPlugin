@@ -21,11 +21,9 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelationCheckerInterface
 {
-    /** @var CustomerContextInterface */
-    private $customerContext;
+    private CustomerContextInterface $customerContext;
 
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
+    private RepositoryInterface $creditMemoRepository;
 
     public function __construct(
         CustomerContextInterface $customerContext,

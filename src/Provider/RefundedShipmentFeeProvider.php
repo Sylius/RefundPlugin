@@ -19,8 +19,7 @@ use Webmozart\Assert\Assert;
 
 final class RefundedShipmentFeeProvider implements RefundedShipmentFeeProviderInterface
 {
-    /** @var RepositoryInterface */
-    private $adjustmentRepository;
+    private RepositoryInterface $adjustmentRepository;
 
     public function __construct(RepositoryInterface $adjustmentRepository)
     {

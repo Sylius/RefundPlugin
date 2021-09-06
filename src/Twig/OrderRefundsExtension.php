@@ -25,23 +25,17 @@ use Twig\TwigFunction;
 
 final class OrderRefundsExtension extends AbstractExtension
 {
-    /** @var OrderRefundedTotalProviderInterface */
-    private $orderRefundedTotalProvider;
+    private OrderRefundedTotalProviderInterface $orderRefundedTotalProvider;
 
-    /** @var UnitRefundedTotalProviderInterface */
-    private $unitRefundedTotalProvider;
+    private UnitRefundedTotalProviderInterface $unitRefundedTotalProvider;
 
-    /** @var UnitRefundingAvailabilityCheckerInterface */
-    private $unitRefundingAvailabilityChecker;
+    private UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var RepositoryInterface */
-    private $refundPaymentRepository;
+    private RepositoryInterface $refundPaymentRepository;
 
-    /** @var RefundTypeFactoryInterface */
-    private $refundTypeFactory;
+    private RefundTypeFactoryInterface $refundTypeFactory;
 
     public function __construct(
         OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,

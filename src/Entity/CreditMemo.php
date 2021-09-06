@@ -20,44 +20,33 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 class CreditMemo implements CreditMemoInterface
 {
-    /** @var string */
-    protected $id;
+    protected ?string $id = null;
 
-    /** @var string */
-    protected $number;
+    protected ?string $number = null;
 
-    /** @var OrderInterface */
-    protected $order;
+    protected ?OrderInterface $order = null;
 
-    /** @var int */
-    protected $total;
+    protected ?int $total = null;
 
-    /** @var string */
-    protected $currencyCode;
+    protected ?string $currencyCode = null;
 
-    /** @var string */
-    protected $localeCode;
+    protected ?string $localeCode = null;
 
-    /** @var ChannelInterface */
-    protected $channel;
+    protected ?ChannelInterface $channel = null;
 
     /** @var Collection|LineItemInterface[] */
-    protected $lineItems;
+    protected Collection $lineItems;
 
     /** @var Collection|TaxItemInterface[] */
-    protected $taxItems;
+    protected Collection $taxItems;
 
-    /** @var string */
-    protected $comment;
+    protected ?string $comment = null;
 
-    /** @var \DateTimeImmutable */
-    protected $issuedAt;
+    protected ?\DateTimeImmutable $issuedAt = null;
 
-    /** @var CustomerBillingDataInterface */
-    protected $from;
+    protected ?CustomerBillingDataInterface $from = null;
 
-    /** @var ShopBillingDataInterface|null */
-    protected $to;
+    protected ?ShopBillingDataInterface $to = null;
 
     public function __construct()
     {

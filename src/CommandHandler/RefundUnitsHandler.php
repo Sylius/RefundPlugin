@@ -24,20 +24,15 @@ use Webmozart\Assert\Assert;
 
 final class RefundUnitsHandler
 {
-    /** @var RefunderInterface */
-    private $orderUnitsRefunder;
+    private RefunderInterface $orderUnitsRefunder;
 
-    /** @var RefunderInterface */
-    private $orderShipmentsRefunder;
+    private RefunderInterface $orderShipmentsRefunder;
 
-    /** @var MessageBusInterface */
-    private $eventBus;
+    private MessageBusInterface $eventBus;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var RefundUnitsCommandValidatorInterface */
-    private $refundUnitsCommandValidator;
+    private RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator;
 
     public function __construct(
         RefunderInterface $orderUnitsRefunder,

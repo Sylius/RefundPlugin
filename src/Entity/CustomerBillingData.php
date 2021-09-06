@@ -19,32 +19,23 @@ class CustomerBillingData implements CustomerBillingDataInterface
     /** @var int|null */
     protected $id;
 
-    /** @var string */
-    protected $firstName;
+    protected ?string $firstName = null;
 
-    /** @var string */
-    protected $lastName;
+    protected ?string $lastName = null;
 
-    /** @var string */
-    protected $street;
+    protected ?string $street = null;
 
-    /** @var string */
-    protected $postcode;
+    protected ?string $postcode = null;
 
-    /** @var string */
-    protected $countryCode;
+    protected ?string $countryCode = null;
 
-    /** @var string */
-    protected $city;
+    protected ?string $city = null;
 
-    /** @var string|null */
-    protected $company;
+    protected ?string $company = null;
 
-    /** @var string|null */
-    protected $provinceName;
+    protected ?string $provinceName = null;
 
-    /** @var string|null */
-    protected $provinceCode;
+    protected ?string $provinceCode = null;
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getId() instead */
     public function id()

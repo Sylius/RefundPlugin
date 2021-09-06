@@ -23,14 +23,11 @@ use Sylius\RefundPlugin\Exception\OrderNotFound;
 
 final class OrderPartiallyRefundedStateResolver implements OrderPartiallyRefundedStateResolverInterface
 {
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var FactoryInterface */
-    private $stateMachineFactory;
+    private FactoryInterface $stateMachineFactory;
 
-    /** @var ObjectManager */
-    private $orderManager;
+    private ObjectManager $orderManager;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

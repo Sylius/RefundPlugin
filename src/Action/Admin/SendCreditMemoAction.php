@@ -25,17 +25,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class SendCreditMemoAction
 {
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
+    private RepositoryInterface $creditMemoRepository;
 
-    /** @var Session */
-    private $session;
+    private Session $session;
 
-    /** @var UrlGeneratorInterface */
-    private $router;
+    private UrlGeneratorInterface $router;
 
     public function __construct(
         MessageBusInterface $commandBus,
