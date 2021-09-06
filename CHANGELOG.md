@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### v1.0.1 (2021-07-27)
+
+- [#328](https://github.com/Sylius/RefundPlugin/issues/328) fix for `doctrine:schema:update` ([@Przemysław eRIZ Pawliczuk](https://github.com/er1z)), ([@Zales0123](https://github.com/Zales0123))
+
 ### v1.0.0 (2021-07-14)
 
 - [#306](https://github.com/Sylius/RefundPlugin/issues/306) Change order number to Order relation on Refund ([@Zales0123](https://github.com/Zales0123))
