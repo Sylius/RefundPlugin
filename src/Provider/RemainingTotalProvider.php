@@ -23,14 +23,11 @@ use Webmozart\Assert\Assert;
 
 final class RemainingTotalProvider implements RemainingTotalProviderInterface
 {
-    /** @var RepositoryInterface */
-    private $orderItemUnitRepository;
+    private RepositoryInterface $orderItemUnitRepository;
 
-    /** @var RepositoryInterface */
-    private $adjustmentRepository;
+    private RepositoryInterface $adjustmentRepository;
 
-    /** @var RepositoryInterface */
-    private $refundRepository;
+    private RepositoryInterface $refundRepository;
 
     public function __construct(
         RepositoryInterface $orderItemUnitRepository,

@@ -15,11 +15,9 @@ namespace Sylius\RefundPlugin\Model;
 
 final class CreditMemoPdf
 {
-    /** @var string */
-    private $filename;
+    private string $filename;
 
-    /** @var string */
-    private $content;
+    private string $content;
 
     public function __construct(string $filename, string $content)
     {

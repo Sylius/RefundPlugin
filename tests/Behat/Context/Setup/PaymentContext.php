@@ -23,11 +23,9 @@ use Sylius\Component\Payment\PaymentTransitions;
 
 final class PaymentContext implements Context
 {
-    /** @var StateMachineFactoryInterface */
-    private $stateMachineFactory;
+    private StateMachineFactoryInterface $stateMachineFactory;
 
-    /** @var SharedStorageInterface */
-    private $sharedStorage;
+    private SharedStorageInterface $sharedStorage;
 
     public function __construct(StateMachineFactoryInterface $stateMachineFactory, SharedStorageInterface $sharedStorage)
     {

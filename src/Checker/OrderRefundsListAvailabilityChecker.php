@@ -20,8 +20,7 @@ use Webmozart\Assert\Assert;
 
 final class OrderRefundsListAvailabilityChecker implements OrderRefundingAvailabilityCheckerInterface
 {
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     public function __construct(OrderRepositoryInterface $orderRepository)
     {

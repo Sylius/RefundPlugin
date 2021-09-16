@@ -18,23 +18,17 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 
 class RefundPayment implements RefundPaymentInterface
 {
-    /** @var int|null */
-    protected $id;
+    protected ?int $id = null;
 
-    /** @var OrderInterface */
-    protected $order;
+    protected OrderInterface $order;
 
-    /** @var int */
-    protected $amount;
+    protected int $amount;
 
-    /** @var string */
-    protected $currencyCode;
+    protected string $currencyCode;
 
-    /** @var string */
-    protected $state;
+    protected string $state;
 
-    /** @var PaymentMethodInterface */
-    protected $paymentMethod;
+    protected PaymentMethodInterface $paymentMethod;
 
     public function __construct(
         OrderInterface $order,

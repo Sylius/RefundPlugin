@@ -20,11 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DownloadCreditMemoAction
 {
-    /** @var CreditMemoPdfFileGeneratorInterface */
-    private $creditMemoPdfFileGenerator;
+    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
 
-    /** @var CreditMemoFileResponseBuilderInterface */
-    private $creditMemoFileResponseBuilder;
+    private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder;
 
     public function __construct(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,

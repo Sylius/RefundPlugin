@@ -19,8 +19,7 @@ use Sylius\RefundPlugin\Entity\RefundInterface;
 
 final class OrderRefundedTotalProvider implements OrderRefundedTotalProviderInterface
 {
-    /** @var RepositoryInterface */
-    private $refundRepository;
+    private RepositoryInterface $refundRepository;
 
     public function __construct(RepositoryInterface $refundRepository)
     {

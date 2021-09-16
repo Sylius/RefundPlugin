@@ -19,20 +19,17 @@ use Webmozart\Assert\Assert;
 
 class RefundUnits
 {
-    /** @var string */
-    private $orderNumber;
+    private string $orderNumber;
 
     /** @var array|OrderItemUnitRefund[] */
-    private $units;
+    private array $units;
 
     /** @var array|ShipmentRefund[] */
-    private $shipments;
+    private array $shipments;
 
-    /** @var int */
-    private $paymentMethodId;
+    private int $paymentMethodId;
 
-    /** @var string */
-    private $comment;
+    private string $comment;
 
     public function __construct(string $orderNumber, array $units, array $shipments, int $paymentMethodId, string $comment)
     {

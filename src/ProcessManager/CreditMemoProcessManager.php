@@ -19,8 +19,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoProcessManager implements UnitsRefundedProcessStepInterface
 {
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
     public function __construct(MessageBusInterface $commandBus)
     {

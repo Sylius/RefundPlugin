@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\CommandHandler;
 
 use Sylius\Component\Core\Model\CustomerInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\SendCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -23,11 +24,9 @@ use Webmozart\Assert\Assert;
 
 final class SendCreditMemoHandler
 {
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
+    private RepositoryInterface $creditMemoRepository;
 
-    /** @var CreditMemoEmailSenderInterface */
-    private $creditMemoEmailSender;
+    private CreditMemoEmailSenderInterface $creditMemoEmailSender;
 
     public function __construct(
         RepositoryInterface $creditMemoRepository,
@@ -40,6 +39,7 @@ final class SendCreditMemoHandler
     public function __invoke(SendCreditMemo $command): void
     {
         $creditMemoNumber = $command->number();
+        Assert::notNull($creditMemoNumber);
 
         /** @var CreditMemoInterface|null $creditMemo */
         $creditMemo = $this->creditMemoRepository->findOneBy(['number' => $creditMemoNumber]);
@@ -47,7 +47,9 @@ final class SendCreditMemoHandler
             throw CreditMemoNotFound::withNumber($creditMemoNumber);
         }
 
+        /** @var OrderInterface|null $order */
         $order = $creditMemo->getOrder();
+        Assert::notNull($order);
 
         /** @var CustomerInterface|null $customer */
         $customer = $order->getCustomer();

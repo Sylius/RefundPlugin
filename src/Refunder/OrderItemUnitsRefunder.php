@@ -21,11 +21,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderItemUnitsRefunder implements RefunderInterface
 {
-    /** @var RefundCreatorInterface */
-    private $refundCreator;
+    private RefundCreatorInterface $refundCreator;
 
-    /** @var MessageBusInterface */
-    private $eventBus;
+    private MessageBusInterface $eventBus;
 
     public function __construct(
         RefundCreatorInterface $refundCreator,

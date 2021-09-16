@@ -20,8 +20,7 @@ use Webmozart\Assert\Assert;
 
 class CustomerBillingDataFactory implements CustomerBillingDataFactoryInterface
 {
-    /** @var FactoryInterface */
-    private $customerBillingDataFactory;
+    private FactoryInterface $customerBillingDataFactory;
 
     public function __construct(FactoryInterface $customerBillingDataFactory)
     {

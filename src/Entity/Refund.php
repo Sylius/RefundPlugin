@@ -18,20 +18,15 @@ use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 class Refund implements RefundInterface
 {
-    /** @var int|null */
-    protected $id;
+    protected ?int $id = null;
 
-    /** @var OrderInterface */
-    protected $order;
+    protected OrderInterface $order;
 
-    /** @var int */
-    protected $amount;
+    protected int $amount;
 
-    /** @var int */
-    protected $refundedUnitId;
+    protected int $refundedUnitId;
 
-    /** @var RefundTypeInterface */
-    protected $type;
+    protected RefundTypeInterface $type;
 
     public function __construct(OrderInterface $order, int $amount, int $refundedUnitId, RefundTypeInterface $type)
     {

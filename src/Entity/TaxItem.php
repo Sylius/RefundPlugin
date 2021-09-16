@@ -15,14 +15,11 @@ namespace Sylius\RefundPlugin\Entity;
 
 class TaxItem implements TaxItemInterface
 {
-    /** @var int|null */
-    protected $id;
+    protected ?int $id = null;
 
-    /** @var string */
-    protected $label;
+    protected string $label;
 
-    /** @var int */
-    protected $amount;
+    protected int $amount;
 
     public function __construct(string $label, int $amount)
     {

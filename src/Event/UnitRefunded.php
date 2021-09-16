@@ -15,14 +15,11 @@ namespace Sylius\RefundPlugin\Event;
 
 class UnitRefunded
 {
-    /** @var string */
-    private $orderNumber;
+    private string $orderNumber;
 
-    /** @var int */
-    private $unitId;
+    private int $unitId;
 
-    /** @var int */
-    private $amount;
+    private int $amount;
 
     public function __construct(string $orderNumber, int $unitId, int $amount)
     {

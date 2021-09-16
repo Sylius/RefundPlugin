@@ -22,14 +22,11 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
 {
     private const UNITS_REFUNDED = 'units_refunded';
 
-    /** @var CreditMemoPdfFileGeneratorInterface */
-    private $creditMemoPdfFileGenerator;
+    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
 
-    /** @var SenderInterface */
-    private $sender;
+    private SenderInterface $sender;
 
-    /** @var FileManagerInterface */
-    private $fileManager;
+    private FileManagerInterface $fileManager;
 
     public function __construct(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,

@@ -20,11 +20,9 @@ use Webmozart\Assert\Assert;
 
 final class SupportedRefundPaymentMethodsProvider implements RefundPaymentMethodsProviderInterface
 {
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
+    private PaymentMethodRepositoryInterface $paymentMethodRepository;
 
-    /** @var array|string[] */
-    private $supportedGateways;
+    private array $supportedGateways;
 
     public function __construct(PaymentMethodRepositoryInterface $paymentMethodRepository, array $supportedGateways)
     {

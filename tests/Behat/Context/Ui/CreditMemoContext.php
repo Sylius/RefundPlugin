@@ -17,23 +17,17 @@ use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context
 {
-    /** @var ShowPageInterface */
-    private $orderShowPage;
+    private ShowPageInterface $orderShowPage;
 
-    /** @var CreditMemoIndexPageInterface */
-    private $creditMemoIndexPage;
+    private CreditMemoIndexPageInterface $creditMemoIndexPage;
 
-    /** @var CreditMemoDetailsPageInterface */
-    private $creditMemoDetailsPage;
+    private CreditMemoDetailsPageInterface $creditMemoDetailsPage;
 
-    /** @var PdfDownloadElementInterface */
-    private $pdfDownloadElement;
+    private PdfDownloadElementInterface $pdfDownloadElement;
 
-    /** @var ObjectRepository */
-    private $creditMemoRepository;
+    private ObjectRepository $creditMemoRepository;
 
-    /** @var CurrentDateTimeProviderInterface */
-    private $currentDateTimeImmutableProvider;
+    private CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider;
 
     public function __construct(
         ShowPageInterface $orderShowPage,

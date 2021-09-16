@@ -19,11 +19,9 @@ use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 
 final class RefundPaymentCompletedStateApplier implements RefundPaymentCompletedStateApplierInterface
 {
-    /** @var StateMachineFactoryInterface */
-    private $stateMachineFactory;
+    private StateMachineFactoryInterface $stateMachineFactory;
 
-    /** @var ObjectManager */
-    private $refundPaymentManager;
+    private ObjectManager $refundPaymentManager;
 
     public function __construct(StateMachineFactoryInterface $stateMachineFactory, ObjectManager $refundPaymentManager)
     {

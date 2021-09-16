@@ -19,8 +19,7 @@ use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
 final class RefundFactory implements RefundFactoryInterface
 {
-    /** @var string */
-    private $className;
+    private string $className;
 
     public function __construct(string $className)
     {

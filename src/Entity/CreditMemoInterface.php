@@ -22,11 +22,11 @@ interface CreditMemoInterface extends ResourceInterface
 {
     public function setId(string $id): void;
 
-    public function getNumber(): string;
+    public function getNumber(): ?string;
 
     public function setNumber(string $number): void;
 
-    public function getOrder(): OrderInterface;
+    public function getOrder(): ?OrderInterface;
 
     public function setOrder(OrderInterface $order): void;
 
@@ -34,15 +34,15 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function setTotal(int $total): void;
 
-    public function getCurrencyCode(): string;
+    public function getCurrencyCode(): ?string;
 
     public function setCurrencyCode(string $currencyCode): void;
 
-    public function getLocaleCode(): string;
+    public function getLocaleCode(): ?string;
 
     public function setLocaleCode(string $localeCode): void;
 
-    public function getChannel(): ChannelInterface;
+    public function getChannel(): ?ChannelInterface;
 
     public function setChannel(ChannelInterface $channel): void;
 
@@ -54,15 +54,15 @@ interface CreditMemoInterface extends ResourceInterface
 
     public function setTaxItems(Collection $taxItems): void;
 
-    public function getComment(): string;
+    public function getComment(): ?string;
 
     public function setComment(string $comment): void;
 
-    public function getIssuedAt(): \DateTimeImmutable;
+    public function getIssuedAt(): ?\DateTimeImmutable;
 
     public function setIssuedAt(\DateTimeImmutable $issuedAt): void;
 
-    public function getFrom(): CustomerBillingDataInterface;
+    public function getFrom(): ?CustomerBillingDataInterface;
 
     public function setFrom(CustomerBillingDataInterface $from): void;
 

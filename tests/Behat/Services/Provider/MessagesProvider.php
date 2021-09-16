@@ -10,8 +10,7 @@ use Webmozart\Assert\Assert;
 
 final class MessagesProvider
 {
-    /** @var string */
-    private $spoolDirectory;
+    private string $spoolDirectory;
 
     public function __construct(string $spoolDirectory)
     {

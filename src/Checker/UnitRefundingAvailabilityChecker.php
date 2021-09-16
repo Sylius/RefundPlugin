@@ -18,8 +18,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundingAvailabilityChecker implements UnitRefundingAvailabilityCheckerInterface
 {
-    /** @var RemainingTotalProviderInterface */
-    private $remainingTotalProvider;
+    private RemainingTotalProviderInterface $remainingTotalProvider;
 
     public function __construct(RemainingTotalProviderInterface $remainingTotalProvider)
     {

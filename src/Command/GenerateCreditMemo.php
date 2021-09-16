@@ -19,20 +19,17 @@ use Webmozart\Assert\Assert;
 
 class GenerateCreditMemo
 {
-    /** @var string */
-    private $orderNumber;
+    private string $orderNumber;
 
-    /** @var int */
-    private $total;
+    private int $total;
 
     /** @var array|OrderItemUnitRefund[] */
-    private $units;
+    private array $units;
 
     /** @var array|ShipmentRefund[] */
-    private $shipments;
+    private array $shipments;
 
-    /** @var string */
-    private $comment;
+    private string $comment;
 
     public function __construct(string $orderNumber, int $total, array $units, array $shipments, string $comment)
     {

@@ -21,17 +21,13 @@ use Webmozart\Assert\Assert;
 
 final class RefundingContext implements Context
 {
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
-    /** @var FailedCreditMemoGenerator */
-    private $failedCreditMemoGenerator;
+    private FailedCreditMemoGenerator $failedCreditMemoGenerator;
 
-    /** @var FailedRefundPaymentFactory */
-    private $failedRefundPaymentFactory;
+    private FailedRefundPaymentFactory $failedRefundPaymentFactory;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

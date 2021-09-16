@@ -18,8 +18,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundTotalCalculator implements UnitRefundTotalCalculatorInterface
 {
-    /** @var RemainingTotalProviderInterface */
-    private $remainingTotalProvider;
+    private RemainingTotalProviderInterface $remainingTotalProvider;
 
     public function __construct(RemainingTotalProviderInterface $remainingTotalProvider)
     {

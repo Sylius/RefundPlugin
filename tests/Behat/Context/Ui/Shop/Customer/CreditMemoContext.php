@@ -11,11 +11,9 @@ use Webmozart\Assert\Assert;
 
 final class CreditMemoContext implements Context
 {
-    /** @var ShowPageInterface */
-    private $customerOrderShowPage;
+    private ShowPageInterface $customerOrderShowPage;
 
-    /** @var PdfDownloadElementInterface */
-    private $pdfDownloadElement;
+    private PdfDownloadElementInterface $pdfDownloadElement;
 
     public function __construct(
         ShowPageInterface $customerOrderShowPage,

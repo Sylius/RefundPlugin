@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Checker;
 
 use Sylius\Component\Core\Model\CustomerInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -21,11 +22,9 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelationCheckerInterface
 {
-    /** @var CustomerContextInterface */
-    private $customerContext;
+    private CustomerContextInterface $customerContext;
 
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
+    private RepositoryInterface $creditMemoRepository;
 
     public function __construct(
         CustomerContextInterface $customerContext,
@@ -39,6 +38,8 @@ final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelat
     {
         /** @var CreditMemoInterface $creditMemo */
         $creditMemo = $this->creditMemoRepository->find($creditMemoId);
+
+        /** @var OrderInterface $order */
         $order = $creditMemo->getOrder();
 
         /** @var CustomerInterface $orderCustomer */

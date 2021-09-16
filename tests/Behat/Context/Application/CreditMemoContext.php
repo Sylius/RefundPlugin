@@ -18,11 +18,9 @@ final class CreditMemoContext implements Context
     /** @var CreditMemoInterface */
     private $creditMemo;
 
-    /** @var ObjectRepository */
-    private $creditMemoRepository;
+    private ObjectRepository $creditMemoRepository;
 
-    /** @var CurrentDateTimeImmutableProviderInterface */
-    private $currentDateTimeImmutableProvider;
+    private CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider;
 
     public function __construct(
         ObjectRepository $creditMemoRepository,
