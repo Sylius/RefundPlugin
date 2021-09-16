@@ -22,29 +22,29 @@ interface CustomerBillingDataInterface extends ResourceInterface
 
     public function setId($id): void;
 
-    public function getFirstName(): string;
+    public function getFirstName(): ?string;
 
     public function setFirstName(string $firstName): void;
 
-    public function getLastName(): string;
+    public function getLastName(): ?string;
 
     public function setLastName(string $lastName): void;
 
     public function getFullName(): string;
 
-    public function getStreet(): string;
+    public function getStreet(): ?string;
 
     public function setStreet(string $street): void;
 
-    public function getPostcode(): string;
+    public function getPostcode(): ?string;
 
     public function setPostcode(string $postcode): void;
 
-    public function getCountryCode(): string;
+    public function getCountryCode(): ?string;
 
     public function setCountryCode(string $countryCode): void;
 
-    public function getCity(): string;
+    public function getCity(): ?string;
 
     public function setCity(string $city): void;
 

@@ -17,32 +17,23 @@ use Sylius\RefundPlugin\Exception\LineItemsCannotBeMerged;
 
 class LineItem implements LineItemInterface
 {
-    /** @var int|null */
-    protected $id;
+    protected ?int $id = null;
 
-    /** @var string */
-    protected $name;
+    protected string $name;
 
-    /** @var int */
-    protected $quantity;
+    protected int $quantity;
 
-    /** @var int */
-    protected $unitNetPrice;
+    protected int $unitNetPrice;
 
-    /** @var int */
-    protected $unitGrossPrice;
+    protected int $unitGrossPrice;
 
-    /** @var int */
-    protected $netValue;
+    protected int $netValue;
 
-    /** @var int */
-    protected $grossValue;
+    protected int $grossValue;
 
-    /** @var int */
-    protected $taxAmount;
+    protected int $taxAmount;
 
-    /** @var string|null */
-    protected $taxRate;
+    protected ?string $taxRate;
 
     public function __construct(
         string $name,

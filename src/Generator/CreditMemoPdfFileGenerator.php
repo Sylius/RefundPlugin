@@ -20,28 +20,23 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\Config\FileLocatorInterface;
 use Twig\Environment;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInterface
 {
     private const FILE_EXTENSION = '.pdf';
 
-    /** @var RepositoryInterface */
-    private $creditMemoRepository;
+    private RepositoryInterface $creditMemoRepository;
 
-    /** @var Environment */
-    private $twig;
+    private Environment $twig;
 
-    /** @var GeneratorInterface */
-    private $pdfGenerator;
+    private GeneratorInterface $pdfGenerator;
 
-    /** @var FileLocatorInterface */
-    private $fileLocator;
+    private FileLocatorInterface $fileLocator;
 
-    /** @var string */
-    private $template;
+    private string $template;
 
-    /** @var string */
-    private $creditMemoLogoPath;
+    private string $creditMemoLogoPath;
 
     public function __construct(
         RepositoryInterface $creditMemoRepository,
@@ -68,7 +63,10 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
             throw CreditMemoNotFound::withId($creditMemoId);
         }
 
-        $filename = str_replace('/', '_', $creditMemo->getNumber()) . self::FILE_EXTENSION;
+        $number = $creditMemo->getNumber();
+        Assert::notNull($number);
+
+        $filename = str_replace('/', '_', $number) . self::FILE_EXTENSION;
 
         $pdf = $this->pdfGenerator->getOutputFromHtml($this->twig->render($this->template, [
             'creditMemo' => $creditMemo,

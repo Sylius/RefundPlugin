@@ -13,8 +13,7 @@ final class FailedRefundPaymentFactory implements RefundPaymentFactoryInterface
 {
     public const FAILED_FILE = __DIR__.'/refund-payment-failed.json';
 
-    /** @var RefundPaymentFactoryInterface */
-    private $baseRefundPaymentFactory;
+    private RefundPaymentFactoryInterface $baseRefundPaymentFactory;
 
     public function __construct(RefundPaymentFactoryInterface $baseRefundPaymentFactory)
     {

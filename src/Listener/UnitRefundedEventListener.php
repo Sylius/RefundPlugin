@@ -18,8 +18,7 @@ use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterfa
 
 final class UnitRefundedEventListener
 {
-    /** @var OrderPartiallyRefundedStateResolverInterface */
-    private $orderPartiallyRefundedStateResolver;
+    private OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver;
 
     public function __construct(OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver)
     {

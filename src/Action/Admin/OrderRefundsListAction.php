@@ -28,23 +28,17 @@ use Webmozart\Assert\Assert;
 
 final class OrderRefundsListAction
 {
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
-    /** @var OrderRefundingAvailabilityCheckerInterface */
-    private $orderRefundsListAvailabilityChecker;
+    private OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker;
 
-    /** @var RefundPaymentMethodsProviderInterface */
-    private $refundPaymentMethodsProvider;
+    private RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider;
 
-    /** @var Environment */
-    private $twig;
+    private Environment $twig;
 
-    /** @var Session */
-    private $session;
+    private Session $session;
 
-    /** @var UrlGeneratorInterface */
-    private $router;
+    private UrlGeneratorInterface $router;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,

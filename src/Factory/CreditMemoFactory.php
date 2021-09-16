@@ -27,17 +27,13 @@ use Webmozart\Assert\Assert;
 
 final class CreditMemoFactory implements CreditMemoFactoryInterface
 {
-    /** @var FactoryInterface */
-    private $creditMemoFactory;
+    private FactoryInterface $creditMemoFactory;
 
-    /** @var CreditMemoIdentifierGeneratorInterface */
-    private $creditMemoIdentifierGenerator;
+    private CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator;
 
-    /** @var CreditMemoNumberGeneratorInterface */
-    private $creditMemoNumberGenerator;
+    private CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator;
 
-    /** @var CurrentDateTimeImmutableProviderInterface */
-    private $currentDateTimeImmutableProvider;
+    private CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider;
 
     public function __construct(
         FactoryInterface $creditMemoFactory,

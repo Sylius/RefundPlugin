@@ -12,8 +12,7 @@ use Webmozart\Assert\Assert;
 
 final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetailsPageInterface
 {
-    /** @var TableAccessorInterface */
-    private $tableAccessor;
+    private TableAccessorInterface $tableAccessor;
 
     public function __construct(
         Session $session,

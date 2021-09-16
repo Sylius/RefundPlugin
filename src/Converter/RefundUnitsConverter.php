@@ -19,8 +19,7 @@ use Webmozart\Assert\Assert;
 
 final class RefundUnitsConverter implements RefundUnitsConverterInterface
 {
-    /** @var UnitRefundTotalCalculatorInterface */
-    private $unitRefundTotalCalculator;
+    private UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator;
 
     public function __construct(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator)
     {

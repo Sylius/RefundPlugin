@@ -18,8 +18,7 @@ use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 
 final class ShopBillingDataFactory implements ShopBillingDataFactoryInterface
 {
-    /** @var FactoryInterface */
-    private $shopBillingDataFactory;
+    private FactoryInterface $shopBillingDataFactory;
 
     public function __construct(FactoryInterface $shopBillingDataFactory)
     {

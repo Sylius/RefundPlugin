@@ -26,11 +26,9 @@ use Webmozart\Assert\Assert;
 
 final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 {
-    /** @var RepositoryInterface */
-    private $adjustmentRepository;
+    private RepositoryInterface $adjustmentRepository;
 
-    /** @var TaxRateProviderInterface */
-    private $taxRateProvider;
+    private TaxRateProviderInterface $taxRateProvider;
 
     public function __construct(RepositoryInterface $adjustmentRepository, TaxRateProviderInterface $taxRateProvider)
     {

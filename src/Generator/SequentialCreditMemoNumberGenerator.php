@@ -22,20 +22,15 @@ use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface;
 
 final class SequentialCreditMemoNumberGenerator implements CreditMemoNumberGeneratorInterface
 {
-    /** @var ObjectRepository */
-    private $sequenceRepository;
+    private ObjectRepository $sequenceRepository;
 
-    /** @var CreditMemoSequenceFactoryInterface */
-    private $sequenceFactory;
+    private CreditMemoSequenceFactoryInterface $sequenceFactory;
 
-    /** @var EntityManagerInterface */
-    private $sequenceManager;
+    private EntityManagerInterface $sequenceManager;
 
-    /** @var int */
-    private $startNumber;
+    private int $startNumber;
 
-    /** @var int */
-    private $numberLength;
+    private int $numberLength;
 
     public function __construct(
         ObjectRepository $sequenceRepository,

@@ -19,8 +19,7 @@ use Webmozart\Assert\Assert;
 
 final class OrderShowMenuListener
 {
-    /** @var OrderRefundingAvailabilityCheckerInterface */
-    private $orderRefundsListAvailabilityChecker;
+    private OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker;
 
     public function __construct(OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker)
     {

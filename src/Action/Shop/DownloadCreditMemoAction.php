@@ -22,14 +22,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DownloadCreditMemoAction
 {
-    /** @var CreditMemoPdfFileGeneratorInterface */
-    private $creditMemoPdfFileGenerator;
+    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
 
-    /** @var CreditMemoCustomerRelationCheckerInterface */
-    private $creditMemoCustomerRelationChecker;
+    private CreditMemoCustomerRelationCheckerInterface $creditMemoCustomerRelationChecker;
 
-    /** @var CreditMemoFileResponseBuilderInterface */
-    private $creditMemoFileResponseBuilder;
+    private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder;
 
     public function __construct(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,

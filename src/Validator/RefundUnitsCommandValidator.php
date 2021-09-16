@@ -20,11 +20,9 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorInterface
 {
-    /** @var OrderRefundingAvailabilityCheckerInterface */
-    private $orderRefundingAvailabilityChecker;
+    private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker;
 
-    /** @var RefundAmountValidatorInterface */
-    private $refundAmountValidator;
+    private RefundAmountValidatorInterface $refundAmountValidator;
 
     public function __construct(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,

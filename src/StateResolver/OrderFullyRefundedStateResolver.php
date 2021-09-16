@@ -24,17 +24,13 @@ use Webmozart\Assert\Assert;
 
 final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateResolverInterface
 {
-    /** @var FactoryInterface */
-    private $stateMachineFactory;
+    private FactoryInterface $stateMachineFactory;
 
-    /** @var ObjectManager */
-    private $orderManager;
+    private ObjectManager $orderManager;
 
-    /** @var OrderFullyRefundedTotalCheckerInterface */
-    private $orderFullyRefundedTotalChecker;
+    private OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     public function __construct(
         FactoryInterface $stateMachineFactory,

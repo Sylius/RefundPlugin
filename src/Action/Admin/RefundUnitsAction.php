@@ -26,20 +26,15 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class RefundUnitsAction
 {
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
-    /** @var Session */
-    private $session;
+    private Session $session;
 
-    /** @var UrlGeneratorInterface */
-    private $router;
+    private UrlGeneratorInterface $router;
 
-    /** @var RefundUnitsCommandCreatorInterface */
-    private $commandCreator;
+    private RefundUnitsCommandCreatorInterface $commandCreator;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(
         MessageBusInterface $commandBus,

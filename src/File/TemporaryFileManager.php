@@ -15,8 +15,7 @@ namespace Sylius\RefundPlugin\File;
 
 final class TemporaryFileManager implements FileManagerInterface
 {
-    /** @var string */
-    private $baseDirectory;
+    private string $baseDirectory;
 
     public function __construct()
     {

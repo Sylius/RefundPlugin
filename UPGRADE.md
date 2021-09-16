@@ -1,3 +1,43 @@
+### UPGRADE FROM 1.0.0 TO 1.0.1
+
+1. The return types of `Sylius\RefundPlugin\Entity\CustomerBillingDataInterface` method has been changed:
+
+    ```diff
+    +   public function getFirstName(): ?string;
+    -   public function getFirstName(): string;
+    +   public function getLastName(): ?string;
+    -   public function getLastName(): string;
+    +   public function getStreet(): ?string;
+    -   public function getStreet(): string;
+    +   public function getPostcode(): ?string;
+    -   public function getPostcode(): string;
+    +   public function getCountryCode(): ?string;
+    -   public function getCountryCode(): string;
+    +   public function getCity(): ?string;
+    -   public function getCity(): string;
+   ```
+
+1. The return types of `Sylius\RefundPlugin\Entity\CreditMemoInterface` method has been changed:
+
+    ```diff
+    +   public function getNumber(): ?string;
+    -   public function getNumber(): string;
+    +   public function getOrder(): ?OrderInterface;
+    -   public function getOrder(): OrderInterface;
+    +   public function getCurrencyCode(): ?string;
+    -   public function getCurrencyCode(): string;
+    +   public function getLocaleCode(): ?string;
+    -   public function getLocaleCode(): string;
+    +   public function getChannel(): ?ChannelInterface;
+    -   public function getChannel(): ChannelInterface;
+    +   public function getComment(): ?string;
+    -   public function getComment(): string;
+    +   public function getIssuedAt(): ?\DateTimeImmutable;
+    -   public function getIssuedAt(): \DateTimeImmutable;
+    +   public function getFrom(): ?CustomerBillingDataInterface;
+    -   public function getFrom(): CustomerBillingDataInterface;
+   ```
+
 ### UPGRADE FROM 1.0.0-RC.11 TO 1.0.0
 
 1. `orderNumber` field on `Sylius\RefundPlugin\Entity\Refund` and `Sylius\RefundPlugin\Entity\RefundPayment` has been removed 

@@ -30,23 +30,17 @@ use Webmozart\Assert\Assert;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 {
-    /** @var LineItemsConverterInterface */
-    private $lineItemsConverter;
+    private LineItemsConverterInterface $lineItemsConverter;
 
-    /** @var LineItemsConverterInterface */
-    private $shipmentLineItemsConverter;
+    private LineItemsConverterInterface $shipmentLineItemsConverter;
 
-    /** @var TaxItemsGeneratorInterface */
-    private $taxItemsGenerator;
+    private TaxItemsGeneratorInterface $taxItemsGenerator;
 
-    /** @var CreditMemoFactoryInterface */
-    private $creditMemoFactory;
+    private CreditMemoFactoryInterface $creditMemoFactory;
 
-    /** @var CustomerBillingDataFactoryInterface */
-    private $customerBillingDataFactory;
+    private CustomerBillingDataFactoryInterface $customerBillingDataFactory;
 
-    /** @var ShopBillingDataFactoryInterface */
-    private $shopBillingDataFactory;
+    private ShopBillingDataFactoryInterface $shopBillingDataFactory;
 
     public function __construct(
         LineItemsConverterInterface $lineItemsConverter,

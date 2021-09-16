@@ -15,11 +15,9 @@ namespace Sylius\RefundPlugin\Event;
 
 class CreditMemoGenerated
 {
-    /** @var string */
-    private $number;
+    private string $number;
 
-    /** @var string */
-    private $orderNumber;
+    private string $orderNumber;
 
     public function __construct(string $number, string $orderNumber)
     {

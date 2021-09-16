@@ -26,20 +26,15 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CompleteRefundPaymentAction
 {
-    /** @var Session */
-    private $session;
+    private Session $session;
 
-    /** @var ObjectRepository */
-    private $refundPaymentRepository;
+    private ObjectRepository $refundPaymentRepository;
 
-    /** @var RefundPaymentCompletedStateApplierInterface */
-    private $refundPaymentCompletedStateApplier;
+    private RefundPaymentCompletedStateApplierInterface $refundPaymentCompletedStateApplier;
 
-    /** @var RouterInterface */
-    private $router;
+    private RouterInterface $router;
 
-    /** @var OrderRepositoryInterface */
-    private $orderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     public function __construct(
         Session $session,
