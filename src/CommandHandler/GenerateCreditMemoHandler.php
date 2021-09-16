@@ -20,6 +20,7 @@ use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Webmozart\Assert\Assert;
 
 final class GenerateCreditMemoHandler
 {
@@ -60,6 +61,9 @@ final class GenerateCreditMemoHandler
         $this->creditMemoManager->persist($creditMemo);
         $this->creditMemoManager->flush();
 
-        $this->eventBus->dispatch(new CreditMemoGenerated($creditMemo->getNumber(), $orderNumber));
+        $number = $creditMemo->getNumber();
+        Assert::notNull($number);
+
+        $this->eventBus->dispatch(new CreditMemoGenerated($number, $orderNumber));
     }
 }

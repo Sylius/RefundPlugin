@@ -26,7 +26,7 @@ class CreditMemo implements CreditMemoInterface
 
     protected ?OrderInterface $order = null;
 
-    protected ?int $total = null;
+    protected int $total = 0;
 
     protected ?string $currencyCode = null;
 
@@ -54,7 +54,7 @@ class CreditMemo implements CreditMemoInterface
         $this->taxItems = new ArrayCollection();
     }
 
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -64,7 +64,7 @@ class CreditMemo implements CreditMemoInterface
         $this->id = $id;
     }
 
-    public function getNumber(): string
+    public function getNumber(): ?string
     {
         return $this->number;
     }
@@ -74,7 +74,7 @@ class CreditMemo implements CreditMemoInterface
         $this->number = $number;
     }
 
-    public function getOrder(): OrderInterface
+    public function getOrder(): ?OrderInterface
     {
         return $this->order;
     }
@@ -94,7 +94,7 @@ class CreditMemo implements CreditMemoInterface
         $this->total = $total;
     }
 
-    public function getCurrencyCode(): string
+    public function getCurrencyCode(): ?string
     {
         return $this->currencyCode;
     }
@@ -104,7 +104,7 @@ class CreditMemo implements CreditMemoInterface
         $this->currencyCode = $currencyCode;
     }
 
-    public function getLocaleCode(): string
+    public function getLocaleCode(): ?string
     {
         return $this->localeCode;
     }
@@ -114,7 +114,7 @@ class CreditMemo implements CreditMemoInterface
         $this->localeCode = $localeCode;
     }
 
-    public function getChannel(): ChannelInterface
+    public function getChannel(): ?ChannelInterface
     {
         return $this->channel;
     }
@@ -144,7 +144,7 @@ class CreditMemo implements CreditMemoInterface
         $this->taxItems = $taxItems;
     }
 
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
@@ -154,7 +154,7 @@ class CreditMemo implements CreditMemoInterface
         $this->comment = $comment;
     }
 
-    public function getIssuedAt(): \DateTimeImmutable
+    public function getIssuedAt(): ?\DateTimeImmutable
     {
         return $this->issuedAt;
     }
@@ -164,7 +164,7 @@ class CreditMemo implements CreditMemoInterface
         $this->issuedAt = $issuedAt;
     }
 
-    public function getFrom(): CustomerBillingDataInterface
+    public function getFrom(): ?CustomerBillingDataInterface
     {
         return $this->from;
     }

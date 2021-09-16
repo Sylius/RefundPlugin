@@ -54,12 +54,12 @@ class CustomerBillingData implements CustomerBillingDataInterface
     }
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getFirstName() instead */
-    public function firstName(): string
+    public function firstName(): ?string
     {
         return $this->firstName;
     }
 
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -70,12 +70,12 @@ class CustomerBillingData implements CustomerBillingDataInterface
     }
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getLastName() instead */
-    public function lastName(): string
+    public function lastName(): ?string
     {
         return $this->lastName;
     }
 
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -97,12 +97,12 @@ class CustomerBillingData implements CustomerBillingDataInterface
     }
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getStreet() instead */
-    public function street(): string
+    public function street(): ?string
     {
         return $this->street;
     }
 
-    public function getStreet(): string
+    public function getStreet(): ?string
     {
         return $this->street;
     }
@@ -113,12 +113,12 @@ class CustomerBillingData implements CustomerBillingDataInterface
     }
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getPostcode() instead */
-    public function postcode(): string
+    public function postcode(): ?string
     {
         return $this->postcode;
     }
 
-    public function getPostcode(): string
+    public function getPostcode(): ?string
     {
         return $this->postcode;
     }
@@ -129,12 +129,12 @@ class CustomerBillingData implements CustomerBillingDataInterface
     }
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getCountryCode() instead */
-    public function countryCode(): string
+    public function countryCode(): ?string
     {
         return $this->countryCode;
     }
 
-    public function getCountryCode(): string
+    public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
@@ -145,12 +145,12 @@ class CustomerBillingData implements CustomerBillingDataInterface
     }
 
     /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getCity() instead */
-    public function city(): string
+    public function city(): ?string
     {
         return $this->city;
     }
 
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }

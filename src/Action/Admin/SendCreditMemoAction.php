@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Webmozart\Assert\Assert;
 
 final class SendCreditMemoAction
 {
@@ -51,7 +52,10 @@ final class SendCreditMemoAction
         $creditMemo = $this->creditMemoRepository->find($request->get('id'));
 
         if ($creditMemo !== null) {
-            $this->commandBus->dispatch(new SendCreditMemo($creditMemo->getNumber()));
+            $number = $creditMemo->getNumber();
+            Assert::notNull($number);
+
+            $this->commandBus->dispatch(new SendCreditMemo($number));
 
             return $this->addFlashAndRedirect('success', 'sylius_refund.resend_credit_memo_success');
         }

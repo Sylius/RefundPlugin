@@ -20,6 +20,7 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\Config\FileLocatorInterface;
 use Twig\Environment;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInterface
 {
@@ -62,7 +63,10 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
             throw CreditMemoNotFound::withId($creditMemoId);
         }
 
-        $filename = str_replace('/', '_', $creditMemo->getNumber()) . self::FILE_EXTENSION;
+        $number = $creditMemo->getNumber();
+        Assert::notNull($number);
+
+        $filename = str_replace('/', '_', $number) . self::FILE_EXTENSION;
 
         $pdf = $this->pdfGenerator->getOutputFromHtml($this->twig->render($this->template, [
             'creditMemo' => $creditMemo,
