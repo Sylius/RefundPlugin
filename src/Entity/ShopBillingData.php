@@ -95,39 +95,4 @@ class ShopBillingData implements ShopBillingDataInterface
     {
         $this->postcode = $postcode;
     }
-
-    public function id()
-    {
-        return $this->id;
-    }
-
-    public function company(): ?string
-    {
-        return $this->company;
-    }
-
-    public function taxId(): ?string
-    {
-        return $this->taxId;
-    }
-
-    public function countryCode(): ?string
-    {
-        return $this->countryCode;
-    }
-
-    public function street(): ?string
-    {
-        return $this->street;
-    }
-
-    public function city(): ?string
-    {
-        return $this->city;
-    }
-
-    public function postcode(): ?string
-    {
-        return $this->postcode;
-    }
 }

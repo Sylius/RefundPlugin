@@ -40,7 +40,6 @@ final class RefundSpec extends ObjectBehavior
         $order->getNumber()->willReturn('000555');
 
         $this->getOrder()->shouldReturn($order);
-        $this->getOrderNumber()->shouldReturn('000555');
     }
 
     function it_has_amount(): void
