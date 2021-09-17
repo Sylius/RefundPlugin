@@ -37,7 +37,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
 
     protected ?string $provinceCode = null;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getId() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getId() instead */
     public function id()
     {
         return $this->id;
@@ -53,7 +53,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->id = $id;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getFirstName() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getFirstName() instead */
     public function firstName(): ?string
     {
         return $this->firstName;
@@ -69,7 +69,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->firstName = $firstName;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getLastName() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getLastName() instead */
     public function lastName(): ?string
     {
         return $this->lastName;
@@ -85,7 +85,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->lastName = $lastName;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getFullName() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getFullName() instead */
     public function fullName(): string
     {
         return trim(sprintf('%s %s', $this->firstName, $this->lastName));
@@ -96,7 +96,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         return trim(sprintf('%s %s', $this->firstName, $this->lastName));
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getStreet() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getStreet() instead */
     public function street(): ?string
     {
         return $this->street;
@@ -112,7 +112,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->street = $street;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getPostcode() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getPostcode() instead */
     public function postcode(): ?string
     {
         return $this->postcode;
@@ -128,7 +128,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->postcode = $postcode;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getCountryCode() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getCountryCode() instead */
     public function countryCode(): ?string
     {
         return $this->countryCode;
@@ -144,7 +144,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->countryCode = $countryCode;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getCity() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getCity() instead */
     public function city(): ?string
     {
         return $this->city;
@@ -160,7 +160,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->city = $city;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getCompany() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getCompany() instead */
     public function company(): ?string
     {
         return $this->company;
@@ -176,7 +176,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->company = $company;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getProvinceName() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getProvinceName() instead */
     public function provinceName(): ?string
     {
         return $this->provinceName;
@@ -192,7 +192,7 @@ class CustomerBillingData implements CustomerBillingDataInterface
         $this->provinceName = $provinceName;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingData::getProvinceCode() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use CustomerBillingData::getProvinceCode() instead */
     public function provinceCode(): ?string
     {
         return $this->provinceCode;
