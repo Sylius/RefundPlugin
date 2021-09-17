@@ -21,7 +21,7 @@ interface RefundInterface extends ResourceInterface
 {
     public function getOrder(): OrderInterface;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use RefundInterface::getOrder() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use RefundInterface::getOrder() instead */
     public function getOrderNumber(): string;
 
     public function getAmount(): int;

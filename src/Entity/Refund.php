@@ -46,6 +46,7 @@ class Refund implements RefundInterface
         return $this->order;
     }
 
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use Refund::getOrder() instead */
     public function getOrderNumber(): string
     {
         return (string) $this->order->getNumber();

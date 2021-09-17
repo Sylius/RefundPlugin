@@ -49,26 +49,25 @@ interface ShopBillingDataInterface extends ResourceInterface
     /**
      * @return mixed
      *
-     * @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getId() instead
-     * @see CustomerBillingDataInterface::getId
+     * @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getId() instead
      */
     public function id();
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCompany() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getCompany() instead */
     public function company(): ?string;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getTaxId() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getTaxId() instead */
     public function taxId(): ?string;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCountryCode() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getCountryCode() instead */
     public function countryCode(): ?string;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getStreet() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getStreet() instead */
     public function street(): ?string;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getCity() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getCity() instead */
     public function city(): ?string;
 
-    /** @deprecated this function is deprecated and will be removed in v1.0.0. Use CustomerBillingDataInterface::getPostcode() instead */
+    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getPostcode() instead */
     public function postcode(): ?string;
 }
