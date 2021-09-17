@@ -81,7 +81,7 @@ final class OrderRefundsExtension extends AbstractExtension
             new TwigFunction(
                 'get_all_refund_payments_by_order',
                 [$this, 'getAllRefundPaymentsByOrder']
-            )
+            ),
         ];
     }
 
