@@ -31,11 +31,6 @@ From Administrator's point of view, every Refund request results in creating two
 * Credit Memo - a document representing a list of refunded items (downloadable and sent to Customer via .pdf file)
 * Refund Payment - entity representing payment in favour of the Customer
 
-## Pre - requirements
-
-In order to be able to generate PDF files of refunds, [wkhtmltopdf](https://wkhtmltopdf.org/) must be installed.
-It is used by `KnpSnappyBundle` and can be configured according to [their docummentation](https://github.com/KnpLabs/KnpSnappyBundle#configuration).
-
 ## Installation
 
 1. Require plugin with composer:
@@ -46,7 +41,7 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
 
     > Remember to allow community recipes with `composer config extra.symfony.allow-contrib true` or during plugin installation process
 
-1. Apply migration to your database:
+1. Apply migrations to your database:
 
     ```bash
     bin/console doctrine:migrations:migrate
@@ -58,6 +53,14 @@ It is used by `KnpSnappyBundle` and can be configured according to [their documm
     mkdir -p templates/bundles/SyliusAdminBundle/
     cp -R vendor/sylius/refund-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
     ```
+
+1. Check if you have wkhtmltopdf binary. If not, you can download it [here](https://wkhtmltopdf.org/downloads.html).
+
+In case wkhtmltopdf is not located in `/usr/local/bin/wkhtmltopdf` modify the `WKHTMLTOPDF_PATH` environment variable in the `.env` file:
+
+```
+WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf # Change this! :)
+```
 
 #### Beware!
 

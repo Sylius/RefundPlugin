@@ -28,15 +28,17 @@
         resource: "@SyliusRefundPlugin/Resources/config/routing.yml"
     ````
 
-1. Configure `KnpSnappyBundle` (if you don't have it configured yet):
+1. Check if you have `wkhtmltopdf` binary. If not, you can download it [here](https://wkhtmltopdf.org/downloads.html).
 
-    ````yaml
+   In case `wkhtmltopdf` is not located in `/usr/local/bin/wkhtmltopdf`, add a following snippet at the end of your application's `config.yml`:
+
+    ```yaml
     knp_snappy:
         pdf:
             enabled: true
-            binary: #path to your wkhtmltopdf binary file
+            binary: /usr/local/bin/wkhtmltopdf # Change this! :)
             options: []
-    ````
+    ```   
     
 1. Apply migrations to your database:
 
