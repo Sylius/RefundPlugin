@@ -24,7 +24,7 @@
         "myclabs/php-enum": "^1.7",
         "sylius/resource-bundle": "^1.6",
         "sylius/sylius": "^1.10",
-        "symfony/messenger": "^4.4 || ^5.2"
+        "symfony/messenger": "^4.4 || ^5.3"
     },
     "require-dev": {
         "behat/behat": "^3.6",
@@ -47,11 +47,11 @@
         "phpstan/phpstan-webmozart-assert": "0.12.12",
         "phpunit/phpunit": "^9.5",
         "sylius-labs/coding-standard": "~4.0.0",
-        "symfony/browser-kit": "^4.4 || ^5.2",
-        "symfony/debug-bundle": "^4.4 || ^5.2",
-        "symfony/dotenv": "^4.4 || ^5.2",
-        "symfony/intl": "^4.4 || ^5.2",
-        "symfony/web-profiler-bundle": "^4.4 || ^5.2",
+        "symfony/browser-kit": "^4.4 || ^5.3",
+        "symfony/debug-bundle": "^4.4 || ^5.3",
+        "symfony/dotenv": "^4.4 || ^5.3",
+        "symfony/intl": "^4.4 || ^5.3",
+        "symfony/web-profiler-bundle": "^4.4 || ^5.3",
         "symplify/easy-coding-standard": "9.3.26"
     },
     "autoload": {
