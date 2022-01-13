@@ -10,7 +10,7 @@
 
     <parameters>
         <parameter key="default_logo_file">@SyliusRefundPlugin/Resources/assets/sylius-logo.png</parameter>
-        <parameter key="sylius.refund.template.logo_file">%env(default:default_logo_file:SYLIUS_REFUND_LOGO_FILE)%</parameter>
+        <parameter key="sylius.refund.template.logo_file">%env(default:default_logo_file:resolve:SYLIUS_REFUND_LOGO_FILE)%</parameter>
     </parameters>
 
     <services>
