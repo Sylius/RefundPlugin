@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### v1.0.2 (2022-01-25)
+
+- [#330](https://github.com/Sylius/RefundPlugin/issues/330) Use PHP 7.4 syntax ([@GSadee](https://github.com/GSadee))
+- [#333](https://github.com/Sylius/RefundPlugin/issues/333) [Maintenance] Change names of CHANGELOG and UPGRADE files for v1.0 ([@GSadee](https://github.com/GSadee))
+- [#336](https://github.com/Sylius/RefundPlugin/issues/336) Github templates ([@Zales0123](https://github.com/Zales0123))
+- [#343](https://github.com/Sylius/RefundPlugin/issues/343) Resolve added to parameter to make usage of proper path possible ([@TheMilek](https://github.com/TheMilek))
+
 ### v1.0.1 (2021-07-27)
 
 - [#328](https://github.com/Sylius/RefundPlugin/issues/328) fix for `doctrine:schema:update` ([@Przemysław eRIZ Pawliczuk](https://github.com/er1z)), ([@Zales0123](https://github.com/Zales0123))
