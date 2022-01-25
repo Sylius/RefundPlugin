@@ -1,4 +1,4 @@
-### UPGRADE FROM 1.0.0 TO 1.0.1
+### UPGRADE FROM 1.0.1 TO 1.0.2
 
 1. The return types of `Sylius\RefundPlugin\Entity\CustomerBillingDataInterface` method has been changed:
 
