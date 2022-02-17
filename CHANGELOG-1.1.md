@@ -17,3 +17,4 @@
 - [#340](https://github.com/Sylius/RefundPlugin/issues/340) Drop support for Symfony 5.3 ([@GSadee](https://github.com/GSadee))
 - [#343](https://github.com/Sylius/RefundPlugin/issues/343) Resolve added to parameter to make usage of proper path possible ([@TheMilek](https://github.com/TheMilek))
 - [#345](https://github.com/Sylius/RefundPlugin/issues/345) New PDF layout ([@kulczy](https://github.com/kulczy))
+- [#346](https://github.com/Sylius/RefundPlugin/issues/346) [Maintenance] Support stable Sylius v1.11.0 ([@GSadee](https://github.com/GSadee))
