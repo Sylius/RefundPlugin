@@ -1,0 +1,19 @@
+# CHANGELOG
+
+### v1.1.0 (2022-02-17)
+
+- [#326](https://github.com/Sylius/RefundPlugin/issues/326) Do not require visibility in PHPSpec functions ([@GSadee](https://github.com/GSadee))
+- [#328](https://github.com/Sylius/RefundPlugin/issues/328) fix for `doctrine:schema:update` ([@Zales0123](https://github.com/Zales0123))
+- [#330](https://github.com/Sylius/RefundPlugin/issues/330) Use PHP 7.4 syntax ([@GSadee](https://github.com/GSadee))
+- [#333](https://github.com/Sylius/RefundPlugin/issues/333) [Maintenance] Change names of CHANGELOG and UPGRADE files for v1.0 ([@GSadee](https://github.com/GSadee))
+- [#331](https://github.com/Sylius/RefundPlugin/issues/331) [Maintenance] Create empty UPGRADE file for v1.1 ([@GSadee](https://github.com/GSadee))
+- [#334](https://github.com/Sylius/RefundPlugin/issues/334) [Maintenance] Update docblocks about deprecated methods ([@GSadee](https://github.com/GSadee))
+- [#335](https://github.com/Sylius/RefundPlugin/issues/335) [Maintenance] Minor installation guide improvements ([@GSadee](https://github.com/GSadee))
+- [#336](https://github.com/Sylius/RefundPlugin/issues/336) Github templates ([@Zales0123](https://github.com/Zales0123))
+- [#337](https://github.com/Sylius/RefundPlugin/issues/337) Drop support for Sylius 1.9 & Symfony 5.2 ([@GSadee](https://github.com/GSadee))
+- [#339](https://github.com/Sylius/RefundPlugin/issues/339) Drop support for PHP 7.4 ([@GSadee](https://github.com/GSadee))
+- [#341](https://github.com/Sylius/RefundPlugin/issues/341) Remove unneded exclusion from GitHub Actions configuration ([@GSadee](https://github.com/GSadee))
+- [#342](https://github.com/Sylius/RefundPlugin/issues/342) Upgrade node in GitHub Actions builds ([@GSadee](https://github.com/GSadee))
+- [#340](https://github.com/Sylius/RefundPlugin/issues/340) Drop support for Symfony 5.3 ([@GSadee](https://github.com/GSadee))
+- [#343](https://github.com/Sylius/RefundPlugin/issues/343) Resolve added to parameter to make usage of proper path possible ([@TheMilek](https://github.com/TheMilek))
+- [#345](https://github.com/Sylius/RefundPlugin/issues/345) New PDF layout ([@kulczy](https://github.com/kulczy))
