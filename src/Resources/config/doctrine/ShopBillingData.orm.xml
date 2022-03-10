@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                             http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
 >
-    <entity name="Sylius\RefundPlugin\Entity\ShopBillingData" table="sylius_refund_shop_billing_data">
+    <mapped-superclass name="Sylius\RefundPlugin\Entity\ShopBillingData" table="sylius_refund_shop_billing_data">
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
@@ -17,5 +17,5 @@
         <field name="street" column="street" type="string" nullable="true" />
         <field name="city" column="city" type="string" nullable="true" />
         <field name="postcode" column="postcode" type="string" nullable="true" />
-    </entity>
+    </mapped-superclass>
 </doctrine-mapping>
