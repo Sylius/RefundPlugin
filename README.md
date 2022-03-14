@@ -123,7 +123,7 @@ App\ProcessManager\CustomAfterRefundProcessManager:
 
 Tagged services would be executed according to their priority (descending). 
 
-### Supported branches
+## Supported branches
 
 * `1.0` (v1.0.*) - security fixes
 * `1.1` (v1.1.*) - bug fixes, improvements
