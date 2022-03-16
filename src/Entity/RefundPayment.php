@@ -32,13 +32,13 @@ class RefundPayment implements RefundPaymentInterface
 
     public function __construct(
         OrderInterface $order,
-        int $amount,
+        $amount,
         string $currencyCode,
         string $state,
         PaymentMethodInterface $paymentMethod
     ) {
         $this->order = $order;
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
         $this->currencyCode = $currencyCode;
         $this->state = $state;
         $this->paymentMethod = $paymentMethod;

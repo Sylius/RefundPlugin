@@ -28,10 +28,10 @@ class Refund implements RefundInterface
 
     protected RefundTypeInterface $type;
 
-    public function __construct(OrderInterface $order, int $amount, int $refundedUnitId, RefundTypeInterface $type)
+    public function __construct(OrderInterface $order, $amount, int $refundedUnitId, RefundTypeInterface $type)
     {
         $this->order = $order;
-        $this->amount = $amount;
+        $this->amount = (int) $amount;
         $this->refundedUnitId = $refundedUnitId;
         $this->type = $type;
     }
