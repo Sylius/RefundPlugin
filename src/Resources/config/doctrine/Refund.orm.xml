@@ -11,7 +11,7 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="amount" column="amount" type="integer" />
+        <field name="amount" column="amount" type="bigint" />
         <field name="refundedUnitId" column="refunded_unit_id" type="integer" nullable="true" />
         <field name="type" column="type" type="sylius_refund_refund_type" />
 
