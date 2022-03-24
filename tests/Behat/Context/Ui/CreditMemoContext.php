@@ -240,6 +240,7 @@ final class CreditMemoContext implements Context
 
     /**
      * @Then there should be :count credit memo(s) generated
+     * @Then I should see :count credit memo(s)
      */
     public function thereShouldBeCreditMemosGenerated(int $count): void
     {
@@ -304,5 +305,22 @@ final class CreditMemoContext implements Context
     public function iShouldCreditMemoOrderByAscInTheList(string $creditMemoTotal, int $position): void
     {
         Assert::true($this->creditMemoDetailsPage->isCreditMemoInPosition($creditMemoTotal, $position));
+    }
+
+    /**
+     * @Then the first credit memo should have order number :number
+     */
+    public function theFirstCreditMemoShouldHaveOrderNumber(string $orderNumber): void
+    {
+        Assert::eq($this->creditMemoIndexPage->getColumnFields('order')[0], $orderNumber);
+    }
+
+    /**
+     * @When I switch the way credit memos are sorted by :fieldName
+     * @When I sort credit memos descending by :fieldName
+     */
+    public function iSwitchSortingBy(string $fieldName): void
+    {
+        $this->creditMemoIndexPage->sortBy($fieldName);
     }
 }
