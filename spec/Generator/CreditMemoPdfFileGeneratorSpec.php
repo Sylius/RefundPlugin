@@ -66,7 +66,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
             ->willReturn('<html>I am a credit memo pdf file content</html>')
         ;
 
-        $pdfGenerator->getOutputFromHtml('<html>I am a credit memo pdf file content</html>')->willReturn('PDF FILE');
+        $pdfGenerator->getOutputFromHtml('<html>I am a credit memo pdf file content</html>', ['enable-local-file-access' => true])->willReturn('PDF FILE');
 
         $this
             ->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')

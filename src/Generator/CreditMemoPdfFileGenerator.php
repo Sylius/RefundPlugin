@@ -68,10 +68,15 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
         $filename = str_replace('/', '_', $number) . self::FILE_EXTENSION;
 
-        $pdf = $this->pdfGenerator->getOutputFromHtml($this->twig->render($this->template, [
-            'creditMemo' => $creditMemo,
-            'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
-        ]));
+        $pdf = $this->pdfGenerator->getOutputFromHtml(
+            $this->twig->render($this->template, [
+                'creditMemo' => $creditMemo,
+                'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
+            ]),
+            [
+                'enable-local-file-access' => true,
+            ]
+        );
 
         return new CreditMemoPdf($filename, $pdf);
     }
