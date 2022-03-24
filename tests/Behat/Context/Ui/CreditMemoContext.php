@@ -240,7 +240,6 @@ final class CreditMemoContext implements Context
 
     /**
      * @Then there should be :count credit memo(s) generated
-     * @Then I should see :count credit memo(s)
      */
     public function thereShouldBeCreditMemosGenerated(int $count): void
     {
@@ -316,11 +315,19 @@ final class CreditMemoContext implements Context
     }
 
     /**
-     * @When I switch the way credit memos are sorted by :fieldName
-     * @When I sort credit memos descending by :fieldName
+     * @When I sort credit memos by order number in ascending order
      */
-    public function iSwitchSortingBy(string $fieldName): void
+    public function iSortCreditMemosByOrderNumberInAscOrder(): void
     {
-        $this->creditMemoIndexPage->sortBy($fieldName);
+        $this->creditMemoIndexPage->sortBy('order');
+    }
+
+    /**
+     * @When I sort credit memos by order number in descending order
+     */
+    public function iSortCreditMemosByOrderNumberInDescOrder(): void
+    {
+        $this->creditMemoIndexPage->sortBy('order');
+        $this->creditMemoIndexPage->sortBy('order');
     }
 }

@@ -1,6 +1,6 @@
 @refunds
 Feature: Sorting credit memos by order number
-    In order to see
+    In order to faster find specific credit memos
     As an Admin
     I want to have ability to sort credit memos by order number
 
@@ -24,17 +24,13 @@ Feature: Sorting credit memos by order number
         And I am logged in as an administrator
 
     @ui
-    Scenario: Changing the credit memo sort by order number
+    Scenario: Sorting credit memos by order number in ascending order
         When I browse credit memos
-        And I switch the way credit memos are sorted by order
-        Then I should see 2 credit memos
-        But the first credit memo should have order number "#00000021"
+        And I sort credit memos by order number in ascending order
+        Then the first credit memo should have order number "#00000021"
 
     @ui
-    Scenario: Changing the credit memo sort by descending order number
+    Scenario: Sorting credit memos by order number in descending order
         When I browse credit memos
-        And I switch the way credit memos are sorted by order
-        And I sort credit memos descending by order
-        Then I should see 2 credit memos
-        But the first credit memo should have order number "#00000123"
-
+        And I sort credit memos by order number in descending order
+        Then the first credit memo should have order number "#00000123"
