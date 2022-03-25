@@ -305,4 +305,29 @@ final class CreditMemoContext implements Context
     {
         Assert::true($this->creditMemoDetailsPage->isCreditMemoInPosition($creditMemoTotal, $position));
     }
+
+    /**
+     * @Then the first credit memo should have order number :number
+     */
+    public function theFirstCreditMemoShouldHaveOrderNumber(string $orderNumber): void
+    {
+        Assert::eq($this->creditMemoIndexPage->getColumnFields('order')[0], $orderNumber);
+    }
+
+    /**
+     * @When I sort credit memos by order number in ascending order
+     */
+    public function iSortCreditMemosByOrderNumberInAscOrder(): void
+    {
+        $this->creditMemoIndexPage->sortBy('order');
+    }
+
+    /**
+     * @When I sort credit memos by order number in descending order
+     */
+    public function iSortCreditMemosByOrderNumberInDescOrder(): void
+    {
+        $this->creditMemoIndexPage->sortBy('order');
+        $this->creditMemoIndexPage->sortBy('order');
+    }
 }
