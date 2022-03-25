@@ -13,28 +13,25 @@ declare(strict_types=1);
 
 namespace spec\Sylius\RefundPlugin\Generator;
 
-use Knp\Snappy\GeneratorInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
+use Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\Config\FileLocatorInterface;
-use Twig\Environment;
 
 final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
 {
     function let(
         RepositoryInterface $creditMemoRepository,
-        Environment $twig,
-        GeneratorInterface $pdfGenerator,
+        TwigToPdfGeneratorInterface $twigToPdfGenerator,
         FileLocatorInterface $fileLocator
     ): void {
         $this->beConstructedWith(
             $creditMemoRepository,
-            $twig,
-            $pdfGenerator,
+            $twigToPdfGenerator,
             $fileLocator,
             'creditMemoTemplate.html.twig',
             '@SyliusRefundPlugin/Resources/assets/sylius-logo.png'
@@ -48,8 +45,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
 
     function it_creates_credit_memo_pdf_with_generated_content_and_filename_basing_on_credit_memo_number(
         RepositoryInterface $creditMemoRepository,
-        Environment $twig,
-        GeneratorInterface $pdfGenerator,
+        TwigToPdfGeneratorInterface $twigToPdfGenerator,
         FileLocatorInterface $fileLocator,
         CreditMemoInterface $creditMemo
     ): void {
@@ -61,12 +57,14 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
             ->willReturn('located-path/sylius-logo.png')
         ;
 
-        $twig
-            ->render('creditMemoTemplate.html.twig', ['creditMemo' => $creditMemo, 'creditMemoLogoPath' => 'located-path/sylius-logo.png'])
-            ->willReturn('<html>I am a credit memo pdf file content</html>')
+        $twigToPdfGenerator
+            ->generate(
+                'creditMemoTemplate.html.twig',
+                ['creditMemo' => $creditMemo, 'creditMemoLogoPath' => 'located-path/sylius-logo.png'],
+                ['creditMemoLogoPath']
+            )
+            ->willReturn('PDF FILE')
         ;
-
-        $pdfGenerator->getOutputFromHtml('<html>I am a credit memo pdf file content</html>', ['enable-local-file-access' => true])->willReturn('PDF FILE');
 
         $this
             ->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')

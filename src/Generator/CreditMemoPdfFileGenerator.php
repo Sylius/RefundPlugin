@@ -13,13 +13,11 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
-use Knp\Snappy\GeneratorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\Config\FileLocatorInterface;
-use Twig\Environment;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInterface
@@ -28,9 +26,7 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
     private RepositoryInterface $creditMemoRepository;
 
-    private Environment $twig;
-
-    private GeneratorInterface $pdfGenerator;
+    private TwigToPdfGeneratorInterface $twigToPdfGenerator;
 
     private FileLocatorInterface $fileLocator;
 
@@ -40,18 +36,16 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
     public function __construct(
         RepositoryInterface $creditMemoRepository,
-        Environment $twig,
-        GeneratorInterface $pdfGenerator,
+        TwigToPdfGeneratorInterface $twigToPdfGenerator,
         FileLocatorInterface $fileLocator,
         string $template,
         string $creditMemoLogoPath
     ) {
         $this->creditMemoRepository = $creditMemoRepository;
-        $this->twig = $twig;
-        $this->pdfGenerator = $pdfGenerator;
         $this->fileLocator = $fileLocator;
         $this->template = $template;
         $this->creditMemoLogoPath = $creditMemoLogoPath;
+        $this->twigToPdfGenerator = $twigToPdfGenerator;
     }
 
     public function generate(string $creditMemoId): CreditMemoPdf
@@ -68,13 +62,14 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
         $filename = str_replace('/', '_', $number) . self::FILE_EXTENSION;
 
-        $pdf = $this->pdfGenerator->getOutputFromHtml(
-            $this->twig->render($this->template, [
+        $pdf = $this->twigToPdfGenerator->generate(
+            $this->template,
+            [
                 'creditMemo' => $creditMemo,
                 'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
-            ]),
+            ],
             [
-                'enable-local-file-access' => true,
+                'creditMemoLogoPath',
             ]
         );
 
