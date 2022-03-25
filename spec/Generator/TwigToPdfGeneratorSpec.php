@@ -16,17 +16,21 @@ namespace spec\Sylius\RefundPlugin\Generator;
 use Knp\Snappy\GeneratorInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface;
+use Symfony\Component\Config\FileLocatorInterface;
 use Twig\Environment;
 
 final class TwigToPdfGeneratorSpec extends ObjectBehavior
 {
     function let(
         Environment $twig,
-        GeneratorInterface $pdfGenerator
+        GeneratorInterface $pdfGenerator,
+        FileLocatorInterface $fileLocator
     ): void {
         $this->beConstructedWith(
             $twig,
-            $pdfGenerator
+            $pdfGenerator,
+            $fileLocator,
+            ['swans.png']
         );
     }
 
@@ -37,7 +41,8 @@ final class TwigToPdfGeneratorSpec extends ObjectBehavior
 
     function it_generates_pdf_from_twig_template(
         Environment $twig,
-        GeneratorInterface $pdfGenerator
+        GeneratorInterface $pdfGenerator,
+        FileLocatorInterface $fileLocator
     ): void {
         $twig
             ->render('template.html.twig', ['figcaption' => 'Swans', 'imgPath' => 'located-path/swans.png'])
@@ -52,8 +57,12 @@ final class TwigToPdfGeneratorSpec extends ObjectBehavior
             ->willReturn('PDF FILE')
         ;
 
+        $fileLocator
+            ->locate('swans.png')
+            ->willReturn('located-path/swans.png');
+
         $this
-            ->generate('template.html.twig', ['figcaption' => 'Swans', 'imgPath' => 'located-path/swans.png'], ['imgPath'])
+            ->generate('template.html.twig', ['figcaption' => 'Swans', 'imgPath' => 'located-path/swans.png'])
             ->shouldBeLike('PDF FILE')
         ;
     }

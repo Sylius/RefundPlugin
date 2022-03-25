@@ -67,9 +67,6 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
             [
                 'creditMemo' => $creditMemo,
                 'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
-            ],
-            [
-                'creditMemoLogoPath',
             ]
         );
 

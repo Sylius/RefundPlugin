@@ -51,6 +51,8 @@
         <service id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" class="Sylius\RefundPlugin\Generator\TwigToPdfGenerator">
             <argument type="service" id="twig" />
             <argument type="service" id="knp_snappy.pdf" />
+            <argument type="service" id="file_locator" />
+            <argument>%sylius_refund.pdf_generator.allowed_files%</argument>
         </service>
     </services>
 </container>

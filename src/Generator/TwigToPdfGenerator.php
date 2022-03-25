@@ -14,27 +14,35 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Generator;
 
 use Knp\Snappy\GeneratorInterface;
+use Symfony\Component\Config\FileLocatorInterface;
 use Twig\Environment;
 
 final class TwigToPdfGenerator implements TwigToPdfGeneratorInterface
 {
     public function __construct(
         private Environment $twig,
-        private GeneratorInterface $pdfGenerator
+        private GeneratorInterface $pdfGenerator,
+        private FileLocatorInterface $fileLocator,
+        private array $allowedFiles
     ) {
     }
 
-    public function generate(string $templateName, array $templateParams, array $fileParamNames): string
+    public function generate(string $templateName, array $templateParams): string
     {
-        $allowedFiles = array_filter(
-            $templateParams,
-            fn ($key) => in_array($key, $fileParamNames),
-            \ARRAY_FILTER_USE_KEY
-        );
-
         return $this->pdfGenerator->getOutputFromHtml(
             $this->twig->render($templateName, $templateParams),
-            ['allow' => array_values($allowedFiles)]
+            $this->getOptions()
         );
+    }
+
+    private function getOptions(): array
+    {
+        if (empty($this->allowedFiles)) {
+            return [];
+        }
+
+        return [
+            'allow' => array_map(fn ($file) => $this->fileLocator->locate($file), $this->allowedFiles),
+        ];
     }
 }

@@ -60,8 +60,7 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         $twigToPdfGenerator
             ->generate(
                 'creditMemoTemplate.html.twig',
-                ['creditMemo' => $creditMemo, 'creditMemoLogoPath' => 'located-path/sylius-logo.png'],
-                ['creditMemoLogoPath']
+                ['creditMemo' => $creditMemo, 'creditMemoLogoPath' => 'located-path/sylius-logo.png']
             )
             ->willReturn('PDF FILE')
         ;

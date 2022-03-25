@@ -2,6 +2,11 @@ parameters:
     sylius_refund.refund_enum_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
     sylius_refund.refund_type: Sylius\RefundPlugin\Model\RefundType
 
+sylius_refund:
+    pdf_generator:
+        allowed_files:
+            - '%env(default:default_logo_file:resolve:SYLIUS_REFUND_LOGO_FILE)%'
+
 sylius_resource:
     resources:
         sylius_refund.credit_memo:
