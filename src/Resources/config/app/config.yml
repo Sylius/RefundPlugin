@@ -80,7 +80,7 @@ sylius_grid:
                 order:
                     type: twig
                     label: sylius.ui.order
-                    sortable: ~
+                    sortable: order.number
                     options:
                         template: "@SyliusRefundPlugin/Order/Grid/Field/number.html.twig"
                 channel:
