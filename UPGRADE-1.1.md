@@ -1,6 +1,6 @@
 ### UPGRADE FROM 1.1.0 TO 1.1.1
 
-1. `Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator` takes `Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface` in place of `Twig\Environment` and `Knp\Snappy\GeneratorInterface`.
+1. `Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator` takes `Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface` as the seventh argument. `Twig\Environment` and `Knp\Snappy\GeneratorInterface` which are second and third arguments respectively are deprecated now.
 
 ### UPGRADE FROM 1.0.X TO 1.1.0
 

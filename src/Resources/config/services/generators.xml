@@ -31,10 +31,12 @@
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" class="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator">
             <argument type="service" id="sylius_refund.repository.credit_memo" />
-            <argument type="service" id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" />
+            <argument>null</argument>
+            <argument>null</argument>
             <argument type="service" id="file_locator" />
             <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
             <argument>%sylius.refund.template.logo_file%</argument>
+            <argument type="service" id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">
