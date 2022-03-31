@@ -31,12 +31,12 @@
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" class="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator">
             <argument type="service" id="sylius_refund.repository.credit_memo" />
-            <argument>null</argument>
-            <argument>null</argument>
+            <argument type="service" id="twig" />
+            <argument type="service" id="knp_snappy.pdf" />
             <argument type="service" id="file_locator" />
             <argument>@SyliusRefundPlugin/Download/creditMemo.html.twig</argument>
             <argument>%sylius.refund.template.logo_file%</argument>
-            <argument type="service" id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">
@@ -50,9 +50,7 @@
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface instead.</deprecated>
         </service>
 
-        <service id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" class="Sylius\RefundPlugin\Generator\TwigToPdfGenerator">
-            <argument type="service" id="twig" />
-            <argument type="service" id="knp_snappy.pdf" />
+        <service id="Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface" class="Sylius\RefundPlugin\Generator\PdfOptionsGenerator">
             <argument type="service" id="file_locator" />
             <argument>%knp_snappy.pdf.options%</argument>
             <argument>%sylius_refund.pdf_generator.allowed_files%</argument>
