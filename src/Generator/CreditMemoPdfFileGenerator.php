@@ -38,13 +38,16 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
     private string $creditMemoLogoPath;
 
+    private ?PdfOptionsGeneratorInterface $pdfOptionsGenerator;
+
     public function __construct(
         RepositoryInterface $creditMemoRepository,
         Environment $twig,
         GeneratorInterface $pdfGenerator,
         FileLocatorInterface $fileLocator,
         string $template,
-        string $creditMemoLogoPath
+        string $creditMemoLogoPath,
+        ?PdfOptionsGeneratorInterface $pdfOptionsGenerator = null
     ) {
         $this->creditMemoRepository = $creditMemoRepository;
         $this->twig = $twig;
@@ -52,6 +55,9 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
         $this->fileLocator = $fileLocator;
         $this->template = $template;
         $this->creditMemoLogoPath = $creditMemoLogoPath;
+        $this->pdfOptionsGenerator = $pdfOptionsGenerator;
+
+        $this->checkDeprecations();
     }
 
     public function generate(string $creditMemoId): CreditMemoPdf
@@ -68,11 +74,21 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
         $filename = str_replace('/', '_', $number) . self::FILE_EXTENSION;
 
-        $pdf = $this->pdfGenerator->getOutputFromHtml($this->twig->render($this->template, [
-            'creditMemo' => $creditMemo,
-            'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
-        ]));
+        $pdf = $this->pdfGenerator->getOutputFromHtml(
+            $this->twig->render($this->template, [
+                'creditMemo' => $creditMemo,
+                'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
+            ]),
+            $this->pdfOptionsGenerator ? $this->pdfOptionsGenerator->generate() : []
+        );
 
         return new CreditMemoPdf($filename, $pdf);
+    }
+
+    private function checkDeprecations(): void
+    {
+        if (null === $this->pdfOptionsGenerator) {
+            @trigger_error(sprintf('Not passing a $pdfOptionsGenerator to %s constructor is deprecated since sylius/refund-plugin 1.1 and will be prohibited in 2.0.', self::class), \E_USER_DEPRECATED);
+        }
     }
 }

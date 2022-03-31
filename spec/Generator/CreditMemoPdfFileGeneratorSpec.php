@@ -19,6 +19,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
+use Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\Config\FileLocatorInterface;
 use Twig\Environment;
@@ -29,7 +30,8 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         RepositoryInterface $creditMemoRepository,
         Environment $twig,
         GeneratorInterface $pdfGenerator,
-        FileLocatorInterface $fileLocator
+        FileLocatorInterface $fileLocator,
+        PdfOptionsGeneratorInterface $pdfOptionsGenerator
     ): void {
         $this->beConstructedWith(
             $creditMemoRepository,
@@ -37,7 +39,8 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
             $pdfGenerator,
             $fileLocator,
             'creditMemoTemplate.html.twig',
-            '@SyliusRefundPlugin/Resources/assets/sylius-logo.png'
+            '@SyliusRefundPlugin/Resources/assets/sylius-logo.png',
+            $pdfOptionsGenerator
         );
     }
 
@@ -51,7 +54,8 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         Environment $twig,
         GeneratorInterface $pdfGenerator,
         FileLocatorInterface $fileLocator,
-        CreditMemoInterface $creditMemo
+        CreditMemoInterface $creditMemo,
+        PdfOptionsGeneratorInterface $pdfOptionsGenerator
     ): void {
         $creditMemoRepository->find('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->willReturn($creditMemo);
         $creditMemo->getNumber()->willReturn('2015/05/00004444');
@@ -66,7 +70,15 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
             ->willReturn('<html>I am a credit memo pdf file content</html>')
         ;
 
-        $pdfGenerator->getOutputFromHtml('<html>I am a credit memo pdf file content</html>')->willReturn('PDF FILE');
+        $pdfOptionsGenerator
+            ->generate()
+            ->willReturn(['allow' => ['located-path/sylius-logo.png']])
+        ;
+
+        $pdfGenerator
+            ->getOutputFromHtml('<html>I am a credit memo pdf file content</html>', ['allow' => ['located-path/sylius-logo.png']])
+            ->willReturn('PDF FILE')
+        ;
 
         $this
             ->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
@@ -83,5 +95,23 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
             ->shouldThrow(CreditMemoNotFound::withId('7903c83a-4c5e-4bcf-81d8-9dc304c6a353'))
             ->during('generate', ['7903c83a-4c5e-4bcf-81d8-9dc304c6a353'])
         ;
+    }
+
+    function it_deprecates_not_passing_pdf_options_generator(
+        RepositoryInterface $creditMemoRepository,
+        Environment $twig,
+        GeneratorInterface $pdfGenerator,
+        FileLocatorInterface $fileLocator
+    ): void {
+        $this->beConstructedWith(
+            $creditMemoRepository,
+            $twig,
+            $pdfGenerator,
+            $fileLocator,
+            'creditMemoTemplate.html.twig',
+            '@SyliusRefundPlugin/Resources/assets/sylius-logo.png'
+        );
+
+        $this->shouldTrigger(\E_USER_DEPRECATED, 'Not passing a $pdfOptionsGenerator to Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator constructor is deprecated since sylius/refund-plugin 1.1 and will be prohibited in 2.0.')->duringInstantiation();
     }
 }
