@@ -30,10 +30,12 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
         /** @var ConfigurationInterface $configuration */
         $configuration = $this->getConfiguration([], $container);
 
-        $this->processConfiguration($configuration, $configs);
+        $configs = $this->processConfiguration($configuration, $configs);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('services.xml');
+
+        $container->setParameter('sylius_refund.pdf_generator.allowed_files', $configs['pdf_generator']['allowed_files']);
     }
 
     public function prepend(ContainerBuilder $container): void
