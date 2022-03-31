@@ -1,0 +1,42 @@
+---------------------------------------------------------------------------
+
+by Ferror at 2022-03-25T08:20:04Z
+
+Does the `enable-local-file-access` parameter was introduced in 0.12.6 or it has been present before?
+
+---------------------------------------------------------------------------
+
+by vvasiloi at 2022-03-25T08:22:56Z
+
+@Ferror it was introduced in 0.12.6.
+
+---------------------------------------------------------------------------
+
+by vvasiloi at 2022-03-25T08:33:00Z
+
+@Ferror sorry, I double checked and the option is there since 2010, what changed in 0.12.6 is that the access is not allowed by default.
+
+---------------------------------------------------------------------------
+
+by vvasiloi at 2022-03-25T08:49:31Z
+
+Instead of adding `--enable-local-file-access`, I think it's better to add `%sylius.refund.template.logo_file%` and other relevant files/dirs to the `allow` list.
+
+---------------------------------------------------------------------------
+
+by coldic3 at 2022-03-25T11:24:22Z
+
+@vvasiloi Totally agree. I've created a new generator `TwigToPdfGenerator` that wraps the knp snappy and dynamically adds allowed files to its generator. What do you think about this approach?
+
+---------------------------------------------------------------------------
+
+by vvasiloi at 2022-03-25T11:37:47Z
+
+@coldic3 I would rather add it to the global Snappy configuration, or create a separate configuration / parameter for this service.
+Having the array defined directly in the class will make it more difficult to customize it in case the user wants to add more files / directories to it.
+
+---------------------------------------------------------------------------
+
+by GSadee at 2022-03-31T10:43:01Z
+
+Thank you, Kevin! :1st_place_medal:
