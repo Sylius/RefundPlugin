@@ -1,5 +1,14 @@
 # CHANGELOG
 
+### v1.1.1 (2022-03-31)
+
+- [#350](https://github.com/Sylius/RefundPlugin/issues/350) [Maintenance] Add information about supported branches ([@GSadee](https://github.com/GSadee))
+- [#354](https://github.com/Sylius/RefundPlugin/issues/354) [Maintenance] Fix header of information about supported branches ([@GSadee](https://github.com/GSadee))
+- [#358](https://github.com/Sylius/RefundPlugin/issues/358) [Maintenance] Bump up Sylius versions to fix the build ([@GSadee](https://github.com/GSadee))
+- [#355](https://github.com/Sylius/RefundPlugin/issues/355) [GitHub Actions] Configure workflow to run on the workflow_dispatch event ([@GSadee](https://github.com/GSadee))
+- [#359](https://github.com/Sylius/RefundPlugin/issues/359) [Credit Memo] Sorting credit memos by order numbers ([@ernestWarwas](https://github.com/ernestWarwas))
+- [#361](https://github.com/Sylius/RefundPlugin/issues/361) Enable local file access in CreditMemoPdfFileGenerator ([@coldic3](https://github.com/coldic3))
+
 ### v1.1.0 (2022-02-17)
 
 - [#326](https://github.com/Sylius/RefundPlugin/issues/326) Do not require visibility in PHPSpec functions ([@GSadee](https://github.com/GSadee))
