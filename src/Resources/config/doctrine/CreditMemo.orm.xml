@@ -52,14 +52,14 @@
             </join-table>
         </many-to-many>
 
-        <one-to-one field="from" target-entity="Sylius\RefundPlugin\Entity\CustomerBillingData">
+        <one-to-one field="from" target-entity="Sylius\RefundPlugin\Entity\CustomerBillingDataInterface">
             <cascade>
                 <cascade-all />
             </cascade>
             <join-column name="from_id" />
         </one-to-one>
 
-        <one-to-one field="to" target-entity="Sylius\RefundPlugin\Entity\ShopBillingData">
+        <one-to-one field="to" target-entity="Sylius\RefundPlugin\Entity\ShopBillingDataInterface">
             <cascade>
                 <cascade-all />
             </cascade>
