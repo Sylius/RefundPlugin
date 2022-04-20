@@ -76,6 +76,25 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
         self::assertEmpty($syliusLabsDoctrineMigrationsExtraExtensionConfig);
     }
 
+    /** @test */
+    public function it_set_up_the_pdf_generator_allow_files_container_parameter_by_default_as_an_empty_array(): void
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasParameter('sylius_refund.pdf_generator.allowed_files', []);
+    }
+
+    /** @test */
+    public function it_set_up_the_pdf_generator_enabled_container_parameter_by_default_as_true(): void
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasParameter(
+            'sylius_refund.pdf_generator.enabled',
+            true
+        );
+    }
+
     protected function getContainerExtensions(): array
     {
         return [new SyliusRefundExtension()];
