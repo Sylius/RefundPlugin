@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\DependencyInjection;
 
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\DoctrineMigrationsExtension;
-use FOS\OAuthServerBundle\DependencyInjection\FOSOAuthServerExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sylius\RefundPlugin\DependencyInjection\SyliusRefundExtension;
 use SyliusLabs\DoctrineMigrationsExtraBundle\DependencyInjection\SyliusLabsDoctrineMigrationsExtraExtension;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
 {
@@ -29,7 +27,7 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
     {
         $this->configureContainer();
 
-        $this->customLoad();
+        $this->load();
 
         $doctrineMigrationsExtensionConfig = $this->container->getExtensionConfig('doctrine_migrations');
 
@@ -64,7 +62,7 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
 
         $this->container->setParameter('sylius_core.prepend_doctrine_migrations', false);
 
-        $this->customLoad();
+        $this->load();
 
         $doctrineMigrationsExtensionConfig = $this->container->getExtensionConfig('doctrine_migrations');
 
@@ -90,26 +88,5 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
 
         $this->container->registerExtension(new DoctrineMigrationsExtension());
         $this->container->registerExtension(new SyliusLabsDoctrineMigrationsExtraExtension());
-        $this->container->registerExtension(new FOSOAuthServerExtension());
-    }
-
-    private function customLoad(): void
-    {
-        $configurationValues = ['sylius_refund' => []];
-
-        $configs = [$this->getMinimalConfiguration(), $configurationValues];
-
-        foreach ($this->container->getExtensions() as $extension) {
-            if ($extension instanceof PrependExtensionInterface) {
-                $extension->prepend($this->container);
-            }
-        }
-
-        foreach ($this->container->getExtensions() as $extension) {
-            $extensionAlias = $extension->getAlias();
-            if (isset($configs[$extensionAlias])) {
-                $extension->load($configs[$extensionAlias], $this->container);
-            }
-        }
     }
 }
