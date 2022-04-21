@@ -22,24 +22,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DownloadCreditMemoAction
 {
-    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
-
-    private CreditMemoCustomerRelationCheckerInterface $creditMemoCustomerRelationChecker;
-
-    private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder;
-
     public function __construct(
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        CreditMemoCustomerRelationCheckerInterface $creditMemoCustomerRelationChecker,
-        CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder
+        private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
+        private CreditMemoCustomerRelationCheckerInterface $creditMemoCustomerRelationChecker,
+        private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder,
+        private bool $hasEnabledPdfFileGenerator
     ) {
-        $this->creditMemoPdfFileGenerator = $creditMemoPdfFileGenerator;
-        $this->creditMemoCustomerRelationChecker = $creditMemoCustomerRelationChecker;
-        $this->creditMemoFileResponseBuilder = $creditMemoFileResponseBuilder;
     }
 
     public function __invoke(Request $request, string $id): Response
     {
+        if (!$this->hasEnabledPdfFileGenerator) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        }
+
         try {
             $this->creditMemoCustomerRelationChecker->check($id);
         } catch (CreditMemoNotAccessible $exception) {

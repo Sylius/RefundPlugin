@@ -14,6 +14,7 @@
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface" />
             <argument type="service" id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface" />
+            <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>
         </service>
 
         <service id="Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction">
