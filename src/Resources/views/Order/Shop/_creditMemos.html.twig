@@ -20,9 +20,7 @@
                     <td>{{ credit_memo.total|sylius_format_money(credit_memo.currencyCode, credit_memo.localeCode) }}</td>
                     <td>{{ credit_memo.issuedAt|date('d-m-Y') }}</td>
                     <td>
-                        {% set path = path('sylius_refund_shop_credit_memo_download', { 'id': credit_memo.id }) %}
-
-                        {{ buttons.default(path, 'sylius_refund.ui.download'|trans, credit_memo.id, 'download') }}
+                        {{ sylius_template_event('sylius_refund.shop.order.credit_memos.list.actions.buttons', _context) }}
                     </td>
                 </tr>
             {% endfor %}

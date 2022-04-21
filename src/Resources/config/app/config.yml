@@ -174,6 +174,13 @@ sylius_ui:
                 refund_transition:
                     enabled: false
 
+        sylius_refund.shop.order.credit_memos.list.actions.buttons:
+            blocks:
+                download:
+                    template: '@SyliusRefundPlugin/Order/Shop/_downloadButton.html.twig'
+                    enabled: '%sylius_refund.pdf_generator.enabled%'
+                    priority: 10
+
         sylius_refund.admin.order.credit_memos.list.actions.buttons:
             blocks:
                 details:
