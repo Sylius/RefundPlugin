@@ -123,7 +123,8 @@ Tagged services would be executed according to their priority (descending).
 
 * `1.0` (v1.0.*) - security fixes
 * `1.1` (v1.1.*) - bug fixes, improvements
-* `master` (v1.2.*) - new features
+* `1.2` (v1.2.*) - new features
+* `2.0` (v2.0.*) - new features, removing deprecations, potential BC breaks
 
 ## Security issues
 
