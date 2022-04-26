@@ -160,6 +160,15 @@ sylius_ui:
                 credit_memos:
                     template: '@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig'
                     priority: 5
+        sylius.admin.order.show.payments_content:
+            blocks:
+                refund_payments:
+                    template: '@SyliusRefundPlugin/Order/Admin/_refundPayments.html.twig'
+                    priority: 5
+        sylius.admin.order.show.payment_content:
+            blocks:
+                refund_transition:
+                    enabled: false
 
 doctrine:
     dbal:
