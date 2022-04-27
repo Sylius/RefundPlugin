@@ -1,5 +1,12 @@
 # CHANGELOG
 
+### v1.1.2 (2022-04-27)
+
+- [#363](https://github.com/Sylius/RefundPlugin/issues/363) Use mapped superclasses for entities ([@aleho](https://github.com/aleho))
+- [#364](https://github.com/Sylius/RefundPlugin/issues/364) [Maintenance] Support PHP 8.1 ([@GSadee](https://github.com/GSadee))
+- [#366](https://github.com/Sylius/RefundPlugin/issues/366) [Templates] Remove redundant template overriding ([@coldic3](https://github.com/coldic3))
+- [#368](https://github.com/Sylius/RefundPlugin/issues/368) Update supported branches in README file ([@GSadee](https://github.com/GSadee))
+
 ### v1.1.1 (2022-03-31)
 
 - [#350](https://github.com/Sylius/RefundPlugin/issues/350) [Maintenance] Add information about supported branches ([@GSadee](https://github.com/GSadee))
