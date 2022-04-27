@@ -30,11 +30,8 @@ use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Entity\TaxItem;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
-use Sylius\RefundPlugin\Factory\CreditMemoFactory;
-use Sylius\RefundPlugin\Factory\CustomerBillingDataFactory;
 use Sylius\RefundPlugin\Factory\RefundFactory;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactory;
-use Sylius\RefundPlugin\Factory\ShopBillingDataFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -89,7 +86,7 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('model')->defaultValue(CreditMemo::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(CreditMemoInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('factory')->defaultValue(CreditMemoFactory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->defaultValue(CreditMemoRepository::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
@@ -169,7 +166,7 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('model')->defaultValue(CustomerBillingData::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(CustomerBillingDataInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('factory')->defaultValue(CustomerBillingDataFactory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
@@ -185,7 +182,7 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('model')->defaultValue(ShopBillingData::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(ShopBillingDataInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('factory')->defaultValue(ShopBillingDataFactory::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()

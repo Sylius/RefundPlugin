@@ -33,11 +33,8 @@ use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
 use Sylius\RefundPlugin\Entity\TaxItem;
 use Sylius\RefundPlugin\Entity\TaxItemInterface;
-use Sylius\RefundPlugin\Factory\CreditMemoFactory;
-use Sylius\RefundPlugin\Factory\CustomerBillingDataFactory;
 use Sylius\RefundPlugin\Factory\RefundFactory;
 use Sylius\RefundPlugin\Factory\RefundPaymentFactory;
-use Sylius\RefundPlugin\Factory\ShopBillingDataFactory;
 
 final class SyliusRefundConfigurationTest extends TestCase
 {
@@ -107,7 +104,7 @@ final class SyliusRefundConfigurationTest extends TestCase
                     'model' => CreditMemo::class,
                     'interface' => CreditMemoInterface::class,
                     'controller' => ResourceController::class,
-                    'factory' => CreditMemoFactory::class,
+                    'factory' => Factory::class,
                     'repository' => CreditMemoRepository::class
                 ]
             ],
@@ -148,7 +145,7 @@ final class SyliusRefundConfigurationTest extends TestCase
                     'model' => CustomerBillingData::class,
                     'interface' => CustomerBillingDataInterface::class,
                     'controller' => ResourceController::class,
-                    'factory' => CustomerBillingDataFactory::class,
+                    'factory' => Factory::class,
                 ]
             ],
             'shop_billing_data' => [
@@ -156,7 +153,7 @@ final class SyliusRefundConfigurationTest extends TestCase
                     'model' => ShopBillingData::class,
                     'interface' => ShopBillingDataInterface::class,
                     'controller' => ResourceController::class,
-                    'factory' => ShopBillingDataFactory::class,
+                    'factory' => Factory::class,
                 ]
             ]
         ];
