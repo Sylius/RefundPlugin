@@ -74,4 +74,12 @@ final class CreditMemoIndexPage extends IndexPage implements CreditMemoIndexPage
         $creditMemoRow = $this->getDocument()->find('css', sprintf('table tbody tr:contains("%s")', $orderNumber));
         $creditMemoRow->clickLink('Resend');
     }
+
+    public function hasDownloadButton(int $index): bool
+    {
+        /** @var NodeElement $creditMemoRow */
+        $creditMemoRow = $this->getDocument()->findAll('css', 'tbody tr')[$index-1];
+
+        return $creditMemoRow->hasLink('Download');
+    }
 }

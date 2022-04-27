@@ -22,24 +22,22 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
 {
     private const UNITS_REFUNDED = 'units_refunded';
 
-    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
-
-    private SenderInterface $sender;
-
-    private FileManagerInterface $fileManager;
-
     public function __construct(
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        SenderInterface $sender,
-        FileManagerInterface $fileManager
+        private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
+        private SenderInterface $sender,
+        private FileManagerInterface $fileManager,
+        private bool $hasEnabledPdfFileGenerator
     ) {
-        $this->creditMemoPdfFileGenerator = $creditMemoPdfFileGenerator;
-        $this->sender = $sender;
-        $this->fileManager = $fileManager;
     }
 
     public function send(CreditMemoInterface $creditMemo, string $recipient): void
     {
+        if (!$this->hasEnabledPdfFileGenerator) {
+            $this->sender->send(self::UNITS_REFUNDED, [$recipient], ['creditMemo' => $creditMemo]);
+
+            return;
+        }
+
         $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
 
         $filePath = $creditMemoPdfFile->filename();

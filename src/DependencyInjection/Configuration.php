@@ -41,6 +41,9 @@ final class Configuration implements ConfigurationInterface
                             ->variablePrototype()->end()
                         ->end()
                     ->end()
+                    ->children()
+                        ->booleanNode('enabled')->defaultTrue()
+                    ->end()
                 ->end()
             ->end()
         ;

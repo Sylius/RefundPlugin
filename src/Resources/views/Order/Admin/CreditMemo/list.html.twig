@@ -1,5 +1,4 @@
 {% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
-{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
 
 {% if credit_memos|length > 0 %}
 <div class="ui segment" id="credit-memos">
@@ -23,19 +22,7 @@
                 <td>{{ credit_memo.issuedAt|date('d-m-Y') }}</td>
                 <td>
                     <div class="ui buttons">
-                        {{ buttons.default(
-                            path('sylius_refund_credit_memo_details', {'orderNumber': credit_memo.order.number, 'id': credit_memo.id}),
-                            'sylius.ui.details',
-                            null,
-                            'eye'
-                        ) }}
-                        {{ buttons.default(
-                            path('sylius_refund_admin_credit_memo_download', {'id': credit_memo.id}),
-                            'sylius_refund.ui.download',
-                            null,
-                            'download',
-                            'blue'
-                        ) }}
+                        {{ sylius_template_event('sylius_refund.admin.order.credit_memos.list.actions.buttons', _context) }}
                     </div>
                 </td>
             </tr>

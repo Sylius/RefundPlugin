@@ -25,8 +25,9 @@ final class SyliusRefundConfigurationTest extends TestCase
     public function it_does_not_define_any_allowed_files_by_default(): void
     {
         $this->assertProcessedConfigurationEquals(
-            [[]],
-            ['pdf_generator' => ['allowed_files' => []]]
+            [],
+            ['pdf_generator' => ['allowed_files' => []]],
+            'pdf_generator.allowed_files'
         );
     }
 
@@ -35,7 +36,28 @@ final class SyliusRefundConfigurationTest extends TestCase
     {
         $this->assertProcessedConfigurationEquals(
             [['pdf_generator' => ['allowed_files' => ['swans.png', 'product.png']]]],
-            ['pdf_generator' => ['allowed_files' => ['swans.png', 'product.png']]]
+            ['pdf_generator' => ['allowed_files' => ['swans.png', 'product.png']]],
+            'pdf_generator.allowed_files'
+        );
+    }
+
+    /** @test */
+    public function it_has_enabled_pdf_generator_by_default(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [],
+            ['pdf_generator' => ['enabled' => true]],
+            'pdf_generator.enabled'
+        );
+    }
+
+    /** @test */
+    public function it_allows_to_disable_pdf_generator(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [['pdf_generator' => ['enabled' => false]]],
+            ['pdf_generator' => ['enabled' => false]],
+            'pdf_generator.enabled'
         );
     }
 

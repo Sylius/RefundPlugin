@@ -19,6 +19,13 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         $creditMemo->clickLink('Download');
     }
 
+    public function hasDownloadCreditMemoButton(int $index): bool
+    {
+        $creditMemo = $this->getCreditMemosList()[$index];
+
+        return $creditMemo->hasLink('Download');
+    }
+
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [

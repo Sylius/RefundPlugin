@@ -31,8 +31,8 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
         $configuration = $this->getConfiguration([], $container);
 
         $configs = $this->processConfiguration($configuration, $configs);
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
         $container->setParameter('sylius_refund.pdf_generator.allowed_files', $configs['pdf_generator']['allowed_files']);
@@ -40,6 +40,10 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
 
     public function prepend(ContainerBuilder $container): void
     {
+        $configs = $this->getCurrentConfiguration($container);
+
+        $container->setParameter('sylius_refund.pdf_generator.enabled', $configs['pdf_generator']['enabled']);
+
         $this->prependDoctrineMigrations($container);
     }
 
@@ -58,5 +62,15 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
         return [
             'Sylius\Bundle\CoreBundle\Migrations',
         ];
+    }
+
+    private function getCurrentConfiguration(ContainerBuilder $container): array
+    {
+        /** @var ConfigurationInterface $configuration */
+        $configuration = $this->getConfiguration([], $container);
+
+        $configs = $container->getExtensionConfig($this->getAlias());
+
+        return $this->processConfiguration($configuration, $configs);
     }
 }

@@ -47,13 +47,22 @@ From Administrator's point of view, every Refund request results in creating two
     bin/console doctrine:migrations:migrate
     ```
 
-1. Check if you have wkhtmltopdf binary. If not, you can download it [here](https://wkhtmltopdf.org/downloads.html).
+1. Default configuration assumes enabled PDF file generator. If you don't want to use that feature change your app configuration:
 
-In case wkhtmltopdf is not located in `/usr/local/bin/wkhtmltopdf` modify the `WKHTMLTOPDF_PATH` environment variable in the `.env` file:
+   ```yaml
+   # config/packages/sylius_refund.yaml
+   sylius_refund:
+      pdf_generator:
+         enabled: false
+   ```
 
-```
-WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf # Change this! :)
-```
+   Otherwise, check if you have wkhtmltopdf binary. If not, you can download it [here](https://wkhtmltopdf.org/downloads.html).
+
+   In case wkhtmltopdf is not located in `/usr/local/bin/wkhtmltopdf` modify the `WKHTMLTOPDF_PATH` environment variable in the `.env` file:
+   
+   ```
+   WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf # Change this! :)
+   ```
 
 #### Beware!
 
