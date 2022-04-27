@@ -7,35 +7,6 @@ sylius_refund:
         allowed_files:
             - '%env(default:default_logo_file:resolve:SYLIUS_REFUND_LOGO_FILE)%'
 
-sylius_resource:
-    resources:
-        sylius_refund.credit_memo:
-            classes:
-                model: Sylius\RefundPlugin\Entity\CreditMemo
-                repository: Sylius\RefundPlugin\Doctrine\ORM\CreditMemoRepository
-        sylius_refund.line_item:
-            classes:
-                model: Sylius\RefundPlugin\Entity\LineItem
-                interface: Sylius\RefundPlugin\Entity\LineItemInterface
-        sylius_refund.tax_item:
-            classes:
-                model: Sylius\RefundPlugin\Entity\TaxItem
-                interface: Sylius\RefundPlugin\Entity\TaxItemInterface
-        sylius_refund.refund:
-            classes:
-                model: Sylius\RefundPlugin\Entity\Refund
-                factory: Sylius\RefundPlugin\Factory\RefundFactory
-        sylius_refund.refund_payment:
-            classes:
-                model: Sylius\RefundPlugin\Entity\RefundPayment
-                factory: Sylius\RefundPlugin\Factory\RefundPaymentFactory
-        sylius_refund.customer_billing_data:
-            classes:
-                model: Sylius\RefundPlugin\Entity\CustomerBillingData
-        sylius_refund.shop_billing_data:
-            classes:
-                model: Sylius\RefundPlugin\Entity\ShopBillingData
-
 sylius_mailer:
     emails:
         units_refunded:
