@@ -44,14 +44,11 @@ final class SyliusRefundConfigurationTest extends TestCase
     use ConfigurationTestCaseTrait;
 
     /** @test */
-    public function it_does_not_define_any_allowed_files_by_default_and_it_loads_resources_correctly(): void
+    public function it_does_not_define_any_allowed_files_by_default(): void
     {
         $this->assertProcessedConfigurationEquals(
             [],
-            [
-                'pdf_generator' => ['allowed_files' => []],
-                'resources' => $this->getExpectedResourceConfiguration()
-            ],
+            ['pdf_generator' => ['allowed_files' => []]],
             'pdf_generator.allowed_files'
         );
     }
@@ -82,11 +79,18 @@ final class SyliusRefundConfigurationTest extends TestCase
     {
         $this->assertProcessedConfigurationEquals(
             [['pdf_generator' => ['enabled' => false]]],
-            [
-                'pdf_generator' => ['allowed_files' => ['swans.png', 'product.png']],
-                'resources' => $this->getExpectedResourceConfiguration()
-            ],
+            ['pdf_generator' => ['enabled' => false]],
             'pdf_generator.enabled'
+        );
+    }
+
+    /** @test */
+    public function it_loads_resources_by_default(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [[]],
+            ['resources' => $this->getExpectedResourceConfiguration()],
+            'resources'
         );
     }
 
