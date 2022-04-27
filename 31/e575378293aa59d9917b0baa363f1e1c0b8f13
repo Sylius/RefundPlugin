@@ -1,0 +1,11 @@
+---------------------------------------------------------------------------
+
+by AdamKasp at 2022-04-21T05:30:39Z
+
+And you need to check `send` and `resend` too., `CreditMemoEmailSender` also creates the pdf and if I see it correct you don't cover this case
+
+---------------------------------------------------------------------------
+
+by AdamKasp at 2022-04-27T06:14:47Z
+
+Thanks, Rafał! :tada:
