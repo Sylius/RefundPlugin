@@ -23,4 +23,6 @@ interface CreditMemoIndexPageInterface extends IndexPageInterface
     public function hasCreditMemoWithChannel(int $index, string $channelName): bool;
 
     public function hasSingleCreditMemoForOrder(string $orderNumber): bool;
+
+    public function hasDownloadButton(int $index): bool;
 }

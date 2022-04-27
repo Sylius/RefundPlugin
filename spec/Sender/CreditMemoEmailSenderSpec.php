@@ -28,15 +28,15 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         SenderInterface $sender,
         FileManagerInterface $fileManager
     ): void {
-        $this->beConstructedWith($creditMemoPdfFileGenerator, $sender, $fileManager);
+        $this->beConstructedWith($creditMemoPdfFileGenerator, $sender, $fileManager, true);
     }
 
-    function it_implements_credit_memo_email_sender_interface()
+    function it_implements_credit_memo_email_sender_interface(): void
     {
         $this->shouldImplement(CreditMemoEmailSenderInterface::class);
     }
 
-    function it_sends_email_with_credit_memo_to_customer(
+    function it_sends_an_email_with_credit_memo_and_pdf_file_attachment_to_customer(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,
@@ -60,6 +60,27 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         ;
 
         $fileManager->remove('credit-memo.pdf')->shouldBeCalled();
+
+        $this->send($creditMemo, 'john@example.com');
+    }
+
+    function it_sends_an_email_with_credit_memo_to_customer_without_pdf_file_attachment_if_pdf_file_generator_is_disabled(
+        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
+        SenderInterface $sender,
+        FileManagerInterface $fileManager,
+        CreditMemoInterface $creditMemo
+    ): void {
+        $this->beConstructedWith($creditMemoPdfFileGenerator, $sender, $fileManager, false);
+
+        $creditMemo->getId()->shouldNotBeCalled();
+        $creditMemoPdfFileGenerator->generate('creditMemoId')->shouldNotBeCalled();
+
+        $fileManager->createWithContent('credit-memo.pdf', 'content')->shouldNotBeCalled();
+        $fileManager->realPath('credit-memo.pdf')->shouldNotBeCalled();
+
+        $sender->send('units_refunded', ['john@example.com'], ['creditMemo' => $creditMemo])->shouldBeCalled();
+
+        $fileManager->remove('credit-memo.pdf')->shouldNotBeCalled();
 
         $this->send($creditMemo, 'john@example.com');
     }

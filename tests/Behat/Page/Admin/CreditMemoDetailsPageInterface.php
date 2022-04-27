@@ -21,6 +21,8 @@ interface CreditMemoDetailsPageInterface extends SymfonyPageInterface
 
     public function download(): void;
 
+    public function hasDownloadButton(): bool;
+
     public function getNumber(): string;
 
     public function getChannelName(): string;

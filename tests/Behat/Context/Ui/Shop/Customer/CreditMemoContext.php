@@ -46,4 +46,12 @@ final class CreditMemoContext implements Context
     {
         $this->customerOrderShowPage->downloadCreditMemo(1);
     }
+
+    /**
+     * @When I should not be able to download the first credit memo
+     */
+    public function iShouldNotBeAbleToDownloadTheFirstCreditMemo(): void
+    {
+        $this->customerOrderShowPage->hasDownloadCreditMemoButton(1);
+    }
 }

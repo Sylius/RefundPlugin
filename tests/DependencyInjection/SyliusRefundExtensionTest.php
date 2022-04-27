@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\DependencyInjection;
 
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\DoctrineMigrationsExtension;
-use FOS\OAuthServerBundle\DependencyInjection\FOSOAuthServerExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Sylius\RefundPlugin\DependencyInjection\SyliusRefundExtension;
 use SyliusLabs\DoctrineMigrationsExtraBundle\DependencyInjection\SyliusLabsDoctrineMigrationsExtraExtension;
@@ -22,14 +21,12 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_autoconfigures_prepending_doctrine_migration_with_proper_migrations_paths(): void
     {
         $this->configureContainer();
 
-        $this->customLoad();
+        $this->load();
 
         $doctrineMigrationsExtensionConfig = $this->container->getExtensionConfig('doctrine_migrations');
 
@@ -55,16 +52,14 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_does_not_autoconfigure_prepending_doctrine_migrations_if_it_is_disabled(): void
     {
         $this->configureContainer();
 
         $this->container->setParameter('sylius_core.prepend_doctrine_migrations', false);
 
-        $this->customLoad();
+        $this->load();
 
         $doctrineMigrationsExtensionConfig = $this->container->getExtensionConfig('doctrine_migrations');
 
@@ -76,6 +71,35 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
         ;
 
         self::assertEmpty($syliusLabsDoctrineMigrationsExtraExtensionConfig);
+    }
+
+    /** @test */
+    public function it_prepends_configuration_with_enabled_pdf_generator(): void
+    {
+        $this->container->prependExtensionConfig(
+            'sylius_refund',
+            ['pdf_generator' => ['enabled' => false]]
+        );
+
+        $this->prepend();
+
+        $this->assertContainerBuilderHasParameter('sylius_refund.pdf_generator.enabled', false);
+    }
+
+    /** @test */
+    public function it_prepends_configuration_with_enabled_pdf_generator_parameter_by_default_as_true(): void
+    {
+        $this->prepend();
+
+        $this->assertContainerBuilderHasParameter('sylius_refund.pdf_generator.enabled', true);
+    }
+
+    /** @test */
+    public function it_sets_up_the_pdf_generator_allow_files_container_parameter_by_default_as_an_empty_array(): void
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasParameter('sylius_refund.pdf_generator.allowed_files', []);
     }
 
     protected function getContainerExtensions(): array
@@ -90,25 +114,13 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
 
         $this->container->registerExtension(new DoctrineMigrationsExtension());
         $this->container->registerExtension(new SyliusLabsDoctrineMigrationsExtraExtension());
-        $this->container->registerExtension(new FOSOAuthServerExtension());
     }
 
-    private function customLoad(): void
+    private function prepend(): void
     {
-        $configurationValues = ['sylius_refund' => []];
-
-        $configs = [$this->getMinimalConfiguration(), $configurationValues];
-
         foreach ($this->container->getExtensions() as $extension) {
             if ($extension instanceof PrependExtensionInterface) {
                 $extension->prepend($this->container);
-            }
-        }
-
-        foreach ($this->container->getExtensions() as $extension) {
-            $extensionAlias = $extension->getAlias();
-            if (isset($configs[$extensionAlias])) {
-                $extension->load($configs[$extensionAlias], $this->container);
             }
         }
     }

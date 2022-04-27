@@ -27,6 +27,14 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
         $creditMemoRow->clickLink('Download');
     }
 
+    public function hasDownloadCreditMemoButton(int $index): bool
+    {
+        /** @var NodeElement $creditMemoRow */
+        $creditMemoRow = $this->getDocument()->findAll('css', '#credit-memos tbody tr')[$index-1];
+
+        return $creditMemoRow->hasLink('Download');
+    }
+
     public function hasRefundsButton(): bool
     {
         return $this->getDocument()->hasButton('Refunds');

@@ -1,0 +1,8 @@
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+
+{{ buttons.default(
+    path('sylius_refund_credit_memo_details', {'orderNumber': credit_memo.order.number, 'id': credit_memo.id}),
+    'sylius.ui.details',
+    null,
+    'eye'
+) }}

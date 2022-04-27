@@ -330,4 +330,28 @@ final class CreditMemoContext implements Context
         $this->creditMemoIndexPage->sortBy('order');
         $this->creditMemoIndexPage->sortBy('order');
     }
+
+    /**
+     * @Then /^I should not be able to download the (\d+)(?:|st|nd|rd) credit memo$/
+     */
+    public function iShouldNotBeAbleToDownloadTheNthCreditMemo(int $index): void
+    {
+        Assert::false($this->creditMemoIndexPage->hasDownloadButton($index));
+    }
+
+    /**
+     * @Then I should not be able to download the credit memo
+     */
+    public function iShouldNotBeAbleToDownloadTheCreditMemo(): void
+    {
+        Assert::false($this->creditMemoDetailsPage->hasDownloadButton());
+    }
+
+    /**
+     * @Then /^I should not be able to download the (\d+)(?:|st|nd|rd) order's credit memo$/
+     */
+    public function iShouldNotBeAbleToDownloadTheNthOrdersCreditMemo(int $index): void
+    {
+        Assert::false($this->orderShowPage->hasDownloadCreditMemoButton($index));
+    }
 }

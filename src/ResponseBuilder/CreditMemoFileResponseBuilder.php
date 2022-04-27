@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\ResponseBuilder;
 
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,11 +21,6 @@ final class CreditMemoFileResponseBuilder implements CreditMemoFileResponseBuild
 {
     public function build(int $status, CreditMemoPdf $creditMemoPdfFile): Response
     {
-        $response = new Response($creditMemoPdfFile->content(), $status, ['Content-Type' => 'application/pdf']);
-        $response->headers->add([
-            'Content-Disposition' => $response->headers->makeDisposition('attachment', $creditMemoPdfFile->filename()),
-        ]);
-
-        return $response;
+        return new PdfResponse($creditMemoPdfFile->content(), $creditMemoPdfFile->filename());
     }
 }

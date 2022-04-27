@@ -53,3 +53,11 @@ default:
                 class: Tests\Sylius\RefundPlugin\Application\Kernel
 
         FriendsOfBehat\VariadicExtension: ~
+
+        FriendsOfBehat\SuiteSettingsExtension:
+            paths:
+                - features
+
+        FriendsOfBehat\ExcludeSpecificationsExtension:
+            features:
+                - features/pdf_generation_disabled

@@ -70,6 +70,11 @@ final class CreditMemoDetailsPage extends SymfonyPage implements CreditMemoDetai
         $this->getDocument()->clickLink('Download');
     }
 
+    public function hasDownloadButton(): bool
+    {
+        return $this->getDocument()->hasLink('Download');
+    }
+
     public function getNumber(): string
     {
         return $this->getDocument()->find('css', '#credit-memo-number')->getText();

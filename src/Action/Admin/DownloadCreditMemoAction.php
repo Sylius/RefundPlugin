@@ -20,20 +20,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DownloadCreditMemoAction
 {
-    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
-
-    private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder;
-
     public function __construct(
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder
+        private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
+        private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder,
+        private bool $hasEnabledPdfFileGenerator
     ) {
-        $this->creditMemoPdfFileGenerator = $creditMemoPdfFileGenerator;
-        $this->creditMemoFileResponseBuilder = $creditMemoFileResponseBuilder;
     }
 
     public function __invoke(Request $request, string $id): Response
     {
+        if (!$this->hasEnabledPdfFileGenerator) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        }
+
         $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($id);
 
         return $this->creditMemoFileResponseBuilder->build(Response::HTTP_OK, $creditMemoPdfFile);

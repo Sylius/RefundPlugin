@@ -1,0 +1,8 @@
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+
+{{ buttons.default(
+    path('sylius_refund_shop_credit_memo_download', {'id': credit_memo.id}),
+    'sylius_refund.ui.download',
+    credit_memo.id,
+    'download'
+) }}
