@@ -53,7 +53,6 @@ final class SyliusRefundConfigurationTest extends TestCase
     /** @test */
     public function it_allows_to_define_allowed_files(): void
     {
-
         $this->assertProcessedConfigurationEquals(
             [['pdf_generator' => ['allowed_files' => ['swans.png', 'product.png']]]],
             ['pdf_generator' => ['allowed_files' => ['swans.png', 'product.png']]],

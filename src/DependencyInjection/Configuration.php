@@ -43,7 +43,7 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('sylius_refund_plugin');
         $rootNode = $treeBuilder->getRootNode();
 
-        $this->addResourceSection($rootNode);
+        $this->addResourcesSection($rootNode);
         $this->addPdfGeneratorSection($rootNode);
 
         return $treeBuilder;
@@ -69,7 +69,7 @@ final class Configuration implements ConfigurationInterface
         ;
     }
 
-    private function addResourceSection(ArrayNodeDefinition $node): void
+    private function addResourcesSection(ArrayNodeDefinition $node): void
     {
         $node
             ->children()
