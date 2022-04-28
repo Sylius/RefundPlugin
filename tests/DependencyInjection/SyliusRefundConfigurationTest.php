@@ -15,7 +15,26 @@ namespace Tests\Sylius\RefundPlugin\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
+use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Component\Resource\Factory\Factory;
 use Sylius\RefundPlugin\DependencyInjection\Configuration;
+use Sylius\RefundPlugin\Doctrine\ORM\CreditMemoRepository;
+use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Entity\CustomerBillingData;
+use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
+use Sylius\RefundPlugin\Entity\LineItem;
+use Sylius\RefundPlugin\Entity\LineItemInterface;
+use Sylius\RefundPlugin\Entity\Refund;
+use Sylius\RefundPlugin\Entity\RefundInterface;
+use Sylius\RefundPlugin\Entity\RefundPayment;
+use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
+use Sylius\RefundPlugin\Entity\ShopBillingData;
+use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
+use Sylius\RefundPlugin\Entity\TaxItem;
+use Sylius\RefundPlugin\Entity\TaxItemInterface;
+use Sylius\RefundPlugin\Factory\RefundFactory;
+use Sylius\RefundPlugin\Factory\RefundPaymentFactory;
 
 final class SyliusRefundConfigurationTest extends TestCase
 {
@@ -61,8 +80,81 @@ final class SyliusRefundConfigurationTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_loads_resources_by_default(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [[]],
+            ['resources' => $this->getExpectedResourceConfiguration()],
+            'resources'
+        );
+    }
+
     protected function getConfiguration(): Configuration
     {
         return new Configuration();
+    }
+
+    private function getExpectedResourceConfiguration(): array
+    {
+        return [
+            'credit_memo' => [
+                'classes' => [
+                    'model' => CreditMemo::class,
+                    'interface' => CreditMemoInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => Factory::class,
+                    'repository' => CreditMemoRepository::class
+                ]
+            ],
+            'line_item' => [
+                'classes' => [
+                    'model' => LineItem::class,
+                    'interface' => LineItemInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => Factory::class,
+                ]
+            ],
+            'tax_item' => [
+                'classes' => [
+                    'model' => TaxItem::class,
+                    'interface' => TaxItemInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => Factory::class,
+                ]
+            ],
+            'refund' => [
+                'classes' => [
+                    'model' => Refund::class,
+                    'interface' => RefundInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => RefundFactory::class,
+                ]
+            ],
+            'refund_payment' => [
+                'classes' => [
+                    'model' => RefundPayment::class,
+                    'interface' => RefundPaymentInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => RefundPaymentFactory::class,
+                ]
+            ],
+            'customer_billing_data' => [
+                'classes' => [
+                    'model' => CustomerBillingData::class,
+                    'interface' => CustomerBillingDataInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => Factory::class,
+                ]
+            ],
+            'shop_billing_data' => [
+                'classes' => [
+                    'model' => ShopBillingData::class,
+                    'interface' => ShopBillingDataInterface::class,
+                    'controller' => ResourceController::class,
+                    'factory' => Factory::class,
+                ]
+            ]
+        ];
     }
 }

@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
+use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class SyliusRefundExtension extends Extension implements PrependExtensionInterface
+final class SyliusRefundExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
     use PrependDoctrineMigrationsTrait;
 
@@ -40,9 +40,11 @@ final class SyliusRefundExtension extends Extension implements PrependExtensionI
 
     public function prepend(ContainerBuilder $container): void
     {
-        $configs = $this->getCurrentConfiguration($container);
+        $config = $this->getCurrentConfiguration($container);
 
-        $container->setParameter('sylius_refund.pdf_generator.enabled', $configs['pdf_generator']['enabled']);
+        $container->setParameter('sylius_refund.pdf_generator.enabled', $config['pdf_generator']['enabled']);
+
+        $this->registerResources('sylius_refund', 'doctrine/orm', $config['resources'], $container);
 
         $this->prependDoctrineMigrations($container);
     }
