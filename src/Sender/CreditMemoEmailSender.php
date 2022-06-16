@@ -32,8 +32,15 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
 
     public function send(CreditMemoInterface $creditMemo, string $recipient): void
     {
+        $templateParameters = [
+            'creditMemo' => $creditMemo,
+            'order' => $creditMemo->getOrder(),
+            'localeCode' => $creditMemo->getLocaleCode(),
+            'channel' => $creditMemo->getChannel(),
+        ];
+
         if (!$this->hasEnabledPdfFileGenerator) {
-            $this->sender->send(self::UNITS_REFUNDED, [$recipient], ['creditMemo' => $creditMemo]);
+            $this->sender->send(self::UNITS_REFUNDED, [$recipient], $templateParameters);
 
             return;
         }
@@ -46,7 +53,7 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
         $this->sender->send(
             self::UNITS_REFUNDED,
             [$recipient],
-            ['creditMemo' => $creditMemo],
+            $templateParameters,
             [$this->fileManager->realPath($filePath)]
         );
 
