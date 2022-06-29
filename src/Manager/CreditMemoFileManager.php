@@ -34,4 +34,11 @@ final class CreditMemoFileManager implements CreditMemoFileManagerInterface
     {
         $this->filesystem->delete($file->filename());
     }
+
+    public function get(string $fileName): CreditMemoPdf
+    {
+        $file = $this->filesystem->get($fileName);
+
+        return new CreditMemoPdf($fileName, $file->getContent());
+    }
 }

@@ -20,4 +20,6 @@ interface CreditMemoFileManagerInterface
     public function save(CreditMemoPdf $file): void;
 
     public function remove(CreditMemoPdf $file): void;
+
+    public function get(string $fileName): CreditMemoPdf;
 }
