@@ -31,4 +31,10 @@ final class CreditMemoPdfSpec extends ObjectBehavior
     {
         $this->content()->shouldReturn('pdf content');
     }
+
+    function it_has_a_full_path(): void
+    {
+        $this->setFullPath('/full/path/credit_memo.pdf');
+        $this->fullPath()->shouldReturn('/full/path/credit_memo.pdf');
+    }
 }
