@@ -1,4 +1,5 @@
 parameters:
+    sylius_refund.credit_memo_save_path: "%kernel.project_dir%/private/credit_memos/"
     sylius_refund.refund_enum_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
     sylius_refund.refund_type: Sylius\RefundPlugin\Model\RefundType
 

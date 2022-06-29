@@ -15,7 +15,7 @@ Feature: Saving credit memos on server during generation
         And the order "#00000022" is already paid
         And I am logged in as an administrator
 
-    @todo @application
+    @application
     Scenario: Having credit memo saved on the server after the refund is made
-        When I refund all units of "#00000022" order with "Space money" payment
+        When I refund all units of "#00000022" order with "Space money" payment method
         Then the credit memo for "#00000022" order should be saved on the server

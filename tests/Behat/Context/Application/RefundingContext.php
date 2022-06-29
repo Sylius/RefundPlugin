@@ -183,6 +183,31 @@ final class RefundingContext implements Context
     }
 
     /**
+     * @When I refund all units of :order order with :paymentMethod payment method
+     */
+    public function iRefundAllUnitsOfOrderWithPaymentMethod(
+        OrderInterface $order,
+        PaymentMethodInterface $paymentMethod,
+    ): void {
+        $unitsToRefund = [];
+        foreach ($order->getItemUnits() as $unit) {
+            $unitId = $unit->getId();
+            $unitsToRefund[] = new OrderItemUnitRefund(
+                $unitId,
+                $this->remainingTotalProvider->getTotalLeftToRefund($unitId, RefundType::orderItemUnit())
+            );
+        }
+
+        $this->commandBus->dispatch(new RefundUnits(
+            $order->getNumber(),
+            $unitsToRefund,
+            [],
+            $paymentMethod->getId(),
+            ''
+        ));
+    }
+
+    /**
      * @Then /^this order refunded total should(?:| still) be ("[^"]+")$/
      */
     public function refundedTotalShouldBe(int $refundedTotal): void
