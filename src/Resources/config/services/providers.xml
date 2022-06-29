@@ -14,6 +14,7 @@
         <defaults autowire="false" autoconfigure="false" public="true" />
 
         <service id="Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface" class="Sylius\RefundPlugin\Provider\CreditMemoFileProvider">
+            <argument type="service" id="sylius_refund.repository.credit_memo" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoFileNameGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface" />

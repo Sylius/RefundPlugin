@@ -19,4 +19,6 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 interface CreditMemoFileProviderInterface
 {
     public function provide(CreditMemoInterface $creditMemo): CreditMemoPdf;
+
+    public function provideById(string $creditMemoId): CreditMemoPdf;
 }
