@@ -4,6 +4,7 @@ default:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - sylius.behat.context.hook.email_spool
+                - Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext
 
                 - sylius.behat.context.transform.address
                 - sylius.behat.context.transform.channel
