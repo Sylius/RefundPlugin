@@ -64,5 +64,9 @@
         <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" alias="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface instead.</deprecated>
         </service>
+
+        <service id="Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface" class="Sylius\RefundPlugin\Manager\CreditMemoFileManager">
+            <argument type="service" id="gaufrette.sylius_refund_credit_memo_filesystem" />
+        </service>
     </services>
 </container>
