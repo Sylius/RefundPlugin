@@ -29,6 +29,11 @@
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface instead.</deprecated>
         </service>
 
+        <service
+            id="Sylius\RefundPlugin\Generator\CreditMemoFileNameGeneratorInterface"
+            class="Sylius\RefundPlugin\Generator\CreditMemoFileNameGenerator"
+        />
+
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" class="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator">
             <argument type="service" id="sylius_refund.repository.credit_memo" />
             <argument>null</argument>
@@ -38,6 +43,7 @@
             <argument>%sylius.refund.template.logo_file%</argument>
             <argument>null</argument>
             <argument type="service" id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoFileNameGeneratorInterface" />
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">

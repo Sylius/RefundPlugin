@@ -34,7 +34,8 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
         private string $template,
         private string $creditMemoLogoPath,
         private ?PdfOptionsGeneratorInterface $pdfOptionsGenerator = null,
-        private ?TwigToPdfGeneratorInterface $twigToPdfGenerator = null
+        private ?TwigToPdfGeneratorInterface $twigToPdfGenerator = null,
+        private ?CreditMemoFileNameGeneratorInterface $creditMemoFileNameGenerator = null,
     ) {
         $this->checkDeprecations();
     }
@@ -48,17 +49,12 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
             throw CreditMemoNotFound::withId($creditMemoId);
         }
 
-        $number = $creditMemo->getNumber();
-        Assert::notNull($number);
-
-        $filename = str_replace('/', '_', $number) . self::FILE_EXTENSION;
-
         $pdf = $this->generateFromTemplate([
             'creditMemo' => $creditMemo,
             'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
         ]);
 
-        return new CreditMemoPdf($filename, $pdf);
+        return new CreditMemoPdf($this->generateFileName($creditMemo), $pdf);
     }
 
     private function generateFromTemplate(array $templateParams): string
@@ -77,6 +73,18 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
         throw new \LogicException(sprintf('You must pass at least $twigToPdfGenerator to %s constructor.', self::class));
     }
 
+    private function generateFileName(CreditMemoInterface $creditMemo): string
+    {
+        if (null !== $this->creditMemoFileNameGenerator) {
+            return $this->creditMemoFileNameGenerator->generateForPdf($creditMemo);
+        }
+
+        $number = $creditMemo->getNumber();
+        Assert::notNull($number);
+
+        return str_replace('/', '_', $number) . self::FILE_EXTENSION;
+    }
+
     private function checkDeprecations(): void
     {
         if (null !== $this->twig) {
@@ -93,6 +101,10 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
 
         if (null === $this->twigToPdfGenerator) {
             @trigger_error(sprintf('Not passing a $twigToPdfGenerator to %s constructor is deprecated since sylius/refund-plugin 1.2 and will be prohibited in 2.0.', self::class), \E_USER_DEPRECATED);
+        }
+
+        if (null === $this->creditMemoFileNameGenerator) {
+            @trigger_error(sprintf('Not passing a $creditMemoFileNameGenerator to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class), \E_USER_DEPRECATED);
         }
     }
 }
