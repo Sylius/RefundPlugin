@@ -17,6 +17,8 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\File\FileManagerInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
+use Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
 {
@@ -26,8 +28,15 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
         private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         private SenderInterface $sender,
         private FileManagerInterface $fileManager,
-        private bool $hasEnabledPdfFileGenerator
+        private bool $hasEnabledPdfFileGenerator,
+        private ?CreditMemoFileProviderInterface $creditMemoFileProvider = null,
     ) {
+        if (null === $this->creditMemoFileProvider) {
+            @trigger_error(
+                sprintf('Not passing a $creditMemoFileProvider to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
+                \E_USER_DEPRECATED
+            );
+        }
     }
 
     public function send(CreditMemoInterface $creditMemo, string $recipient): void
@@ -38,18 +47,33 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             return;
         }
 
-        $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
+        if (null === $this->creditMemoFileProvider) {
+            $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
 
-        $filePath = $creditMemoPdfFile->filename();
-        $this->fileManager->createWithContent($filePath, $creditMemoPdfFile->content());
+            $creditMemoPdfPath = $creditMemoPdfFile->filename();
+            $this->fileManager->createWithContent($creditMemoPdfPath, $creditMemoPdfFile->content());
 
+            $this->sendCreditMemo($creditMemo, $recipient, $this->fileManager->realPath($creditMemoPdfPath));
+
+            $this->fileManager->remove($creditMemoPdfPath);
+
+            return;
+        }
+
+        $creditMemoPdf = $this->creditMemoFileProvider->provide($creditMemo);
+        $creditMemoPdfPath = $creditMemoPdf->fullPath();
+        Assert::notNull($creditMemoPdfPath);
+
+        $this->sendCreditMemo($creditMemo, $recipient, $creditMemoPdfPath);
+    }
+
+    private function sendCreditMemo(CreditMemoInterface $creditMemo, string $recipient, string $filePath): void
+    {
         $this->sender->send(
             self::UNITS_REFUNDED,
             [$recipient],
             ['creditMemo' => $creditMemo],
-            [$this->fileManager->realPath($filePath)]
+            [$filePath]
         );
-
-        $this->fileManager->remove($filePath);
     }
 }
