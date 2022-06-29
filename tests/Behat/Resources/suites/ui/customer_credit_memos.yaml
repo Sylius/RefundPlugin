@@ -34,4 +34,4 @@ default:
                 - Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext
 
             filters:
-                tags: "@customer_credit_memos && @ui"
+                tags: "@customer_credit_memos&&@ui"

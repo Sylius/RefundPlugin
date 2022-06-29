@@ -38,4 +38,4 @@ default:
                 - Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext
 
             filters:
-                tags: "@refunds && @application"
+                tags: "@refunds&&@application"
