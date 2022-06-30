@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Generator;
 
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Webmozart\Assert\Assert;
 
 final class CreditMemoFileNameGenerator implements CreditMemoFileNameGeneratorInterface
 {
@@ -21,6 +22,9 @@ final class CreditMemoFileNameGenerator implements CreditMemoFileNameGeneratorIn
 
     public function generateForPdf(CreditMemoInterface $creditMemo): string
     {
-        return str_replace('/', '_', $creditMemo->getNumber()) . self::PDF_FILE_EXTENSION;
+        $number = $creditMemo->getNumber();
+        Assert::notNull($number);
+
+        return str_replace('/', '_', $number) . self::PDF_FILE_EXTENSION;
     }
 }

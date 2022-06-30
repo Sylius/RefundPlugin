@@ -77,7 +77,7 @@ final class GenerateCreditMemoHandler
 
     private function generatePdf(CreditMemoInterface $creditMemo): void
     {
-        if (null === $this->creditMemoPdfFileGenerator && null === $this->creditMemoFileManager) {
+        if (null === $this->creditMemoPdfFileGenerator || null === $this->creditMemoFileManager) {
             return;
         }
 

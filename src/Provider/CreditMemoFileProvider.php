@@ -40,6 +40,7 @@ final class CreditMemoFileProvider implements CreditMemoFileProviderInterface
 
     public function provideById(string $creditMemoId): CreditMemoPdf
     {
+        /** @var CreditMemoInterface|null $creditMemo */
         $creditMemo = $this->creditMemoRepository->find($creditMemoId);
         Assert::notNull($creditMemo);
 
