@@ -46,6 +46,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $orderRepository,
             $creditMemoPdfFileGenerator,
             $creditMemoFileManager,
+            true
         );
     }
 
@@ -96,6 +97,47 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $creditMemoManager,
             $eventBus,
             $orderRepository,
+        );
+
+        $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
+        $shipmentRefunds = [new ShipmentRefund(3, 1000)];
+
+        $orderRepository->findOneByNumber('000666')->willReturn($order);
+
+        $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
+
+        $creditMemo->getNumber()->willReturn('2018/01/000001');
+        $creditMemo->getId()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
+
+        $creditMemoManager->persist($creditMemo)->shouldBeCalled();
+        $creditMemoManager->flush()->shouldBeCalled();
+
+        $creditMemoPdfFileGenerator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->shouldNotBeCalled();
+
+        $event = new CreditMemoGenerated('2018/01/000001', '000666');
+        $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
+
+        $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
+    }
+
+    function it_generates_only_credit_memo_without_a_pdf_file_if_pdf_generation_is_disabled(
+        CreditMemoGeneratorInterface $creditMemoGenerator,
+        ObjectManager $creditMemoManager,
+        MessageBusInterface $eventBus,
+        OrderRepositoryInterface $orderRepository,
+        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
+        CreditMemoFileManagerInterface $creditMemoFileManager,
+        CreditMemoInterface $creditMemo,
+        OrderInterface $order
+    ): void {
+        $this->beConstructedWith(
+            $creditMemoGenerator,
+            $creditMemoManager,
+            $eventBus,
+            $orderRepository,
+            $creditMemoPdfFileGenerator,
+            $creditMemoFileManager,
+            false
         );
 
         $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];

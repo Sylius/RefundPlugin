@@ -34,6 +34,7 @@ final class GenerateCreditMemoHandler
         private OrderRepositoryInterface $orderRepository,
         private ?CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator = null,
         private ?CreditMemoFileManagerInterface $creditMemoFileManager = null,
+        private ?bool $hasEnabledPdfFileGenerator = true,
     ) {
         if (null === $this->creditMemoPdfFileGenerator) {
             @trigger_error(
@@ -77,6 +78,10 @@ final class GenerateCreditMemoHandler
 
     private function generatePdf(CreditMemoInterface $creditMemo): void
     {
+        if (!$this->hasEnabledPdfFileGenerator) {
+            return;
+        }
+
         if (null === $this->creditMemoPdfFileGenerator || null === $this->creditMemoFileManager) {
             return;
         }

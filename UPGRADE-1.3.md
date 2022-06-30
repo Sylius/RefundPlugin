@@ -3,8 +3,8 @@
 1. Not passing the `$creditMemoFileNameGenerator` to `Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator` constructor 
    is deprecated since 1.3 version and will be prohibited in 2.0.
 
-1. Not passing the `$creditMemoPdfFileGenerator` and the `$creditMemoFileManager` to `Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler`
-   constructor is deprecated since 1.3 version and will be prohibited in 2.0.
+1. Not passing the `$creditMemoPdfFileGenerator`, the `$creditMemoFileManager` and the `$hasEnabledPdfFileGenerator`
+   to `Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler` constructor is deprecated since 1.3 version and will be prohibited in 2.0.
 
 1. Not passing the `$creditMemoFileProvider` to `Sylius\RefundPlugin\Sender\CreditMemoEmailSender` constructor
    is deprecated since 1.3 version and will be prohibited in 2.0.
