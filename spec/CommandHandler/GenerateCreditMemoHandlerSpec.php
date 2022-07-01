@@ -44,9 +44,9 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $creditMemoManager,
             $eventBus,
             $orderRepository,
+            true,
             $creditMemoPdfFileGenerator,
             $creditMemoFileManager,
-            true
         );
     }
 
@@ -135,9 +135,9 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $creditMemoManager,
             $eventBus,
             $orderRepository,
+            false,
             $creditMemoPdfFileGenerator,
             $creditMemoFileManager,
-            false
         );
 
         $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];

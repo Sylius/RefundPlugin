@@ -18,11 +18,8 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 
 final class CreditMemoFileManager implements CreditMemoFileManagerInterface
 {
-    private FilesystemInterface $filesystem;
-
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(private FilesystemInterface $filesystem)
     {
-        $this->filesystem = $filesystem;
     }
 
     public function save(CreditMemoPdf $file): void

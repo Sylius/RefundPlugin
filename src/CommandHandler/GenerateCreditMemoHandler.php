@@ -32,9 +32,9 @@ final class GenerateCreditMemoHandler
         private ObjectManager $creditMemoManager,
         private MessageBusInterface $eventBus,
         private OrderRepositoryInterface $orderRepository,
+        private bool $hasEnabledPdfFileGenerator = true,
         private ?CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator = null,
         private ?CreditMemoFileManagerInterface $creditMemoFileManager = null,
-        private ?bool $hasEnabledPdfFileGenerator = true,
     ) {
         if (null === $this->creditMemoPdfFileGenerator) {
             @trigger_error(
