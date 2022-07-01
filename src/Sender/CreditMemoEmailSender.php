@@ -17,7 +17,8 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\File\FileManagerInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
-use Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface;
+use Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface;
+use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
@@ -29,11 +30,19 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
         private SenderInterface $sender,
         private FileManagerInterface $fileManager,
         private bool $hasEnabledPdfFileGenerator,
-        private ?CreditMemoFileProviderInterface $creditMemoFileProvider = null,
+        private ?CreditMemoFileResolverInterface $creditMemoFileResolver = null,
+        private ?CreditMemoFilePathResolverInterface $creditMemoFilePathResolver = null,
     ) {
-        if (null === $this->creditMemoFileProvider) {
+        if (null === $this->creditMemoFileResolver) {
             @trigger_error(
-                sprintf('Not passing a $creditMemoFileProvider to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
+                sprintf('Not passing a $creditMemoFileResolver to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
+                \E_USER_DEPRECATED
+            );
+        }
+
+        if (null === $this->creditMemoFilePathResolver) {
+            @trigger_error(
+                sprintf('Not passing a $creditMemoFilePathResolver to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
                 \E_USER_DEPRECATED
             );
         }
@@ -47,7 +56,7 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             return;
         }
 
-        if (null === $this->creditMemoFileProvider) {
+        if (null === $this->creditMemoFileResolver) {
             $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
 
             $creditMemoPdfPath = $creditMemoPdfFile->filename();
@@ -60,8 +69,8 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             return;
         }
 
-        $creditMemoPdf = $this->creditMemoFileProvider->provide($creditMemo);
-        $creditMemoPdfPath = $creditMemoPdf->fullPath();
+        $creditMemoPdf = $this->creditMemoFileResolver->resolveByCreditMemo($creditMemo);
+        $creditMemoPdfPath = $this->creditMemoFilePathResolver->resolve($creditMemoPdf);
         Assert::notNull($creditMemoPdfPath);
 
         $this->sendCreditMemo($creditMemo, $recipient, $creditMemoPdfPath);

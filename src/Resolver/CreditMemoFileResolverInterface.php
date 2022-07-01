@@ -11,12 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Provider;
+namespace Sylius\RefundPlugin\Resolver;
 
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 
-interface CreditMemoFileProviderInterface
+interface CreditMemoFileResolverInterface
 {
-    public function provide(CreditMemoInterface $creditMemo): CreditMemoPdf;
+    public function resolveById(string $creditMemoId): CreditMemoPdf;
+
+    public function resolveByCreditMemo(CreditMemoInterface $creditMemo): CreditMemoPdf;
 }

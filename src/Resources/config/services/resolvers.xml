@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <defaults public="true" />
+
+        <service id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" class="Sylius\RefundPlugin\Resolver\CreditMemoFileResolver">
+            <argument type="service" id="sylius_refund.repository.credit_memo" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface" class="Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolver">
+            <argument>%sylius_refund.credit_memo_save_path%</argument>
+        </service>
+    </services>
+</container>

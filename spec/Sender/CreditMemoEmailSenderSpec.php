@@ -19,7 +19,8 @@ use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\File\FileManagerInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
-use Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface;
+use Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface;
+use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
 
 final class CreditMemoEmailSenderSpec extends ObjectBehavior
@@ -28,9 +29,17 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,
-        CreditMemoFileProviderInterface $creditMemoFileProvider,
+        CreditMemoFileResolverInterface $creditMemoFileResolver,
+        CreditMemoFilePathResolverInterface $creditMemoFilePathResolver,
     ): void {
-        $this->beConstructedWith($creditMemoPdfFileGenerator, $sender, $fileManager, true, $creditMemoFileProvider);
+        $this->beConstructedWith(
+            $creditMemoPdfFileGenerator,
+            $sender,
+            $fileManager,
+            true,
+            $creditMemoFileResolver,
+            $creditMemoFilePathResolver,
+        );
     }
 
     function it_implements_credit_memo_email_sender_interface(): void
@@ -42,14 +51,15 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,
-        CreditMemoFileProviderInterface $creditMemoFileProvider,
+        CreditMemoFileResolverInterface $creditMemoFileResolver,
+        CreditMemoFilePathResolverInterface $creditMemoFilePathResolver,
         CreditMemoInterface $creditMemo,
     ): void {
         $creditMemo->getId()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $creditMemoPdf = new CreditMemoPdf('credit-memo.pdf', 'I am credit memo number #2018/10/000444');
-        $creditMemoPdf->setFullPath('/path/to/credit_memos/credit_memo.pdf');
-        $creditMemoFileProvider->provide($creditMemo)->willReturn($creditMemoPdf);
+        $creditMemoFileResolver->resolveByCreditMemo($creditMemo)->willReturn($creditMemoPdf);
+        $creditMemoFilePathResolver->resolve($creditMemoPdf)->willReturn('/path/to/credit_memos/credit_memo.pdf');
 
         $creditMemoPdfFileGenerator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->shouldNotBeCalled();
 
@@ -63,7 +73,7 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         $this->send($creditMemo, 'john@example.com');
     }
 
-    function it_sends_an_email_with_credit_memo_and_pdf_file_attachment_to_customer_without_using_credit_memo_file_provider(
+    function it_sends_an_email_with_credit_memo_and_pdf_file_attachment_to_customer_without_using_credit_memo_file_resolver(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,
@@ -114,7 +124,7 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
         $this->send($creditMemo, 'john@example.com');
     }
 
-    function it_deprecates_not_passing_credit_memo_file_provider(
+    function it_deprecates_not_passing_credit_memo_file_resolver(
         CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         SenderInterface $sender,
         FileManagerInterface $fileManager,
@@ -123,7 +133,12 @@ final class CreditMemoEmailSenderSpec extends ObjectBehavior
 
         $this->shouldTrigger(
             \E_USER_DEPRECATED,
-            'Not passing a $creditMemoFileProvider to Sylius\RefundPlugin\Sender\CreditMemoEmailSender constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
+            'Not passing a $creditMemoFileResolver to Sylius\RefundPlugin\Sender\CreditMemoEmailSender constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
+        )->duringInstantiation();
+
+        $this->shouldTrigger(
+            \E_USER_DEPRECATED,
+            'Not passing a $creditMemoFilePathResolver to Sylius\RefundPlugin\Sender\CreditMemoEmailSender constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
         )->duringInstantiation();
     }
 }

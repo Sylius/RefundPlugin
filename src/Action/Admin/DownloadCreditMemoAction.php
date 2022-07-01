@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Action\Admin;
 
-use Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface;
+use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class DownloadCreditMemoAction
 {
     public function __construct(
-        private CreditMemoFileProviderInterface $creditMemoFileProvider,
+        private CreditMemoFileResolverInterface $creditMemoFileResolver,
         private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder,
         private bool $hasEnabledPdfFileGenerator,
     ) {
@@ -33,7 +33,7 @@ final class DownloadCreditMemoAction
             return new Response('', Response::HTTP_NOT_FOUND);
         }
 
-        $creditMemoPdfFile = $this->creditMemoFileProvider->provideById($id);
+        $creditMemoPdfFile = $this->creditMemoFileResolver->resolveById($id);
 
         return $this->creditMemoFileResponseBuilder->build(Response::HTTP_OK, $creditMemoPdfFile);
     }

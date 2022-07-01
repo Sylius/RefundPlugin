@@ -15,8 +15,6 @@ namespace Sylius\RefundPlugin\Model;
 
 final class CreditMemoPdf
 {
-    private ?string $fullPath;
-
     public function __construct(
         private string $filename,
         private string $content,
@@ -31,15 +29,5 @@ final class CreditMemoPdf
     public function content(): string
     {
         return $this->content;
-    }
-
-    public function fullPath(): ?string
-    {
-        return $this->fullPath;
-    }
-
-    public function setFullPath(?string $fullPath): void
-    {
-        $this->fullPath = $fullPath;
     }
 }
