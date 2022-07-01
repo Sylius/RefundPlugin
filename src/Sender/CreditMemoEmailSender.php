@@ -56,15 +56,8 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             return;
         }
 
-        if (null === $this->creditMemoFileResolver) {
-            $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
-
-            $creditMemoPdfPath = $creditMemoPdfFile->filename();
-            $this->fileManager->createWithContent($creditMemoPdfPath, $creditMemoPdfFile->content());
-
-            $this->sendCreditMemo($creditMemo, $recipient, $this->fileManager->realPath($creditMemoPdfPath));
-
-            $this->fileManager->remove($creditMemoPdfPath);
+        if (null === $this->creditMemoFileResolver || null === $this->creditMemoFilePathResolver) {
+            $this->sendCreditMemoWithTemporaryFile($creditMemo, $recipient);
 
             return;
         }
@@ -84,5 +77,17 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             ['creditMemo' => $creditMemo],
             [$filePath]
         );
+    }
+
+    private function sendCreditMemoWithTemporaryFile(CreditMemoInterface $creditMemo, string $recipient): void
+    {
+        $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
+
+        $creditMemoPdfPath = $creditMemoPdfFile->filename();
+        $this->fileManager->createWithContent($creditMemoPdfPath, $creditMemoPdfFile->content());
+
+        $this->sendCreditMemo($creditMemo, $recipient, $this->fileManager->realPath($creditMemoPdfPath));
+
+        $this->fileManager->remove($creditMemoPdfPath);
     }
 }

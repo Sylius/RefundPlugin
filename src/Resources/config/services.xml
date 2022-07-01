@@ -53,7 +53,8 @@
             <argument type="service" id="sylius.email_sender" />
             <argument type="service" id="Sylius\RefundPlugin\File\TemporaryFileManager" />
             <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>
-            <argument type="service" id="Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface" />
         </service>
         <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender" alias="Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface">
             <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface instead.</deprecated>

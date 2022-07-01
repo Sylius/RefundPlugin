@@ -21,11 +21,10 @@ use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface;
-use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
-use Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -36,8 +35,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        CreditMemoFileManagerInterface $creditMemoFileManager,
+        CreditMemoFileResolverInterface $creditMemoFileResolver,
     ) {
         $this->beConstructedWith(
             $creditMemoGenerator,
@@ -45,8 +43,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $eventBus,
             $orderRepository,
             true,
-            $creditMemoPdfFileGenerator,
-            $creditMemoFileManager,
+            $creditMemoFileResolver,
         );
     }
 
@@ -55,8 +52,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        CreditMemoFileManagerInterface $creditMemoFileManager,
+        CreditMemoFileResolverInterface $creditMemoFileResolver,
         CreditMemoInterface $creditMemo,
         OrderInterface $order
     ): void {
@@ -68,14 +64,12 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
-        $creditMemo->getId()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $creditMemoManager->persist($creditMemo)->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');
-        $creditMemoPdfFileGenerator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->willReturn($creditMemoPdf);
-        $creditMemoFileManager->save($creditMemoPdf)->shouldBeCalled();
+        $creditMemoFileResolver->resolveByCreditMemo($creditMemo)->willReturn($creditMemoPdf);
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
@@ -88,7 +82,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
+        CreditMemoFileResolverInterface $creditMemoFileResolver,
         CreditMemoInterface $creditMemo,
         OrderInterface $order
     ): void {
@@ -107,12 +101,11 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
-        $creditMemo->getId()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $creditMemoManager->persist($creditMemo)->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
-        $creditMemoPdfFileGenerator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->shouldNotBeCalled();
+        $creditMemoFileResolver->resolveByCreditMemo($creditMemo)->shouldNotBeCalled();
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
@@ -125,8 +118,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
-        CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
-        CreditMemoFileManagerInterface $creditMemoFileManager,
+        CreditMemoFileResolverInterface $creditMemoFileResolver,
         CreditMemoInterface $creditMemo,
         OrderInterface $order
     ): void {
@@ -136,8 +128,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $eventBus,
             $orderRepository,
             false,
-            $creditMemoPdfFileGenerator,
-            $creditMemoFileManager,
+            $creditMemoFileResolver,
         );
 
         $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
@@ -148,12 +139,11 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
-        $creditMemo->getId()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $creditMemoManager->persist($creditMemo)->shouldBeCalled();
         $creditMemoManager->flush()->shouldBeCalled();
 
-        $creditMemoPdfFileGenerator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->shouldNotBeCalled();
+        $creditMemoFileResolver->resolveByCreditMemo($creditMemo)->shouldNotBeCalled();
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
@@ -161,7 +151,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
     }
 
-    function it_deprecates_not_passing_credit_memo_pdf_file_generator_and_manager(
+    function it_deprecates_not_passing_credit_memo_file_resolver(
         CreditMemoGeneratorInterface $creditMemoGenerator,
         ObjectManager $creditMemoManager,
         MessageBusInterface $eventBus,
@@ -176,12 +166,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 
         $this->shouldTrigger(
             \E_USER_DEPRECATED,
-            'Not passing a $creditMemoPdfFileGenerator to Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
-        )->duringInstantiation();
-
-        $this->shouldTrigger(
-            \E_USER_DEPRECATED,
-            'Not passing a $creditMemoFileManager to Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
+            'Not passing a $creditMemoFileResolver to Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
         )->duringInstantiation();
     }
 }

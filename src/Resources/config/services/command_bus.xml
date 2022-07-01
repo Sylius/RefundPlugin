@@ -19,8 +19,7 @@
             <argument type="service" id="sylius.event_bus" />
             <argument type="service" id="sylius.repository.order" />
             <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>
-            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
-            <argument type="service" id="Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" />
             <tag name="messenger.message_handler" bus="sylius.command_bus" />
         </service>
 
