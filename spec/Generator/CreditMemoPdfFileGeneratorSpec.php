@@ -18,6 +18,7 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
+use Sylius\RefundPlugin\Generator\CreditMemoFileNameGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
 use Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface;
 use Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface;
@@ -30,7 +31,8 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
     function let(
         RepositoryInterface $creditMemoRepository,
         FileLocatorInterface $fileLocator,
-        TwigToPdfGeneratorInterface $twigToPdfGenerator
+        TwigToPdfGeneratorInterface $twigToPdfGenerator,
+        CreditMemoFileNameGeneratorInterface $creditMemoFileNameGenerator,
     ): void {
         $this->beConstructedWith(
             $creditMemoRepository,
@@ -40,7 +42,8 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
             'creditMemoTemplate.html.twig',
             '@SyliusRefundPlugin/Resources/assets/sylius-logo.png',
             null,
-            $twigToPdfGenerator
+            $twigToPdfGenerator,
+            $creditMemoFileNameGenerator,
         );
     }
 
@@ -49,14 +52,17 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         $this->shouldImplement(CreditMemoPdfFileGeneratorInterface::class);
     }
 
-    function it_creates_credit_memo_pdf_with_generated_content_and_filename_basing_on_credit_memo_number(
+    function it_creates_credit_memo_pdf_with_generated_content_and_file_name_basing_on_credit_memo_number(
         RepositoryInterface $creditMemoRepository,
         FileLocatorInterface $fileLocator,
+        TwigToPdfGeneratorInterface $twigToPdfGenerator,
+        CreditMemoFileNameGeneratorInterface $creditMemoFileNameGenerator,
         CreditMemoInterface $creditMemo,
-        TwigToPdfGeneratorInterface $twigToPdfGenerator
     ): void {
         $creditMemoRepository->find('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')->willReturn($creditMemo);
         $creditMemo->getNumber()->willReturn('2015/05/00004444');
+
+        $creditMemoFileNameGenerator->generateForPdf($creditMemo)->willReturn('2015_05_00004444.pdf');
 
         $fileLocator
             ->locate('@SyliusRefundPlugin/Resources/assets/sylius-logo.png')
@@ -89,7 +95,6 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         RepositoryInterface $creditMemoRepository,
         Environment $twig,
         GeneratorInterface $pdfGenerator,
-        CreditMemoInterface $creditMemo,
         FileLocatorInterface $fileLocator
     ): void {
         $this->beConstructedWith(
@@ -102,6 +107,27 @@ final class CreditMemoPdfFileGeneratorSpec extends ObjectBehavior
         );
 
         $this->shouldTrigger(\E_USER_DEPRECATED, 'Not passing a $twigToPdfGenerator to Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator constructor is deprecated since sylius/refund-plugin 1.2 and will be prohibited in 2.0.')->duringInstantiation();
+    }
+
+    function it_deprecates_not_passing_credit_memo_file_name_generator(
+        RepositoryInterface $creditMemoRepository,
+        Environment $twig,
+        GeneratorInterface $pdfGenerator,
+        FileLocatorInterface $fileLocator,
+        TwigToPdfGeneratorInterface $twigToPdfGenerator,
+    ): void {
+        $this->beConstructedWith(
+            $creditMemoRepository,
+            $twig,
+            $pdfGenerator,
+            $fileLocator,
+            'creditMemoTemplate.html.twig',
+            '@SyliusRefundPlugin/Resources/assets/sylius-logo.png',
+            null,
+            $twigToPdfGenerator,
+        );
+
+        $this->shouldTrigger(\E_USER_DEPRECATED, 'Not passing a $creditMemoFileNameGenerator to Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.')->duringInstantiation();
     }
 
     function it_deprecates_passing_pdf_options_generator(

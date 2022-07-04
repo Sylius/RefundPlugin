@@ -3,6 +3,7 @@ default:
         customer_credit_memos:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
+                - Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext
 
                 - sylius.behat.context.transform.address
                 - sylius.behat.context.transform.customer

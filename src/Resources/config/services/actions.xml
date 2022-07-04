@@ -5,13 +5,13 @@
         <defaults autowire="false" autoconfigure="false" public="true" />
 
         <service id="Sylius\RefundPlugin\Action\Admin\DownloadCreditMemoAction">
-            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" />
             <argument type="service" id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface" />
             <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>
         </service>
 
         <service id="Sylius\RefundPlugin\Action\Shop\DownloadCreditMemoAction">
-            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Checker\CreditMemoCustomerRelationCheckerInterface" />
             <argument type="service" id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface" />
             <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>

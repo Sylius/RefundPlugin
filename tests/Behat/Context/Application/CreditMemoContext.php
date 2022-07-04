@@ -18,16 +18,11 @@ final class CreditMemoContext implements Context
     /** @var CreditMemoInterface */
     private $creditMemo;
 
-    private ObjectRepository $creditMemoRepository;
-
-    private CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider;
-
     public function __construct(
-        ObjectRepository $creditMemoRepository,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
+        private ObjectRepository $creditMemoRepository,
+        private CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
+        private string $creditMemosPath,
     ) {
-        $this->creditMemoRepository = $creditMemoRepository;
-        $this->currentDateTimeImmutableProvider = $currentDateTimeImmutableProvider;
     }
 
     /**
@@ -184,5 +179,17 @@ final class CreditMemoContext implements Context
         Assert::same($city, $shopBillingData->getCity());
         Assert::same($country->getCode(), $shopBillingData->getCountryCode());
         Assert::same($taxId, $shopBillingData->getTaxId());
+    }
+
+    /**
+     * @Then the credit memo for :order order should be saved on the server
+     */
+    public function theCreditMemoForOrderShouldBeSavedOnTheServer(OrderInterface $order): void
+    {
+        /** @var CreditMemoInterface $creditMemo */
+        $creditMemo = $this->creditMemoRepository->findOneBy(['order' => $order]);
+        $filePath = $this->creditMemosPath . '/' . str_replace('/', '_', $creditMemo->getNumber()) . '.pdf';
+
+        Assert::true(file_exists($filePath));
     }
 }

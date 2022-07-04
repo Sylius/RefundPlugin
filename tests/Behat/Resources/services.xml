@@ -38,6 +38,7 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext">
             <argument type="service" id="sylius_refund.repository.credit_memo" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface" />
+            <argument>%sylius_refund.credit_memo_save_path%</argument>
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext">
@@ -118,6 +119,10 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\ProductContext">
             <argument type="service" id="sylius.behat.context.setup.product" />
+        </service>
+
+        <service id="Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext" public="true">
+            <argument>%sylius_refund.credit_memo_save_path%</argument>
         </service>
     </services>
 </container>
