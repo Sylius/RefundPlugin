@@ -12,7 +12,11 @@
         </id>
 
         <field name="amount" column="amount" type="integer" />
-        <field name="refundedUnitId" column="refunded_unit_id" type="integer" nullable="true" />
+
+        <one-to-one field="orderItemUnit" target-entity="Sylius\Component\Order\Model\OrderItemUnitInterface">
+            <join-column name="refunded_unit_id" />
+        </one-to-one>
+
         <field name="type" column="type" type="sylius_refund_refund_type" />
 
         <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">

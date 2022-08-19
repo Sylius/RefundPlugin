@@ -14,15 +14,18 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Entity;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Model\OrderItemUnitInterface;
+use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundSpec extends ObjectBehavior
 {
-    function let(OrderInterface $order): void
-    {
-        $this->beConstructedWith($order, 1000, 3, RefundType::orderItemUnit());
+    function let(
+        OrderInterface $order,
+        OrderItemUnitInterface $orderItemUnit,
+    ): void {
+        $this->beConstructedWith($order, 1000, $orderItemUnit, RefundType::orderItemUnit());
     }
 
     function it_implements_refund_interface(): void
@@ -48,9 +51,9 @@ final class RefundSpec extends ObjectBehavior
         $this->getAmount()->shouldReturn(1000);
     }
 
-    function it_has_refunded_unit_id(): void
+    function it_has_order_item_unit(OrderItemUnitInterface $orderItemUnit): void
     {
-        $this->getRefundedUnitId()->shouldReturn(3);
+        $this->getOrderItemUnit()->shouldReturn($orderItemUnit);
     }
 
     function it_has_type(): void

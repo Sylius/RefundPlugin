@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Entity;
 
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Order\Model\OrderItemUnitInterface;
+use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
 
@@ -26,7 +27,7 @@ interface RefundInterface extends ResourceInterface
 
     public function getAmount(): int;
 
-    public function getRefundedUnitId(): int;
+    public function getOrderItemUnit(): OrderItemUnitInterface;
 
     public function getType(): RefundTypeInterface;
 }
