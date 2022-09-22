@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Application;
 
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
+use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -98,6 +99,13 @@ final class Kernel extends BaseKernel
     private function registerBundlesFromFile(string $bundlesFile): iterable
     {
         $contents = require $bundlesFile;
+
+        if (SyliusKernel::MINOR_VERSION > 11) {
+            $contents = array_merge(
+                ['League\FlysystemBundle\FlysystemBundle' => ['all' => true]],
+                $contents
+            );
+        }
 
         foreach ($contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->environment])) {
