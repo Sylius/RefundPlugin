@@ -20,34 +20,24 @@ use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 use Sylius\RefundPlugin\StateResolver\RefundPaymentCompletedStateApplierInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 final class CompleteRefundPaymentAction
 {
-    private Session $session;
-
-    private ObjectRepository $refundPaymentRepository;
-
-    private RefundPaymentCompletedStateApplierInterface $refundPaymentCompletedStateApplier;
-
-    private RouterInterface $router;
-
-    private OrderRepositoryInterface $orderRepository;
-
     public function __construct(
-        Session $session,
-        ObjectRepository $refundPaymentInterface,
-        OrderRepositoryInterface $orderRepository,
-        RefundPaymentCompletedStateApplierInterface $refundPaymentCompletedStateApplier,
-        RouterInterface $router
+        private SessionInterface|RequestStack $requestStackOrSession,
+        private ObjectRepository $refundPaymentRepository,
+        private OrderRepositoryInterface $orderRepository,
+        private RefundPaymentCompletedStateApplierInterface $refundPaymentCompletedStateApplier,
+        private RouterInterface $router
     ) {
-        $this->session = $session;
-        $this->refundPaymentRepository = $refundPaymentInterface;
-        $this->refundPaymentCompletedStateApplier = $refundPaymentCompletedStateApplier;
-        $this->router = $router;
-        $this->orderRepository = $orderRepository;
+        if ($this->requestStackOrSession instanceof SessionInterface) {
+            trigger_deprecation('sylius/refund-plugin', '1.3', sprintf('Passing an instance of %s as constructor argument for %s is deprecated and will be removed in RefundPlugin 2.0. Pass an instance of %s instead.', SessionInterface::class, self::class, RequestStack::class));
+        }
     }
 
     public function __invoke(Request $request, string $orderNumber, string $id): Response
@@ -57,7 +47,7 @@ final class CompleteRefundPaymentAction
 
         $this->refundPaymentCompletedStateApplier->apply($refundPayment);
 
-        $this->session->getFlashBag()->add('success', 'sylius_refund.refund_payment_completed');
+        $this->getFlashBag()->add('success', 'sylius_refund.refund_payment_completed');
 
         /** @var OrderInterface $order */
         $order = $this->orderRepository->findOneByNumber($orderNumber);
@@ -66,5 +56,14 @@ final class CompleteRefundPaymentAction
             'sylius_admin_order_show',
             ['id' => $order->getId()]
         ));
+    }
+
+    private function getFlashBag(): FlashBagInterface
+    {
+        if ($this->requestStackOrSession instanceof RequestStack) {
+            return $this->requestStackOrSession->getSession()->getBag('flashes');
+        }
+
+        return $this->requestStackOrSession->getBag('flashes');
     }
 }
