@@ -24,8 +24,8 @@
         "myclabs/php-enum": "^1.7",
         "sylius/resource-bundle": "^1.6",
         "sylius/sylius": "~1.11.4 || v1.12.0-beta.1",
-        "symfony/messenger": "^4.4 || ^5.4 || ^6.0",
-        "symfony/swiftmailer-bundle": "^3.4"
+        "symfony/mailer": "^4.4 || ^5.4 || ^6.0",
+        "symfony/messenger": "^4.4 || ^5.4 || ^6.0"
     },
     "require-dev": {
         "behat/behat": "^3.6",
@@ -41,7 +41,6 @@
         "friends-of-behat/suite-settings-extension": "^1.0",
         "friends-of-behat/symfony-extension": "^2.1",
         "friends-of-behat/variadic-extension": "^1.3",
-        "friendsofsymfony/oauth-server-bundle": ">2.0.0-alpha.0 ^2.0@dev",
         "matthiasnoback/symfony-config-test": "^4.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpspec/phpspec": "^7.0",
@@ -90,5 +89,6 @@
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
