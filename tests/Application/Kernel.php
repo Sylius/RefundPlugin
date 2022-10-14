@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Application;
 
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
+use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -99,6 +100,18 @@ final class Kernel extends BaseKernel
     {
         $contents = require $bundlesFile;
 
+        if (SyliusKernel::MINOR_VERSION > 11) {
+            $contents = array_merge(
+                ['League\FlysystemBundle\FlysystemBundle' => ['all' => true]],
+                $contents,
+            );
+        } else {
+            $contents = array_merge(
+                ['Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle' => ['all' => true]],
+                $contents,
+            );
+        }
+
         foreach ($contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->environment])) {
                 yield new $class();
@@ -129,6 +142,7 @@ final class Kernel extends BaseKernel
     {
         $directories = [
             $this->getProjectDir() . '/config',
+            $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '.' . SyliusKernel::MINOR_VERSION,
         ];
 
         return array_filter($directories, 'file_exists');
