@@ -357,6 +357,7 @@ final class RefundingContext implements Context
 
     /**
      * @Then email to :email with credit memo should not be sent
+     * @Then the customer :email should not receive an email that some units have been refunded
      */
     public function emailToWithCreditMemoShouldNotBeSent(string $email): void
     {
