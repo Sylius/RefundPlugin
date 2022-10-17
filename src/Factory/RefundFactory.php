@@ -16,6 +16,7 @@ namespace Sylius\RefundPlugin\Factory;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundFactory implements RefundFactoryInterface
 {
@@ -33,6 +34,9 @@ final class RefundFactory implements RefundFactoryInterface
 
     public function createWithData(OrderInterface $order, int $unitId, int $amount, RefundTypeInterface $type): RefundInterface
     {
-        return new $this->className($order, $amount, $unitId, $type);
+        $refund = new $this->className($order, $amount, $unitId, $type);
+        Assert::isInstanceOf($refund, RefundInterface::class);
+
+        return $refund;
     }
 }

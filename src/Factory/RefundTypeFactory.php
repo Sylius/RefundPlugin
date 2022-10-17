@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Factory;
 
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundTypeFactory implements RefundTypeFactoryInterface
 {
@@ -26,6 +27,9 @@ final class RefundTypeFactory implements RefundTypeFactoryInterface
 
     public function createNew(string $refundType): RefundTypeInterface
     {
-        return new $this->className($refundType);
+        $refundType = new $this->className($refundType);
+        Assert::isInstanceOf($refundType, RefundTypeInterface::class);
+
+        return $refundType;
     }
 }

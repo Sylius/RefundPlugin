@@ -43,8 +43,8 @@
         "matthiasnoback/symfony-config-test": "^4.0",
         "matthiasnoback/symfony-dependency-injection-test": "^4.1",
         "phpspec/phpspec": "^7.0",
-        "phpstan/phpstan": "0.12.96",
-        "phpstan/phpstan-webmozart-assert": "0.12.12",
+        "phpstan/phpstan": "1.5.4",
+        "phpstan/phpstan-webmozart-assert": "1.1.2",
         "phpunit/phpunit": "^9.5",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "sylius-labs/coding-standard": "~4.0.0",
@@ -87,6 +87,9 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "symfony": {
+            "require": "^6.0"
         }
     },
     "prefer-stable": true,
