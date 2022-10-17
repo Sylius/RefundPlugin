@@ -13,7 +13,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
         <service id="Sylius\RefundPlugin\Generator\SequentialCreditMemoNumberGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Generator\CreditMemoNumberGeneratorInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface" class="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
@@ -26,7 +26,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface instead.</deprecated>
         </service>
 
         <service
@@ -47,14 +47,14 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" class="Sylius\RefundPlugin\Generator\TaxItemsGenerator" />
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface" class="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" />
         <service id="Sylius\RefundPlugin\Generator\UuidCreditMemoIdentifierGenerator" alias="Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Generator\CreditMemoIdentifierGeneratorInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface" class="Sylius\RefundPlugin\Generator\PdfOptionsGenerator">

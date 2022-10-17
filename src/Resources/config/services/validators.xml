@@ -12,14 +12,14 @@
             <argument type="service" id="Sylius\RefundPlugin\Validator\RefundAmountValidator" />
         </service>
         <service id="Sylius\RefundPlugin\Validator\RefundUnitsCommandValidator" alias="Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface" class="Sylius\RefundPlugin\Validator\RefundAmountValidator">
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" />
         </service>
         <service id="Sylius\RefundPlugin\Validator\RefundAmountValidator" alias="Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface instead.</deprecated>
         </service>
     </services>
 </container>
