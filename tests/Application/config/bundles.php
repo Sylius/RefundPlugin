@@ -1,6 +1,8 @@
 <?php
 
-return [
+use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
+
+$bundles = [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
@@ -58,3 +60,11 @@ return [
     SyliusLabs\Polyfill\Symfony\Security\Bundle\SyliusLabsPolyfillSymfonySecurityBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
 ];
+
+if (SyliusKernel::MINOR_VERSION > 11) {
+    $bundles[League\FlysystemBundle\FlysystemBundle::class] = ['all' => true];
+} else {
+    $bundles[Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class] = ['all' => true];
+}
+
+return $bundles;
