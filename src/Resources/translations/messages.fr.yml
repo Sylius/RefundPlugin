@@ -19,7 +19,7 @@ sylius_refund:
         refund: Rembourser
         refund_all: Tout rembourser
         refund_payment_completed: Le remboursement a été effectué avec succès
-        refund_payments: Rembourser les paiements
+        refund_payments: Paiements remboursés
         refund_value: Montant du remboursement
         refunded: Remboursé
         refunded_total: Remboursé intégralement
