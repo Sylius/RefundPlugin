@@ -3,7 +3,7 @@ default:
         ui_refunds:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
-                - sylius.behat.context.hook.email_spool
+                - sylius.behat.context.hook.mailer
                 - Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext
 
                 - sylius.behat.context.transform.address
