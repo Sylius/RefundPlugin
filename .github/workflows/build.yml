@@ -34,6 +34,13 @@ jobs:
                         node: "16.x"
                         mysql: "8.0"
                         pdf: false
+                    -
+                        php: "8.1"
+                        symfony: "^5.4"
+                        sylius: "~1.11.2"
+                        node: "14.x"
+                        mysql: "8.0"
+                        pdf: false
 
                 exclude:
                     -   symfony: "^6.0"
