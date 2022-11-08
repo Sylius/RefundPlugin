@@ -16,6 +16,7 @@ namespace Sylius\RefundPlugin\Factory;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
+use Webmozart\Assert\Assert;
 
 final class RefundPaymentFactory implements RefundPaymentFactoryInterface
 {
@@ -38,6 +39,9 @@ final class RefundPaymentFactory implements RefundPaymentFactoryInterface
         string $state,
         PaymentMethodInterface $paymentMethod
     ): RefundPaymentInterface {
-        return new $this->className($order, $amount, $currencyCode, $state, $paymentMethod);
+        $refundPayment = new $this->className($order, $amount, $currencyCode, $state, $paymentMethod);
+        Assert::isInstanceOf($refundPayment, RefundPaymentInterface::class);
+
+        return $refundPayment;
     }
 }

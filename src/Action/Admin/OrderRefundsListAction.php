@@ -20,40 +20,27 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Webmozart\Assert\Assert;
 
 final class OrderRefundsListAction
 {
-    private OrderRepositoryInterface $orderRepository;
-
-    private OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker;
-
-    private RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider;
-
-    private Environment $twig;
-
-    private Session $session;
-
-    private UrlGeneratorInterface $router;
-
     public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker,
-        RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider,
-        Environment $twig,
-        Session $session,
-        UrlGeneratorInterface $router
+        private OrderRepositoryInterface $orderRepository,
+        private OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker,
+        private RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider,
+        private Environment $twig,
+        private SessionInterface | RequestStack $requestStackOrSession,
+        private UrlGeneratorInterface $router,
     ) {
-        $this->orderRepository = $orderRepository;
-        $this->orderRefundsListAvailabilityChecker = $orderRefundsListAvailabilityChecker;
-        $this->refundPaymentMethodsProvider = $refundPaymentMethodsProvider;
-        $this->twig = $twig;
-        $this->session = $session;
-        $this->router = $router;
+        if ($this->requestStackOrSession instanceof SessionInterface) {
+            trigger_deprecation('sylius/refund-plugin', '1.3', sprintf('Passing an instance of %s as constructor argument for %s is deprecated as of Sylius Refund Plugin 1.3 and will be removed in 2.0. Pass an instance of %s instead.', SessionInterface::class, self::class, RequestStack::class));
+        }
     }
 
     public function __invoke(Request $request): Response
@@ -83,8 +70,17 @@ final class OrderRefundsListAction
 
     private function redirectToReferer(OrderInterface $order, string $message): Response
     {
-        $this->session->getFlashBag()->add('error', $message);
+        $this->getFlashBag()->add('error', $message);
 
         return new RedirectResponse($this->router->generate('sylius_admin_order_show', ['id' => $order->getId()]));
+    }
+
+    private function getFlashBag(): FlashBagInterface
+    {
+        if ($this->requestStackOrSession instanceof RequestStack) {
+            return $this->requestStackOrSession->getSession()->getBag('flashes');
+        }
+
+        return $this->requestStackOrSession->getBag('flashes');
     }
 }

@@ -9,7 +9,7 @@
 
         <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface" class="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" />
         <service id="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactory" alias="Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface">
-            <deprecated>The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 1.0, use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface instead.</deprecated>
+            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Factory\CreditMemoSequenceFactoryInterface instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Factory\RefundTypeFactoryInterface" class="Sylius\RefundPlugin\Factory\RefundTypeFactory">

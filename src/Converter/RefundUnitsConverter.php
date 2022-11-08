@@ -15,6 +15,7 @@ namespace Sylius\RefundPlugin\Converter;
 
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundUnitsConverter implements RefundUnitsConverterInterface
@@ -36,7 +37,10 @@ final class RefundUnitsConverter implements RefundUnitsConverterInterface
                 ->calculateForUnitWithIdAndType($id, $refundType, $this->getAmount($unit))
             ;
 
-            $refundUnits[] = new $unitRefundClass((int) $id, $total);
+            $unitRefund = new $unitRefundClass((int) $id, $total);
+            Assert::isInstanceOf($unitRefund, UnitRefundInterface::class);
+
+            $refundUnits[] = $unitRefund;
         }
 
         return $refundUnits;
