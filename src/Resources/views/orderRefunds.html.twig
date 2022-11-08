@@ -20,6 +20,7 @@
                     </div>
                 </div>
                 <form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token(app.request.attributes.get('orderNumber')) }}" />
                     <table id="refunds" class="ui compact celled table">
                         <thead>
                             <tr>
