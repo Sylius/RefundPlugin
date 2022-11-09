@@ -1,4 +1,6 @@
 parameters:
+    sylius_refund.credit_memo_save_path: "%kernel.project_dir%/private/credit_memos/"
+    sylius_refund.filesystem_adapter.credit_memo: "sylius_refund_credit_memo"
     sylius_refund.refund_enum_type: Sylius\RefundPlugin\Entity\Type\RefundEnumType
     sylius_refund.refund_type: Sylius\RefundPlugin\Model\RefundType
 
@@ -182,3 +184,13 @@ doctrine:
     dbal:
         types:
             sylius_refund_refund_type: "%sylius_refund.refund_enum_type%"
+
+knp_gaufrette:
+    adapters:
+        sylius_refund_credit_memo:
+            local:
+                directory: "%sylius_refund.credit_memo_save_path%"
+                create: true
+    filesystems:
+        sylius_refund_credit_memo:
+            adapter: "%sylius_refund.filesystem_adapter.credit_memo%"

@@ -2,6 +2,8 @@ includes:
     - vendor/phpstan/phpstan-webmozart-assert/extension.neon
 
 parameters:
+    level: 8
+
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
@@ -14,8 +16,9 @@ parameters:
         - 'tests/Application/src/**.php'
 
     ignoreErrors:
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::id\(\) has no return typehint specified./'
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::getId\(\) has no return typehint specified./'
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::setId\(\) has parameter \$id with no typehint specified./'
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::id\(\) has no return typehint specified./'
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::setId\(\) has parameter \$id with no typehint specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::id\(\) has no return type specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::getId\(\) has no return type specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::setId\(\) has parameter \$id with no type specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::id\(\) has no return type specified./'
+        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::setId\(\) has parameter \$id with no type specified./'
+        - '/Method Sylius\\RefundPlugin\\[a-zA-Z\\]+::getFlashBag\(\) should return Symfony\\Component\\HttpFoundation\\Session\\Flash\\FlashBagInterface but returns Symfony\\Component\\HttpFoundation\\Session\\SessionBagInterface\./'
