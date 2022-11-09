@@ -25,6 +25,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 final class RefundUnitsAction
 {
@@ -33,7 +35,8 @@ final class RefundUnitsAction
         private SessionInterface | RequestStack $requestStackOrSession,
         private UrlGeneratorInterface $router,
         private RefundUnitsCommandCreatorInterface $commandCreator,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private CsrfTokenManagerInterface $csrfTokenManager
     ) {
         if ($this->requestStackOrSession instanceof SessionInterface) {
             trigger_deprecation('sylius/refund-plugin', '1.3', sprintf('Passing an instance of %s as constructor argument for %s is deprecated as of Sylius Refund Plugin 1.3 and will be removed in 2.0. Pass an instance of %s instead.', SessionInterface::class, self::class, RequestStack::class));
@@ -42,6 +45,14 @@ final class RefundUnitsAction
 
     public function __invoke(Request $request): Response
     {
+        $token = new CsrfToken(
+            (string) $request->attributes->get('orderNumber'),
+            (string) $request->request->get('_csrf_token')
+        );
+        if (!$this->csrfTokenManager->isTokenValid($token)) {
+            return new Response('Invalid CSRF token.', Response::HTTP_FORBIDDEN);
+        }
+
         try {
             $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
 

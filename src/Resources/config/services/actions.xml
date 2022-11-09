@@ -32,6 +32,7 @@
             <argument type="service" id="router" />
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface" />
             <argument type="service" id="monolog.logger" />
+            <argument type="service" id="security.csrf.token_manager" />
         </service>
 
         <service id="Sylius\RefundPlugin\Action\CompleteRefundPaymentAction">
