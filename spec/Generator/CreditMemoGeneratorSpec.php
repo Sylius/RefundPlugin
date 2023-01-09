@@ -127,6 +127,9 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             ->willReturn($creditMemo)
         ;
 
-        $this->generate($order, 1400, [$firstUnitRefund, $secondUnitRefund], [$shipmentRefund], 'Comment')->shouldReturn($creditMemo);
+        $this
+            ->generate($order, 1400, [$firstUnitRefund, $secondUnitRefund, $shipmentRefund], 'Comment')
+            ->shouldReturn($creditMemo)
+        ;
     }
 }

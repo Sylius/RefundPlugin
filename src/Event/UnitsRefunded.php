@@ -13,47 +13,19 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Event;
 
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Webmozart\Assert\Assert;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 class UnitsRefunded
 {
-    private string $orderNumber;
-
-    /** @var array|OrderItemUnitRefund[] */
-    private array $units;
-
-    /** @var array|ShipmentRefund[] */
-    private array $shipments;
-
-    private int $paymentMethodId;
-
-    private int $amount;
-
-    private string $currencyCode;
-
-    private string $comment;
-
     public function __construct(
-        string $orderNumber,
-        array $units,
-        array $shipments,
-        int $paymentMethodId,
-        int $amount,
-        string $currencyCode,
-        string $comment,
+        private string $orderNumber,
+        /** @var array|UnitRefundInterface[] */
+        private array $units,
+        private int $paymentMethodId,
+        private int $amount,
+        private string $currencyCode,
+        private string $comment,
     ) {
-        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
-        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
-
-        $this->orderNumber = $orderNumber;
-        $this->units = $units;
-        $this->shipments = $shipments;
-        $this->paymentMethodId = $paymentMethodId;
-        $this->amount = $amount;
-        $this->currencyCode = $currencyCode;
-        $this->comment = $comment;
     }
 
     public function orderNumber(): string
@@ -61,16 +33,10 @@ class UnitsRefunded
         return $this->orderNumber;
     }
 
-    /** @return array|OrderItemUnitRefund[] */
+    /** @return array|UnitRefundInterface[] */
     public function units(): array
     {
         return $this->units;
-    }
-
-    /** @return array|ShipmentRefund[] */
-    public function shipments(): array
-    {
-        return $this->shipments;
     }
 
     public function paymentMethodId(): int

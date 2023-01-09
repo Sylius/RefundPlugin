@@ -64,7 +64,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
 
         $refundUnitsCommandValidator->validate(Argument::type(RefundUnits::class))->shouldBeCalled();
 
-        $event = new UnitsRefunded('000222', $unitRefunds, $shipmentRefunds, 1, 7000, 'USD', 'Comment');
+        $event = new UnitsRefunded(
+            '000222',
+            [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000), new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
+            1,
+            7000,
+            'USD',
+            'Comment',
+        );
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
         $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));

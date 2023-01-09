@@ -26,6 +26,7 @@ use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
 use Sylius\RefundPlugin\Factory\ShopBillingDataFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Webmozart\Assert\Assert;
 
 final class CreditMemoGenerator implements CreditMemoGeneratorInterface
@@ -62,12 +63,8 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         OrderInterface $order,
         int $total,
         array $units,
-        array $shipments,
         string $comment,
     ): CreditMemoInterface {
-        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
-        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
-
         /** @var ChannelInterface|null $channel */
         $channel = $order->getChannel();
         Assert::notNull($channel);
@@ -76,9 +73,16 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         $billingAddress = $order->getBillingAddress();
         Assert::notNull($billingAddress);
 
+        $orderItemUnitRefunds = array_values(array_filter($units, function (UnitRefundInterface $unitRefund): bool {
+            return $unitRefund instanceof OrderItemUnitRefund;
+        }));
+        $shipmentRefunds = array_values(array_filter($units, function (UnitRefundInterface $unitRefund): bool {
+            return $unitRefund instanceof ShipmentRefund;
+        }));
+
         $lineItems = array_merge(
-            $this->lineItemsConverter->convert($units),
-            $this->shipmentLineItemsConverter->convert($shipments),
+            $this->lineItemsConverter->convert($orderItemUnitRefunds),
+            $this->shipmentLineItemsConverter->convert($shipmentRefunds),
         );
 
         return $this->creditMemoFactory->createWithData(

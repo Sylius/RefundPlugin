@@ -67,8 +67,7 @@ final class RefundUnitsHandler
 
         $this->eventBus->dispatch(new UnitsRefunded(
             $orderNumber,
-            $command->units(),
-            $command->shipments(),
+            array_merge($command->units(), $command->shipments()),
             $command->paymentMethodId(),
             $refundedTotal,
             $currencyCode,

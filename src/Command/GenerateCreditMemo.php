@@ -13,34 +13,17 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Webmozart\Assert\Assert;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 class GenerateCreditMemo
 {
-    private string $orderNumber;
-
-    private int $total;
-
-    /** @var array|OrderItemUnitRefund[] */
-    private array $units;
-
-    /** @var array|ShipmentRefund[] */
-    private array $shipments;
-
-    private string $comment;
-
-    public function __construct(string $orderNumber, int $total, array $units, array $shipments, string $comment)
-    {
-        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
-        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
-
-        $this->orderNumber = $orderNumber;
-        $this->total = $total;
-        $this->units = $units;
-        $this->shipments = $shipments;
-        $this->comment = $comment;
+    public function __construct(
+        private string $orderNumber,
+        private int $total,
+        /** @var array|UnitRefundInterface[] */
+        private array $units,
+        private string $comment,
+    ) {
     }
 
     public function orderNumber(): string
@@ -53,16 +36,10 @@ class GenerateCreditMemo
         return $this->total;
     }
 
-    /** @return array|OrderItemUnitRefund[] */
+    /** @return array|UnitRefundInterface[] */
     public function units(): array
     {
         return $this->units;
-    }
-
-    /** @return array|ShipmentRefund[] */
-    public function shipments(): array
-    {
-        return $this->shipments;
     }
 
     public function comment(): string
