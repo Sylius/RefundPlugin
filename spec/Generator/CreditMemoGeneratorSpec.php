@@ -36,7 +36,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 {
     function let(
         LineItemsConverterInterface $lineItemsConverter,
-        LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         CreditMemoFactoryInterface $creditMemoFactory,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory,
@@ -44,7 +43,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
     ): void {
         $this->beConstructedWith(
             $lineItemsConverter,
-            $shipmentLineItemsConverter,
             $taxItemsGenerator,
             $creditMemoFactory,
             $customerBillingDataFactory,
@@ -59,7 +57,6 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
     function it_generates_credit_memo_basing_on_event_data(
         LineItemsConverterInterface $lineItemsConverter,
-        LineItemsConverterInterface $shipmentLineItemsConverter,
         TaxItemsGeneratorInterface $taxItemsGenerator,
         CreditMemoFactoryInterface $creditMemoFactory,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory,
@@ -101,11 +98,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
 
         $lineItemsConverter
             ->convert([$firstUnitRefund, $secondUnitRefund, $shipmentRefund])
-            ->willReturn([$firstLineItem])
-        ;
-        $shipmentLineItemsConverter
-            ->convert([$firstUnitRefund, $secondUnitRefund, $shipmentRefund])
-            ->willReturn([$secondLineItem])
+            ->willReturn([$firstLineItem, $secondLineItem])
         ;
 
         $taxItemsGenerator->generate([$firstLineItem, $secondLineItem])->willReturn([$taxItem]);
