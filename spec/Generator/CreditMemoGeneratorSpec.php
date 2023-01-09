@@ -99,8 +99,14 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         $customerBillingAddress->getProvinceName()->willReturn(null);
         $customerBillingAddress->getProvinceCode()->willReturn(null);
 
-        $lineItemsConverter->convert([$firstUnitRefund, $secondUnitRefund])->willReturn([$firstLineItem]);
-        $shipmentLineItemsConverter->convert([$shipmentRefund])->willReturn([$secondLineItem]);
+        $lineItemsConverter
+            ->convert([$firstUnitRefund, $secondUnitRefund, $shipmentRefund])
+            ->willReturn([$firstLineItem])
+        ;
+        $shipmentLineItemsConverter
+            ->convert([$firstUnitRefund, $secondUnitRefund, $shipmentRefund])
+            ->willReturn([$secondLineItem])
+        ;
 
         $taxItemsGenerator->generate([$firstLineItem, $secondLineItem])->willReturn([$taxItem]);
         $customerBillingDataFactory->createWithAddress($customerBillingAddress)->willReturn($customerBillingData);

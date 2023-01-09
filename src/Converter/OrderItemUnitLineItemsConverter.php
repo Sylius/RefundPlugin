@@ -19,6 +19,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -36,12 +37,12 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterfa
 
     public function convert(array $units): array
     {
-        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
+        $orderItemUnitRefunds = $this->filterUnits($units);
 
         $lineItems = [];
 
         /** @var OrderItemUnitRefund $unitRefund */
-        foreach ($units as $unitRefund) {
+        foreach ($orderItemUnitRefunds as $unitRefund) {
             $lineItems = $this->addLineItem($this->convertUnitRefundToLineItem($unitRefund), $lineItems);
         }
 
@@ -97,5 +98,13 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterfa
         $lineItems[] = $newLineItem;
 
         return $lineItems;
+    }
+
+    /** @return OrderItemUnitRefund[] */
+    private function filterUnits(array $units): array
+    {
+        return array_values(array_filter($units, function (UnitRefundInterface $unitRefund): bool {
+            return $unitRefund instanceof OrderItemUnitRefund;
+        }));
     }
 }

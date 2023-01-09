@@ -20,6 +20,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
@@ -53,6 +54,38 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         $orderItem->getProductName()->willReturn('Portal gun');
 
         $this->convert([$unitRefund])->shouldBeLike([new LineItem(
+            'Portal gun',
+            1,
+            400,
+            500,
+            400,
+            500,
+            100,
+            '25%',
+        )]);
+    }
+
+    function it_converts_only_order_item_unit_refunds(
+        RepositoryInterface $orderItemUnitRepository,
+        TaxRateProviderInterface $taxRateProvider,
+        OrderItemUnitInterface $orderItemUnit,
+        OrderItemInterface $orderItem,
+    ): void {
+        $unitRefund = new OrderItemUnitRefund(1, 500);
+        $shipmentRefund = new ShipmentRefund(3, 1500);
+
+        $orderItemUnitRepository->find(1)->willReturn($orderItemUnit);
+        $orderItemUnitRepository->find(3)->shouldNotBeCalled();
+
+        $orderItemUnit->getOrderItem()->willReturn($orderItem);
+        $orderItemUnit->getTotal()->willReturn(1500);
+        $orderItemUnit->getTaxTotal()->willReturn(300);
+
+        $taxRateProvider->provide($orderItemUnit)->willReturn('25%');
+
+        $orderItem->getProductName()->willReturn('Portal gun');
+
+        $this->convert([$unitRefund, $shipmentRefund])->shouldBeLike([new LineItem(
             'Portal gun',
             1,
             400,

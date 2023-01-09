@@ -21,6 +21,7 @@ use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Exception\MoreThanOneTaxAdjustment;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
 
@@ -38,12 +39,11 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 
     public function convert(array $units): array
     {
-        Assert::allIsInstanceOf($units, ShipmentRefund::class);
-
+        $shipmentRefunds = $this->filterUnits($units);
         $lineItems = [];
 
         /** @var ShipmentRefund $shipmentRefund */
-        foreach ($units as $shipmentRefund) {
+        foreach ($shipmentRefunds as $shipmentRefund) {
             $lineItems[] = $this->convertShipmentRefundToLineItem($shipmentRefund);
         }
 
@@ -103,5 +103,13 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         $taxAdjustment = $taxAdjustments->first();
 
         return $taxAdjustment;
+    }
+
+    /** @return ShipmentRefund[] */
+    private function filterUnits(array $units): array
+    {
+        return array_values(array_filter($units, function (UnitRefundInterface $unitRefund): bool {
+            return $unitRefund instanceof ShipmentRefund;
+        }));
     }
 }
