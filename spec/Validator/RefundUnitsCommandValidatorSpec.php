@@ -37,7 +37,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(false);
 
-        $refundUnits = new RefundUnits('000001', [], [], 1, '');
+        $refundUnits = new RefundUnits('000001', [], 1, '');
 
         $this
             ->shouldThrow(OrderNotAvailableForRefunding::class)
@@ -53,7 +53,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 10);
 
-        $refundUnits = new RefundUnits('000001', [$orderItemUnitRefund], [], 1, '');
+        $refundUnits = new RefundUnits('000001', [$orderItemUnitRefund], 1, '');
 
         $refundAmountValidator
             ->validateUnits([$orderItemUnitRefund], RefundType::orderItemUnit())
@@ -71,7 +71,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
         $shipmentRefund = new ShipmentRefund(1, 10);
 
-        $refundUnits = new RefundUnits('000001', [], [$shipmentRefund], 1, '');
+        $refundUnits = new RefundUnits('000001', [$shipmentRefund], 1, '');
 
         $refundAmountValidator->validateUnits([], RefundType::orderItemUnit())->shouldBeCalled();
 

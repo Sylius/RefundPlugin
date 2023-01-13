@@ -78,8 +78,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 
         $this->fromRequest($request)->shouldReturnCommand(new RefundUnits(
             '00001111',
-            [$firstUnitRefund, $secondUnitRefund],
-            [$shipmentRefund],
+            [$firstUnitRefund, $secondUnitRefund, $shipmentRefund],
             1,
             'Comment',
         ));
@@ -118,7 +117,6 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
                 return
                     $command->orderNumber() === $expectedCommand->orderNumber() &&
                     $command->units() == $expectedCommand->units() &&
-                    $command->shipments() == $expectedCommand->shipments() &&
                     $command->paymentMethodId() === $expectedCommand->paymentMethodId() &&
                     $command->comment() === $expectedCommand->comment()
                 ;
