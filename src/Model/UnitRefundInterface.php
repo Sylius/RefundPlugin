@@ -18,4 +18,6 @@ interface UnitRefundInterface
     public function id(): int;
 
     public function total(): int;
+
+    public function type(): RefundType;
 }

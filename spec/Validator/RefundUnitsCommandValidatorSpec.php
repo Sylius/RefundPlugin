@@ -19,7 +19,6 @@ use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefunding;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface;
 
@@ -56,7 +55,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
         $refundUnits = new RefundUnits('000001', [$orderItemUnitRefund], 1, '');
 
         $refundAmountValidator
-            ->validateUnits([$orderItemUnitRefund], RefundType::orderItemUnit())
+            ->validateUnits([$orderItemUnitRefund])
             ->willThrow(InvalidRefundAmount::class)
         ;
 
@@ -73,10 +72,8 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
         $refundUnits = new RefundUnits('000001', [$shipmentRefund], 1, '');
 
-        $refundAmountValidator->validateUnits([], RefundType::orderItemUnit())->shouldBeCalled();
-
         $refundAmountValidator
-            ->validateUnits([$shipmentRefund], RefundType::shipment())
+            ->validateUnits([$shipmentRefund])
             ->willThrow(InvalidRefundAmount::class)
         ;
 

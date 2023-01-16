@@ -34,4 +34,9 @@ final class ShipmentRefund implements UnitRefundInterface
     {
         return $this->total;
     }
+
+    public function type(): RefundType
+    {
+        return RefundType::shipment();
+    }
 }
