@@ -19,5 +19,5 @@ interface UnitRefundInterface
 
     public function total(): int;
 
-    public function type(): RefundType;
+    public static function type(): RefundType;
 }

@@ -35,7 +35,7 @@ final class OrderItemUnitRefund implements UnitRefundInterface
         return $this->total;
     }
 
-    public function type(): RefundType
+    public static function type(): RefundType
     {
         return RefundType::orderItemUnit();
     }

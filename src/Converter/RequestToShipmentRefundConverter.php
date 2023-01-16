@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -31,12 +30,9 @@ final class RequestToShipmentRefundConverter implements RequestToRefundUnitsConv
      */
     public function convert(Request $request): array
     {
-        $shipments = $this->refundUnitsConverter->convert(
+        return $this->refundUnitsConverter->convert(
             $request->request->has('sylius_refund_shipments') ? $request->request->all()['sylius_refund_shipments'] : [],
-            RefundType::shipment(),
             ShipmentRefund::class,
         );
-
-        return $shipments;
     }
 }

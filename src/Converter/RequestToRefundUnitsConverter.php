@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Command\RefundUnits;
 use Symfony\Component\HttpFoundation\Request;
 
 final class RequestToRefundUnitsConverter implements RequestToRefundUnitsConverterInterface
@@ -22,9 +21,6 @@ final class RequestToRefundUnitsConverter implements RequestToRefundUnitsConvert
     {
     }
 
-    /**
-     * @return array|RefundUnits[]
-     */
     public function convert(Request $request): array
     {
         $units = [];

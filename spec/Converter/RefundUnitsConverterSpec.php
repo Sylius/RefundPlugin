@@ -43,7 +43,6 @@ final class RefundUnitsConverterSpec extends ObjectBehavior
                     1 => ['full' => 'on'],
                     2 => ['full' => 'on'],
                 ],
-                RefundType::orderItemUnit(),
                 OrderItemUnitRefund::class,
             )
             ->shouldBeLike([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)])
@@ -62,7 +61,6 @@ final class RefundUnitsConverterSpec extends ObjectBehavior
                     1 => ['amount' => '10.00'],
                     2 => ['full' => 'on'],
                 ],
-                RefundType::orderItemUnit(),
                 OrderItemUnitRefund::class,
             )
             ->shouldBeLike([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)])

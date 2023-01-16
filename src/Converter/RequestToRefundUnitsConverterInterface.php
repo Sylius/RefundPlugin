@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Command\RefundUnits;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 interface RequestToRefundUnitsConverterInterface
 {
     /**
-     * @return array|RefundUnits[]
+     * @return UnitRefundInterface[]
      */
     public function convert(Request $request): array;
 }

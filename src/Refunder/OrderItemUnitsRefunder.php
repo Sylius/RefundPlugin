@@ -16,7 +16,6 @@ namespace Sylius\RefundPlugin\Refunder;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -46,7 +45,7 @@ final class OrderItemUnitsRefunder implements RefunderInterface
                 $orderNumber,
                 $unit->id(),
                 $unit->total(),
-                RefundType::orderItemUnit(),
+                $unit->type(),
             );
 
             $refundedTotal += $unit->total();

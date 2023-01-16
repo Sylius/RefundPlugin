@@ -16,7 +16,6 @@ namespace spec\Sylius\RefundPlugin\Converter;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface;
 use Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverterInterface;
-use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +47,6 @@ final class RequestToShipmentRefundConverterSpec extends ObjectBehavior
         $refundUnitsConverter
             ->convert(
                 [1 => ['full' => 'on']],
-                RefundType::shipment(),
                 ShipmentRefund::class,
             )
             ->willReturn([$shipmentRefund])
