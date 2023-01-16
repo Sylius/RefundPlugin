@@ -17,9 +17,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
-use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Sylius\RefundPlugin\Validator\RefundUnitsCommandValidatorInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -28,8 +25,7 @@ use Webmozart\Assert\Assert;
 final class RefundUnitsHandler
 {
     public function __construct(
-        private RefunderInterface $orderUnitsRefunder,
-        private RefunderInterface $orderShipmentsRefunder,
+        private iterable $refunders,
         private MessageBusInterface $eventBus,
         private OrderRepositoryInterface $orderRepository,
         private RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
@@ -48,8 +44,10 @@ final class RefundUnitsHandler
         $refundedTotal = 0;
         $units = $command->units();
 
-        $refundedTotal += $this->orderUnitsRefunder->refundFromOrder(array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof OrderItemUnitRefund), $orderNumber);
-        $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder(array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof ShipmentRefund), $orderNumber);
+        /** @var RefunderInterface $refunder */
+        foreach ($this->refunders as $refunder) {
+            $refundedTotal += $refunder->refundFromOrder($units, $orderNumber);
+        }
 
         /** @var string|null $currencyCode */
         $currencyCode = $order->getCurrencyCode();

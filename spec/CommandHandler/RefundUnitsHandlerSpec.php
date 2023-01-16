@@ -37,8 +37,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
     ): void {
         $this->beConstructedWith(
-            $orderItemUnitsRefunder,
-            $orderShipmentsRefunder,
+            [$orderItemUnitsRefunder, $orderShipmentsRefunder],
             $eventBus,
             $orderRepository,
             $refundUnitsCommandValidator,
@@ -53,21 +52,20 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
         OrderInterface $order,
     ): void {
-        $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)];
-        $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
+        $unitRefunds = [
+            new OrderItemUnitRefund(1, 3000),
+            new OrderItemUnitRefund(3, 4000),
+            new ShipmentRefund(3, 500),
+            new ShipmentRefund(4, 1000),
+        ];
 
-        $orderItemUnitsRefunder->refundFromOrder($orderItemUnitRefunds, '000222')->willReturn(3000);
-        $orderShipmentsRefunder->refundFromOrder(
-            Argument::that(fn (array $shipments) => array_values($shipments) === $shipmentRefunds),
-            '000222',
-        )->willReturn(4000);
+        $orderItemUnitsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(3000);
+        $orderShipmentsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(4000);
 
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $order->getCurrencyCode()->willReturn('USD');
 
         $refundUnitsCommandValidator->validate(Argument::type(RefundUnits::class))->shouldBeCalled();
-
-        $unitRefunds = array_merge($orderItemUnitRefunds, $shipmentRefunds);
 
         $event = new UnitsRefunded(
             '000222',

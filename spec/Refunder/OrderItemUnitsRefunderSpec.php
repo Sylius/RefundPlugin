@@ -18,6 +18,7 @@ use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -42,6 +43,7 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 1500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 1000);
+        $shipmentRefund = new ShipmentRefund(3, 1000);
 
         $refundCreator->__invoke('000222', 1, 1500, RefundType::orderItemUnit())->shouldBeCalled();
 
@@ -53,6 +55,6 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
         $secondEvent = new UnitRefunded('000222', 3, 1000);
         $eventBus->dispatch($secondEvent)->willReturn(new Envelope($secondEvent))->shouldBeCalled();
 
-        $this->refundFromOrder([$firstUnitRefund, $secondUnitRefund], '000222')->shouldReturn(2500);
+        $this->refundFromOrder([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], '000222')->shouldReturn(2500);
     }
 }
