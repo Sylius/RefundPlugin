@@ -11,6 +11,23 @@
             <argument type="tagged_iterator" tag="sylius_refund.line_item_converter" />
         </service>
 
+        <service
+            id="Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverterInterface"
+            class="Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverter"
+        >
+            <argument type="tagged_iterator" tag="sylius_refund.request_to_refund_units_converter" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Converter\RequestToShipmentRefundConverter">
+            <argument type="service" id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" />
+            <tag name="sylius_refund.request_to_refund_units_converter"/>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Converter\RequestToOrderItemUnitRefundConverter">
+            <argument type="service" id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" />
+            <tag name="sylius_refund.request_to_refund_units_converter"/>
+        </service>
+
         <service id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter">
             <argument type="service" id="sylius.repository.order_item_unit" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
