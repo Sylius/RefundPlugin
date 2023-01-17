@@ -20,7 +20,7 @@ use Sylius\RefundPlugin\Model\RefundTypeInterface;
 final class RemainingTotalProvider implements RemainingTotalProviderInterface
 {
     public function __construct(
-        private RefundUnitTotalProviderInterface $refundUnitTotalProvider,
+        private DelegatingRefundUnitTotalProviderInterface $refundUnitTotalProvider,
         private RepositoryInterface $refundRepository,
     ) {
     }

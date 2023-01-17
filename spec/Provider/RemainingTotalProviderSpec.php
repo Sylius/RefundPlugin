@@ -17,13 +17,13 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundType;
-use Sylius\RefundPlugin\Provider\RefundUnitTotalProviderInterface;
+use Sylius\RefundPlugin\Provider\DelegatingRefundUnitTotalProviderInterface;
 use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class RemainingTotalProviderSpec extends ObjectBehavior
 {
     function let(
-        RefundUnitTotalProviderInterface $refundUnitTotalProvider,
+        DelegatingRefundUnitTotalProviderInterface $refundUnitTotalProvider,
         RepositoryInterface $refundRepository,
     ): void {
         $this->beConstructedWith($refundUnitTotalProvider, $refundRepository);
@@ -35,7 +35,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     }
 
     function it_returns_remaining_total_to_refund(
-        RefundUnitTotalProviderInterface $refundUnitTotalProvider,
+        DelegatingRefundUnitTotalProviderInterface $refundUnitTotalProvider,
         RepositoryInterface $refundRepository,
         RefundInterface $refund,
     ): void {
@@ -53,7 +53,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     }
 
     function it_returns_unit_total_if_there_is_no_refund_for_this_unit_yet(
-        RefundUnitTotalProviderInterface $refundUnitTotalProvider,
+        DelegatingRefundUnitTotalProviderInterface $refundUnitTotalProvider,
         RepositoryInterface $refundRepository,
     ): void {
         $refundType = RefundType::orderItemUnit();
