@@ -34,7 +34,7 @@ final class OrderShipmentsRefunder implements RefunderInterface
 
     public function refundFromOrder(array $units, string $orderNumber): int
     {
-        $units = array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof ShipmentRefund);
+        $units = $this->filterShipmentRefunds($units);
 
         $refundedTotal = 0;
 
@@ -53,5 +53,10 @@ final class OrderShipmentsRefunder implements RefunderInterface
         }
 
         return $refundedTotal;
+    }
+
+    private function filterShipmentRefunds(array $units): array
+    {
+        return array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof ShipmentRefund);
     }
 }

@@ -53,7 +53,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" class="Sylius\RefundPlugin\Provider\RemainingTotalProvider">
-            <argument type="service" id="Sylius\RefundPlugin\Provider\DelegatingRefundUnitTotalProviderInterface" />
+            <argument type="tagged_locator" tag="sylius_refund.refund_unit_total_provider" index-by="refund_type"/>
             <argument type="service" id="sylius_refund.repository.refund" />
         </service>
         <service id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" alias="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface">

@@ -17,15 +17,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestToRefundUnitsConverter implements RequestToRefundUnitsConverterInterface
 {
-    public function __construct(private iterable $refundUnitsConverters)
-    {
+    public function __construct(
+        /** @var RequestToRefundUnitsConverterInterface[] $refundUnitsConverters */
+        private iterable $refundUnitsConverters,
+    ) {
     }
 
     public function convert(Request $request): array
     {
         $units = [];
 
-        /** @var RequestToRefundUnitsConverterInterface $refundUnitsConverter */
         foreach ($this->refundUnitsConverters as $refundUnitsConverter) {
             $units = array_merge($units, $refundUnitsConverter->convert($request));
         }

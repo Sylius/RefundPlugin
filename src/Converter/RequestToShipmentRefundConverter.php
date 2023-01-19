@@ -26,7 +26,7 @@ final class RequestToShipmentRefundConverter implements RequestToRefundUnitsConv
     }
 
     /**
-     * @return array|ShipmentRefund[]
+     * @return ShipmentRefund[]
      */
     public function convert(Request $request): array
     {

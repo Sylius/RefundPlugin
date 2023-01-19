@@ -16,18 +16,19 @@ namespace Sylius\RefundPlugin\Provider;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
 use Sylius\RefundPlugin\Model\RefundTypeInterface;
+use Symfony\Contracts\Service\ServiceProviderInterface;
 
 final class RemainingTotalProvider implements RemainingTotalProviderInterface
 {
     public function __construct(
-        private DelegatingRefundUnitTotalProviderInterface $refundUnitTotalProvider,
+        private ServiceProviderInterface $refundUnitTotalProvider,
         private RepositoryInterface $refundRepository,
     ) {
     }
 
     public function getTotalLeftToRefund(int $id, RefundTypeInterface $type): int
     {
-        $unitTotal = $this->refundUnitTotalProvider->getRefundUnitTotal($id, $type);
+        $unitTotal = $this->refundUnitTotalProvider->get($type->getValue())->getRefundUnitTotal($id);
         $refunds = $this->refundRepository->findBy(['refundedUnitId' => $id, 'type' => $type]);
 
         if (count($refunds) === 0) {

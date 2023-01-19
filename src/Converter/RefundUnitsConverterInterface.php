@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
+
 interface RefundUnitsConverterInterface
 {
     /**
-     * @template T
+     * @template T of UnitRefundInterface
      *
      * @param class-string<T> $unitRefundClass
      *
