@@ -1,3 +1,6 @@
+imports:
+    - { resource: "@SyliusRefundPlugin/Resources/config/app/events.yaml" }
+
 parameters:
     sylius_refund.credit_memo_save_path: "%kernel.project_dir%/private/credit_memos/"
     sylius_refund.filesystem_adapter.credit_memo: "sylius_refund_credit_memo"
@@ -150,64 +153,6 @@ sylius_grid:
                     label: sylius.ui.channel
                     form_options:
                         class: "%sylius.model.channel.class%"
-
-sylius_ui:
-    events:
-        sylius.admin.order.show.summary:
-            blocks:
-                credit_memos:
-                    template: '@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig'
-                    priority: 5
-
-        sylius.shop.account.order.show.subcontent:
-            blocks:
-                credit_memos:
-                    template: '@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig'
-                    priority: 5
-
-        sylius.admin.order.show.payments_content:
-            blocks:
-                refund_payments:
-                    template: '@SyliusRefundPlugin/Order/Admin/_refundPayments.html.twig'
-                    priority: 5
-
-        sylius.admin.order.show.payment_content:
-            blocks:
-                refund_transition:
-                    enabled: false
-
-        sylius_refund.shop.order.credit_memos.list.actions.buttons:
-            blocks:
-                download:
-                    template: '@SyliusRefundPlugin/Order/Shop/_downloadButton.html.twig'
-                    enabled: '%sylius_refund.pdf_generator.enabled%'
-                    priority: 10
-
-        sylius_refund.admin.order.credit_memos.list.actions.buttons:
-            blocks:
-                details:
-                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_detailsButton.html.twig'
-                    priority: 20
-                download:
-                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_downloadButton.html.twig'
-                    enabled: '%sylius_refund.pdf_generator.enabled%'
-                    priority: 10
-
-        sylius_refund.admin.order.credit_memo.left_metadata:
-            blocks:
-                header:
-                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_header.html.twig'
-                    priority: 20
-                breadcrumb:
-                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_breadcrumb.html.twig'
-                    priority: 10
-
-        sylius_refund.admin.order.credit_memo.right_metadata:
-            blocks:
-                download:
-                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_downloadButton.html.twig'
-                    enabled: '%sylius_refund.pdf_generator.enabled%'
-                    priority: 10
 
 doctrine:
     dbal:
