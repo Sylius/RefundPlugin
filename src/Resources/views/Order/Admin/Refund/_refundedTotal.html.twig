@@ -1,0 +1,10 @@
+{% import '@SyliusAdmin/Common/Macro/money.html.twig' as money %}
+
+<div class="column">
+    <div class="ui right aligned basic segment">
+        <h3 id="refunded-total">
+            {{ 'sylius_refund.ui.refunded_total'|trans }}:
+            {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
+        </h3>
+    </div>
+</div>
