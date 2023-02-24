@@ -1,0 +1,13 @@
+---------------------------------------------------------------------------
+
+by Rafikooo at 2023-02-22T23:56:08Z
+
+> Changing the name of a template is a BC break, the same is about removing the existing templates, so you need to revert these changes, ref. https://docs.sylius.com/en/1.12/book/organization/backward-compatibility-promise.html?highlight=backward#templates
+
+I forget to check that. All deleted/renamed/moved files reverted 🖖
+
+---------------------------------------------------------------------------
+
+by GSadee at 2023-02-24T13:34:35Z
+
+Thank you, Rafał! :1st_place_medal:
