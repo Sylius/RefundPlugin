@@ -1,0 +1,5 @@
+<td class="aligned collapsing">
+    <button data-refund="{{ unit_refund_left(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT'), unit.total) }}" type="button" class="ui button primary" {% if not can_unit_be_refunded(unit.id, constant('Sylius\\RefundPlugin\\Model\\RefundType::ORDER_ITEM_UNIT')) %}disabled{% endif %}>
+        {{ 'sylius_refund.ui.refund'|trans }}
+    </button>
+</td>

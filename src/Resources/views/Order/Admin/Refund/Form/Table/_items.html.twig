@@ -1,0 +1,9 @@
+{% for item in order.items %}
+    {% for unit in item.units %}
+        {% set variant = item.variant %}
+        {% set product = variant.product %}
+        <tr class="unit">
+            {{ sylius_template_event('sylius_refund.admin.order.refund.table.body.item', _context) }}
+        </tr>
+    {% endfor %}
+{% endfor %}
