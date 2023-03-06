@@ -27,14 +27,10 @@ use Webmozart\Assert\Assert;
 
 final class ShipmentLineItemsConverter implements LineItemsConverterInterface
 {
-    private RepositoryInterface $adjustmentRepository;
-
-    private TaxRateProviderInterface $taxRateProvider;
-
-    public function __construct(RepositoryInterface $adjustmentRepository, TaxRateProviderInterface $taxRateProvider)
-    {
-        $this->adjustmentRepository = $adjustmentRepository;
-        $this->taxRateProvider = $taxRateProvider;
+    public function __construct(
+        private RepositoryInterface $adjustmentRepository,
+        private TaxRateProviderInterface $taxRateProvider,
+    ) {
     }
 
     public function convert(array $units): array
@@ -42,7 +38,6 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
         $shipmentRefunds = $this->filterUnits($units);
         $lineItems = [];
 
-        /** @var ShipmentRefund $shipmentRefund */
         foreach ($shipmentRefunds as $shipmentRefund) {
             $lineItems[] = $this->convertShipmentRefundToLineItem($shipmentRefund);
         }

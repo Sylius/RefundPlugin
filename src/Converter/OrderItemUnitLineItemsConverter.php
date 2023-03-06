@@ -25,23 +25,17 @@ use Webmozart\Assert\Assert;
 
 final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterface
 {
-    private RepositoryInterface $orderItemUnitRepository;
-
-    private TaxRateProviderInterface $taxRateProvider;
-
-    public function __construct(RepositoryInterface $orderItemUnitRepository, TaxRateProviderInterface $taxRateProvider)
-    {
-        $this->orderItemUnitRepository = $orderItemUnitRepository;
-        $this->taxRateProvider = $taxRateProvider;
+    public function __construct(
+        private RepositoryInterface $orderItemUnitRepository,
+        private TaxRateProviderInterface $taxRateProvider,
+    ) {
     }
 
     public function convert(array $units): array
     {
         $orderItemUnitRefunds = $this->filterUnits($units);
-
         $lineItems = [];
 
-        /** @var OrderItemUnitRefund $unitRefund */
         foreach ($orderItemUnitRefunds as $unitRefund) {
             $lineItems = $this->addLineItem($this->convertUnitRefundToLineItem($unitRefund), $lineItems);
         }
@@ -86,7 +80,6 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterfa
      */
     private function addLineItem(LineItemInterface $newLineItem, array $lineItems): array
     {
-        /** @var LineItemInterface $lineItem */
         foreach ($lineItems as $lineItem) {
             if ($lineItem->compare($newLineItem)) {
                 $lineItem->merge($newLineItem);

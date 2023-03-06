@@ -27,7 +27,7 @@ final class ShipmentTotalProvider implements RefundUnitTotalProviderInterface
 
     public function getRefundUnitTotal(int $id): int
     {
-        /** @var AdjustmentInterface $shippingAdjustment */
+        /** @var AdjustmentInterface|null $shippingAdjustment */
         $shippingAdjustment = $this->adjustmentRepository->findOneBy([
             'id' => $id,
             'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT,
@@ -35,7 +35,6 @@ final class ShipmentTotalProvider implements RefundUnitTotalProviderInterface
         Assert::notNull($shippingAdjustment);
 
         $shipment = $shippingAdjustment->getShipment();
-        Assert::notNull($shipment);
         Assert::isInstanceOf($shipment, AdjustableInterface::class);
 
         return $shipment->getAdjustmentsTotal();

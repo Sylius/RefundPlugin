@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Command;
 
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
+use Webmozart\Assert\Assert;
 
 class GenerateCreditMemo
 {
@@ -24,6 +25,7 @@ class GenerateCreditMemo
         private array $units,
         private string $comment,
     ) {
+        Assert::allIsInstanceOf($units, UnitRefundInterface::class);
     }
 
     public function orderNumber(): string

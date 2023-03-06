@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Event;
 
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
+use Webmozart\Assert\Assert;
 
 class UnitsRefunded
 {
@@ -26,6 +27,7 @@ class UnitsRefunded
         private string $currencyCode,
         private string $comment,
     ) {
+        Assert::allIsInstanceOf($units, UnitRefundInterface::class);
     }
 
     public function orderNumber(): string

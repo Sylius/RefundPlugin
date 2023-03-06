@@ -18,11 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestToOrderItemUnitRefundConverter implements RequestToRefundUnitsConverterInterface
 {
-    private RefundUnitsConverterInterface $refundUnitsConverter;
-
-    public function __construct(RefundUnitsConverterInterface $refundUnitsConverter)
+    public function __construct(private RefundUnitsConverterInterface $refundUnitsConverter)
     {
-        $this->refundUnitsConverter = $refundUnitsConverter;
     }
 
     /**
@@ -31,7 +28,7 @@ final class RequestToOrderItemUnitRefundConverter implements RequestToRefundUnit
     public function convert(Request $request): array
     {
         return $this->refundUnitsConverter->convert(
-            $request->request->has('sylius_refund_units') ? $request->request->all()['sylius_refund_units'] : [],
+            $request->request->all()['sylius_refund_units'] ?? [],
             OrderItemUnitRefund::class,
         );
     }

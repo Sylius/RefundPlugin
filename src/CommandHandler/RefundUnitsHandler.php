@@ -38,16 +38,17 @@ final class RefundUnitsHandler
 
         $orderNumber = $command->orderNumber();
 
-        /** @var OrderInterface $order */
-        $order = $this->orderRepository->findOneByNumber($orderNumber);
-
         $refundedTotal = 0;
         $units = $command->units();
 
-        /** @var RefunderInterface $refunder */
         foreach ($this->refunders as $refunder) {
+            Assert::isInstanceOf($refunder, RefunderInterface::class);
+
             $refundedTotal += $refunder->refundFromOrder($units, $orderNumber);
         }
+
+        /** @var OrderInterface $order */
+        $order = $this->orderRepository->findOneByNumber($orderNumber);
 
         /** @var string|null $currencyCode */
         $currencyCode = $order->getCurrencyCode();

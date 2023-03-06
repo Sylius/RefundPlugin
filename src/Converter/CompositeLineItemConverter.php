@@ -22,12 +22,9 @@ final class CompositeLineItemConverter implements LineItemsConverterInterface
 
     public function convert(array $units): array
     {
-        $lineItems = [];
-
-        foreach ($this->lineItemsConverters as $lineItemsConverter) {
-            $lineItems = array_merge($lineItems, $lineItemsConverter->convert($units));
-        }
-
-        return $lineItems;
+        return array_merge(...array_map(
+            fn ($lineItemsConverter): array => $lineItemsConverter->convert($units),
+            (array) $this->lineItemsConverters,
+        ));
     }
 }

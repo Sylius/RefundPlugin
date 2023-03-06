@@ -25,12 +25,9 @@ final class RequestToRefundUnitsConverter implements RequestToRefundUnitsConvert
 
     public function convert(Request $request): array
     {
-        $units = [];
-
-        foreach ($this->refundUnitsConverters as $refundUnitsConverter) {
-            $units = array_merge($units, $refundUnitsConverter->convert($request));
-        }
-
-        return $units;
+        return array_merge(...array_map(
+            fn ($refundUnitsConverter): array => $refundUnitsConverter->convert($request),
+            (array) $this->refundUnitsConverters,
+        ));
     }
 }
