@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Converter;
 
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\Assert\Assert;
 
 final class RequestToRefundUnitsConverter implements RequestToRefundUnitsConverterInterface
 {
@@ -25,9 +26,14 @@ final class RequestToRefundUnitsConverter implements RequestToRefundUnitsConvert
 
     public function convert(Request $request): array
     {
-        return array_merge(...array_map(
-            fn ($refundUnitsConverter): array => $refundUnitsConverter->convert($request),
-            (array) $this->refundUnitsConverters,
-        ));
+        $units = [];
+
+        foreach ($this->refundUnitsConverters as $refundUnitsConverter) {
+            Assert::isInstanceOf($refundUnitsConverter, RequestToRefundUnitsConverterInterface::class);
+
+            $units = array_merge($units, $refundUnitsConverter->convert($request));
+        }
+
+        return $units;
     }
 }

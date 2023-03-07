@@ -95,7 +95,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
 
         $this->next(new UnitsRefunded(
             '000222',
-            [$firstUnitRefund, $secondUnitRefund],
+            [$firstUnitRefund->getWrappedObject(), $secondUnitRefund->getWrappedObject()],
             1,
             1000,
             'USD',

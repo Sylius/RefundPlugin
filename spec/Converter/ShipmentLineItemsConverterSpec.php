@@ -74,48 +74,15 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         )]);
     }
 
-    function it_converts_converts_only_shipment_unit_refunds(
-        RepositoryInterface $adjustmentRepository,
-        TaxRateProviderInterface $taxRateProvider,
-        AdjustmentInterface $shippingAdjustment,
-        AdjustmentInterface $taxAdjustment,
-        ShipmentInterface $shipment,
-    ): void {
+    function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
+    {
         $shipmentRefund = new ShipmentRefund(1, 575);
         $orderItemUnitRefund = new OrderItemUnitRefund(3, 300);
 
-        $adjustmentRepository
-            ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
-            ->willReturn($shippingAdjustment)
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('convert', [[$shipmentRefund, $orderItemUnitRefund]])
         ;
-
-        $adjustmentRepository
-            ->findOneBy(['id' => 3, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
-            ->shouldNotBeCalled()
-        ;
-
-        $shippingAdjustment->getLabel()->willReturn('Galaxy post');
-        $shippingAdjustment->getShipment()->willReturn($shipment);
-
-        $shipment->getAdjustmentsTotal()->willReturn(1150);
-        $shipment
-            ->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)
-            ->willReturn(new ArrayCollection([$taxAdjustment->getWrappedObject()]))
-        ;
-
-        $taxAdjustment->getAmount()->willReturn(150);
-        $taxRateProvider->provide($shipment)->willReturn('15%');
-
-        $this->convert([$shipmentRefund, $orderItemUnitRefund])->shouldBeLike([new LineItem(
-            'Galaxy post',
-            1,
-            500,
-            575,
-            500,
-            575,
-            75,
-            '15%',
-        )]);
     }
 
     function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(

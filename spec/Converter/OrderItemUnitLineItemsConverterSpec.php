@@ -65,36 +65,15 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         )]);
     }
 
-    function it_converts_only_order_item_unit_refunds(
-        RepositoryInterface $orderItemUnitRepository,
-        TaxRateProviderInterface $taxRateProvider,
-        OrderItemUnitInterface $orderItemUnit,
-        OrderItemInterface $orderItem,
-    ): void {
+    function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
+    {
         $unitRefund = new OrderItemUnitRefund(1, 500);
         $shipmentRefund = new ShipmentRefund(3, 1500);
 
-        $orderItemUnitRepository->find(1)->willReturn($orderItemUnit);
-        $orderItemUnitRepository->find(3)->shouldNotBeCalled();
-
-        $orderItemUnit->getOrderItem()->willReturn($orderItem);
-        $orderItemUnit->getTotal()->willReturn(1500);
-        $orderItemUnit->getTaxTotal()->willReturn(300);
-
-        $taxRateProvider->provide($orderItemUnit)->willReturn('25%');
-
-        $orderItem->getProductName()->willReturn('Portal gun');
-
-        $this->convert([$unitRefund, $shipmentRefund])->shouldBeLike([new LineItem(
-            'Portal gun',
-            1,
-            400,
-            500,
-            400,
-            500,
-            100,
-            '25%',
-        )]);
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('convert', [[$unitRefund, $shipmentRefund]])
+        ;
     }
 
     function it_groups_the_same_line_items_during_converting(

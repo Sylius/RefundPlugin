@@ -15,14 +15,17 @@ namespace spec\Sylius\RefundPlugin\Converter;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Converter\LineItemsConverterUnitRefundAwareInterface;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
+use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 final class CompositeLineItemConverterSpec extends ObjectBehavior
 {
     function let(
-        LineItemsConverterInterface $firstLineItemsConverter,
-        LineItemsConverterInterface $secondLineItemsConverter,
+        LineItemsConverterUnitRefundAwareInterface $firstLineItemsConverter,
+        LineItemsConverterUnitRefundAwareInterface $secondLineItemsConverter,
     ): void {
         $this->beConstructedWith([$firstLineItemsConverter, $secondLineItemsConverter]);
     }
@@ -33,28 +36,38 @@ final class CompositeLineItemConverterSpec extends ObjectBehavior
     }
 
     function it_uses_all_line_items_converters_to_provide_line_items(
-        LineItemsConverterInterface $firstLineItemsConverter,
-        LineItemsConverterInterface $secondLineItemsConverter,
-        UnitRefundInterface $firstUnitRefund,
-        UnitRefundInterface $secondUnitRefund,
-        UnitRefundInterface $thirdUnitRefund,
-        UnitRefundInterface $fourthUnitRefund,
+        LineItemsConverterUnitRefundAwareInterface $firstLineItemsConverter,
+        LineItemsConverterUnitRefundAwareInterface $secondLineItemsConverter,
+        UnitRefundInterface $unsupportedUnitRefund,
         LineItemInterface $firstLineItem,
         LineItemInterface $secondLineItem,
         LineItemInterface $thirdLineItem,
     ): void {
+        $firstUnitRefund = new OrderItemUnitRefund(1, 1000);
+        $secondUnitRefund = new ShipmentRefund(1, 2000);
+        $thirdUnitRefund = new ShipmentRefund(2, 3000);
+        $fourthUnitRefund = new OrderItemUnitRefund(2, 500);
+
         $firstLineItemsConverter
-            ->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund, $fourthUnitRefund])
+            ->getUnitRefundClass()
+            ->willReturn(OrderItemUnitRefund::class)
+        ;
+        $firstLineItemsConverter
+            ->convert([$firstUnitRefund, $fourthUnitRefund])
             ->willReturn([$firstLineItem])
         ;
 
         $secondLineItemsConverter
-            ->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund, $fourthUnitRefund])
+            ->getUnitRefundClass()
+            ->willReturn(ShipmentRefund::class)
+        ;
+        $secondLineItemsConverter
+            ->convert([$secondUnitRefund, $thirdUnitRefund])
             ->willReturn([$secondLineItem, $thirdLineItem])
         ;
 
         $this
-            ->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund, $fourthUnitRefund])
+            ->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund, $fourthUnitRefund, $unsupportedUnitRefund])
             ->shouldReturn([$firstLineItem, $secondLineItem, $thirdLineItem])
         ;
     }
