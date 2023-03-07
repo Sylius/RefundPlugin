@@ -1,0 +1,5 @@
+<form action="{{ path('sylius_refund_refund_units', {'orderNumber': app.request.attributes.get('orderNumber')}) }}" method="post">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token(app.request.attributes.get('orderNumber')) }}" />
+    {{ sylius_template_event('sylius_refund.admin.order.refund.form', _context) }}
+    <div class="ui hidden divider"></div>
+</form>

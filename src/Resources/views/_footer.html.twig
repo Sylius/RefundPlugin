@@ -2,16 +2,6 @@
 
 <div class="ui stackable grid">
     <div class="two column row">
-        <div class="column">
-            {% include '@SyliusRefundPlugin/_navigation.html.twig' %}
-        </div>
-        <div class="column">
-            <div class="ui right aligned basic segment">
-                <h3 id="refunded-total">
-                    {{ 'sylius_refund.ui.refunded_total'|trans }}:
-                    {{ money.format(order_refunded_total(order.number), order.currencyCode) }}
-                </h3>
-            </div>
-        </div>
+        {{ sylius_template_event('sylius_refund.admin.order.refund.form.footer', _context) }}
     </div>
 </div>

@@ -1,0 +1,144 @@
+sylius_ui:
+    events:
+        sylius.admin.order.show.summary:
+            blocks:
+                credit_memos:
+                    template: '@SyliusRefundPlugin/Order/Admin/creditMemos.html.twig'
+                    priority: 5
+
+        sylius.shop.account.order.show.subcontent:
+            blocks:
+                credit_memos:
+                    template: '@SyliusRefundPlugin/Order/Shop/creditMemos.html.twig'
+                    priority: 5
+
+        sylius.admin.order.show.payments_content:
+            blocks:
+                refund_payments:
+                    template: '@SyliusRefundPlugin/Order/Admin/_refundPayments.html.twig'
+                    priority: 5
+
+        sylius.admin.order.show.payment_content:
+            blocks:
+                refund_transition:
+                    enabled: false
+
+        sylius_refund.shop.order.credit_memos.list.actions.buttons:
+            blocks:
+                download:
+                    template: '@SyliusRefundPlugin/Order/Shop/_downloadButton.html.twig'
+                    enabled: '%sylius_refund.pdf_generator.enabled%'
+                    priority: 10
+
+        sylius_refund.admin.order.credit_memos.list.actions.buttons:
+            blocks:
+                details:
+                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_detailsButton.html.twig'
+                    priority: 20
+                download:
+                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_downloadButton.html.twig'
+                    enabled: '%sylius_refund.pdf_generator.enabled%'
+                    priority: 10
+
+        sylius_refund.admin.order.credit_memo.left_metadata:
+            blocks:
+                header:
+                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_header.html.twig'
+                    priority: 20
+                breadcrumb:
+                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_breadcrumb.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.credit_memo.right_metadata:
+            blocks:
+                download:
+                    template: '@SyliusRefundPlugin/Order/Admin/CreditMemo/_downloadButton.html.twig'
+                    enabled: '%sylius_refund.pdf_generator.enabled%'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.buttons:
+            blocks:
+                clear_all:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Button/_clearAll.html.twig'
+                    priority: 20
+                refund_all:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Button/_refundAll.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund:
+            blocks:
+                bulk_buttons:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/_buttons.html.twig'
+                    priority: 20
+                form:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/_form.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.form:
+            blocks:
+                table:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/_table.html.twig'
+                    priority: 30
+                payment_method:
+                    template: '@SyliusRefundPlugin/_paymentMethod.html.twig'
+                    priority: 20
+                footer:
+                    template: '@SyliusRefundPlugin/_footer.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.form.table.header:
+            blocks:
+                item_info:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Header/_itemInfo.html.twig'
+                    priority: 40
+                total:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Header/_total.html.twig'
+                    priority: 30
+                refund_value:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Header/_refundValue.html.twig'
+                    priority: 20
+                blank:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Header/_blank.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.form.table.body:
+            blocks:
+                items:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/_items.html.twig'
+                    priority: 20
+                shipping:
+                    template: '@SyliusRefundPlugin/_shipping.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.table.body.item:
+            blocks:
+                item_info:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Body/Item/_itemInfo.html.twig'
+                    priority: 40
+                total:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Body/Item/_total.html.twig'
+                    priority: 30
+                refund_value:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Body/Item/_refundValue.html.twig'
+                    priority: 20
+                refund_button:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/Form/Table/Body/Item/_refundButton.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.form.payment_method:
+            blocks:
+                navigation:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/_paymentMethod.html.twig'
+                    priority: 20
+                refunded_total:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/_comment.html.twig'
+                    priority: 10
+
+        sylius_refund.admin.order.refund.form.footer:
+            blocks:
+                navigation:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/_navigation.html.twig'
+                    priority: 20
+                refunded_total:
+                    template: '@SyliusRefundPlugin/Order/Admin/Refund/_refundedTotal.html.twig'
+                    priority: 10
