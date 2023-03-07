@@ -9,6 +9,7 @@
             class="Sylius\RefundPlugin\Converter\CompositeLineItemConverter"
         >
             <argument type="tagged_iterator" tag="sylius_refund.line_item_converter" />
+            <argument type="service" id="Sylius\RefundPlugin\Filter\UnitRefundFilterInterface" />
         </service>
 
         <service

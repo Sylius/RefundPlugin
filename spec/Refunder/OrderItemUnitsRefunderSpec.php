@@ -16,6 +16,7 @@ namespace spec\Sylius\RefundPlugin\Refunder;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
 use Sylius\RefundPlugin\Event\UnitRefunded;
+use Sylius\RefundPlugin\Filter\UnitRefundFilterInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
@@ -28,8 +29,9 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
     function let(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus,
+        UnitRefundFilterInterface $unitRefundFilter,
     ): void {
-        $this->beConstructedWith($refundCreator, $eventBus);
+        $this->beConstructedWith($refundCreator, $eventBus, $unitRefundFilter);
     }
 
     function it_implements_refunder_interface(): void
@@ -40,10 +42,16 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
     function it_creates_refund_for_each_unit_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
         MessageBusInterface $eventBus,
+        UnitRefundFilterInterface $unitRefundFilter,
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 1500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 1000);
         $shipmentRefund = new ShipmentRefund(3, 1000);
+
+        $unitRefundFilter
+            ->filterUnitRefunds([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], OrderItemUnitRefund::class)
+            ->willReturn([$firstUnitRefund, $secondUnitRefund])
+        ;
 
         $refundCreator->__invoke('000222', 1, 1500, RefundType::orderItemUnit())->shouldBeCalled();
 

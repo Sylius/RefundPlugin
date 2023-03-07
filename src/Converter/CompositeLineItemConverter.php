@@ -13,14 +13,16 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
+use Sylius\RefundPlugin\Filter\UnitRefundFilterInterface;
 use Webmozart\Assert\Assert;
 
 final class CompositeLineItemConverter implements LineItemsConverterInterface
 {
-    /** @param LineItemsConverterUnitRefundAwareInterface[] $lineItemsConverters */
-    public function __construct(private iterable $lineItemsConverters)
-    {
+    public function __construct(
+        /** @param LineItemsConverterUnitRefundAwareInterface[] $lineItemsConverters */
+        private iterable $lineItemsConverters,
+        private UnitRefundFilterInterface $unitRefundFilter,
+    ) {
     }
 
     public function convert(array $units): array
@@ -30,25 +32,14 @@ final class CompositeLineItemConverter implements LineItemsConverterInterface
         foreach ($this->lineItemsConverters as $lineItemsConverter) {
             Assert::isInstanceOf($lineItemsConverter, LineItemsConverterUnitRefundAwareInterface::class);
 
-            $lineItems = array_merge($lineItems, $lineItemsConverter->convert($this->filterUnits($units, $lineItemsConverter->getUnitRefundClass())));
+            $filteredUnits = $this->unitRefundFilter->filterUnitRefunds(
+                $units,
+                $lineItemsConverter->getUnitRefundClass(),
+            );
+
+            $lineItems = array_merge($lineItems, $lineItemsConverter->convert($filteredUnits));
         }
 
         return $lineItems;
-    }
-
-    /**
-     * @template T of UnitRefundInterface
-     *
-     * @param class-string<T> $unitRefundClass
-     *
-     * @return T[]
-     */
-    private function filterUnits(array $units, string $unitRefundClass): array
-    {
-        return array_values(
-            array_filter($units, function (UnitRefundInterface $unitRefund) use ($unitRefundClass): bool {
-                return $unitRefund instanceof $unitRefundClass;
-            }),
-        );
     }
 }
