@@ -16,7 +16,7 @@ namespace spec\Sylius\RefundPlugin\Creator;
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverterInterface;
-use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
+use Sylius\RefundPlugin\Creator\RequestCommandCreatorInterface;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +30,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 
     function it_implements_refund_units_command_creator_interface(): void
     {
-        $this->shouldImplement(RefundUnitsCommandCreatorInterface::class);
+        $this->shouldImplement(RequestCommandCreatorInterface::class);
     }
 
     function it_creates_refund_units_command_from_request(

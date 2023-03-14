@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
 use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
-final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterface
+final class RefundUnitsCommandCreator implements RequestCommandCreatorInterface
 {
     public function __construct(private RequestToRefundUnitsConverterInterface $requestToRefundUnitsConverter)
     {

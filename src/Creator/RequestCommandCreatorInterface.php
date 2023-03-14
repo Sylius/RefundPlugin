@@ -15,7 +15,9 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Symfony\Component\HttpFoundation\Request;
 
-interface RefundUnitsCommandCreatorInterface
+interface RequestCommandCreatorInterface
 {
     public function fromRequest(Request $request): object;
 }
+
+class_alias(RequestCommandCreatorInterface::class, 'Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface');

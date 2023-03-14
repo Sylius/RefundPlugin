@@ -30,7 +30,7 @@
             <argument type="service" id="sylius.command_bus" />
             <argument type="service" id="request_stack" />
             <argument type="service" id="router" />
-            <argument type="service" id="Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Creator\RequestCommandCreatorInterface" />
             <argument type="service" id="monolog.logger" />
             <argument type="service" id="security.csrf.token_manager" />
         </service>
