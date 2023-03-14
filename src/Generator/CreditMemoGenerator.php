@@ -48,7 +48,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         TaxItemsGeneratorInterface $taxItemsGenerator,
         CreditMemoFactoryInterface $creditMemoFactory,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory,
-        ShopBillingDataFactoryInterface $shopBillingDataFactory
+        ShopBillingDataFactoryInterface $shopBillingDataFactory,
     ) {
         $this->lineItemsConverter = $lineItemsConverter;
         $this->shipmentLineItemsConverter = $shipmentLineItemsConverter;
@@ -63,7 +63,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
         int $total,
         array $units,
         array $shipments,
-        string $comment
+        string $comment,
     ): CreditMemoInterface {
         Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
         Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
@@ -78,7 +78,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
 
         $lineItems = array_merge(
             $this->lineItemsConverter->convert($units),
-            $this->shipmentLineItemsConverter->convert($shipments)
+            $this->shipmentLineItemsConverter->convert($shipments),
         );
 
         return $this->creditMemoFactory->createWithData(
@@ -88,7 +88,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $this->taxItemsGenerator->generate($lineItems),
             $comment,
             $this->getFromAddress($billingAddress),
-            $this->getToAddress($channel->getShopBillingData())
+            $this->getToAddress($channel->getShopBillingData()),
         );
     }
 
@@ -112,7 +112,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
             $channelShopBillingData->getCountryCode(),
             $channelShopBillingData->getStreet(),
             $channelShopBillingData->getCity(),
-            $channelShopBillingData->getPostcode()
+            $channelShopBillingData->getPostcode(),
         );
     }
 }

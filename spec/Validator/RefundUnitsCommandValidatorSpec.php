@@ -27,13 +27,13 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 {
     function let(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        RefundAmountValidatorInterface $refundAmountValidator
+        RefundAmountValidatorInterface $refundAmountValidator,
     ): void {
         $this->beConstructedWith($orderRefundingAvailabilityChecker, $refundAmountValidator);
     }
 
     function it_throws_exception_when_order_is_not_available_for_refund(
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker
+        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(false);
 
@@ -47,7 +47,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
     function it_throws_exception_when_order_item_units_are_not_valid(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        RefundAmountValidatorInterface $refundAmountValidator
+        RefundAmountValidatorInterface $refundAmountValidator,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(true);
 
@@ -65,7 +65,7 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 
     function it_throws_exception_when_shipment_is_not_valid(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        RefundAmountValidatorInterface $refundAmountValidator
+        RefundAmountValidatorInterface $refundAmountValidator,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(true);
 

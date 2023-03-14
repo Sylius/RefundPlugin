@@ -31,7 +31,7 @@ final class UnitRefundTotalCalculatorSpec extends ObjectBehavior
     }
 
     function it_provides_remaining_total_if_full_refund_option_is_chosen(
-        RemainingTotalProviderInterface $remainingTotalProvider
+        RemainingTotalProviderInterface $remainingTotalProvider,
     ): void {
         $refundType = RefundType::shipment();
 

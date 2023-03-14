@@ -24,7 +24,7 @@ final class PdfOptionsGeneratorSpec extends ObjectBehavior
         $this->beConstructedWith(
             $fileLocator,
             ['allow' => 'allowed_file_in_knp_snappy_config.png'],
-            ['swans.png']
+            ['swans.png'],
         );
     }
 
@@ -37,7 +37,8 @@ final class PdfOptionsGeneratorSpec extends ObjectBehavior
     {
         $fileLocator
             ->locate('swans.png')
-            ->willReturn('located-path/swans.png');
+            ->willReturn('located-path/swans.png')
+        ;
 
         $this
             ->generate()

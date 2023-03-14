@@ -34,7 +34,7 @@ final class UnitRefundedTotalProviderSpec extends ObjectBehavior
     function it_returns_refunded_total_of_unit_with_id(
         RepositoryInterface $refundRepository,
         RefundInterface $firstRefund,
-        RefundInterface $secondRefund
+        RefundInterface $secondRefund,
     ): void {
         $refundType = RefundType::orderItemUnit();
 

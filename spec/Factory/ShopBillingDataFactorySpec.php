@@ -32,7 +32,7 @@ final class ShopBillingDataFactorySpec extends ObjectBehavior
 
     function it_creates_new_shop_billing_data(
         FactoryInterface $shopBillingDataFactory,
-        ShopBillingDataInterface $shopBillingData
+        ShopBillingDataInterface $shopBillingData,
     ): void {
         $shopBillingDataFactory->createNew()->willReturn($shopBillingData);
 
@@ -41,7 +41,7 @@ final class ShopBillingDataFactorySpec extends ObjectBehavior
 
     function it_creates_new_shop_billing_data_with_data(
         ShopBillingDataInterface $shopBillingData,
-        FactoryInterface $shopBillingDataFactory
+        FactoryInterface $shopBillingDataFactory,
     ): void {
         $shopBillingDataFactory->createNew()->willReturn($shopBillingData);
 

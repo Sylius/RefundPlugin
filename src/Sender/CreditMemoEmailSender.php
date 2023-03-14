@@ -36,14 +36,14 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
         if (null === $this->creditMemoFileResolver) {
             @trigger_error(
                 sprintf('Not passing a $creditMemoFileResolver to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
-                \E_USER_DEPRECATED
+                \E_USER_DEPRECATED,
             );
         }
 
         if (null === $this->creditMemoFilePathResolver) {
             @trigger_error(
                 sprintf('Not passing a $creditMemoFilePathResolver to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
-                \E_USER_DEPRECATED
+                \E_USER_DEPRECATED,
             );
         }
     }
@@ -75,7 +75,7 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             self::UNITS_REFUNDED,
             [$recipient],
             ['creditMemo' => $creditMemo],
-            [$filePath]
+            [$filePath],
         );
     }
 

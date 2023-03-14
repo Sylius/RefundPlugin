@@ -27,7 +27,7 @@ final class CreditMemoGeneratedEventListenerSpec extends ObjectBehavior
     }
 
     function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(
-        MessageBusInterface $commandBus
+        MessageBusInterface $commandBus,
     ): void {
         $event = new CreditMemoGenerated('01/01/000002', '000222');
 

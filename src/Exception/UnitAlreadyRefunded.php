@@ -20,7 +20,7 @@ final class UnitAlreadyRefunded extends \InvalidArgumentException
         return new self(sprintf(
             'Unit with id "%d" from order with number "%s" has already been refunded',
             $unitId,
-            $orderNumber
+            $orderNumber,
         ));
     }
 }

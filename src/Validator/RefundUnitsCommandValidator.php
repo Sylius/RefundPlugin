@@ -26,7 +26,7 @@ final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorIn
 
     public function __construct(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        RefundAmountValidatorInterface $refundAmountValidator
+        RefundAmountValidatorInterface $refundAmountValidator,
     ) {
         $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
         $this->refundAmountValidator = $refundAmountValidator;

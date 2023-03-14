@@ -43,7 +43,7 @@ class LineItem implements LineItemInterface
         int $netValue,
         int $grossValue,
         int $taxAmount,
-        ?string $taxRate = null
+        ?string $taxRate = null,
     ) {
         $this->name = $name;
         $this->quantity = $quantity;

@@ -40,7 +40,7 @@ final class SupportedRefundPaymentMethodsProviderSpec extends ObjectBehavior
         PaymentMethodInterface $stripePaymentMethod,
         GatewayConfigInterface $offlineGatewayConfig,
         GatewayConfigInterface $payPalGatewayConfig,
-        GatewayConfigInterface $stripeGatewayConfig
+        GatewayConfigInterface $stripeGatewayConfig,
     ): void {
         $paymentMethodRepository->findEnabledForChannel($channel)->willReturn([
             $offlinePaymentMethod,

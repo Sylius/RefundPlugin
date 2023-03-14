@@ -41,7 +41,7 @@ final class OrderShipmentsRefunder implements RefunderInterface
                 $orderNumber,
                 $shipmentUnit->id(),
                 $shipmentUnit->total(),
-                RefundType::shipment()
+                RefundType::shipment(),
             );
 
             $refundedTotal += $shipmentUnit->total();

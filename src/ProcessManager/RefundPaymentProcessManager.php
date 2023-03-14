@@ -50,7 +50,7 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
         OrderRepositoryInterface $orderRepository,
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         EntityManagerInterface $entityManager,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
     ) {
         $this->orderFullyRefundedStateResolver = $orderFullyRefundedStateResolver;
         $this->relatedPaymentIdProvider = $relatedPaymentIdProvider;
@@ -76,7 +76,7 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
             $unitsRefunded->amount(),
             $unitsRefunded->currencyCode(),
             RefundPaymentInterface::STATE_NEW,
-            $paymentMethod
+            $paymentMethod,
         );
 
         $this->entityManager->persist($refundPayment);
@@ -88,7 +88,7 @@ final class RefundPaymentProcessManager implements UnitsRefundedProcessStepInter
             $unitsRefunded->amount(),
             $unitsRefunded->currencyCode(),
             $unitsRefunded->paymentMethodId(),
-            $this->relatedPaymentIdProvider->getForRefundPayment($refundPayment)
+            $this->relatedPaymentIdProvider->getForRefundPayment($refundPayment),
         ));
 
         $this->orderFullyRefundedStateResolver->resolve($unitsRefunded->orderNumber());

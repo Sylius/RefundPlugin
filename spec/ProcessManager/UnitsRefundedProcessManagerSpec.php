@@ -24,7 +24,7 @@ final class UnitsRefundedProcessManagerSpec extends ObjectBehavior
 {
     function let(
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
-        UnitsRefundedProcessStepInterface $refundPaymentProcessManager
+        UnitsRefundedProcessStepInterface $refundPaymentProcessManager,
     ): void {
         $this->beConstructedWith([$creditMemoProcessManager, $refundPaymentProcessManager]);
     }
@@ -36,7 +36,7 @@ final class UnitsRefundedProcessManagerSpec extends ObjectBehavior
 
     function it_triggers_all_process_steps_if_all_are_successful(
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
-        UnitsRefundedProcessStepInterface $refundPaymentProcessManager
+        UnitsRefundedProcessStepInterface $refundPaymentProcessManager,
     ): void {
         $unitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
         $shipmentRefunds = [new ShipmentRefund(1, 500), new ShipmentRefund(2, 1000)];

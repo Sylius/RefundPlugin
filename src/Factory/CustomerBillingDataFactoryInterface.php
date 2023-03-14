@@ -28,7 +28,7 @@ interface CustomerBillingDataFactoryInterface extends FactoryInterface
         string $city,
         ?string $company,
         ?string $provinceName,
-        ?string $provinceCode
+        ?string $provinceCode,
     ): CustomerBillingDataInterface;
 
     public function createWithAddress(AddressInterface $address): CustomerBillingDataInterface;

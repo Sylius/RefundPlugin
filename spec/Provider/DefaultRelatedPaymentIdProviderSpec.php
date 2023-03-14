@@ -30,7 +30,7 @@ final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
     function it_provides_id_of_last_completed_payment_from_refund_payment_order(
         RefundPaymentInterface $refundPayment,
         OrderInterface $order,
-        PaymentInterface $payment
+        PaymentInterface $payment,
     ): void {
         $refundPayment->getOrder()->willReturn($order);
 
@@ -43,7 +43,7 @@ final class DefaultRelatedPaymentIdProviderSpec extends ObjectBehavior
 
     function it_throws_exception_if_order_has_no_completed_payments(
         RefundPaymentInterface $refundPayment,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $refundPayment->getOrder()->willReturn($order);
         $order->getNumber()->willReturn('000666');

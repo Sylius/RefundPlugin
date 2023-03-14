@@ -25,7 +25,7 @@ final class UnitRefundedEventListenerSpec extends ObjectBehavior
     }
 
     function it_resolves_order_partially_refunded_state(
-        OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver
+        OrderPartiallyRefundedStateResolverInterface $orderPartiallyRefundedStateResolver,
     ): void {
         $orderPartiallyRefundedStateResolver->resolve('000777')->shouldBeCalled();
 

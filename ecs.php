@@ -3,10 +3,9 @@
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use SlevomatCodingStandard\Sniffs\Commenting\InlineDocCommentDeclarationSniff;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void
+return static function (ECSConfig $containerConfigurator): void
 {
     $containerConfigurator->import('vendor/sylius-labs/coding-standard/ecs.php');
 
@@ -21,7 +20,7 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.',
     ]]);
 
-    $containerConfigurator->parameters()->set(Option::SKIP, [
+    $containerConfigurator->skip([
         VisibilityRequiredFixer::class => ['*Spec.php'],
         InlineDocCommentDeclarationSniff::class . '.MissingVariable',
         '**/var/*',

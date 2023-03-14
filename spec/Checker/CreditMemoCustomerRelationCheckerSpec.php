@@ -27,7 +27,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
 {
     function let(
         CustomerContextInterface $customerContext,
-        RepositoryInterface $creditMemoRepository
+        RepositoryInterface $creditMemoRepository,
     ): void {
         $this->beConstructedWith($customerContext, $creditMemoRepository);
     }
@@ -47,7 +47,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         RepositoryInterface $creditMemoRepository,
         CreditMemo $creditMemo,
         OrderInterface $order,
-        CustomerInterface $customer
+        CustomerInterface $customer,
     ): void {
         $creditMemoRepository->find('00001')->willReturn($creditMemo);
 
@@ -67,7 +67,7 @@ final class CreditMemoCustomerRelationCheckerSpec extends ObjectBehavior
         CreditMemo $creditMemo,
         OrderInterface $order,
         CustomerInterface $firstCustomer,
-        CustomerInterface $secondCustomer
+        CustomerInterface $secondCustomer,
     ): void {
         $creditMemoRepository->find('00001')->willReturn($creditMemo);
 

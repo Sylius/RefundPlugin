@@ -41,7 +41,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         TaxRateProviderInterface $taxRateProvider,
         AdjustmentInterface $shippingAdjustment,
         AdjustmentInterface $taxAdjustment,
-        ShipmentInterface $shipment
+        ShipmentInterface $shipment,
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 575);
 
@@ -69,12 +69,12 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
             500,
             575,
             75,
-            '15%'
+            '15%',
         )]);
     }
 
     function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
-        RepositoryInterface $adjustmentRepository
+        RepositoryInterface $adjustmentRepository,
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 500);
 
@@ -92,7 +92,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
     function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
         RepositoryInterface $adjustmentRepository,
         AdjustmentInterface $shippingAdjustment,
-        ShipmentInterface $shipment
+        ShipmentInterface $shipment,
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 1001);
 
@@ -116,7 +116,7 @@ final class ShipmentLineItemsConverterSpec extends ObjectBehavior
         AdjustmentInterface $shippingAdjustment,
         AdjustmentInterface $firstTaxAdjustment,
         AdjustmentInterface $secondTaxAdjustment,
-        ShipmentInterface $shipment
+        ShipmentInterface $shipment,
     ): void {
         $shipmentRefund = new ShipmentRefund(1, 575);
 

@@ -54,7 +54,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         CreditMemoFileResolverInterface $creditMemoFileResolver,
         CreditMemoInterface $creditMemo,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
         $shipmentRefunds = [new ShipmentRefund(3, 1000)];
@@ -84,7 +84,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         CreditMemoFileResolverInterface $creditMemoFileResolver,
         CreditMemoInterface $creditMemo,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $this->beConstructedWith(
             $creditMemoGenerator,
@@ -120,7 +120,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         CreditMemoFileResolverInterface $creditMemoFileResolver,
         CreditMemoInterface $creditMemo,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $this->beConstructedWith(
             $creditMemoGenerator,
@@ -166,7 +166,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
 
         $this->shouldTrigger(
             \E_USER_DEPRECATED,
-            'Not passing a $creditMemoFileResolver to Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.'
+            'Not passing a $creditMemoFileResolver to Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.',
         )->duringInstantiation();
     }
 }

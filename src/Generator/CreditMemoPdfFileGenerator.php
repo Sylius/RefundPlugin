@@ -66,7 +66,7 @@ final class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGeneratorInte
         if (null !== $this->pdfGenerator && null !== $this->twig) {
             return $this->pdfGenerator->getOutputFromHtml(
                 $this->twig->render($this->template, $templateParams),
-                $this->pdfOptionsGenerator ? $this->pdfOptionsGenerator->generate() : []
+                $this->pdfOptionsGenerator ? $this->pdfOptionsGenerator->generate() : [],
             );
         }
 
