@@ -38,7 +38,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         RepositoryInterface $orderItemUnitRepository,
         TaxRateProviderInterface $taxRateProvider,
         OrderItemUnitInterface $orderItemUnit,
-        OrderItemInterface $orderItem
+        OrderItemInterface $orderItem,
     ): void {
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
@@ -60,7 +60,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
             400,
             500,
             100,
-            '25%'
+            '25%',
         )]);
     }
 
@@ -70,7 +70,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         OrderItemUnitInterface $firstOrderItemUnit,
         OrderItemUnitInterface $secondOrderItemUnit,
         OrderItemInterface $firstOrderItem,
-        OrderItemInterface $secondOrderItem
+        OrderItemInterface $secondOrderItem,
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(2, 960);
@@ -105,7 +105,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
                 400,
                 500,
                 100,
-                '25%'
+                '25%',
             ),
             new LineItem(
                 'Space gun',
@@ -115,13 +115,13 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
                 1600,
                 1920,
                 320,
-                '20%'
+                '20%',
             ),
         ]);
     }
 
     function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(
-        RepositoryInterface $orderItemUnitRepository
+        RepositoryInterface $orderItemUnitRepository,
     ): void {
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
@@ -135,7 +135,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
     function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(
         RepositoryInterface $orderItemUnitRepository,
-        OrderItemUnitInterface $orderItemUnit
+        OrderItemUnitInterface $orderItemUnit,
     ): void {
         $unitRefund = new OrderItemUnitRefund(1, 1001);
 

@@ -39,7 +39,7 @@ final class ShopBillingDataFactory implements ShopBillingDataFactoryInterface
         ?string $countryCode,
         ?string $street,
         ?string $city,
-        ?string $postcode
+        ?string $postcode,
     ): ShopBillingDataInterface {
         $shopBillingData = $this->createNew();
 

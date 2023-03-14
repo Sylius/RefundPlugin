@@ -24,6 +24,6 @@ interface RefundFactoryInterface extends FactoryInterface
         OrderInterface $order,
         int $unitId,
         int $amount,
-        RefundTypeInterface $type
+        RefundTypeInterface $type,
     ): RefundInterface;
 }

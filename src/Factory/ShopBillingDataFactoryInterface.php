@@ -24,6 +24,6 @@ interface ShopBillingDataFactoryInterface extends FactoryInterface
         ?string $countryCode,
         ?string $street,
         ?string $city,
-        ?string $postcode
+        ?string $postcode,
     ): ShopBillingDataInterface;
 }

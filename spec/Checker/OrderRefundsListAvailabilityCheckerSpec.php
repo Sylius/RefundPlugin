@@ -33,7 +33,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_true_if_order_is_paid_and_not_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
@@ -44,7 +44,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_true_if_order_is_refunded_and_not_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
@@ -55,7 +55,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_true_if_order_is_partially_refunded_and_not_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
@@ -66,7 +66,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_false_if_order_is_in_other_state_and_not_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
@@ -77,7 +77,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_false_if_order_is_paid_and_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
@@ -88,7 +88,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_false_if_order_is_refunded_and_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
@@ -99,7 +99,7 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
     function it_returns_false_if_order_is_in_other_state_and_free(
         OrderRepositoryInterface $orderRepository,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('00000007')->willReturn($order);
         $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);

@@ -30,13 +30,13 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
     ): void {
         $this->beConstructedWith(
             $stateMachineFactory,
             $orderManager,
             $orderFullyRefundedTotalChecker,
-            $orderRepository
+            $orderRepository,
         );
     }
 
@@ -46,7 +46,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager,
         OrderInterface $order,
-        StateMachineInterface $stateMachine
+        StateMachineInterface $stateMachine,
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(true);
@@ -64,7 +64,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
         FactoryInterface $stateMachineFactory,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(true);
@@ -79,7 +79,7 @@ final class OrderFullyRefundedStateResolverSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
         FactoryInterface $stateMachineFactory,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $orderFullyRefundedTotalChecker->isOrderFullyRefunded($order)->willReturn(false);

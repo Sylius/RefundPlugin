@@ -38,7 +38,7 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
 
     function it_returns_false_if_order_refunded_total_is_lower_than_order_total(
         OrderInterface $order,
-        OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
+        OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,
     ): void {
         $order->getTotal()->willReturn(1000);
 
@@ -49,7 +49,7 @@ final class OrderFullyRefundedTotalCheckerSpec extends ObjectBehavior
 
     function it_returns_true_if_order_refunded_total_is_equal_to_order_total(
         OrderInterface $order,
-        OrderRefundedTotalProviderInterface $orderRefundedTotalProvider
+        OrderRefundedTotalProviderInterface $orderRefundedTotalProvider,
     ): void {
         $order->getTotal()->willReturn(1000);
 

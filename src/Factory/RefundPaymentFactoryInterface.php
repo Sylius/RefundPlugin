@@ -25,6 +25,6 @@ interface RefundPaymentFactoryInterface extends FactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        PaymentMethodInterface $paymentMethod
+        PaymentMethodInterface $paymentMethod,
     ): RefundPaymentInterface;
 }

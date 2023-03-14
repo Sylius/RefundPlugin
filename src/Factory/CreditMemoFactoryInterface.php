@@ -28,6 +28,6 @@ interface CreditMemoFactoryInterface extends FactoryInterface
         array $taxItems,
         string $comment,
         CustomerBillingDataInterface $from,
-        ?ShopBillingDataInterface $to
+        ?ShopBillingDataInterface $to,
     ): CreditMemoInterface;
 }

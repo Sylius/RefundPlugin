@@ -28,7 +28,7 @@ final class CreditMemoCustomerRelationChecker implements CreditMemoCustomerRelat
 
     public function __construct(
         CustomerContextInterface $customerContext,
-        RepositoryInterface $creditMemoRepository
+        RepositoryInterface $creditMemoRepository,
     ) {
         $this->customerContext = $customerContext;
         $this->creditMemoRepository = $creditMemoRepository;

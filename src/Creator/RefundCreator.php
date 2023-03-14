@@ -36,7 +36,7 @@ final class RefundCreator implements RefundCreatorInterface
         RefundFactoryInterface $refundFactory,
         RemainingTotalProviderInterface $remainingTotalProvider,
         OrderRepositoryInterface $orderRepository,
-        ObjectManager $refundManager
+        ObjectManager $refundManager,
     ) {
         $this->refundFactory = $refundFactory;
         $this->remainingTotalProvider = $remainingTotalProvider;

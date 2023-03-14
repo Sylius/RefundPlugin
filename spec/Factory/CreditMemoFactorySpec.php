@@ -34,13 +34,13 @@ final class CreditMemoFactorySpec extends ObjectBehavior
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
     ): void {
         $this->beConstructedWith(
             $creditMemoFactory,
             $creditMemoIdentifierGenerator,
             $creditMemoNumberGenerator,
-            $currentDateTimeImmutableProvider
+            $currentDateTimeImmutableProvider,
         );
     }
 
@@ -51,7 +51,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
 
     function it_creates_a_new_credit_memo(
         FactoryInterface $creditMemoFactory,
-        CreditMemoInterface $creditMemo
+        CreditMemoInterface $creditMemo,
     ): void {
         $creditMemoFactory->createNew()->willReturn($creditMemo);
 
@@ -70,7 +70,7 @@ final class CreditMemoFactorySpec extends ObjectBehavior
         LineItemInterface $secondLineItem,
         TaxItemInterface $taxItem,
         CustomerBillingDataInterface $from,
-        ShopBillingDataInterface $to
+        ShopBillingDataInterface $to,
     ): void {
         $creditMemoIdentifierGenerator->generate()->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
         $creditMemoNumberGenerator->generate($order, new \DateTimeImmutable('01-01-2020 10:10:10'))->willReturn('2018/07/00001111');

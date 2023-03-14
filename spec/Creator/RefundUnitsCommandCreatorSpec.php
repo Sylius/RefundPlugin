@@ -37,7 +37,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
 
     function it_creates_refund_units_command_from_request(
         RefundUnitsConverterInterface $refundUnitsConverter,
-        Request $request
+        Request $request,
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 1000);
         $secondUnitRefund = new OrderItemUnitRefund(2, 3000);
@@ -63,7 +63,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
                     2 => ['full' => 'on'],
                 ],
                 RefundType::orderItemUnit(),
-                OrderItemUnitRefund::class
+                OrderItemUnitRefund::class,
             )
             ->willReturn([$firstUnitRefund, $secondUnitRefund])
         ;
@@ -71,7 +71,7 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
             ->convert(
                 [1 => ['full' => 'on']],
                 RefundType::shipment(),
-                ShipmentRefund::class
+                ShipmentRefund::class,
             )
             ->willReturn([$shipmentRefund])
         ;
@@ -81,13 +81,13 @@ final class RefundUnitsCommandCreatorSpec extends ObjectBehavior
             [$firstUnitRefund, $secondUnitRefund],
             [$shipmentRefund],
             1,
-            'Comment'
+            'Comment',
         ));
     }
 
     function it_throws_exception_if_there_is_no_units_nor_shipments_provided(
         RefundUnitsConverterInterface $refundUnitsConverter,
-        Request $request
+        Request $request,
     ): void {
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
         $request->request = new ParameterBag(['sylius_refund_payment_method' => 1]);

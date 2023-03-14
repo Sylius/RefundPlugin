@@ -39,7 +39,7 @@ class RefundEnumType extends Type
                 'The value "%s" is not valid for the enum "%s". Expected one of ["%s"]',
                 (string) $value->getValue(),
                 RefundTypeInterface::class,
-                implode('", "', $value::keys())
+                implode('", "', $value::keys()),
             ));
         }
 

@@ -27,7 +27,7 @@ final class OrderItemUnitsRefunder implements RefunderInterface
 
     public function __construct(
         RefundCreatorInterface $refundCreator,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
     ) {
         $this->refundCreator = $refundCreator;
         $this->eventBus = $eventBus;
@@ -43,7 +43,7 @@ final class OrderItemUnitsRefunder implements RefunderInterface
                 $orderNumber,
                 $unit->id(),
                 $unit->total(),
-                RefundType::orderItemUnit()
+                RefundType::orderItemUnit(),
             );
 
             $refundedTotal += $unit->total();

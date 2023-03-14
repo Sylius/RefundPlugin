@@ -33,7 +33,7 @@ class RefundPaymentGenerated
         int $amount,
         string $currencyCode,
         int $paymentMethodId,
-        int $paymentId
+        int $paymentId,
     ) {
         $this->id = $id;
         $this->orderNumber = $orderNumber;

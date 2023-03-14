@@ -37,7 +37,7 @@ final class CreditMemoFileProviderSpec extends ObjectBehavior
     function it_provides_credit_memo_pdf_for_credit_memo(
         CreditMemoFileNameGeneratorInterface $creditMemoFileNameGenerator,
         CreditMemoFileManagerInterface $creditMemoFileManager,
-        CreditMemoInterface $creditMemo
+        CreditMemoInterface $creditMemo,
     ): void {
         $creditMemoFileNameGenerator->generateForPdf($creditMemo)->willReturn('credit_memo.pdf');
 

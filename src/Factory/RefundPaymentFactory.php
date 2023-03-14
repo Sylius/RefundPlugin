@@ -37,7 +37,7 @@ final class RefundPaymentFactory implements RefundPaymentFactoryInterface
         int $amount,
         string $currencyCode,
         string $state,
-        PaymentMethodInterface $paymentMethod
+        PaymentMethodInterface $paymentMethod,
     ): RefundPaymentInterface {
         $refundPayment = new $this->className($order, $amount, $currencyCode, $state, $paymentMethod);
         Assert::isInstanceOf($refundPayment, RefundPaymentInterface::class);

@@ -34,14 +34,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         RefunderInterface $orderShipmentsRefunder,
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
-        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
     ): void {
         $this->beConstructedWith(
             $orderItemUnitsRefunder,
             $orderShipmentsRefunder,
             $eventBus,
             $orderRepository,
-            $refundUnitsCommandValidator
+            $refundUnitsCommandValidator,
         );
     }
 
@@ -51,7 +51,7 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $unitRefunds = [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)];
         $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
@@ -71,14 +71,14 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
     }
 
     function it_throws_an_exception_if_order_is_not_available_for_refund(
-        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
     ): void {
         $refundUnitsCommand = new RefundUnits(
             '000222',
             [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)],
             [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)],
             1,
-            'Comment'
+            'Comment',
         );
 
         $refundUnitsCommandValidator

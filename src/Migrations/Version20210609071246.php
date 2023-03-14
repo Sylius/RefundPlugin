@@ -50,7 +50,7 @@ final class Version20210609071246 extends AbstractMigration
             UPDATE sylius_refund_refund_payment
             SET sylius_refund_refund_payment.order_number = (
                 SELECT sylius_order.number FROM sylius_order WHERE sylius_order.id = sylius_refund_refund_payment.order_id
-            )'
+            )',
         );
 
         $this->addSql('ALTER TABLE sylius_refund_refund_payment DROP order_id');

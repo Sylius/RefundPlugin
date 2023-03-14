@@ -32,7 +32,7 @@ final class OrderPartiallyRefundedStateResolver implements OrderPartiallyRefunde
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
-        ObjectManager $orderManager
+        ObjectManager $orderManager,
     ) {
         $this->orderRepository = $orderRepository;
         $this->stateMachineFactory = $stateMachineFactory;

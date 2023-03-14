@@ -42,7 +42,7 @@ class UnitsRefunded
         int $paymentMethodId,
         int $amount,
         string $currencyCode,
-        string $comment
+        string $comment,
     ) {
         Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
         Assert::allIsInstanceOf($shipments, ShipmentRefund::class);

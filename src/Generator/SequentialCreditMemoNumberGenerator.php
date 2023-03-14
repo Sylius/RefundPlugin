@@ -37,7 +37,7 @@ final class SequentialCreditMemoNumberGenerator implements CreditMemoNumberGener
         CreditMemoSequenceFactoryInterface $sequenceFactory,
         EntityManagerInterface $sequenceManager,
         int $startNumber = 1,
-        int $numberLength = 9
+        int $numberLength = 9,
     ) {
         $this->sequenceRepository = $sequenceRepository;
         $this->sequenceFactory = $sequenceFactory;

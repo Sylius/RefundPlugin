@@ -33,7 +33,7 @@ final class RefundAmountValidatorSpec extends ObjectBehavior
     }
 
     function it_throws_exception_if_unit_refund_total_is_bigger_than_remaining_unit_refunded_total(
-        RemainingTotalProviderInterface $remainingTotalProvider
+        RemainingTotalProviderInterface $remainingTotalProvider,
     ): void {
         $correctOrderItemUnitRefund = new OrderItemUnitRefund(2, 10);
         $refundType = RefundType::orderItemUnit();
@@ -58,7 +58,7 @@ final class RefundAmountValidatorSpec extends ObjectBehavior
                 [
                     [$incorrectOrderItemUnitRefund, $correctOrderItemUnitRefund],
                     RefundType::orderItemUnit(),
-                ]
+                ],
             )
         ;
     }

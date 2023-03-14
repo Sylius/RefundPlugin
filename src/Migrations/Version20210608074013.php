@@ -37,7 +37,7 @@ final class Version20210608074013 extends AbstractMigration
             'UPDATE sylius_refund_refund
             SET sylius_refund_refund.order_id = (
                 SELECT sylius_order.id FROM sylius_order WHERE sylius_order.number = sylius_refund_refund.order_number
-            );'
+            );',
         );
 
         $this->addSql('ALTER TABLE sylius_refund_refund DROP order_number');
@@ -54,7 +54,7 @@ final class Version20210608074013 extends AbstractMigration
             'UPDATE sylius_refund_refund
             SET sylius_refund_refund.order_number = (
                 SELECT sylius_order.number FROM sylius_order WHERE sylius_order.id = sylius_refund_refund.order_id
-            );'
+            );',
         );
 
         $this->addSql('ALTER TABLE sylius_refund_refund DROP order_id');
