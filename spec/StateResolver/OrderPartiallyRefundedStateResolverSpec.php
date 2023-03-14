@@ -29,7 +29,7 @@ final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
     function let(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
-        ObjectManager $orderManager
+        ObjectManager $orderManager,
     ): void {
         $this->beConstructedWith($orderRepository, $stateMachineFactory, $orderManager);
     }
@@ -39,7 +39,7 @@ final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager,
         OrderInterface $order,
-        StateMachineInterface $stateMachine
+        StateMachineInterface $stateMachine,
     ): void {
         $orderRepository->findOneByNumber('000777')->willReturn($order);
 
@@ -56,7 +56,7 @@ final class OrderPartiallyRefundedStateResolverSpec extends ObjectBehavior
     function it_does_nothing_if_order_is_already_marked_as_partially_refunded(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $stateMachineFactory,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $orderRepository->findOneByNumber('000777')->willReturn($order);
 

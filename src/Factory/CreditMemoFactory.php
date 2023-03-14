@@ -39,7 +39,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
         FactoryInterface $creditMemoFactory,
         CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator,
         CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator,
-        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider
+        CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider,
     ) {
         $this->creditMemoFactory = $creditMemoFactory;
         $this->creditMemoIdentifierGenerator = $creditMemoIdentifierGenerator;
@@ -62,7 +62,7 @@ final class CreditMemoFactory implements CreditMemoFactoryInterface
         array $taxItems,
         string $comment,
         CustomerBillingDataInterface $from,
-        ?ShopBillingDataInterface $to
+        ?ShopBillingDataInterface $to,
     ): CreditMemoInterface {
         /** @var ChannelInterface|null $channel */
         $channel = $order->getChannel();

@@ -26,7 +26,7 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 {
     function let(
         RefundCreatorInterface $refundCreator,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
     ): void {
         $this->beConstructedWith($refundCreator, $eventBus);
     }
@@ -38,7 +38,7 @@ final class OrderItemUnitsRefunderSpec extends ObjectBehavior
 
     function it_creates_refund_for_each_unit_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 1500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 1000);

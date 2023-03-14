@@ -26,7 +26,7 @@ final class DownloadCreditMemoAction
         private CreditMemoFileResolverInterface $creditMemoFileResolver,
         private CreditMemoCustomerRelationCheckerInterface $creditMemoCustomerRelationChecker,
         private CreditMemoFileResponseBuilderInterface $creditMemoFileResponseBuilder,
-        private bool $hasEnabledPdfFileGenerator
+        private bool $hasEnabledPdfFileGenerator,
     ) {
     }
 

@@ -35,7 +35,7 @@ class RefundPayment implements RefundPaymentInterface
         int $amount,
         string $currencyCode,
         string $state,
-        PaymentMethodInterface $paymentMethod
+        PaymentMethodInterface $paymentMethod,
     ) {
         $this->order = $order;
         $this->amount = $amount;

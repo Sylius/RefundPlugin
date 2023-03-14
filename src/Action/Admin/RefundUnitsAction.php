@@ -36,7 +36,7 @@ final class RefundUnitsAction
         private UrlGeneratorInterface $router,
         private RefundUnitsCommandCreatorInterface $commandCreator,
         private LoggerInterface $logger,
-        private CsrfTokenManagerInterface $csrfTokenManager
+        private CsrfTokenManagerInterface $csrfTokenManager,
     ) {
         if ($this->requestStackOrSession instanceof SessionInterface) {
             trigger_deprecation('sylius/refund-plugin', '1.3', sprintf('Passing an instance of %s as constructor argument for %s is deprecated as of Sylius Refund Plugin 1.3 and will be removed in 2.0. Pass an instance of %s instead.', SessionInterface::class, self::class, RequestStack::class));
@@ -47,7 +47,7 @@ final class RefundUnitsAction
     {
         $token = new CsrfToken(
             (string) $request->attributes->get('orderNumber'),
-            (string) $request->request->get('_csrf_token')
+            (string) $request->request->get('_csrf_token'),
         );
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             return new Response('Invalid CSRF token.', Response::HTTP_FORBIDDEN);
@@ -72,7 +72,7 @@ final class RefundUnitsAction
 
         return new RedirectResponse($this->router->generate(
             'sylius_refund_order_refunds_list',
-            ['orderNumber' => $request->attributes->get('orderNumber')]
+            ['orderNumber' => $request->attributes->get('orderNumber')],
         ));
     }
 

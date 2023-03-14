@@ -35,7 +35,7 @@ final class OrderRefundedTotalProviderSpec extends ObjectBehavior
         RepositoryInterface $refundRepository,
         RefundInterface $firstRefund,
         RefundInterface $secondRefund,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $refundRepository->findBy(['order' => $order])->willReturn([$firstRefund, $secondRefund]);
 

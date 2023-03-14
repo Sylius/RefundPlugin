@@ -32,7 +32,7 @@ final class RefundUnitsConverterSpec extends ObjectBehavior
     }
 
     function it_converts_refund_units_from_request_with_full_prices_to_models(
-        UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator
+        UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator,
     ): void {
         $unitRefundTotalCalculator->calculateForUnitWithIdAndType(1, RefundType::orderItemUnit(), null)->willReturn(1000);
         $unitRefundTotalCalculator->calculateForUnitWithIdAndType(2, RefundType::orderItemUnit(), null)->willReturn(3000);
@@ -44,14 +44,14 @@ final class RefundUnitsConverterSpec extends ObjectBehavior
                     2 => ['full' => 'on'],
                 ],
                 RefundType::orderItemUnit(),
-                OrderItemUnitRefund::class
+                OrderItemUnitRefund::class,
             )
             ->shouldBeLike([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)])
         ;
     }
 
     function it_converts_refund_units_from_request_with_partial_prices_to_models(
-        UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator
+        UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator,
     ): void {
         $unitRefundTotalCalculator->calculateForUnitWithIdAndType(1, RefundType::orderItemUnit(), 10.00)->willReturn(1000);
         $unitRefundTotalCalculator->calculateForUnitWithIdAndType(2, RefundType::orderItemUnit(), null)->willReturn(3000);
@@ -63,7 +63,7 @@ final class RefundUnitsConverterSpec extends ObjectBehavior
                     2 => ['full' => 'on'],
                 ],
                 RefundType::orderItemUnit(),
-                OrderItemUnitRefund::class
+                OrderItemUnitRefund::class,
             )
             ->shouldBeLike([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)])
         ;

@@ -64,7 +64,7 @@ final class OrderRefundsListAction
             $this->twig->render('@SyliusRefundPlugin/orderRefunds.html.twig', [
                 'order' => $order,
                 'payment_methods' => $this->refundPaymentMethodsProvider->findForChannel($channel),
-            ])
+            ]),
         );
     }
 

@@ -74,7 +74,7 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterInterfa
             $netValue,
             $grossValue,
             $taxAmount,
-            $this->taxRateProvider->provide($orderItemUnit)
+            $this->taxRateProvider->provide($orderItemUnit),
         );
     }
 

@@ -27,7 +27,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     function let(
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $adjustmentRepository,
-        RepositoryInterface $refundRepository
+        RepositoryInterface $refundRepository,
     ): void {
         $this->beConstructedWith($orderItemUnitRepository, $adjustmentRepository, $refundRepository);
     }
@@ -41,7 +41,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $refundRepository,
         OrderItemUnitInterface $orderItemUnit,
-        RefundInterface $refund
+        RefundInterface $refund,
     ): void {
         $refundType = RefundType::orderItemUnit();
 
@@ -60,7 +60,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     function it_returns_unit_total_if_there_is_no_refund_for_this_unit_yet(
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $refundRepository,
-        OrderItemUnitInterface $orderItemUnit
+        OrderItemUnitInterface $orderItemUnit,
     ): void {
         $refundType = RefundType::orderItemUnit();
 
@@ -80,7 +80,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         RepositoryInterface $refundRepository,
         AdjustmentInterface $shippingAdjustment,
         ShipmentInterface $shipment,
-        RefundInterface $refund
+        RefundInterface $refund,
     ): void {
         $refundType = RefundType::shipment();
 
@@ -105,7 +105,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
         RepositoryInterface $adjustmentRepository,
         RepositoryInterface $refundRepository,
         AdjustmentInterface $shippingAdjustment,
-        ShipmentInterface $shipment
+        ShipmentInterface $shipment,
     ): void {
         $refundType = RefundType::shipment();
 
@@ -126,7 +126,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     }
 
     function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(
-        RepositoryInterface $orderItemUnitRepository
+        RepositoryInterface $orderItemUnitRepository,
     ): void {
         $orderItemUnitRepository->find(1)->willReturn(null);
 
@@ -137,7 +137,7 @@ final class RemainingTotalProviderSpec extends ObjectBehavior
     }
 
     function it_throws_exception_if_there_is_no_shipment_with_given_id(
-        RepositoryInterface $adjustmentRepository
+        RepositoryInterface $adjustmentRepository,
     ): void {
         $adjustmentRepository
             ->findOneBy(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])

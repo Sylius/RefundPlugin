@@ -30,13 +30,13 @@ final class RefundCreatorSpec extends ObjectBehavior
         RefundFactoryInterface $refundFactory,
         RemainingTotalProviderInterface $remainingTotalProvider,
         OrderRepositoryInterface $orderRepository,
-        ObjectManager $refundEntityManager
+        ObjectManager $refundEntityManager,
     ): void {
         $this->beConstructedWith(
             $refundFactory,
             $remainingTotalProvider,
             $orderRepository,
-            $refundEntityManager
+            $refundEntityManager,
         );
     }
 
@@ -51,7 +51,7 @@ final class RefundCreatorSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         ObjectManager $refundEntityManager,
         OrderInterface $order,
-        RefundInterface $refund
+        RefundInterface $refund,
     ): void {
         $refundType = RefundType::shipment();
 
@@ -67,7 +67,7 @@ final class RefundCreatorSpec extends ObjectBehavior
     }
 
     function it_throws_an_exception_if_order_with_given_number_does_not_exist(
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
     ): void {
         $refundType = RefundType::shipment();
 
@@ -82,7 +82,7 @@ final class RefundCreatorSpec extends ObjectBehavior
     function it_throws_exception_if_unit_has_already_been_refunded(
         OrderRepositoryInterface $orderRepository,
         RemainingTotalProviderInterface $remainingTotalProvider,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $refundType = RefundType::shipment();
 

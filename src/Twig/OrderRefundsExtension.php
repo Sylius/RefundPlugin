@@ -43,7 +43,7 @@ final class OrderRefundsExtension extends AbstractExtension
         UnitRefundingAvailabilityCheckerInterface $unitRefundingAvailabilityChecker,
         OrderRepositoryInterface $orderRepository,
         RepositoryInterface $refundPaymentRepository,
-        RefundTypeFactoryInterface $refundTypeFactory
+        RefundTypeFactoryInterface $refundTypeFactory,
     ) {
         $this->orderRefundedTotalProvider = $orderRefundedTotalProvider;
         $this->unitRefundedTotalProvider = $unitRefundedTotalProvider;
@@ -58,23 +58,23 @@ final class OrderRefundsExtension extends AbstractExtension
         return [
             new TwigFunction(
                 'order_refunded_total',
-                [$this, 'getRefundedTotal']
+                [$this, 'getRefundedTotal'],
             ),
             new TwigFunction(
                 'unit_refunded_total',
-                [$this, 'getUnitRefundedTotal']
+                [$this, 'getUnitRefundedTotal'],
             ),
             new TwigFunction(
                 'can_unit_be_refunded',
-                [$this, 'canUnitBeRefunded']
+                [$this, 'canUnitBeRefunded'],
             ),
             new TwigFunction(
                 'unit_refund_left',
-                [$this, 'getUnitRefundLeft']
+                [$this, 'getUnitRefundLeft'],
             ),
             new TwigFunction(
                 'get_all_refund_payments_by_order',
-                [$this, 'getAllRefundPaymentsByOrder']
+                [$this, 'getAllRefundPaymentsByOrder'],
             ),
         ];
     }

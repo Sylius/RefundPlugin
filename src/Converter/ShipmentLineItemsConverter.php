@@ -84,7 +84,7 @@ final class ShipmentLineItemsConverter implements LineItemsConverterInterface
             $netValue,
             $grossValue,
             $taxAmount,
-            $this->taxRateProvider->provide($shipment)
+            $this->taxRateProvider->provide($shipment),
         );
     }
 

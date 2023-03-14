@@ -43,7 +43,7 @@ final class RefundPaymentCompletedStateApplierSpec extends ObjectBehavior
         StateMachineFactoryInterface $stateMachineFactory,
         StateMachineInterface $stateMachine,
         ObjectManager $refundPaymentManager,
-        RefundPaymentInterface $refundPayment
+        RefundPaymentInterface $refundPayment,
     ): void {
         $stateMachineFactory->get($refundPayment, RefundPaymentTransitions::GRAPH)->willReturn($stateMachine);
         $stateMachine->apply(RefundPaymentTransitions::TRANSITION_COMPLETE)->shouldBeCalled();

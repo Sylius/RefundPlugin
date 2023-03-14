@@ -36,7 +36,7 @@ final class RefundAmountValidator implements RefundAmountValidatorInterface
         foreach ($unitRefunds as $unitRefund) {
             if ($unitRefund->total() <= 0) {
                 throw InvalidRefundAmount::withValidationConstraint(
-                    RefundUnitsValidationConstraintMessages::REFUND_AMOUNT_MUST_BE_GREATER_THAN_ZERO
+                    RefundUnitsValidationConstraintMessages::REFUND_AMOUNT_MUST_BE_GREATER_THAN_ZERO,
                 );
             }
 
@@ -44,7 +44,7 @@ final class RefundAmountValidator implements RefundAmountValidatorInterface
 
             if ($unitRefund->total() > $unitRefundedTotal) {
                 throw InvalidRefundAmount::withValidationConstraint(
-                    RefundUnitsValidationConstraintMessages::REFUND_AMOUNT_MUST_BE_LESS_THAN_AVAILABLE
+                    RefundUnitsValidationConstraintMessages::REFUND_AMOUNT_MUST_BE_LESS_THAN_AVAILABLE,
                 );
             }
         }

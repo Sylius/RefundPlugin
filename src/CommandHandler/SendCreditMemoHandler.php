@@ -30,7 +30,7 @@ final class SendCreditMemoHandler
 
     public function __construct(
         RepositoryInterface $creditMemoRepository,
-        CreditMemoEmailSenderInterface $creditMemoEmailSender
+        CreditMemoEmailSenderInterface $creditMemoEmailSender,
     ) {
         $this->creditMemoRepository = $creditMemoRepository;
         $this->creditMemoEmailSender = $creditMemoEmailSender;

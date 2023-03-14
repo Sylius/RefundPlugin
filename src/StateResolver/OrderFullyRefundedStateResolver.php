@@ -36,7 +36,7 @@ final class OrderFullyRefundedStateResolver implements OrderFullyRefundedStateRe
         FactoryInterface $stateMachineFactory,
         ObjectManager $orderManager,
         OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
     ) {
         $this->stateMachineFactory = $stateMachineFactory;
         $this->orderManager = $orderManager;

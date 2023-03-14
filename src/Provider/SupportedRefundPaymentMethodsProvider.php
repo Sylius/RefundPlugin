@@ -39,7 +39,7 @@ final class SupportedRefundPaymentMethodsProvider implements RefundPaymentMethod
                 Assert::notNull($gatewayConfig);
 
                 return in_array($gatewayConfig->getFactoryName(), $this->supportedGateways, true);
-            }
+            },
         ));
     }
 }

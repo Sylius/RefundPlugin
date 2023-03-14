@@ -36,7 +36,7 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
 
     function it_creates_refund_for_each_shipment_and_dispatch_proper_event(
         RefundCreatorInterface $refundCreator,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
     ): void {
         $shipmentRefunds = [new ShipmentRefund(4, 2500)];
 

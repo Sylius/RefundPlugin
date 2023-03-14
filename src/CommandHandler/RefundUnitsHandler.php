@@ -39,7 +39,7 @@ final class RefundUnitsHandler
         RefunderInterface $orderShipmentsRefunder,
         MessageBusInterface $eventBus,
         OrderRepositoryInterface $orderRepository,
-        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator
+        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
     ) {
         $this->orderUnitsRefunder = $orderUnitsRefunder;
         $this->orderShipmentsRefunder = $orderShipmentsRefunder;
@@ -72,7 +72,7 @@ final class RefundUnitsHandler
             $command->paymentMethodId(),
             $refundedTotal,
             $currencyCode,
-            $command->comment()
+            $command->comment(),
         ));
     }
 }

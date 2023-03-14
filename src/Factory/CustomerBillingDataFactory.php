@@ -44,7 +44,7 @@ class CustomerBillingDataFactory implements CustomerBillingDataFactoryInterface
         string $city,
         ?string $company = null,
         ?string $provinceName = null,
-        ?string $provinceCode = null
+        ?string $provinceCode = null,
     ): CustomerBillingDataInterface {
         $customerBillingData = $this->createNew();
 
@@ -79,7 +79,7 @@ class CustomerBillingDataFactory implements CustomerBillingDataFactoryInterface
             $address->getCity(),
             $address->getCompany(),
             $address->getProvinceName(),
-            $address->getProvinceCode()
+            $address->getProvinceCode(),
         );
     }
 }

@@ -40,7 +40,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         OrderRepositoryInterface $orderRepository,
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         EntityManagerInterface $entityManager,
-        MessageBusInterface $eventBus
+        MessageBusInterface $eventBus,
     ): void {
         $this->beConstructedWith(
             $orderFullyRefundedStateResolver,
@@ -49,7 +49,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
             $orderRepository,
             $paymentMethodRepository,
             $entityManager,
-            $eventBus
+            $eventBus,
         );
     }
 
@@ -68,7 +68,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
         MessageBusInterface $eventBus,
         RefundPaymentInterface $refundPayment,
         OrderInterface $order,
-        PaymentMethodInterface $paymentMethod
+        PaymentMethodInterface $paymentMethod,
     ): void {
         $orderRepository->findOneByNumber('000222')->willReturn($order);
         $paymentMethodRepository->find(1)->willReturn($paymentMethod);
@@ -99,7 +99,7 @@ final class RefundPaymentProcessManagerSpec extends ObjectBehavior
             1,
             1000,
             'USD',
-            'Comment'
+            'Comment',
         ));
     }
 }

@@ -40,7 +40,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         TaxItemsGeneratorInterface $taxItemsGenerator,
         CreditMemoFactoryInterface $creditMemoFactory,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory,
-        ShopBillingDataFactoryInterface $shopBillingDataFactory
+        ShopBillingDataFactoryInterface $shopBillingDataFactory,
     ): void {
         $this->beConstructedWith(
             $lineItemsConverter,
@@ -48,7 +48,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             $taxItemsGenerator,
             $creditMemoFactory,
             $customerBillingDataFactory,
-            $shopBillingDataFactory
+            $shopBillingDataFactory,
         );
     }
 
@@ -73,7 +73,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
         LineItemInterface $secondLineItem,
         TaxItemInterface $taxItem,
         ShopBillingDataFactoryInterface $shopBillingDataFactory,
-        ShopBillingData $shopBillingDataFromFactory
+        ShopBillingData $shopBillingDataFromFactory,
     ): void {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 500);
@@ -111,7 +111,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
             'US',
             'Main St. 123',
             'New York',
-            '90222'
+            '90222',
         )->willReturn($shopBillingDataFromFactory);
 
         $creditMemoFactory
@@ -122,7 +122,7 @@ final class CreditMemoGeneratorSpec extends ObjectBehavior
                 [$taxItem],
                 'Comment',
                 $customerBillingData,
-                $shopBillingDataFromFactory
+                $shopBillingDataFromFactory,
             )
             ->willReturn($creditMemo)
         ;

@@ -38,13 +38,13 @@ final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterf
         $units = $this->refundUnitsConverter->convert(
             $request->request->has('sylius_refund_units') ? $request->request->all()['sylius_refund_units'] : [],
             RefundType::orderItemUnit(),
-            OrderItemUnitRefund::class
+            OrderItemUnitRefund::class,
         );
 
         $shipments = $this->refundUnitsConverter->convert(
             $request->request->has('sylius_refund_shipments') ? $request->request->all()['sylius_refund_shipments'] : [],
             RefundType::shipment(),
-            ShipmentRefund::class
+            ShipmentRefund::class,
         );
 
         if (count($units) === 0 && count($shipments) === 0) {
@@ -59,7 +59,7 @@ final class RefundUnitsCommandCreator implements RefundUnitsCommandCreatorInterf
             $units,
             $shipments,
             (int) $request->request->get('sylius_refund_payment_method'),
-            $comment
+            $comment,
         );
     }
 }

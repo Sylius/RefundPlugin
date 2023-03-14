@@ -33,7 +33,7 @@ final class CustomerBillingDataFactorySpec extends ObjectBehavior
 
     function it_creates_a_new_customer_billing_data(
         FactoryInterface $customerBillingDataFactory,
-        CustomerBillingDataInterface $billingData
+        CustomerBillingDataInterface $billingData,
     ): void {
         $customerBillingDataFactory->createNew()->willReturn($billingData);
 
@@ -42,7 +42,7 @@ final class CustomerBillingDataFactorySpec extends ObjectBehavior
 
     function it_creates_a_new_customer_billing_data_with_data(
         CustomerBillingDataInterface $customerBillingData,
-        CustomerBillingDataFactoryInterface $customerBillingDataFactory
+        CustomerBillingDataFactoryInterface $customerBillingDataFactory,
     ): void {
         $customerBillingDataFactory->createNew()->willReturn($customerBillingData);
 
@@ -65,7 +65,7 @@ final class CustomerBillingDataFactorySpec extends ObjectBehavior
     function it_creates_a_new_customer_billing_data_with_address(
         CustomerBillingDataInterface $customerBillingData,
         CustomerBillingDataFactoryInterface $customerBillingDataFactory,
-        AddressInterface $address
+        AddressInterface $address,
     ): void {
         $address->getFirstName()->willReturn('Pablo');
         $address->getLastName()->willReturn('Escobar');

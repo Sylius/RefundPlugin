@@ -20,7 +20,7 @@ final class PdfOptionsGenerator implements PdfOptionsGeneratorInterface
     public function __construct(
         private FileLocatorInterface $fileLocator,
         private array $knpSnappyOptions,
-        private array $allowedFiles
+        private array $allowedFiles,
     ) {
     }
 
@@ -40,7 +40,7 @@ final class PdfOptionsGenerator implements PdfOptionsGeneratorInterface
 
         $options['allow'] = array_merge(
             $options['allow'],
-            array_map(fn ($file) => $this->fileLocator->locate($file), $this->allowedFiles)
+            array_map(fn ($file) => $this->fileLocator->locate($file), $this->allowedFiles),
         );
 
         return $options;

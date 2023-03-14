@@ -27,14 +27,14 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
     function let(
         ObjectRepository $sequenceRepository,
         CreditMemoSequenceFactoryInterface $sequenceFactory,
-        EntityManagerInterface $sequenceManager
+        EntityManagerInterface $sequenceManager,
     ): void {
         $this->beConstructedWith(
             $sequenceRepository,
             $sequenceFactory,
             $sequenceManager,
             1,
-            9
+            9,
         );
     }
 
@@ -48,7 +48,7 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
         EntityManagerInterface $sequenceManager,
         CreditMemoSequenceInterface $sequence,
         \DateTimeImmutable $issuedAt,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $issuedAt->format('Y/m')->willReturn('2018/05');
 
@@ -70,7 +70,7 @@ final class SequentialCreditMemoNumberGeneratorSpec extends ObjectBehavior
         EntityManagerInterface $sequenceManager,
         CreditMemoSequenceInterface $sequence,
         \DateTimeImmutable $issuedAt,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $issuedAt->format('Y/m')->willReturn('2018/05');
 

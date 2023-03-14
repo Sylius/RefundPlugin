@@ -32,7 +32,7 @@ final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
 
     function it_returns_fee_from_shipping_adjustment(
         RepositoryInterface $adjustmentRepository,
-        AdjustmentInterface $shippingAdjustment
+        AdjustmentInterface $shippingAdjustment,
     ): void {
         $adjustmentRepository->find(1)->willReturn($shippingAdjustment);
         $shippingAdjustment->getType()->willReturn(AdjustmentInterface::SHIPPING_ADJUSTMENT);
@@ -42,7 +42,7 @@ final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
     }
 
     function it_throws_exception_if_there_is_no_adjustment_with_given_id(
-        RepositoryInterface $adjustmentRepository
+        RepositoryInterface $adjustmentRepository,
     ): void {
         $adjustmentRepository->find(1)->willReturn(null);
 
@@ -54,7 +54,7 @@ final class RefundedShipmentFeeProviderSpec extends ObjectBehavior
 
     function it_throws_exception_if_adjustment_is_not_shipping_adjustment(
         RepositoryInterface $adjustmentRepository,
-        AdjustmentInterface $adjustment
+        AdjustmentInterface $adjustment,
     ): void {
         $adjustmentRepository->find(1)->willReturn($adjustment);
         $adjustment->getType()->willReturn('some_other_type');

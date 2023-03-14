@@ -32,7 +32,7 @@ final class RemainingTotalProvider implements RemainingTotalProviderInterface
     public function __construct(
         RepositoryInterface $orderItemUnitRepository,
         RepositoryInterface $adjustmentRepository,
-        RepositoryInterface $refundRepository
+        RepositoryInterface $refundRepository,
     ) {
         $this->orderItemUnitRepository = $orderItemUnitRepository;
         $this->adjustmentRepository = $adjustmentRepository;

@@ -40,7 +40,7 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
 
     function it_creates_a_new_refund_payment(
         OrderInterface $order,
-        PaymentMethodInterface $paymentMethod
+        PaymentMethodInterface $paymentMethod,
     ): void {
         $this
             ->createWithData(
@@ -48,14 +48,14 @@ final class RefundPaymentFactorySpec extends ObjectBehavior
                 1000,
                 'USD',
                 RefundPaymentInterface::STATE_NEW,
-                $paymentMethod
+                $paymentMethod,
             )
             ->shouldBeLike(new RefundPayment(
                 $order->getWrappedObject(),
                 1000,
                 'USD',
                 RefundPaymentInterface::STATE_NEW,
-                $paymentMethod->getWrappedObject()
+                $paymentMethod->getWrappedObject(),
             ))
         ;
     }
