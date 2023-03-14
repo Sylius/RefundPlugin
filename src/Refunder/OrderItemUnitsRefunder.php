@@ -25,13 +25,20 @@ final class OrderItemUnitsRefunder implements RefunderInterface
     public function __construct(
         private RefundCreatorInterface $refundCreator,
         private MessageBusInterface $eventBus,
-        private UnitRefundFilterInterface $unitRefundFilter,
+        private ?UnitRefundFilterInterface $unitRefundFilter = null,
     ) {
+        if (null === $unitRefundFilter) {
+            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Not passing a "%s" as a 3rd argument of "%s" constructor is deprecated and will be removed in 2.0.', UnitRefundFilterInterface::class, self::class));
+        }
     }
 
     public function refundFromOrder(array $units, string $orderNumber): int
     {
-        $units = $this->unitRefundFilter->filterUnitRefunds($units, OrderItemUnitRefund::class);
+        if (null === $this->unitRefundFilter) {
+            $units = $this->filterOrderItemUnitRefunds($units);
+        } else {
+            $units = $this->unitRefundFilter->filterUnitRefunds($units, OrderItemUnitRefund::class);
+        }
 
         $refundedTotal = 0;
 
@@ -50,5 +57,10 @@ final class OrderItemUnitsRefunder implements RefunderInterface
         }
 
         return $refundedTotal;
+    }
+
+    private function filterOrderItemUnitRefunds(array $units): array
+    {
+        return array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof OrderItemUnitRefund);
     }
 }

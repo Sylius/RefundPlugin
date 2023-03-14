@@ -51,7 +51,7 @@ final class GenerateCreditMemoHandler
         $creditMemo = $this->creditMemoGenerator->generate(
             $order,
             $command->total(),
-            $command->units(),
+            array_merge($command->units(), $command->shipments()),
             $command->comment(),
         );
 

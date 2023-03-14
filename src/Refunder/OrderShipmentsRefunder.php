@@ -18,6 +18,7 @@ use Sylius\RefundPlugin\Event\ShipmentRefunded;
 use Sylius\RefundPlugin\Filter\UnitRefundFilterInterface;
 use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderShipmentsRefunder implements RefunderInterface
@@ -25,13 +26,20 @@ final class OrderShipmentsRefunder implements RefunderInterface
     public function __construct(
         private RefundCreatorInterface $refundCreator,
         private MessageBusInterface $eventBus,
-        private UnitRefundFilterInterface $unitRefundFilter,
+        private ?UnitRefundFilterInterface $unitRefundFilter = null,
     ) {
+        if (null === $unitRefundFilter) {
+            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Not passing a "%s" as a 3rd argument of "%s" constructor is deprecated and will be removed in 2.0.', UnitRefundFilterInterface::class, self::class));
+        }
     }
 
     public function refundFromOrder(array $units, string $orderNumber): int
     {
-        $units = $this->unitRefundFilter->filterUnitRefunds($units, ShipmentRefund::class);
+        if (null === $this->unitRefundFilter) {
+            $units = $this->filterShipmentRefunds($units);
+        } else {
+            $units = $this->unitRefundFilter->filterUnitRefunds($units, ShipmentRefund::class);
+        }
 
         $refundedTotal = 0;
 
@@ -50,5 +58,10 @@ final class OrderShipmentsRefunder implements RefunderInterface
         }
 
         return $refundedTotal;
+    }
+
+    private function filterShipmentRefunds(array $units): array
+    {
+        return array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof ShipmentRefund);
     }
 }

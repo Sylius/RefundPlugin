@@ -13,9 +13,13 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Creator;
 
+use Sylius\RefundPlugin\Command\RefundUnits;
 use Symfony\Component\HttpFoundation\Request;
 
-interface RequestCommandCreatorInterface
+/**
+ * @deprecated since 1.4, to be removed in 2.0, use Sylius\RefundPlugin\Creator\RequestCommandCreatorInterface instead
+ */
+interface RefundUnitsCommandCreatorInterface
 {
-    public function fromRequest(Request $request): object;
+    public function fromRequest(Request $request): RefundUnits;
 }

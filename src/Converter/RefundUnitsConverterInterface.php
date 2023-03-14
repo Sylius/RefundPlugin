@@ -13,16 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
-
+/**
+ * @method array convert(array $units, string $unitRefundClass)
+ */
 interface RefundUnitsConverterInterface
 {
-    /**
-     * @template T of UnitRefundInterface
-     *
-     * @param class-string<T> $unitRefundClass
-     *
-     * @return T[]
-     */
-    public function convert(array $units, string $unitRefundClass): array;
 }

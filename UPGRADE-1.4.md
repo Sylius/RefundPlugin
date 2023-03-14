@@ -4,7 +4,12 @@
    `Sylius\RefundPlugin\Listener\UnitRefundedEventListener` and the `UnitRefundedEventListener` listens now to all
    events implementing `Sylius\RefundPlugin\Event\UnitRefundedInterface`.
 
-2. The constructor of the `Sylius\RefundPlugin\Command\GenerateCreditMemo` command has been changed:
+#### Backward compatible changes
+
+All changes below are backward compatible, but we recommend upgrading to 1.4 as in the next major version we remove
+deprecated code:
+
+1. The constructor of the `Sylius\RefundPlugin\Command\GenerateCreditMemo` command has been changed:
 
    ```diff
        public function __construct(
@@ -23,7 +28,7 @@
 
    and `Sylius\RefundPlugin\Command\GenerateCreditMemo::shipments` method has been removed.
 
-3. The constructor of the `Sylius\RefundPlugin\Command\RefundUnits` command has been changed:
+2. The constructor of the `Sylius\RefundPlugin\Command\RefundUnits` command has been changed:
 
    ```diff
        public function __construct(
@@ -42,7 +47,7 @@
 
    and `Sylius\RefundPlugin\Command\RefundUnits::shipments` method has been removed.
 
-4. The constructor of the `Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler` has been changed:
+3. The constructor of the `Sylius\RefundPlugin\CommandHandler\RefundUnitsHandler` has been changed:
 
     ```diff
         public function __construct(
@@ -57,18 +62,18 @@
         }
     ```
     
-5. The `Sylius\RefundPlugin\Converter\LineItemsConverterInterface` interface implemented by
+4. The `Sylius\RefundPlugin\Converter\LineItemsConverterInterface` interface implemented by
    `Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter` and `Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter`
    has been replaced with `Sylius\RefundPlugin\Converter\LineItemsConverterUnitRefundAwareInterface`.
 
-6. The interface method `Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface::convert` has been changed:
+5. The interface method `Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface::convert` has been changed:
 
    ```diff
    - public function convert(array $units, RefundTypeInterface $refundType, string $unitRefundClass): array;
    + public function convert(array $units, string $unitRefundClass): array;
    ```
    
-7. The constructor of the `Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator` has been changed:
+6. The constructor of the `Sylius\RefundPlugin\Creator\RefundUnitsCommandCreator` has been changed:
 
    ```diff
    -   public function __construct(private RefundUnitsConverterInterface $refundUnitsConverter)
@@ -78,10 +83,10 @@
        }
    ```
    
-8. The `Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface` interface has been replaced with
+7. The `Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface` interface has been replaced with
    `Sylius\RefundPlugin\Converter\RequestCommandCreatorInterface`.
    
-9. The constructor of the `Sylius\RefundPlugin\Event\UnitsRefunded` event has been changed:
+8. The constructor of the `Sylius\RefundPlugin\Event\UnitsRefunded` event has been changed:
 
     ```diff
         public function __construct(
@@ -100,7 +105,7 @@
 
     and `Sylius\RefundPlugin\Event\UnitsRefunded::shipments` method has been removed.
 
-10. The constructor of the `Sylius\RefundPlugin\Generator\CreditMemoGenerator` has been changed:
+9. The constructor of the `Sylius\RefundPlugin\Generator\CreditMemoGenerator` has been changed:
 
      ```diff
          public function __construct(
@@ -115,7 +120,7 @@
          }
      ```
    
-11. The interface method `Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface::generate` has been changed:
+10. The interface method `Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface::generate` has been changed:
 
     ```diff
         public function generate(
@@ -127,13 +132,13 @@
         ): CreditMemoInterface;
     ```
 
-12. A static method has been added to the `Sylius\RefundPlugin\Model\UnitRefundInterface` interface:
+11. A static method has been added to the `Sylius\RefundPlugin\Model\UnitRefundInterface` interface:
 
     ```diff
     + public static function type(): RefundType;
     ```
     
-13. The constructor of the `Sylius\RefundPlugin\Provider\RemainingTotalProvider` has been changed:
+12. The constructor of the `Sylius\RefundPlugin\Provider\RemainingTotalProvider` has been changed:
 
     ```diff
         public function __construct(
@@ -146,7 +151,7 @@
         }
     ```
 
-14. The constructor of the `Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder` has been changed:
+13. The constructor of the `Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder` has been changed:
 
     ```diff
         public function __construct(
@@ -158,7 +163,7 @@
         }
     ```
 
-15. The constructor of the `Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder` has been changed:
+14. The constructor of the `Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder` has been changed:
 
     ```diff
         public function __construct(
@@ -170,7 +175,7 @@
         }
     ```
     
-16. The interface method `Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface` has been changed:
+15. The interface method `Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface` has been changed:
 
     ```diff
     - public function validateUnits(array $unitRefunds, RefundTypeInterface $refundType): void;
