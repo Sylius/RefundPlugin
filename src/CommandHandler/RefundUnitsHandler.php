@@ -72,8 +72,8 @@ final class RefundUnitsHandler
         $units = array_merge($command->units(), $command->shipments());
 
         if (null !== $this->orderUnitsRefunder && null !== $this->orderShipmentsRefunder) {
-            $refundedTotal += $this->orderUnitsRefunder->refundFromOrder(array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof OrderItemUnitRefund), $orderNumber);
-            $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder(array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof ShipmentRefund), $orderNumber);
+            $refundedTotal += $this->orderUnitsRefunder->refundFromOrder(array_values(array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof OrderItemUnitRefund)), $orderNumber);
+            $refundedTotal += $this->orderShipmentsRefunder->refundFromOrder(array_values(array_filter($units, fn (UnitRefundInterface $unitRefund) => $unitRefund instanceof ShipmentRefund)), $orderNumber);
         } else {
             Assert::isIterable($this->refunders);
 

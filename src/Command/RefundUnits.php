@@ -30,14 +30,14 @@ class RefundUnits
         $args = func_get_args();
 
         if (is_array($paymentMethodId)) {
-            if (!isset($args[5])) {
-                throw new \InvalidArgumentException('The 6th argument must be present.');
+            if (!isset($args[4])) {
+                throw new \InvalidArgumentException('The 5th argument must be present.');
             }
 
             $this->shipments = $paymentMethodId;
             /** @phpstan-ignore-next-line */
             $this->paymentMethodId = $comment;
-            $this->comment = $args[5];
+            $this->comment = $args[4];
 
             trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Passing an array as a 3th argument of "%s" constructor is deprecated and will be removed in 2.0.', self::class));
         }
