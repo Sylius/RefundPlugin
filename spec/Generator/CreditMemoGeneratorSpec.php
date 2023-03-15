@@ -18,7 +18,7 @@ use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;
-use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 use Sylius\RefundPlugin\Entity\LineItemInterface;

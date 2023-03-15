@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Converter;
+namespace Sylius\RefundPlugin\Converter\Request;
 
 use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;

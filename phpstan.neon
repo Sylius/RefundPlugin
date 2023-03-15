@@ -15,6 +15,12 @@ parameters:
         - 'tests/Application/app/**.php'
         - 'tests/Application/src/**.php'
 
+        # BC compatibility
+        - 'src/Converter/OrderItemUnitLineItemsConverter.php'
+        - 'src/Converter/RequestToOrderItemUnitRefundConverter.php'
+        - 'src/Converter/RequestToShipmentRefundConverter.php'
+        - 'src/Converter/ShipmentLineItemsConverter.php'
+
     ignoreErrors:
         - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::id\(\) has no return type specified./'
         - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::getId\(\) has no return type specified./'

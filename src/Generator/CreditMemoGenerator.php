@@ -17,7 +17,8 @@ use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface as ChannelShopBillingData;
-use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Converter\LineItemsConverterInterface as LegacyLineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
@@ -33,7 +34,7 @@ final class CreditMemoGenerator implements CreditMemoGeneratorInterface
     private LineItemsConverterInterface $shipmentLineItemsConverter;
 
     public function __construct(
-        private LineItemsConverterInterface $lineItemsConverter,
+        private LineItemsConverterInterface|LegacyLineItemsConverterInterface $lineItemsConverter,
         private TaxItemsGeneratorInterface|LineItemsConverterInterface $taxItemsGenerator,
         private CreditMemoFactoryInterface|TaxItemsGeneratorInterface $creditMemoFactory,
         private CustomerBillingDataFactoryInterface|CreditMemoFactoryInterface $customerBillingDataFactory,

@@ -15,7 +15,7 @@ namespace spec\Sylius\RefundPlugin\Creator;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\RefundPlugin\Command\RefundUnits;
-use Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverterInterface;
+use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface;
 use Sylius\RefundPlugin\Creator\RequestCommandCreatorInterface;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;

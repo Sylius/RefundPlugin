@@ -13,13 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
-use Symfony\Component\HttpFoundation\Request;
-
-interface RequestToRefundUnitsConverterInterface
+/**
+ * @deprecated since 1.4, to be removed in 2.0, use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface instead
+ */
+interface RequestToRefundUnitsConverterInterface extends Request\RequestToRefundUnitsConverterInterface
 {
-    /**
-     * @return UnitRefundInterface[]
-     */
-    public function convert(Request $request): array;
 }

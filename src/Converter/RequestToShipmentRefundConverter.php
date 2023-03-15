@@ -13,23 +13,11 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Model\ShipmentRefund;
-use Symfony\Component\HttpFoundation\Request;
-
-final class RequestToShipmentRefundConverter implements RequestToRefundUnitsConverterInterface
-{
-    public function __construct(private RefundUnitsConverterInterface $refundUnitsConverter)
-    {
-    }
-
+if (false) {
     /**
-     * @return ShipmentRefund[]
+     * @deprecated since 1.4, to be removed in 2.0, use Sylius\RefundPlugin\Converter\Request\RequestToShipmentRefundConverter instead
      */
-    public function convert(Request $request): array
+    final class RequestToShipmentRefundConverter extends Request\RequestToShipmentRefundConverter
     {
-        return $this->refundUnitsConverter->convert(
-            $request->request->all()['sylius_refund_shipments'] ?? [],
-            ShipmentRefund::class,
-        );
     }
 }

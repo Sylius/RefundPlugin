@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace spec\Sylius\RefundPlugin\Converter;
+namespace spec\Sylius\RefundPlugin\Converter\Request;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverterInterface;
+use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Symfony\Component\HttpFoundation\Request;

@@ -11,14 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Converter;
+namespace Sylius\RefundPlugin\Converter\Request;
 
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-interface LineItemsConverterUnitRefundAwareInterface extends LineItemsConverterInterface
+interface RequestToRefundUnitsConverterInterface
 {
     /**
-     * @return class-string<UnitRefundInterface>
+     * @return UnitRefundInterface[]
      */
-    public function getUnitRefundClass(): string;
+    public function convert(Request $request): array;
 }

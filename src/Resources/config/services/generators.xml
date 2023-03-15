@@ -17,7 +17,7 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Generator\CreditMemoGeneratorInterface" class="Sylius\RefundPlugin\Generator\CreditMemoGenerator">
-            <argument type="service" id="Sylius\RefundPlugin\Converter\LineItemsConverterInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Generator\TaxItemsGeneratorInterface" />
             <argument type="service" id="sylius_refund.factory.credit_memo" />
             <argument type="service" id="sylius_refund.factory.customer_billing_data" />

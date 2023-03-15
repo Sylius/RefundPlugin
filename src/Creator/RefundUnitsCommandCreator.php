@@ -15,7 +15,7 @@ namespace Sylius\RefundPlugin\Creator;
 
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface;
-use Sylius\RefundPlugin\Converter\RequestToRefundUnitsConverterInterface;
+use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;

@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace spec\Sylius\RefundPlugin\Converter;
+namespace spec\Sylius\RefundPlugin\Converter\LineItem;
 
 use PhpSpec\ObjectBehavior;
-use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
-use Sylius\RefundPlugin\Converter\LineItemsConverterUnitRefundAwareInterface;
+use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterUnitRefundAwareInterface;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Filter\UnitRefundFilterInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;

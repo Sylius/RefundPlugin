@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Sylius\RefundPlugin\Converter;
+namespace Sylius\RefundPlugin\Converter\LineItem;
 
 use Sylius\RefundPlugin\Filter\UnitRefundFilterInterface;
 use Webmozart\Assert\Assert;
