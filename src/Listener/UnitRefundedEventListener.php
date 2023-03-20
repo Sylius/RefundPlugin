@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Listener;
 
-use Sylius\RefundPlugin\Event\UnitRefunded;
+use Sylius\RefundPlugin\Event\UnitRefundedInterface;
 use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface;
 
 final class UnitRefundedEventListener
@@ -25,7 +25,7 @@ final class UnitRefundedEventListener
         $this->orderPartiallyRefundedStateResolver = $orderPartiallyRefundedStateResolver;
     }
 
-    public function __invoke(UnitRefunded $unitRefunded): void
+    public function __invoke(UnitRefundedInterface $unitRefunded): void
     {
         $this->orderPartiallyRefundedStateResolver->resolve($unitRefunded->orderNumber());
     }
