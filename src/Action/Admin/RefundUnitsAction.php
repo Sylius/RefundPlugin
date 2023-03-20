@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
 use Sylius\RefundPlugin\Creator\RefundUnitsCommandCreatorInterface;
 use Sylius\RefundPlugin\Creator\RequestCommandCreatorInterface;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
+use Sylius\RefundPlugin\Exception\RefundUnitsNotBelongToOrder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -62,7 +63,7 @@ final class RefundUnitsAction
             $this->commandBus->dispatch($this->commandCreator->fromRequest($request));
 
             $this->getFlashBag()->add('success', 'sylius_refund.units_successfully_refunded');
-        } catch (InvalidRefundAmount $exception) {
+        } catch (InvalidRefundAmount|RefundUnitsNotBelongToOrder $exception) {
             $this->getFlashBag()->add('error', $exception->getMessage());
 
             $this->logger->error($exception->getMessage());
