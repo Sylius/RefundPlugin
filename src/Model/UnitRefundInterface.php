@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Model;
 
+/**
+ * @method static RefundType type()
+ */
 interface UnitRefundInterface
 {
     public function id(): int;

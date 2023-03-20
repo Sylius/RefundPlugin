@@ -22,7 +22,6 @@ interface CreditMemoGeneratorInterface
         OrderInterface $order,
         int $total,
         array $units,
-        array $shipments,
         string $comment,
     ): CreditMemoInterface;
 }

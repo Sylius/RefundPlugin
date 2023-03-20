@@ -38,9 +38,18 @@
             class="Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProvider"
         />
 
-        <service id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" class="Sylius\RefundPlugin\Provider\RemainingTotalProvider">
+        <service id="Sylius\RefundPlugin\Provider\OrderItemUnitTotalProvider">
             <argument type="service" id="sylius.repository.order_item_unit" />
+            <tag name="sylius_refund.refund_unit_total_provider" refund_type="order_item_unit" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\ShipmentTotalProvider">
             <argument type="service" id="sylius.repository.adjustment" />
+            <tag name="sylius_refund.refund_unit_total_provider" refund_type="shipment" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" class="Sylius\RefundPlugin\Provider\RemainingTotalProvider">
+            <argument type="tagged_locator" tag="sylius_refund.refund_unit_total_provider" index-by="refund_type"/>
             <argument type="service" id="sylius_refund.repository.refund" />
         </service>
         <service id="Sylius\RefundPlugin\Provider\RemainingTotalProvider" alias="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface">

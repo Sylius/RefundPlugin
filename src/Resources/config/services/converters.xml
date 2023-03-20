@@ -4,18 +4,51 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter">
+        <service
+            id="Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface"
+            class="Sylius\RefundPlugin\Converter\LineItem\CompositeLineItemConverter"
+        >
+            <argument type="tagged_iterator" tag="sylius_refund.line_item_converter" />
+            <argument type="service" id="Sylius\RefundPlugin\Filter\UnitRefundFilterInterface" />
+        </service>
+
+        <service
+            id="Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface"
+            class="Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverter"
+        >
+            <argument type="tagged_iterator" tag="sylius_refund.request_to_refund_units_converter" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Converter\Request\RequestToShipmentRefundConverter">
+            <argument type="service" id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" />
+            <tag name="sylius_refund.request_to_refund_units_converter"/>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Converter\Request\RequestToOrderItemUnitRefundConverter">
+            <argument type="service" id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" />
+            <tag name="sylius_refund.request_to_refund_units_converter"/>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter">
             <argument type="service" id="sylius.repository.order_item_unit" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
+            <tag name="sylius_refund.line_item_converter"/>
+        </service>
+        <service id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter" alias="Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter">
+            <deprecated package="sylius/refund-plugin" version="1.4">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter instead.</deprecated>
+        </service>
+
+        <service id="Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter">
+            <argument type="service" id="sylius.repository.adjustment" />
+            <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
+            <tag name="sylius_refund.line_item_converter"/>
+        </service>
+        <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter" alias="Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter">
+            <deprecated package="sylius/refund-plugin" version="1.4">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" class="Sylius\RefundPlugin\Converter\RefundUnitsConverter">
             <argument type="service" id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface" />
-        </service>
-
-        <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter">
-            <argument type="service" id="sylius.repository.adjustment" />
-            <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
         </service>
     </services>
 </container>

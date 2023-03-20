@@ -16,7 +16,6 @@ namespace Sylius\RefundPlugin\Validator;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefunding;
-use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorInterface
 {
@@ -38,7 +37,7 @@ final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorIn
             throw OrderNotAvailableForRefunding::withOrderNumber($command->orderNumber());
         }
 
-        $this->refundAmountValidator->validateUnits($command->units(), RefundType::orderItemUnit());
-        $this->refundAmountValidator->validateUnits($command->shipments(), RefundType::shipment());
+        $units = array_merge($command->units(), $command->shipments());
+        $this->refundAmountValidator->validateUnits($units);
     }
 }

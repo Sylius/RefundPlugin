@@ -17,6 +17,7 @@
 
         <service id="Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface" class="Sylius\RefundPlugin\Validator\RefundAmountValidator">
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" />
+            <argument>%sylius_refund.supported_gateways%</argument>
         </service>
         <service id="Sylius\RefundPlugin\Validator\RefundAmountValidator" alias="Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface">
             <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface instead.</deprecated>

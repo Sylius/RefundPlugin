@@ -11,15 +11,16 @@
 
 declare(strict_types=1);
 
-namespace spec\Sylius\RefundPlugin\Converter;
+namespace spec\Sylius\RefundPlugin\Converter\LineItem;
 
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
-use Sylius\RefundPlugin\Converter\LineItemsConverterInterface;
+use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
+use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
@@ -62,6 +63,17 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
             100,
             '25%',
         )]);
+    }
+
+    function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
+    {
+        $unitRefund = new OrderItemUnitRefund(1, 500);
+        $shipmentRefund = new ShipmentRefund(3, 1500);
+
+        $this
+            ->shouldThrow(\InvalidArgumentException::class)
+            ->during('convert', [[$unitRefund, $shipmentRefund]])
+        ;
     }
 
     function it_groups_the_same_line_items_during_converting(

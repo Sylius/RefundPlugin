@@ -13,15 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Converter;
 
-use Sylius\RefundPlugin\Entity\LineItemInterface;
-use Sylius\RefundPlugin\Model\UnitRefundInterface;
-
-interface LineItemsConverterInterface
+/**
+ * @deprecated since 1.4, to be removed in 2.0, use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface instead
+ */
+interface LineItemsConverterInterface extends LineItem\LineItemsConverterInterface
 {
-    /**
-     * @param UnitRefundInterface[] $units
-     *
-     * @return LineItemInterface[]
-     */
-    public function convert(array $units): array;
 }
