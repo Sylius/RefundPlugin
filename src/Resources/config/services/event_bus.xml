@@ -14,11 +14,6 @@
             <tag name="messenger.message_handler" bus="sylius.event_bus" />
         </service>
 
-        <service id="Sylius\RefundPlugin\Listener\ShipmentRefundedEventListener">
-            <argument type="service" id="Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterface" />
-            <tag name="messenger.message_handler" bus="sylius.event_bus" />
-        </service>
-
         <service
             id="Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManagerInterface"
             class="Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessManager"
