@@ -22,10 +22,11 @@ final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorIn
     public function __construct(
         private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         private RefundAmountValidatorInterface $refundAmountValidator,
-        private ?RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator = null,
+        /** @var iterable<UnitRefundsBelongingToOrderValidatorInterface> */
+        private ?iterable $refundUnitsBelongingToOrderValidators = null,
     ) {
-        if (null === $this->refundUnitsBelongToOrderValidator) {
-            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Not passing a $refundUnitsBelongToOrderValidator to %s constructor is deprecated since sylius/refund-plugin 1.4 and will be prohibited in 2.0.', self::class));
+        if (null === $this->refundUnitsBelongingToOrderValidators) {
+            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Not passing a $refundUnitsBelongingToOrderValidators to %s constructor is deprecated since sylius/refund-plugin 1.4 and will be prohibited in 2.0.', self::class));
         }
     }
 
@@ -37,7 +38,10 @@ final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorIn
 
         $units = array_merge($command->units(), $command->shipments());
 
-        $this->refundUnitsBelongToOrderValidator?->validateUnits($units, $command->orderNumber());
+        foreach ($this->refundUnitsBelongingToOrderValidators ?? [] as $refundUnitsBelongToOrderValidator) {
+            $refundUnitsBelongToOrderValidator->validateUnits($units, $command->orderNumber());
+        }
+
         $this->refundAmountValidator->validateUnits($units);
     }
 }

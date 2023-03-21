@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Validator;
 
-interface RefundUnitsBelongToOrderValidatorInterface
+interface UnitRefundsBelongingToOrderValidatorInterface
 {
     public function validateUnits(array $unitRefunds, string $orderNumber): void;
 }

@@ -22,19 +22,23 @@ use Sylius\RefundPlugin\Exception\RefundUnitsNotBelongToOrder;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface;
-use Sylius\RefundPlugin\Validator\RefundUnitsBelongToOrderValidatorInterface;
+use Sylius\RefundPlugin\Validator\UnitRefundsBelongingToOrderValidatorInterface;
 
 final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
 {
     function let(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator,
-        RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $firstUnitRefundsBelongingToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $secondUnitRefundsBelongingToOrderValidator,
     ): void {
         $this->beConstructedWith(
             $orderRefundingAvailabilityChecker,
             $refundAmountValidator,
-            $refundUnitsBelongToOrderValidator,
+            [
+                $firstUnitRefundsBelongingToOrderValidator,
+                $secondUnitRefundsBelongingToOrderValidator,
+            ],
         );
     }
 
@@ -54,7 +58,8 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
     function it_throws_exception_when_order_item_units_amount_is_not_valid(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator,
-        RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $firstUnitRefundsBelongingToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $secondUnitRefundsBelongingToOrderValidator,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(true);
 
@@ -67,7 +72,12 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
             ->willThrow(InvalidRefundAmount::class)
         ;
 
-        $refundUnitsBelongToOrderValidator
+        $firstUnitRefundsBelongingToOrderValidator
+            ->validateUnits([$orderItemUnitRefund], '000001')
+            ->shouldBeCalled()
+        ;
+
+        $secondUnitRefundsBelongingToOrderValidator
             ->validateUnits([$orderItemUnitRefund], '000001')
             ->shouldBeCalled()
         ;
@@ -78,7 +88,8 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
     function it_throws_exception_when_order_item_units_do_not_belong_to_an_order(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator,
-        RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $firstUnitRefundsBelongingToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $secondUnitRefundsBelongingToOrderValidator,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(true);
 
@@ -91,9 +102,14 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
             ->shouldNotBeCalled()
         ;
 
-        $refundUnitsBelongToOrderValidator
+        $firstUnitRefundsBelongingToOrderValidator
             ->validateUnits([$orderItemUnitRefund], '000001')
             ->willThrow(RefundUnitsNotBelongToOrder::class)
+        ;
+
+        $secondUnitRefundsBelongingToOrderValidator
+            ->validateUnits([$refundUnits], '000001')
+            ->shouldNotBeCalled()
         ;
 
         $this->shouldThrow(RefundUnitsNotBelongToOrder::class)->during('validate', [$refundUnits]);
@@ -102,7 +118,8 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
     function it_throws_exception_when_shipment_amount_is_not_valid(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator,
-        RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $firstUnitRefundsBelongingToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $secondUnitRefundsBelongingToOrderValidator,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(true);
 
@@ -115,7 +132,12 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
             ->willThrow(InvalidRefundAmount::class)
         ;
 
-        $refundUnitsBelongToOrderValidator
+        $firstUnitRefundsBelongingToOrderValidator
+            ->validateUnits([$shipmentRefund], '000001')
+            ->shouldBeCalled()
+        ;
+
+        $secondUnitRefundsBelongingToOrderValidator
             ->validateUnits([$shipmentRefund], '000001')
             ->shouldBeCalled()
         ;
@@ -126,7 +148,8 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
     function it_throws_exception_when_shipment_does_not_belong_to_an_order(
         OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
         RefundAmountValidatorInterface $refundAmountValidator,
-        RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $firstUnitRefundsBelongingToOrderValidator,
+        UnitRefundsBelongingToOrderValidatorInterface $secondUnitRefundsBelongingToOrderValidator,
     ): void {
         $orderRefundingAvailabilityChecker->__invoke('000001')->willReturn(true);
 
@@ -139,7 +162,12 @@ final class RefundUnitsCommandValidatorSpec extends ObjectBehavior
             ->shouldNotBeCalled()
         ;
 
-        $refundUnitsBelongToOrderValidator
+        $firstUnitRefundsBelongingToOrderValidator
+            ->validateUnits([$shipmentRefund], '000001')
+            ->shouldBeCalled()
+        ;
+
+        $secondUnitRefundsBelongingToOrderValidator
             ->validateUnits([$shipmentRefund], '000001')
             ->willThrow(RefundUnitsNotBelongToOrder::class)
         ;

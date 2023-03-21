@@ -7,11 +7,11 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="true" />
 
-        <service
-            id="Sylius\RefundPlugin\Doctrine\ORM\UnitRefundBelongsToOrderQueryInterface"
-            class="Sylius\RefundPlugin\Doctrine\ORM\UnitRefundBelongsToOrderQuery"
-        >
+        <service id="Sylius\RefundPlugin\Doctrine\ORM\CountOrderItemUnitRefundsBelongingToOrderQuery">
             <argument type="service" id="sylius.repository.order_item_unit" />
+        </service>
+
+        <service id="Sylius\RefundPlugin\Doctrine\ORM\CountShipmentRefundsBelongingToOrderQuery">
             <argument type="service" id="sylius.repository.adjustment" />
         </service>
     </services>

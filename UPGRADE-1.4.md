@@ -188,7 +188,7 @@ deprecated code:
         public function __construct(
             private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
             private RefundAmountValidatorInterface $refundAmountValidator,
-    +       private RefundUnitsBelongToOrderValidatorInterface $refundUnitsBelongToOrderValidator,
+    +       private iterator $refundUnitsBelongingToOrderValidators,
         ) {
             // ...
         }

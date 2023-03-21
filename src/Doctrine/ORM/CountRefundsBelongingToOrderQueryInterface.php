@@ -13,9 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Doctrine\ORM;
 
-interface UnitRefundBelongsToOrderQueryInterface
+interface CountRefundsBelongingToOrderQueryInterface
 {
-    public function orderItemUnitRefundsBelongToOrder(array $unitRefundIds, string $orderNumber): bool;
-
-    public function shipmentRefundsBelongToOrder(array $unitRefundIds, string $orderNumber): bool;
+    public function count(array $unitRefundIds, string $orderNumber): int;
 }
