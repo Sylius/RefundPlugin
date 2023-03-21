@@ -16,6 +16,7 @@ namespace Sylius\RefundPlugin\Provider;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Order\Model\AdjustableInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Webmozart\Assert\Assert;
 
 final class ShipmentTotalProvider implements RefundUnitTotalProviderInterface
@@ -38,5 +39,10 @@ final class ShipmentTotalProvider implements RefundUnitTotalProviderInterface
         Assert::isInstanceOf($shipment, AdjustableInterface::class);
 
         return $shipment->getAdjustmentsTotal();
+    }
+
+    public static function refundType(): string
+    {
+        return RefundTypeInterface::SHIPMENT;
     }
 }

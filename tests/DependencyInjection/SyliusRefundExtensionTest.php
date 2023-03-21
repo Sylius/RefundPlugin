@@ -15,7 +15,12 @@ namespace Tests\Sylius\RefundPlugin\DependencyInjection;
 
 use Doctrine\Bundle\MigrationsBundle\DependencyInjection\DoctrineMigrationsExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterUnitRefundAwareInterface;
+use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface;
 use Sylius\RefundPlugin\DependencyInjection\SyliusRefundExtension;
+use Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface;
+use Sylius\RefundPlugin\Provider\RefundUnitTotalProviderInterface;
+use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use SyliusLabs\DoctrineMigrationsExtraBundle\DependencyInjection\SyliusLabsDoctrineMigrationsExtraExtension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
@@ -101,6 +106,28 @@ final class SyliusRefundExtensionTest extends AbstractExtensionTestCase
 
         $this->assertContainerBuilderHasParameter('sylius_refund.pdf_generator.allowed_files', []);
     }
+
+    /** @test */
+    public function it_adds_tags_to_autoconfigurable_interfaces(): void
+    {
+        $this->load();
+
+        $autoconfigurableInterfaces = $this->container->getAutoconfiguredInstanceof();
+
+        $expectedTaggedInterfaces = [
+            'sylius_refund.units_refunded.process_step' => UnitsRefundedProcessStepInterface::class,
+            'sylius_refund.line_item_converter' => LineItemsConverterUnitRefundAwareInterface::class,
+            'sylius_refund.request_to_refund_units_converter' => RequestToRefundUnitsConverterInterface::class,
+            'sylius_refund.refunder' => RefunderInterface::class,
+            'sylius_refund.refund_unit_total_provider' => RefundUnitTotalProviderInterface::class,
+        ];
+
+        foreach ($expectedTaggedInterfaces as $tag => $interface) {
+            $this->assertArrayHasKey($interface, $autoconfigurableInterfaces);
+            $this->assertTrue($autoconfigurableInterfaces[$interface]->hasTag($tag));
+        }
+    }
+
 
     protected function getContainerExtensions(): array
     {

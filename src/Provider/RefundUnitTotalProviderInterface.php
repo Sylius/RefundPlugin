@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Provider;
 
+/**
+ * @method static string refundType()
+ */
 interface RefundUnitTotalProviderInterface
 {
     public function getRefundUnitTotal(int $id): int;

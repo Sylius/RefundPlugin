@@ -15,6 +15,7 @@ namespace Sylius\RefundPlugin\Provider;
 
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Webmozart\Assert\Assert;
 
 final class OrderItemUnitTotalProvider implements RefundUnitTotalProviderInterface
@@ -31,5 +32,10 @@ final class OrderItemUnitTotalProvider implements RefundUnitTotalProviderInterfa
         Assert::notNull($orderItemUnit);
 
         return $orderItemUnit->getTotal();
+    }
+
+    public static function refundType(): string
+    {
+        return RefundTypeInterface::ORDER_ITEM_UNIT;
     }
 }
