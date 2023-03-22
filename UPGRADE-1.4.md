@@ -193,3 +193,12 @@ deprecated code:
             // ...
         }
     ```
+
+17. A static method has been added to the `Sylius\RefundPlugin\Provider\RefundUnitTotalProviderInterface` interface:
+
+    ```diff
+    + public static function refundType(): string;
+    ```
+
+    and it replaces the `refund_type` attribute for the `sylius_refund.refund_unit_total_provider` tag.
+    Therefore, the `refund_type` attribute becomes deprecated as well.
