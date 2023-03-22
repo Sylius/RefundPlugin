@@ -175,7 +175,7 @@ deprecated code:
         }
     ```
     
-15. The interface method `Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface` has been changed:
+15. The interface method `Sylius\RefundPlugin\Validator\RefundAmountValidatorInterface::validateUnits` has been changed:
 
     ```diff
     - public function validateUnits(array $unitRefunds, RefundTypeInterface $refundType): void;
@@ -202,3 +202,11 @@ deprecated code:
 
     and it replaces the `refund_type` attribute for the `sylius_refund.refund_unit_total_provider` tag.
     Therefore, the `refund_type` attribute becomes deprecated as well.
+
+18. The interface method `Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface::findForChannel` has been
+    replaced with `Sylius\RefundPlugin\Provider\RefundPaymentMethodsProviderInterface::findForOrder`:
+
+    ```diff
+    - public function findForChannel(ChannelInterface $channel): array;
+    + public function findForOrder(OrderInterface $order): array;
+    ```
