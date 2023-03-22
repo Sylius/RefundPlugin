@@ -19,6 +19,8 @@ final class RefundUnitsValidationConstraintMessages
 
     public const REFUND_AMOUNT_MUST_BE_GREATER_THAN_ZERO = 'sylius_refund.refund_amount_must_be_greater';
 
+    public const REFUND_UNITS_MUST_BELONG_TO_ORDER = 'sylius_refund.refund_units_must_belong_to_order';
+
     private function __construct()
     {
     }

@@ -181,3 +181,15 @@ deprecated code:
     - public function validateUnits(array $unitRefunds, RefundTypeInterface $refundType): void;
     + public function validateUnits(array $unitRefunds): void;
     ``` 
+
+16. The constructor of the `Sylius\RefundPlugin\Validator\RefundUnitsCommandValidator` has been changed:
+
+    ```diff
+        public function __construct(
+            private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+            private RefundAmountValidatorInterface $refundAmountValidator,
+    +       private iterator $refundUnitsBelongingToOrderValidators,
+        ) {
+            // ...
+        }
+    ```
