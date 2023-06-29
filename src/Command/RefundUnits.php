@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
-use Sylius\RefundPlugin\Model\ShipmentRefund;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Webmozart\Assert\Assert;
 
@@ -59,7 +58,7 @@ class RefundUnits
     /**
      * @deprecated since 1.4, to be removed in 2.0. Use "units" method instead.
      *
-     * @return array|ShipmentRefund[]
+     * @return array|UnitRefundInterface[]
      */
     public function shipments(): array
     {
