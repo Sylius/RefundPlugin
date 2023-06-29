@@ -130,10 +130,10 @@ Tagged services would be executed according to their priority (descending).
 
 ## Supported branches
 
-* `1.2` (v1.2.*) - security fixes
-* `1.3` (v1.3.*) - bug fixes, improvements
-* `1.4` (v1.4.*) - new features
-* `2.0` (v2.0.*) - new features, removing deprecations, potential BC breaks
+* `1.3` (v1.3.*) - security fixes
+* `1.4` (v1.4.*) - bug fixes, improvements
+* `1.5` (v1.5.*) - new features
+* `2.0` (v2.0.*) - new features, removing deprecations, BC breaks
 
 ## Security issues
 
