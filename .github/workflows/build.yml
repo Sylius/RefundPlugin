@@ -213,6 +213,10 @@ jobs:
                 run: vendor/bin/ecs check src/ spec/
 
             -
+                name: Lint container
+                run: (cd tests/Application && bin/console lint:container)
+
+            -
                 name: Run PHPStan
                 run: vendor/bin/phpstan analyse -c phpstan.neon src/
 
