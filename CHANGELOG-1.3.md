@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ### v1.3.1 (2023-06-29)
-- 
+
 - [#393](https://github.com/Sylius/RefundPlugin/issues/393) [Maintenance] Update README and PR template ([@GSadee](https://github.com/GSadee))
 - [#394](https://github.com/Sylius/RefundPlugin/issues/394) [Maintenance] Remove wkhtmltopdf binary ([@coldic3](https://github.com/coldic3))
 - [#402](https://github.com/Sylius/RefundPlugin/issues/402) [UI] Remove import with redundant macro ([@coldic3](https://github.com/coldic3))
