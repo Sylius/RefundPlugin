@@ -13,34 +13,36 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Command;
 
-use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\ShipmentRefund;
+use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Webmozart\Assert\Assert;
 
 class RefundUnits
 {
-    private string $orderNumber;
+    private array $shipments = [];
 
-    /** @var array|OrderItemUnitRefund[] */
-    private array $units;
+    public function __construct(
+        private string $orderNumber,
+        private array $units,
+        private int|array $paymentMethodId,
+        private string|int $comment,
+    ) {
+        $args = func_get_args();
 
-    /** @var array|ShipmentRefund[] */
-    private array $shipments;
+        if (is_array($paymentMethodId)) {
+            if (!isset($args[4])) {
+                throw new \InvalidArgumentException('The 5th argument must be present.');
+            }
 
-    private int $paymentMethodId;
+            $this->shipments = $paymentMethodId;
+            /** @phpstan-ignore-next-line */
+            $this->paymentMethodId = $comment;
+            $this->comment = $args[4];
 
-    private string $comment;
+            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Passing an array as a 3th argument of "%s" constructor is deprecated and will be removed in 2.0.', self::class));
+        }
 
-    public function __construct(string $orderNumber, array $units, array $shipments, int $paymentMethodId, string $comment)
-    {
-        Assert::allIsInstanceOf($units, OrderItemUnitRefund::class);
-        Assert::allIsInstanceOf($shipments, ShipmentRefund::class);
-
-        $this->orderNumber = $orderNumber;
-        $this->units = $units;
-        $this->shipments = $shipments;
-        $this->paymentMethodId = $paymentMethodId;
-        $this->comment = $comment;
+        Assert::allIsInstanceOf($units, UnitRefundInterface::class);
     }
 
     public function orderNumber(): string
@@ -48,25 +50,35 @@ class RefundUnits
         return $this->orderNumber;
     }
 
-    /** @return array|OrderItemUnitRefund[] */
+    /** @return array|UnitRefundInterface[] */
     public function units(): array
     {
         return $this->units;
     }
 
-    /** @return array|ShipmentRefund[] */
+    /**
+     * @deprecated since 1.4, to be removed in 2.0. Use "units" method instead.
+     *
+     * @return array|ShipmentRefund[]
+     */
     public function shipments(): array
     {
+        trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('The "%s::shipments" method is deprecated and will be removed in 2.0.', self::class));
+
         return $this->shipments;
     }
 
     public function paymentMethodId(): int
     {
+        Assert::integer($this->paymentMethodId);
+
         return $this->paymentMethodId;
     }
 
     public function comment(): string
     {
+        Assert::string($this->comment);
+
         return $this->comment;
     }
 }

@@ -56,12 +56,16 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         CreditMemoInterface $creditMemo,
         OrderInterface $order,
     ): void {
-        $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
-        $shipmentRefunds = [new ShipmentRefund(3, 1000)];
+        $refundUnits = [
+            new OrderItemUnitRefund(1, 1000),
+            new OrderItemUnitRefund(3, 2000),
+            new OrderItemUnitRefund(5, 3000),
+            new ShipmentRefund(3, 1000),
+        ];
 
         $orderRepository->findOneByNumber('000666')->willReturn($order);
 
-        $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
+        $creditMemoGenerator->generate($order, 7000, $refundUnits, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
 
@@ -74,7 +78,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
-        $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
+        $this(new GenerateCreditMemo('000666', 7000, $refundUnits, 'Comment'));
     }
 
     function it_generates_only_credit_memo_without_a_pdf_file(
@@ -93,12 +97,16 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $orderRepository,
         );
 
-        $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
-        $shipmentRefunds = [new ShipmentRefund(3, 1000)];
+        $refundUnits = [
+            new OrderItemUnitRefund(1, 1000),
+            new OrderItemUnitRefund(3, 2000),
+            new OrderItemUnitRefund(5, 3000),
+            new ShipmentRefund(3, 1000),
+        ];
 
         $orderRepository->findOneByNumber('000666')->willReturn($order);
 
-        $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
+        $creditMemoGenerator->generate($order, 7000, $refundUnits, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
 
@@ -110,7 +118,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
-        $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
+        $this(new GenerateCreditMemo('000666', 7000, $refundUnits, 'Comment'));
     }
 
     function it_generates_only_credit_memo_without_a_pdf_file_if_pdf_generation_is_disabled(
@@ -131,12 +139,16 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $creditMemoFileResolver,
         );
 
-        $orderItemUnitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
-        $shipmentRefunds = [new ShipmentRefund(3, 1000)];
+        $refundUnits = [
+            new OrderItemUnitRefund(1, 1000),
+            new OrderItemUnitRefund(3, 2000),
+            new OrderItemUnitRefund(5, 3000),
+            new ShipmentRefund(3, 1000),
+        ];
 
         $orderRepository->findOneByNumber('000666')->willReturn($order);
 
-        $creditMemoGenerator->generate($order, 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment')->willReturn($creditMemo);
+        $creditMemoGenerator->generate($order, 7000, $refundUnits, 'Comment')->willReturn($creditMemo);
 
         $creditMemo->getNumber()->willReturn('2018/01/000001');
 
@@ -148,7 +160,7 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
-        $this(new GenerateCreditMemo('000666', 7000, $orderItemUnitRefunds, $shipmentRefunds, 'Comment'));
+        $this(new GenerateCreditMemo('000666', 7000, $refundUnits, 'Comment'));
     }
 
     function it_deprecates_not_passing_credit_memo_file_resolver(

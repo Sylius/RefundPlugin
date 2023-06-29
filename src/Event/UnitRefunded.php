@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Event;
 
-class UnitRefunded
+class UnitRefunded implements UnitRefundedInterface
 {
     private string $orderNumber;
 

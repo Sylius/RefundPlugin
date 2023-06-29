@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Model;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\RefundPlugin\Model\RefundType;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 final class OrderItemUnitRefundSpec extends ObjectBehavior
@@ -36,5 +37,10 @@ final class OrderItemUnitRefundSpec extends ObjectBehavior
     function it_has_total(): void
     {
         $this->total()->shouldReturn(1000);
+    }
+
+    function it_has_type(): void
+    {
+        $this->type()->shouldBeLike(RefundType::orderItemUnit());
     }
 }

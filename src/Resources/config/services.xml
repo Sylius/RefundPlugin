@@ -26,11 +26,15 @@
         <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreatorInterface" />
             <argument type="service" id="sylius.event_bus" />
+            <argument type="service" id="Sylius\RefundPlugin\Filter\UnitRefundFilterInterface" />
+            <tag name="sylius_refund.refunder" />
         </service>
 
         <service id="Sylius\RefundPlugin\Refunder\OrderShipmentsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreatorInterface" />
             <argument type="service" id="sylius.event_bus" />
+            <argument type="service" id="Sylius\RefundPlugin\Filter\UnitRefundFilterInterface" />
+            <tag name="sylius_refund.refunder" />
         </service>
 
         <service id="Sylius\RefundPlugin\Twig\OrderRefundsExtension">

@@ -23,7 +23,6 @@ final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
         OrderInterface $order,
         int $total,
         array $units,
-        array $shipments,
         string $comment
     ): CreditMemoInterface {
         if (file_exists(self::FAILED_FILE)) {
@@ -32,7 +31,7 @@ final class FailedCreditMemoGenerator implements CreditMemoGeneratorInterface
             throw new \Exception('Credit memo generation failed');
         }
 
-        return $this->baseCreditMemoGenerator->generate($order, $total, $units, $shipments, $comment);
+        return $this->baseCreditMemoGenerator->generate($order, $total, $units, $comment);
     }
 
     public function failCreditMemoGeneration(): void

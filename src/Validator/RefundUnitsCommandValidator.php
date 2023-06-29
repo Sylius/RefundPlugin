@@ -16,20 +16,18 @@ namespace Sylius\RefundPlugin\Validator;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Exception\OrderNotAvailableForRefunding;
-use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorInterface
 {
-    private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker;
-
-    private RefundAmountValidatorInterface $refundAmountValidator;
-
     public function __construct(
-        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
-        RefundAmountValidatorInterface $refundAmountValidator,
+        private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        private RefundAmountValidatorInterface $refundAmountValidator,
+        /** @var iterable<UnitRefundsBelongingToOrderValidatorInterface> */
+        private ?iterable $refundUnitsBelongingToOrderValidators = null,
     ) {
-        $this->orderRefundingAvailabilityChecker = $orderRefundingAvailabilityChecker;
-        $this->refundAmountValidator = $refundAmountValidator;
+        if (null === $this->refundUnitsBelongingToOrderValidators) {
+            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Not passing a $refundUnitsBelongingToOrderValidators to %s constructor is deprecated since sylius/refund-plugin 1.4 and will be prohibited in 2.0.', self::class));
+        }
     }
 
     public function validate(RefundUnits $command): void
@@ -38,7 +36,12 @@ final class RefundUnitsCommandValidator implements RefundUnitsCommandValidatorIn
             throw OrderNotAvailableForRefunding::withOrderNumber($command->orderNumber());
         }
 
-        $this->refundAmountValidator->validateUnits($command->units(), RefundType::orderItemUnit());
-        $this->refundAmountValidator->validateUnits($command->shipments(), RefundType::shipment());
+        $units = array_merge($command->units(), $command->shipments());
+
+        foreach ($this->refundUnitsBelongingToOrderValidators ?? [] as $refundUnitsBelongToOrderValidator) {
+            $refundUnitsBelongToOrderValidator->validateUnits($units, $command->orderNumber());
+        }
+
+        $this->refundAmountValidator->validateUnits($units);
     }
 }

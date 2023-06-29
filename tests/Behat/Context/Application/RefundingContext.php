@@ -59,7 +59,6 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
             [new OrderItemUnitRefund($unitId, $this->remainingTotalProvider->getTotalLeftToRefund($unitId, RefundType::orderItemUnit()))],
-            [],
             $paymentMethod->getId(),
             $comment
         ));
@@ -80,7 +79,6 @@ final class RefundingContext implements Context
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
                 [new OrderItemUnitRefund($unit->getId(), $partialPrice)],
-                [],
                 $paymentMethod->getId(),
                 ''
             ));
@@ -98,7 +96,7 @@ final class RefundingContext implements Context
         $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($shippingAdjustment->getId(), RefundType::shipment());
 
         $this->commandBus->dispatch(new RefundUnits(
-            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
+            $this->order->getNumber(), [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
         ));
     }
 
@@ -113,7 +111,7 @@ final class RefundingContext implements Context
         $remainingTotal = $this->remainingTotalProvider->getTotalLeftToRefund($shippingAdjustment->getId(), RefundType::shipment());
 
         $this->commandBus->dispatch(new RefundUnits(
-            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
+            $this->order->getNumber(), [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
         ));
     }
 
@@ -125,7 +123,7 @@ final class RefundingContext implements Context
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
 
         $this->commandBus->dispatch(new RefundUnits(
-            $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
+            $this->order->getNumber(), [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
         ));
     }
 
@@ -138,7 +136,7 @@ final class RefundingContext implements Context
 
         try {
             $this->commandBus->dispatch(new RefundUnits(
-                $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
+                $this->order->getNumber(), [new ShipmentRefund($shippingAdjustment->getId(), $amount)], $paymentMethod->getId(), ''
             ));
         } catch(HandlerFailedException $exception) {
             return;
@@ -160,8 +158,10 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(
             new RefundUnits(
                 $this->order->getNumber(),
-                [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
-                [new ShipmentRefund($shipment->getId(), $shipment->getAmount())],
+                [
+                    new OrderItemUnitRefund($unit->getId(), $unit->getTotal()),
+                    new ShipmentRefund($shipment->getId(), $shipment->getAmount())
+                ],
                 $paymentMethod->getId(),
                 ''
             )
@@ -187,7 +187,6 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(new RefundUnits(
             $order->getNumber(),
             $unitsToRefund,
-            [],
             $paymentMethod->getId(),
             ''
         ));
@@ -238,7 +237,6 @@ final class RefundingContext implements Context
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
                 [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
-                [],
                 1,
                 ''
             ));
@@ -260,7 +258,6 @@ final class RefundingContext implements Context
         try {
             $this->commandBus->dispatch(new RefundUnits(
                 $this->order->getNumber(),
-                [],
                 [new ShipmentRefund($shippingAdjustment->getId(), $shippingAdjustment->getAmount())],
                 1,
                 ''
@@ -283,7 +280,7 @@ final class RefundingContext implements Context
 
         try {
             $this->commandBus->dispatch(new RefundUnits(
-                $this->order->getNumber(), [], [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
+                $this->order->getNumber(), [new ShipmentRefund($shippingAdjustment->getId(), $remainingTotal)], $paymentMethod->getId(), ''
             ));
         } catch(HandlerFailedException $exception) {
             throw new \Exception('RefundUnits command should not fail');
@@ -303,7 +300,6 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(new RefundUnits(
             $this->order->getNumber(),
             [new OrderItemUnitRefund($unit->getId(), $unit->getTotal())],
-            [],
             $paymentMethod->getId(),
             ''
         ));

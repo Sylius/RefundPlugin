@@ -38,9 +38,14 @@ final class UnitsRefundedProcessManagerSpec extends ObjectBehavior
         UnitsRefundedProcessStepInterface $creditMemoProcessManager,
         UnitsRefundedProcessStepInterface $refundPaymentProcessManager,
     ): void {
-        $unitRefunds = [new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(3, 2000), new OrderItemUnitRefund(5, 3000)];
-        $shipmentRefunds = [new ShipmentRefund(1, 500), new ShipmentRefund(2, 1000)];
-        $event = new UnitsRefunded('000222', $unitRefunds, $shipmentRefunds, 1, 1500, 'USD', 'Comment');
+        $unitRefunds = [
+            new OrderItemUnitRefund(1, 1000),
+            new OrderItemUnitRefund(3, 2000),
+            new OrderItemUnitRefund(5, 3000),
+            new ShipmentRefund(1, 500),
+            new ShipmentRefund(2, 1000),
+        ];
+        $event = new UnitsRefunded('000222', $unitRefunds, 1, 1500, 'USD', 'Comment');
 
         $creditMemoProcessManager->next($event)->shouldBeCalled();
         $refundPaymentProcessManager->next($event)->shouldBeCalled();
