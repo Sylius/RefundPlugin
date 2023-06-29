@@ -1,5 +1,14 @@
 # CHANGELOG
 
+### v1.3.1 (2023-06-29)
+- 
+- [#393](https://github.com/Sylius/RefundPlugin/issues/393) [Maintenance] Update README and PR template ([@GSadee](https://github.com/GSadee))
+- [#394](https://github.com/Sylius/RefundPlugin/issues/394) [Maintenance] Remove wkhtmltopdf binary ([@coldic3](https://github.com/coldic3))
+- [#402](https://github.com/Sylius/RefundPlugin/issues/402) [UI] Remove import with redundant macro ([@coldic3](https://github.com/coldic3))
+- [#403](https://github.com/Sylius/RefundPlugin/issues/403) Use sylius_admin.path_name for route prefix ([@mneuville](https://github.com/mneuville))
+- [#412](https://github.com/Sylius/RefundPlugin/issues/412) [Composer] Require php-http/message-factory package ([@GSadee](https://github.com/GSadee))
+- [#214](https://github.com/Sylius/RefundPlugin/issues/214) [DX] Easier tests for RefundUnits message ([@Nek-](https://github.com/Nek-), [@GSadee](https://github.com/GSadee))
+
 ### v1.3.0 (2022-11-14)
 
 - [#373](https://github.com/Sylius/RefundPlugin/issues/373) Save credit memos on server during generation ([@GSadee](https://github.com/GSadee))
