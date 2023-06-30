@@ -40,7 +40,6 @@ final class RefundUnitsCommandCreator implements RequestCommandCreatorInterface
             /** @phpstan-ignore-next-line */
             $units = $this->requestToRefundUnitsConverter->convert(
                 $request->request->has('sylius_refund_units') ? $request->request->all()['sylius_refund_units'] : [],
-                /** @phpstan-ignore-next-line */
                 RefundType::orderItemUnit(),
                 OrderItemUnitRefund::class,
             );
@@ -48,7 +47,6 @@ final class RefundUnitsCommandCreator implements RequestCommandCreatorInterface
             /** @phpstan-ignore-next-line */
             $shipments = $this->requestToRefundUnitsConverter->convert(
                 $request->request->has('sylius_refund_shipments') ? $request->request->all()['sylius_refund_shipments'] : [],
-                /** @phpstan-ignore-next-line */
                 RefundType::shipment(),
                 ShipmentRefund::class,
             );
