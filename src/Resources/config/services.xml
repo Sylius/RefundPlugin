@@ -53,9 +53,9 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface" class="Sylius\RefundPlugin\Sender\CreditMemoEmailSender">
-            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
+            <argument>null</argument>
             <argument type="service" id="sylius.email_sender" />
-            <argument type="service" id="Sylius\RefundPlugin\File\TemporaryFileManager" />
+            <argument>null</argument>
             <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>
             <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface" />
