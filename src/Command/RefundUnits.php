@@ -18,29 +18,12 @@ use Webmozart\Assert\Assert;
 
 class RefundUnits
 {
-    private array $shipments = [];
-
     public function __construct(
         private string $orderNumber,
         private array $units,
-        private int|array $paymentMethodId,
-        private string|int $comment,
+        private int $paymentMethodId,
+        private string $comment,
     ) {
-        $args = func_get_args();
-
-        if (is_array($paymentMethodId)) {
-            if (!isset($args[4])) {
-                throw new \InvalidArgumentException('The 5th argument must be present.');
-            }
-
-            $this->shipments = $paymentMethodId;
-            /** @phpstan-ignore-next-line */
-            $this->paymentMethodId = $comment;
-            $this->comment = $args[4];
-
-            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Passing an array as a 3th argument of "%s" constructor is deprecated and will be removed in 2.0.', self::class));
-        }
-
         Assert::allIsInstanceOf($units, UnitRefundInterface::class);
     }
 
@@ -53,18 +36,6 @@ class RefundUnits
     public function units(): array
     {
         return $this->units;
-    }
-
-    /**
-     * @deprecated since 1.4, to be removed in 2.0. Use "units" method instead.
-     *
-     * @return array|UnitRefundInterface[]
-     */
-    public function shipments(): array
-    {
-        trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('The "%s::shipments" method is deprecated and will be removed in 2.0.', self::class));
-
-        return $this->shipments;
     }
 
     public function paymentMethodId(): int

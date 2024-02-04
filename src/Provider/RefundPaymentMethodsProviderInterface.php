@@ -22,10 +22,4 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
  */
 interface RefundPaymentMethodsProviderInterface
 {
-    /**
-     * @deprecated since 1.4, to be removed in 2.0, use findForOrder() instead
-     *
-     * @return PaymentMethodInterface[]
-     */
-    public function findForChannel(ChannelInterface $channel): array;
 }

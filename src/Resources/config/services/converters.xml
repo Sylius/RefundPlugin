@@ -34,17 +34,11 @@
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
             <tag name="sylius_refund.line_item_converter"/>
         </service>
-        <service id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter" alias="Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter">
-            <deprecated package="sylius/refund-plugin" version="1.4">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter instead.</deprecated>
-        </service>
 
         <service id="Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter">
             <argument type="service" id="sylius.repository.adjustment" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
             <tag name="sylius_refund.line_item_converter"/>
-        </service>
-        <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter" alias="Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter">
-            <deprecated package="sylius/refund-plugin" version="1.4">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter instead.</deprecated>
         </service>
 
         <service id="Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface" class="Sylius\RefundPlugin\Converter\RefundUnitsConverter">

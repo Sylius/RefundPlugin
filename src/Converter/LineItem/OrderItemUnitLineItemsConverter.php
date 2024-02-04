@@ -99,5 +99,3 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterUnitRef
         return $lineItems;
     }
 }
-
-class_alias(OrderItemUnitLineItemsConverter::class, \Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter::class);

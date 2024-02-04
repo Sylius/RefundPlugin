@@ -45,29 +45,4 @@ interface ShopBillingDataInterface extends ResourceInterface
     public function getPostcode(): ?string;
 
     public function setPostcode(?string $postcode): void;
-
-    /**
-     * @return mixed
-     *
-     * @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getId() instead
-     */
-    public function id();
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getCompany() instead */
-    public function company(): ?string;
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getTaxId() instead */
-    public function taxId(): ?string;
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getCountryCode() instead */
-    public function countryCode(): ?string;
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getStreet() instead */
-    public function street(): ?string;
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getCity() instead */
-    public function city(): ?string;
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingDataInterface::getPostcode() instead */
-    public function postcode(): ?string;
 }

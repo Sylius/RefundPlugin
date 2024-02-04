@@ -34,5 +34,3 @@ final class RequestToShipmentRefundConverter implements RequestToRefundUnitsConv
         );
     }
 }
-
-class_alias(RequestToShipmentRefundConverter::class, \Sylius\RefundPlugin\Converter\RequestToShipmentRefundConverter::class);

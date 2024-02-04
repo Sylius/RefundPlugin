@@ -95,6 +95,8 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
             $creditMemoManager,
             $eventBus,
             $orderRepository,
+            false,
+            $creditMemoFileResolver,
         );
 
         $refundUnits = [
@@ -161,24 +163,5 @@ final class GenerateCreditMemoHandlerSpec extends ObjectBehavior
         $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
 
         $this(new GenerateCreditMemo('000666', 7000, $refundUnits, 'Comment'));
-    }
-
-    function it_deprecates_not_passing_credit_memo_file_resolver(
-        CreditMemoGeneratorInterface $creditMemoGenerator,
-        ObjectManager $creditMemoManager,
-        MessageBusInterface $eventBus,
-        OrderRepositoryInterface $orderRepository,
-    ): void {
-        $this->beConstructedWith(
-            $creditMemoGenerator,
-            $creditMemoManager,
-            $eventBus,
-            $orderRepository,
-        );
-
-        $this->shouldTrigger(
-            \E_USER_DEPRECATED,
-            'Not passing a $creditMemoFileResolver to Sylius\RefundPlugin\CommandHandler\GenerateCreditMemoHandler constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.',
-        )->duringInstantiation();
     }
 }

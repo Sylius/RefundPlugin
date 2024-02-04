@@ -43,10 +43,7 @@ final class RefundPaymentSpec extends ObjectBehavior
 
     function it_has_an_order(OrderInterface $order): void
     {
-        $order->getNumber()->willReturn('000002');
-
         $this->getOrder()->shouldReturn($order);
-        $this->getOrderNumber()->shouldReturn('000002');
     }
 
     function it_has_amount(): void

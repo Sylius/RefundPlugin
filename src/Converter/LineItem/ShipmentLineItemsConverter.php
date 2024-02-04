@@ -106,5 +106,3 @@ final class ShipmentLineItemsConverter implements LineItemsConverterUnitRefundAw
         return $taxAdjustment;
     }
 }
-
-class_alias(ShipmentLineItemsConverter::class, \Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter::class);

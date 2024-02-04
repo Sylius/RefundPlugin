@@ -14,36 +14,20 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Converter;
 
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
-use Sylius\RefundPlugin\Model\RefundTypeInterface;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 use Webmozart\Assert\Assert;
 
 final class RefundUnitsConverter implements RefundUnitsConverterInterface
 {
-    private UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator;
-
-    public function __construct(UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator)
+    public function __construct(private UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator)
     {
-        $this->unitRefundTotalCalculator = $unitRefundTotalCalculator;
     }
 
     /** @return UnitRefundInterface[] */
-    public function convert(array $units, string|RefundTypeInterface $unitRefundClass): array
+    public function convert(array $units, string $unitRefundClass): array
     {
-        $args = func_get_args();
-        $refundType = null;
-
-        if ($unitRefundClass instanceof RefundTypeInterface) {
-            $refundType = $unitRefundClass;
-
-            if (!isset($args[2]) || !is_string($args[2])) {
-                throw new \InvalidArgumentException('The refundType must be present and be a string');
-            }
-
-            $unitRefundClass = $args[2];
-
-            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Passing an "%s" as a 2nd argument of "%s::convert" method is deprecated and will be removed in 2.0.', RefundTypeInterface::class, self::class));
-        }
+        /** @var class-string|UnitRefundInterface $unitRefundClass */
+        Assert::isAOf($unitRefundClass, UnitRefundInterface::class);
 
         $units = $this->filterEmptyRefundUnits($units);
         $refundUnits = [];
@@ -52,7 +36,7 @@ final class RefundUnitsConverter implements RefundUnitsConverterInterface
                 ->unitRefundTotalCalculator
                 ->calculateForUnitWithIdAndType(
                     $id,
-                    null === $refundType ? $unitRefundClass::type() : $refundType,
+                    $unitRefundClass::type(),
                     $this->getAmount($unit),
                 )
             ;

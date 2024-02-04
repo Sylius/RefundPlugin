@@ -19,9 +19,6 @@
         <service id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface" class="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator">
             <argument type="service" id="Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface" />
         </service>
-        <service id="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator" alias="Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface">
-            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface instead.</deprecated>
-        </service>
 
         <service id="Sylius\RefundPlugin\Refunder\OrderItemUnitsRefunder">
             <argument type="service" id="Sylius\RefundPlugin\Creator\RefundCreatorInterface" />
@@ -53,23 +50,13 @@
         </service>
 
         <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface" class="Sylius\RefundPlugin\Sender\CreditMemoEmailSender">
-            <argument type="service" id="Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface" />
             <argument type="service" id="sylius.email_sender" />
-            <argument type="service" id="Sylius\RefundPlugin\File\TemporaryFileManager" />
             <argument type="string">%sylius_refund.pdf_generator.enabled%</argument>
             <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface" />
             <argument type="service" id="Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface" />
         </service>
-        <service id="Sylius\RefundPlugin\Sender\CreditMemoEmailSender" alias="Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface">
-            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface instead.</deprecated>
-        </service>
-
-        <service id="Sylius\RefundPlugin\File\TemporaryFileManager" />
 
         <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface" class="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" />
-        <service id="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilder" alias="Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface">
-            <deprecated package="sylius/refund-plugin" version="1.0">The "%alias_id%" service alias is deprecated and will be removed in RefundPlugin 2.0, use Sylius\RefundPlugin\ResponseBuilder\CreditMemoFileResponseBuilderInterface instead.</deprecated>
-        </service>
 
         <service id="Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface" class="Sylius\RefundPlugin\Manager\CreditMemoFileManager">
             <argument type="service" id="gaufrette.sylius_refund_credit_memo_filesystem" />
