@@ -80,40 +80,6 @@ final class RefundUnitsHandlerSpec extends ObjectBehavior
         $this(new RefundUnits('000222', $unitRefunds, 1, 'Comment'));
     }
 
-    /** @legacy will be removed in RefundPlugin 2.0 */
-    function it_handles_command_and_create_refund_for_each_refunded_unit_with_deprecations(
-        RefunderInterface $orderItemUnitsRefunder,
-        RefunderInterface $orderShipmentsRefunder,
-        MessageBusInterface $eventBus,
-        OrderRepositoryInterface $orderRepository,
-        RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
-        OrderInterface $order,
-    ): void {
-        $this->beConstructedWith(
-            $orderItemUnitsRefunder,
-            $orderShipmentsRefunder,
-            $eventBus,
-            $orderRepository,
-            $refundUnitsCommandValidator,
-        );
-
-        $unitRefunds = [new OrderItemUnitRefund(1, 3000), new OrderItemUnitRefund(3, 4000)];
-        $shipmentRefunds = [new ShipmentRefund(3, 500), new ShipmentRefund(4, 1000)];
-
-        $orderItemUnitsRefunder->refundFromOrder($unitRefunds, '000222')->willReturn(3000);
-        $orderShipmentsRefunder->refundFromOrder($shipmentRefunds, '000222')->willReturn(4000);
-
-        $orderRepository->findOneByNumber('000222')->willReturn($order);
-        $order->getCurrencyCode()->willReturn('USD');
-
-        $refundUnitsCommandValidator->validate(Argument::type(RefundUnits::class))->shouldBeCalled();
-
-        $event = new UnitsRefunded('000222', array_merge($unitRefunds, $shipmentRefunds), 1, 7000, 'USD', 'Comment');
-        $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
-
-        $this(new RefundUnits('000222', $unitRefunds, $shipmentRefunds, 1, 'Comment'));
-    }
-
     function it_throws_an_exception_if_order_is_not_available_for_refund(
         RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator,
     ): void {

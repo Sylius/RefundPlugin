@@ -34,5 +34,3 @@ final class RequestToOrderItemUnitRefundConverter implements RequestToRefundUnit
         );
     }
 }
-
-class_alias(RequestToOrderItemUnitRefundConverter::class, \Sylius\RefundPlugin\Converter\RequestToOrderItemUnitRefundConverter::class);

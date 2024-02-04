@@ -56,21 +56,4 @@ final class OrderShipmentsRefunderSpec extends ObjectBehavior
 
         $this->refundFromOrder($refunds, '000222')->shouldReturn(2500);
     }
-
-    /** @legacy will be removed in RefundPlugin 2.0 */
-    function it_creates_refund_for_each_shipment_and_dispatch_proper_event_with_deprecations(
-        RefundCreatorInterface $refundCreator,
-        MessageBusInterface $eventBus,
-    ): void {
-        $this->beConstructedWith($refundCreator, $eventBus);
-
-        $shipmentRefunds = [new ShipmentRefund(4, 2500)];
-
-        $refundCreator->__invoke('000222', 4, 2500, RefundType::shipment())->shouldBeCalled();
-
-        $event = new ShipmentRefunded('000222', 4, 2500);
-        $eventBus->dispatch($event)->willReturn(new Envelope($event))->shouldBeCalled();
-
-        $this->refundFromOrder($shipmentRefunds, '000222')->shouldReturn(2500);
-    }
 }

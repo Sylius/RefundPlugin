@@ -15,8 +15,6 @@ namespace Sylius\RefundPlugin\Sender;
 
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
-use Sylius\RefundPlugin\File\FileManagerInterface;
-use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
 use Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolverInterface;
 use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 use Webmozart\Assert\Assert;
@@ -26,38 +24,17 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
     private const UNITS_REFUNDED = 'units_refunded';
 
     public function __construct(
-        private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator,
         private SenderInterface $sender,
-        private FileManagerInterface $fileManager,
         private bool $hasEnabledPdfFileGenerator,
-        private ?CreditMemoFileResolverInterface $creditMemoFileResolver = null,
-        private ?CreditMemoFilePathResolverInterface $creditMemoFilePathResolver = null,
+        private CreditMemoFileResolverInterface $creditMemoFileResolver,
+        private CreditMemoFilePathResolverInterface $creditMemoFilePathResolver,
     ) {
-        if (null === $this->creditMemoFileResolver) {
-            @trigger_error(
-                sprintf('Not passing a $creditMemoFileResolver to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
-                \E_USER_DEPRECATED,
-            );
-        }
-
-        if (null === $this->creditMemoFilePathResolver) {
-            @trigger_error(
-                sprintf('Not passing a $creditMemoFilePathResolver to %s constructor is deprecated since sylius/refund-plugin 1.3 and will be prohibited in 2.0.', self::class),
-                \E_USER_DEPRECATED,
-            );
-        }
     }
 
     public function send(CreditMemoInterface $creditMemo, string $recipient): void
     {
         if (!$this->hasEnabledPdfFileGenerator) {
             $this->sender->send(self::UNITS_REFUNDED, [$recipient], ['creditMemo' => $creditMemo]);
-
-            return;
-        }
-
-        if (null === $this->creditMemoFileResolver || null === $this->creditMemoFilePathResolver) {
-            $this->sendCreditMemoWithTemporaryFile($creditMemo, $recipient);
 
             return;
         }
@@ -77,17 +54,5 @@ final class CreditMemoEmailSender implements CreditMemoEmailSenderInterface
             ['creditMemo' => $creditMemo],
             [$filePath],
         );
-    }
-
-    private function sendCreditMemoWithTemporaryFile(CreditMemoInterface $creditMemo, string $recipient): void
-    {
-        $creditMemoPdfFile = $this->creditMemoPdfFileGenerator->generate($creditMemo->getId());
-
-        $creditMemoPdfPath = $creditMemoPdfFile->filename();
-        $this->fileManager->createWithContent($creditMemoPdfPath, $creditMemoPdfFile->content());
-
-        $this->sendCreditMemo($creditMemo, $recipient, $this->fileManager->realPath($creditMemoPdfPath));
-
-        $this->fileManager->remove($creditMemoPdfPath);
     }
 }

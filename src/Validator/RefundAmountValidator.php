@@ -20,24 +20,12 @@ use Webmozart\Assert\Assert;
 
 final class RefundAmountValidator implements RefundAmountValidatorInterface
 {
-    private RemainingTotalProviderInterface $remainingTotalProvider;
-
-    public function __construct(RemainingTotalProviderInterface $unitRefundedTotalProvider)
+    public function __construct(private RemainingTotalProviderInterface $remainingTotalProvider)
     {
-        $this->remainingTotalProvider = $unitRefundedTotalProvider;
     }
 
     public function validateUnits(array $unitRefunds): void
     {
-        $args = func_get_args();
-        $refundType = null;
-
-        if (isset($args[1])) {
-            trigger_deprecation('sylius/refund-plugin', '1.4', sprintf('Passing a 2nd argument of "%s::validateUnits" method is deprecated and will be removed in 2.0.', self::class));
-
-            $refundType = $args[1];
-        }
-
         Assert::allIsInstanceOf($unitRefunds, UnitRefundInterface::class);
 
         /** @var UnitRefundInterface $unitRefund */
@@ -50,7 +38,7 @@ final class RefundAmountValidator implements RefundAmountValidatorInterface
 
             $unitRefundedTotal = $this->remainingTotalProvider->getTotalLeftToRefund(
                 $unitRefund->id(),
-                null === $refundType ? $unitRefund->type() : $refundType,
+                $unitRefund->type(),
             );
 
             if ($unitRefund->total() > $unitRefundedTotal) {

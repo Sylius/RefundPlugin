@@ -54,12 +54,6 @@ class RefundPayment implements RefundPaymentInterface
         return $this->order;
     }
 
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use RefundPayment::getOrder() instead */
-    public function getOrderNumber(): string
-    {
-        return (string) $this->getOrder()->getNumber();
-    }
-
     public function getAmount(): int
     {
         return $this->amount;

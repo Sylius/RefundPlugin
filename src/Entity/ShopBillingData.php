@@ -95,46 +95,4 @@ class ShopBillingData implements ShopBillingDataInterface
     {
         $this->postcode = $postcode;
     }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getId() instead */
-    public function id()
-    {
-        return $this->id;
-    }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getCompany() instead */
-    public function company(): ?string
-    {
-        return $this->company;
-    }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getTaxId() instead */
-    public function taxId(): ?string
-    {
-        return $this->taxId;
-    }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getCountryCode() instead */
-    public function countryCode(): ?string
-    {
-        return $this->countryCode;
-    }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getStreet() instead */
-    public function street(): ?string
-    {
-        return $this->street;
-    }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getCity() instead */
-    public function city(): ?string
-    {
-        return $this->city;
-    }
-
-    /** @deprecated this function is deprecated and will be removed in v2.0.0. Use ShopBillingData::getPostcode() instead */
-    public function postcode(): ?string
-    {
-        return $this->postcode;
-    }
 }

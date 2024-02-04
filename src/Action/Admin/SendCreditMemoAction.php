@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Webmozart\Assert\Assert;
@@ -31,12 +30,9 @@ final class SendCreditMemoAction
     public function __construct(
         private MessageBusInterface $commandBus,
         private RepositoryInterface $creditMemoRepository,
-        private SessionInterface | RequestStack $requestStackOrSession,
+        private RequestStack $requestStack,
         private UrlGeneratorInterface $router,
     ) {
-        if ($this->requestStackOrSession instanceof SessionInterface) {
-            trigger_deprecation('sylius/refund-plugin', '1.3', sprintf('Passing an instance of %s as constructor argument for %s is deprecated as of Sylius Refund Plugin 1.3 and will be removed in 2.0. Pass an instance of %s instead.', SessionInterface::class, self::class, RequestStack::class));
-        }
     }
 
     public function __invoke(Request $request): Response
@@ -65,10 +61,9 @@ final class SendCreditMemoAction
 
     private function getFlashBag(): FlashBagInterface
     {
-        if ($this->requestStackOrSession instanceof RequestStack) {
-            return $this->requestStackOrSession->getSession()->getBag('flashes');
-        }
+        /** @var FlashBagInterface $flashBag */
+        $flashBag = $this->requestStack->getSession()->getBag('flashes');
 
-        return $this->requestStackOrSession->getBag('flashes');
+        return $flashBag;
     }
 }

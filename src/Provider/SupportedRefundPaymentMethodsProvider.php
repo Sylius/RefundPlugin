@@ -31,13 +31,6 @@ final class SupportedRefundPaymentMethodsProvider implements RefundPaymentMethod
         $this->supportedGateways = $supportedGateways;
     }
 
-    public function findForChannel(ChannelInterface $channel): array
-    {
-        trigger_deprecation('sylius/refund-plugin', '1.4', 'The "%s::findForChannel" method is deprecated and will be removed in 2.0. Use "%s::findForOrder" instead.', self::class, self::class);
-
-        return $this->find($channel);
-    }
-
     public function findForOrder(OrderInterface $order): array
     {
         /** @var ChannelInterface|null $channel */
