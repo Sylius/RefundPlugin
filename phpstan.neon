@@ -7,25 +7,15 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 
+    paths:
+        - 'src/'
+
     excludes_analyse:
         # Makes PHPStan crash
         - 'src/DependencyInjection/Configuration.php'
 
-        # Test dependencies
-        - 'tests/Application/app/**.php'
-        - 'tests/Application/src/**.php'
-
-        # BC compatibility
-        - 'src/Converter/OrderItemUnitLineItemsConverter.php'
-        - 'src/Converter/RequestToOrderItemUnitRefundConverter.php'
-        - 'src/Converter/RequestToShipmentRefundConverter.php'
-        - 'src/Converter/ShipmentLineItemsConverter.php'
-
     ignoreErrors:
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::id\(\) has no return type specified./'
         - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::getId\(\) has no return type specified./'
         - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingData::setId\(\) has parameter \$id with no type specified./'
-        - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::id\(\) has no return type specified./'
         - '/Method Sylius\\RefundPlugin\\Entity\\CustomerBillingDataInterface::setId\(\) has parameter \$id with no type specified./'
-        - '/Method Sylius\\RefundPlugin\\[a-zA-Z\\]+::getFlashBag\(\) should return Symfony\\Component\\HttpFoundation\\Session\\Flash\\FlashBagInterface but returns Symfony\\Component\\HttpFoundation\\Session\\SessionBagInterface\./'
         - '/Call to an undefined method [a-zA-Z\\]+::createQueryBuilder\(\)./'
