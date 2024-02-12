@@ -56,6 +56,9 @@
         "symfony/web-profiler-bundle": "^5.4 || ^6.0",
         "symfony/webpack-encore-bundle": "^1.15"
     },
+    "conflict": {
+        "behat/mink-selenium2-driver": ">=1.7.0"
+    },
     "autoload": {
         "psr-4": {
             "Sylius\\RefundPlugin\\": "src/",

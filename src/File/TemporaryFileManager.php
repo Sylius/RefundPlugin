@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\File;
 
+/**
+ * @deprecated since 1.5, to be removed in 2.0
+ */
 final class TemporaryFileManager implements FileManagerInterface
 {
     private string $baseDirectory;
