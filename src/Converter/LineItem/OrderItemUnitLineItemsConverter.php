@@ -18,6 +18,7 @@ use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\LineItem;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
+use Sylius\RefundPlugin\Factory\LineItemFactoryInterface;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 use Webmozart\Assert\Assert;
@@ -27,7 +28,16 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterUnitRef
     public function __construct(
         private RepositoryInterface $orderItemUnitRepository,
         private TaxRateProviderInterface $taxRateProvider,
+        private ?LineItemFactoryInterface $lineItemFactory,
     ) {
+        if (null === $this->lineItemFactory) {
+            trigger_deprecation(
+                'sylius/refund-plugin',
+                '1.5',
+                'Not passing a line item factory to "%s" is deprecated and will be removed in 2.0.',
+                self::class,
+            );
+        }
     }
 
     public function convert(array $units): array
@@ -67,15 +77,28 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterUnitRef
         $productName = $orderItem->getProductName();
         Assert::notNull($productName);
 
-        return new LineItem(
-            $productName,
-            1,
-            $netValue,
-            $grossValue,
-            $netValue,
-            $grossValue,
-            $taxAmount,
-            $this->taxRateProvider->provide($orderItemUnit),
+        if (null === $this->lineItemFactory) {
+            return new LineItem(
+                $productName,
+                1,
+                $netValue,
+                $grossValue,
+                $netValue,
+                $grossValue,
+                $taxAmount,
+                $this->taxRateProvider->provide($orderItemUnit),
+            );
+        }
+
+        return $this->lineItemFactory->createWithData(
+            name: $productName,
+            quantity: 1,
+            unitNetPrice: $netValue,
+            unitGrossPrice: $grossValue,
+            netValue: $netValue,
+            grossValue: $grossValue,
+            taxAmount: $taxAmount,
+            taxRate: $this->taxRateProvider->provide($orderItemUnit),
         );
     }
 
