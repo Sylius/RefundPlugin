@@ -22,6 +22,7 @@ sylius_resource:
             classes:
                 model: Sylius\RefundPlugin\Entity\LineItem
                 interface: Sylius\RefundPlugin\Entity\LineItemInterface
+                factory: Sylius\RefundPlugin\Factory\LineItemFactory
         sylius_refund.tax_item:
             classes:
                 model: Sylius\RefundPlugin\Entity\TaxItem
