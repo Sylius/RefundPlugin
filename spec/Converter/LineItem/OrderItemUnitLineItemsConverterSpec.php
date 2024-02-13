@@ -60,16 +60,10 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $orderItem->getProductName()->willReturn('Portal gun');
 
-        $lineItemFactory->createWithData(
-            'Portal gun',
-            1,
-            400,
-            500,
-            400,
-            500,
-            100,
-            '25%',
-        )->willReturn($lineItem);
+        $lineItemFactory
+            ->createWithData('Portal gun', 1, 400, 500, 400, 500, 100, '25%')
+            ->willReturn($lineItem)
+        ;
 
         $this->convert([$unitRefund])->shouldBeLike([$lineItem]);
     }
@@ -80,7 +74,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         OrderItemUnitInterface $orderItemUnit,
         OrderItemInterface $orderItem,
     ): void {
-        $this->beConstructedWith($orderItemUnitRepository, $taxRateProvider, null);
+        $this->beConstructedWith($orderItemUnitRepository, $taxRateProvider);
 
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
@@ -94,16 +88,10 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $orderItem->getProductName()->willReturn('Portal gun');
 
-        $this->convert([$unitRefund])->shouldBeLike([new LineItem(
-            'Portal gun',
-            1,
-            400,
-            500,
-            400,
-            500,
-            100,
-            '25%',
-        )]);
+        $this
+            ->convert([$unitRefund])
+            ->shouldBeLike([new LineItem('Portal gun', 1, 400, 500, 400, 500, 100, '25%')])
+        ;
     }
 
     function it_groups_the_same_line_items_during_converting(
@@ -142,43 +130,26 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $secondOrderItem->getProductName()->willReturn('Space gun');
 
-        $lineItemFactory->createWithData(
-            'Portal gun',
-            1,
-            400,
-            500,
-            400,
-            500,
-            100,
-            '25%',
-        )->willReturn($firstLineItem);
+        $lineItemFactory
+            ->createWithData('Portal gun', 1, 400, 500, 400, 500, 100, '25%')
+            ->willReturn($firstLineItem)
+        ;
 
-        $lineItemFactory->createWithData(
-            'Space gun',
-            1,
-            800,
-            960,
-            800,
-            960,
-            160,
-            '20%',
-        )->willReturn($secondLineItem, $thirdLineItem);
+        $lineItemFactory
+            ->createWithData('Space gun', 1, 800, 960, 800, 960, 160, '20%')
+            ->willReturn($secondLineItem, $thirdLineItem)
+        ;
 
-        $firstLineItem
-            ->compare($secondLineItem)
-            ->willReturn(false);
-        $firstLineItem
-            ->compare($thirdLineItem)
-            ->willReturn(false);
+        $firstLineItem->compare($secondLineItem)->willReturn(false);
+        $firstLineItem->compare($thirdLineItem)->willReturn(false);
 
-        $secondLineItem
-            ->compare($thirdLineItem)
-            ->willReturn(true);
+        $secondLineItem->compare($thirdLineItem)->willReturn(true);
         $secondLineItem->merge($thirdLineItem)->shouldBeCalled();
 
         $this
             ->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund])
-            ->shouldBeLike([$firstLineItem, $secondLineItem]);
+            ->shouldBeLike([$firstLineItem, $secondLineItem])
+        ;
     }
 
     function it_groups_the_same_line_items_during_converting_without_using_factory(
@@ -189,7 +160,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
         OrderItemInterface $firstOrderItem,
         OrderItemInterface $secondOrderItem,
     ): void {
-        $this->beConstructedWith($orderItemUnitRepository, $taxRateProvider, null);
+        $this->beConstructedWith($orderItemUnitRepository, $taxRateProvider);
 
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(2, 960);
@@ -215,28 +186,13 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $secondOrderItem->getProductName()->willReturn('Space gun');
 
-        $this->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund])->shouldBeLike([
-            new LineItem(
-                'Portal gun',
-                1,
-                400,
-                500,
-                400,
-                500,
-                100,
-                '25%',
-            ),
-            new LineItem(
-                'Space gun',
-                2,
-                800,
-                960,
-                1600,
-                1920,
-                320,
-                '20%',
-            ),
-        ]);
+        $this
+            ->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund])
+            ->shouldBeLike([
+                new LineItem('Portal gun', 1, 400, 500, 400, 500, 100, '25%'),
+                new LineItem('Space gun', 2, 800, 960, 1600, 1920, 320, '20%'),
+            ])
+        ;
     }
 
     function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
@@ -246,7 +202,8 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('convert', [[$unitRefund, $shipmentRefund]]);
+            ->during('convert', [[$unitRefund, $shipmentRefund]])
+        ;
     }
 
     function it_throws_an_exception_if_there_is_no_order_item_unit_with_given_id(
@@ -258,7 +215,8 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('convert', [[$unitRefund]]);
+            ->during('convert', [[$unitRefund]])
+        ;
     }
 
     function it_throws_an_exception_if_refund_amount_is_higher_than_order_item_unit_total(
@@ -272,6 +230,7 @@ final class OrderItemUnitLineItemsConverterSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(\InvalidArgumentException::class)
-            ->during('convert', [[$unitRefund]]);
+            ->during('convert', [[$unitRefund]])
+        ;
     }
 }

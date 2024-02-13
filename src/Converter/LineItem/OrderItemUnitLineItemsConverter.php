@@ -28,7 +28,7 @@ final class OrderItemUnitLineItemsConverter implements LineItemsConverterUnitRef
     public function __construct(
         private RepositoryInterface $orderItemUnitRepository,
         private TaxRateProviderInterface $taxRateProvider,
-        private ?LineItemFactoryInterface $lineItemFactory,
+        private ?LineItemFactoryInterface $lineItemFactory = null,
     ) {
         if (null === $this->lineItemFactory) {
             trigger_deprecation(
