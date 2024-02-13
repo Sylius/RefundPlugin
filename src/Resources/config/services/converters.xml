@@ -32,6 +32,7 @@
         <service id="Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter">
             <argument type="service" id="sylius.repository.order_item_unit" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\LineItemFactoryInterface" />
             <tag name="sylius_refund.line_item_converter"/>
         </service>
         <service id="Sylius\RefundPlugin\Converter\OrderItemUnitLineItemsConverter" alias="Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter">
@@ -41,6 +42,7 @@
         <service id="Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter">
             <argument type="service" id="sylius.repository.adjustment" />
             <argument type="service" id="Sylius\RefundPlugin\Provider\TaxRateProviderInterface" />
+            <argument type="service" id="Sylius\RefundPlugin\Factory\LineItemFactoryInterface" />
             <tag name="sylius_refund.line_item_converter"/>
         </service>
         <service id="Sylius\RefundPlugin\Converter\ShipmentLineItemsConverter" alias="Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter">

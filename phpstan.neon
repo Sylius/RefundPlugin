@@ -4,6 +4,9 @@ includes:
 parameters:
     level: 8
 
+    paths:
+        - src
+
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
 

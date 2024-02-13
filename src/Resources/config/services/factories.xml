@@ -16,6 +16,10 @@
             <argument type="string">%sylius_refund.refund_type%</argument>
         </service>
 
+        <service id="Sylius\RefundPlugin\Factory\LineItemFactoryInterface" class="Sylius\RefundPlugin\Factory\LineItemFactory">
+            <argument type="string">%sylius_refund.model.line_item.class%</argument>
+        </service>
+
         <service
             id="Sylius\RefundPlugin\Factory\CreditMemoFactory"
             decorates="sylius_refund.factory.credit_memo"
