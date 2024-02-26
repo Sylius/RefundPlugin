@@ -67,4 +67,8 @@ if (SyliusKernel::MINOR_VERSION > 11) {
     $bundles[Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class] = ['all' => true];
 }
 
+if (SyliusKernel::MINOR_VERSION === 13) {
+    $bundles[Sylius\Abstraction\StateMachine\SyliusStateMachineAbstractionBundle::class] = ['all' => true];
+}
+
 return $bundles;
