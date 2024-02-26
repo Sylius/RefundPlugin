@@ -59,6 +59,23 @@ framework:
                 default_middleware: allow_no_handlers
             sylius_refund_plugin.command_bus: *command_bus
             sylius_refund_plugin.event_bus: *event_bus
+    workflows:
+        workflows:
+            sylius_refund_refund_payment:
+                type: state_machine
+                marking_store:
+                    type: method
+                    property: state
+                supports:
+                    - Sylius\RefundPlugin\Entity\RefundPayment
+                initial_marking: new
+                places:
+                    - !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_NEW
+                    - !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_COMPLETED
+                transitions:
+                    complete:
+                        from: !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_NEW
+                        to: !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_COMPLETED
 
 winzou_state_machine:
     sylius_refund_refund_payment:
