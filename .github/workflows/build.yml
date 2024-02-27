@@ -29,6 +29,8 @@ jobs:
                 node: ["16.x"]
                 mysql: ["5.7", "8.0"]
                 wkhtmltopdf: ["0.12.6-1"]
+                state_machine_adapter: [ "winzou_state_machine", "symfony_workflow" ]
+
 
                 include:
                     -
@@ -48,12 +50,13 @@ jobs:
 
                 exclude:
                     -
-                        symfony: "^6.0"
-                        sylius: "~1.11.4"
+                        sylius: "~1.12.0"
+                        state_machine_adapter: "symfony_workflow"
 
         env:
             APP_ENV: test
             DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
+            TEST_SYLIUS_STATE_MACHINE_ADAPTER: "${{ matrix.state_machine_adapter }}"
 
         steps:
             -
