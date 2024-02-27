@@ -12,7 +12,7 @@ Feature: Filtering credit memos
         And the store has a zone "United States + United Kingdom" with code "US + UK"
         And this zone has the "United States" country member
         And this zone has the "United Kingdom" country member
-        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10" available in channel "Web-US" and channel "Web-UK"
+        And the store has a product "Mr. Meeseeks T-Shirt" priced at "$10.00" available in channel "Web-US" and channel "Web-UK"
         And the store ships everywhere for free for all channels
         And the store allows paying offline for all channels
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000001"

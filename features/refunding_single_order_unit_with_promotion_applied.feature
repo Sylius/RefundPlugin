@@ -10,7 +10,7 @@ Feature: Refunding a single order unit with promotion applied
         And the store allows shipping with "Galaxy Post"
         And the store allows paying with "Space money"
         And there is a promotion "Anatomy Park Promotion"
-        And this promotion gives "$1" off on every product with minimum price at "$5.00"
+        And this promotion gives "$1.00" off on every product with minimum price at "$5.00"
         And there is a customer "rick.sanchez@wubba-lubba-dub-dub.com" that placed an order "#00000022"
         And the customer bought 2 "Mr. Meeseeks T-Shirt" products
         And the customer chose "Galaxy Post" shipping method to "United States" with "Space money" payment
