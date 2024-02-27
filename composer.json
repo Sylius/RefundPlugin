@@ -24,7 +24,7 @@
         "myclabs/php-enum": "^1.7",
         "php-http/message-factory": "^1.1",
         "sylius/resource-bundle": "^1.9",
-        "sylius/sylius": "~1.12.0 || 1.13.x-dev",
+        "sylius/sylius": "~1.12.0 || ~1.13.x-dev",
         "symfony/messenger": "^5.4.21 || ^6.4"
     },
     "require-dev": {
