@@ -52,7 +52,7 @@
     "yargs": "^17.5.1"
   },
   "engines": {
-    "node": "^14 || ^16 || ^18 || ^19"
+    "node": "^18 || ^20"
   },
   "engineStrict": true,
   "scripts": {
