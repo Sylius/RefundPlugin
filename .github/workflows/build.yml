@@ -31,7 +31,6 @@ jobs:
                 wkhtmltopdf: ["0.12.6-1"]
                 state_machine_adapter: [ "winzou_state_machine", "symfony_workflow" ]
 
-
                 include:
                     -
                         php: "8.1"

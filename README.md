@@ -64,13 +64,6 @@ From Administrator's point of view, every Refund request results in creating two
    WKHTMLTOPDF_PATH=/usr/local/bin/wkhtmltopdf # Change this! :)
    ```
 
-1. If you are using the symfony workflows instead winzou_state_machine please import configuration:
-
-   ```yaml
-   imports:
-       - { resource: "@SyliusRefundPlugin/Resources/config/app/workflow.yaml" }
-   ```
-
 #### Beware!
 
 This installation instruction assumes that you're using Symfony Flex. If you don't, take a look at the

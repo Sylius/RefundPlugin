@@ -1,5 +1,6 @@
 imports:
     - { resource: "@SyliusRefundPlugin/Resources/config/app/events.yaml" }
+    - { resource: "@SyliusRefundPlugin/Resources/config/app/integrations.php" }
 
 parameters:
     sylius_refund.credit_memo_save_path: "%kernel.project_dir%/private/credit_memos/"
