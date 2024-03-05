@@ -1,0 +1,17 @@
+framework:
+    workflows:
+        sylius_refund_refund_payment:
+            type: state_machine
+            marking_store:
+                type: method
+                property: state
+            supports:
+                - Sylius\RefundPlugin\Entity\RefundPayment
+            initial_marking: new
+            places:
+                - !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_NEW
+                - !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_COMPLETED
+            transitions:
+                complete:
+                    from: !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_NEW
+                    to: !php/const Sylius\RefundPlugin\Entity\RefundPaymentInterface::STATE_COMPLETED

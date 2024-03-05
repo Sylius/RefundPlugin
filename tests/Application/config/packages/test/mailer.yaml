@@ -1,4 +1,6 @@
 framework:
+    mailer:
+        dsn: 'null://null'
     cache:
         pools:
             test.mailer_pool:

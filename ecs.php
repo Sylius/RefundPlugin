@@ -9,11 +9,19 @@ return static function (ECSConfig $containerConfigurator): void
 {
     $containerConfigurator->import('vendor/sylius-labs/coding-standard/ecs.php');
 
+    $containerConfigurator->parallel();
     $containerConfigurator->paths([
         'src/',
         'spec/',
     ]);
-    $containerConfigurator->parallel();
+
+    $containerConfigurator->skip([
+        VisibilityRequiredFixer::class => ['*Spec.php'],
+        InlineDocCommentDeclarationSniff::class . '.MissingVariable',
+        'src/Resources/config/**',
+        '**/var/*',
+    ]);
+
     $containerConfigurator->ruleWithConfiguration(
         HeaderCommentFixer::class,
         [
@@ -29,10 +37,4 @@ file that was distributed with this source code.
 TEXT
         ]
     );
-
-    $containerConfigurator->skip([
-        VisibilityRequiredFixer::class => ['*Spec.php'],
-        InlineDocCommentDeclarationSniff::class . '.MissingVariable',
-        '**/var/*',
-    ]);
 };

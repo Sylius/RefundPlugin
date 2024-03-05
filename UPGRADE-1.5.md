@@ -16,3 +16,10 @@
    constructors of `Sylius\RefundPlugin\Converter\LineItem\OrderItemUnitLineItemsConverter` and
    `Sylius\RefundPlugin\Converter\LineItem\ShipmentLineItemsConverter`
    has been deprecated and will be prohibited in 2.0.
+
+5. Support for Sylius 1.13 has been added, it is now the recommended Sylius version to use with RefundPlugin.
+
+6. Support for Sylius 1.11 has been dropped, upgrade your application to [Sylius 1.12](https://github.com/Sylius/Sylius/blob/1.12/UPGRADE-1.12.md).
+   or to [Sylius 1.13](https://github.com/Sylius/Sylius/blob/1.13/UPGRADE-1.13.md).
+
+7. Support for PHP 8.0 has been dropped.
