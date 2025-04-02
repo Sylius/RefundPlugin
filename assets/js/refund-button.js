@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
      const refundButtons = document.querySelectorAll('[data-refund]');
-    const refundAllButton = document.querySelector('[data-test-refund-all]');
-    const refundClearAllButton = document.querySelector('[data-test-clear-all]');
+    const refundAllButton = document.querySelector('[data-refund-all]');
+    const refundClearAllButton = document.querySelector('[data-refund-clear]');
     const refundInputs = document.querySelectorAll('[data-refund-input]');
 
     refundButtons.forEach(function (button) {

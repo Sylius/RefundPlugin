@@ -1,6 +1,6 @@
 {% set disable_button = hookable_metadata.context.disable_button %}
 
-<button type="submit" class="dropdown-item" {{ sylius_test_html_attribute('refund-all') }} {{ disable_button }}>
+<button data-refund-all type="submit" class="dropdown-item" {{ sylius_test_html_attribute('refund-all') }} {{ disable_button }}>
     {{ ux_icon('tabler:repeat', {'class': 'icon dropdown-item-icon'}) }}
     {{ 'sylius_refund.ui.refund_all'|trans }}
 </button>
