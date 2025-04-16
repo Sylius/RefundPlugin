@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### v2.0.1 (2025-04-16)
+
+- [#471](https://github.com/Sylius/RefundPlugin/pull/471) Fix wrong attributes used in refund order js ([@TheMilek](https://github.com/TheMilek))
+
 ### v2.0.0 (2025-01-17)
 
 - [#369](https://github.com/Sylius/RefundPlugin/issues/369) [Resources] move resources definition to php ([@SirDomin](https://github.com/SirDomin))
