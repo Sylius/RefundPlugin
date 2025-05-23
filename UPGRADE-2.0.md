@@ -1,4 +1,4 @@
-### UPGRADE FROM 2.0.0 TO 2.0.1
+### UPGRADE FROM 2.0.1 TO 2.0.2
 
 1. From this version, the plugin now validates if an Order can transition to either `refund` or `partially_refund` before performing or rendering refund operations.
 
