@@ -18,6 +18,8 @@ interface ShowPageInterface extends BaseOrderShowPageInterface
 
     public function hasRefundsButton(): bool;
 
+    public function hasDisabledRefundsButton(): bool;
+
     public function hasRefundPaymentsWithStatus(int $count, string $status): bool;
 
     public function canCompleteRefundPayment(int $number): bool;

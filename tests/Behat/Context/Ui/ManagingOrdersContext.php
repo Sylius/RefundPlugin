@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Service\NotificationCheckerInterface;
@@ -38,6 +39,12 @@ final class ManagingOrdersContext implements Context
     public function iShouldNotSeeRefundsButton(): void
     {
         Assert::false($this->showPage->hasRefundsButton());
+    }
+
+    #[Then('I should see disabled refunds button')]
+    public function iShouldSeeDisabledRefundsButton(): void
+    {
+        Assert::true($this->showPage->hasDisabledRefundsButton());
     }
 
     /**
@@ -112,12 +119,12 @@ final class ManagingOrdersContext implements Context
     }
 
     /**
-     * @Then I should be notified that I cannot refund a free order
+     * @Then I should be notified that I cannot refund an order
      */
-    public function iShouldBeNotifiedThatICannotRefundAFreeOrder(): void
+    public function iShouldBeNotifiedThatICannotRefundAnOrder(): void
     {
         $this->notificationChecker->checkNotification(
-            'You cannot refund a free order',
+            'Order cannot be refunded',
             NotificationType::failure()
         );
     }

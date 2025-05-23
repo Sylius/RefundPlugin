@@ -25,4 +25,4 @@ Feature: Being unable to refund a free order
         Scenario: Being unable to open refund page when order is free
             When I try to refund some units of order "#0000001"
             Then I should be redirected to the order "#0000001" show page
-            And I should be notified that I cannot refund a free order
+            And I should be notified that I cannot refund an order

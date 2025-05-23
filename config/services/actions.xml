@@ -39,7 +39,6 @@
             <argument type="service" id="twig" />
             <argument type="service" id="request_stack" />
             <argument type="service" id="router" />
-            <argument type="service" id="sylius_abstraction.state_machine" />
         </service>
 
         <service id="sylius_refund.controller.admin.refund_units" class="Sylius\RefundPlugin\Action\Admin\RefundUnitsAction">

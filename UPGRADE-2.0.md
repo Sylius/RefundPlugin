@@ -7,16 +7,19 @@
 
 1. The following constructor signatures have been changed:
 
-   `Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction`:
+   `Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker`:
     ```diff
     public function __construct(
-            private RequestStack $requestStack,
             private OrderRepositoryInterface $orderRepository,
-            private OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker,
-            private RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider,
-            private Environment $twig,
-            private UrlGeneratorInterface $router,
     +       private ?StateMachineInterface $stateMachine = null,
+    )
+    ```
+
+   `Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker`:
+    ```diff
+    public function __construct(
+            private OrderRepositoryInterface $orderRepository,
+    +       ?OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker = null,
     )
     ```
 

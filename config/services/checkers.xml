@@ -25,10 +25,12 @@
 
         <service id="sylius_refund.checker.order_refunding_availability" class="Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker">
             <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sylius_abstraction.state_machine" />
         </service>
 
         <service id="sylius_refund.checker.order_refunds_list_availability" class="Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker">
             <argument type="service" id="sylius.repository.order" />
+            <argument type="service" id="sylius_refund.checker.order_refunding_availability" />
         </service>
 
         <service id="sylius_refund.checker.order_fully_refunded_total" class="Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker">
