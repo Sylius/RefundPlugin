@@ -15,6 +15,7 @@ namespace Sylius\RefundPlugin\Action\Admin;
 
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
@@ -56,7 +57,8 @@ final readonly class OrderRefundsListAction
         $order = $this->orderRepository->findOneByNumber($request->attributes->get('orderNumber'));
 
         if (null !== $this->stateMachine) {
-            if (false === $this->stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND) &&
+            if ($order->getPaymentState() !== OrderPaymentStates::STATE_REFUNDED &&
+                false === $this->stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND) &&
                 false === $this->stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND)
             ) {
                 throw new AccessDeniedHttpException('This order cannot be refunded.');
