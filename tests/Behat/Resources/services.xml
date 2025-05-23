@@ -71,6 +71,8 @@
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderContext">
             <argument type="service" id="sylius.manager.order" />
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius_abstraction.state_machine" />
         </service>
 
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Setup\PaymentContext">
