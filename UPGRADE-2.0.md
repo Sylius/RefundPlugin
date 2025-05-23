@@ -19,7 +19,7 @@
     ```diff
     public function __construct(
             private OrderRepositoryInterface $orderRepository,
-    +       ?OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker = null,
+    +       private ?OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker = null,
     )
     ```
 
