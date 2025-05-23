@@ -1,3 +1,25 @@
+### UPGRADE FROM 2.0.0 TO 2.0.1
+
+1. From this version, the plugin now validates if an Order can transition to either `refund` or `partially_refund` before performing or rendering refund operations.
+
+   - In the controller, both transitions (`refund` and `partially_refund`) are checked. If neither transition is allowed, a 403 Forbidden is thrown.
+   - In the Twig template, the refund button is displayed only if at least one of the transitions is available.
+
+1. The following constructor signatures have been changed:
+
+   `Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction`:
+    ```diff
+    public function __construct(
+            private RequestStack $requestStack,
+            private OrderRepositoryInterface $orderRepository,
+            private OrderRefundingAvailabilityCheckerInterface $orderRefundsListAvailabilityChecker,
+            private RefundPaymentMethodsProviderInterface $refundPaymentMethodsProvider,
+            private Environment $twig,
+            private UrlGeneratorInterface $router,
+    +       private ?StateMachineInterface $stateMachine = null,
+    )
+    ```
+
 ### UPGRADE FROM 1.X TO 2.0
 
 1. Support for Sylius 2.0 has been added, it is now the recommended Sylius version to use with SyliusRefundPlugin.

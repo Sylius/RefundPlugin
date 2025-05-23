@@ -1,7 +1,11 @@
 {% set order = hookable_metadata.context.resource %}
 {% set path = path('sylius_refund_order_refunds_list', {'orderNumber': order.number,}) %}
 
-<a class="dropdown-item" href="{{ path }}" {{ sylius_test_html_attribute('refunds') }}>
-    {{ ux_icon('tabler:repeat', {'class': 'icon dropdown-item-icon'}) }}
-    {{ 'sylius_refund.ui.refunds'|trans }}
-</a>
+{% if sylius_sm_can(order, constant('Sylius\\Component\\Core\\OrderPaymentTransitions::GRAPH'), constant('Sylius\\Component\\Core\\OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND'))
+    or sylius_sm_can(order, constant('Sylius\\Component\\Core\\OrderPaymentTransitions::GRAPH'), constant('Sylius\\Component\\Core\\OrderPaymentTransitions::TRANSITION_REFUND'))
+%}
+    <a class="dropdown-item" href="{{ path }}" {{ sylius_test_html_attribute('refunds') }}>
+        {{ ux_icon('tabler:repeat', {'class': 'icon dropdown-item-icon'}) }}
+        {{ 'sylius_refund.ui.refunds'|trans }}
+    </a>
+{% endif %}
