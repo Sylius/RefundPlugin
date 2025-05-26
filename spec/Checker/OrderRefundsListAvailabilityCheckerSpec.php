@@ -107,4 +107,45 @@ final class OrderRefundsListAvailabilityCheckerSpec extends ObjectBehavior
 
         $this('00000007')->shouldReturn(false);
     }
+
+    function it_returns_true_if_refunding_checker_allows_it(
+        OrderRepositoryInterface $orderRepository,
+        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $orderRefundingAvailabilityChecker);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $orderRefundingAvailabilityChecker->__invoke('00000007')->willReturn(true);
+
+        $this('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_true_if_checker_returns_false_but_order_is_refunded(
+        OrderRepositoryInterface $orderRepository,
+        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $orderRefundingAvailabilityChecker);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $orderRefundingAvailabilityChecker->__invoke('00000007')->willReturn(false);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_REFUNDED);
+
+        $this->__invoke('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_false_if_checker_returns_false_and_order_is_not_refunded(
+        OrderRepositoryInterface $orderRepository,
+        OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $orderRefundingAvailabilityChecker);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $orderRefundingAvailabilityChecker->__invoke('00000007')->willReturn(false);
+        $order->getPaymentState()->willReturn(OrderPaymentStates::STATE_PAID);
+
+        $this->__invoke('00000007')->shouldReturn(false);
+    }
 }

@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace spec\Sylius\RefundPlugin\Checker;
 
 use PhpSpec\ObjectBehavior;
+use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderPaymentStates;
+use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 
@@ -95,5 +97,65 @@ final class OrderRefundingAvailabilityCheckerSpec extends ObjectBehavior
         $order->getTotal()->willReturn(0);
 
         $this('00000007')->shouldReturn(false);
+    }
+
+    function it_returns_true_if_partially_refund_transition_is_possible_and_total_is_not_zero(
+        OrderRepositoryInterface $orderRepository,
+        StateMachineInterface $stateMachine,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $stateMachine);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)->willReturn(true);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND)->willReturn(false);
+        $order->getTotal()->willReturn(1000);
+
+        $this->__invoke('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_true_if_refund_transition_is_possible_and_total_is_not_zero(
+        OrderRepositoryInterface $orderRepository,
+        StateMachineInterface $stateMachine,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $stateMachine);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)->willReturn(false);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND)->willReturn(true);
+        $order->getTotal()->willReturn(1000);
+
+        $this->__invoke('00000007')->shouldReturn(true);
+    }
+
+    function it_returns_false_if_no_transition_is_possible_even_if_total_is_not_zero(
+        OrderRepositoryInterface $orderRepository,
+        StateMachineInterface $stateMachine,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $stateMachine);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)->willReturn(false);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND)->willReturn(false);
+        $order->getTotal()->willReturn(1000);
+
+        $this->__invoke('00000007')->shouldReturn(false);
+    }
+
+    function it_returns_false_if_transition_is_possible_but_total_is_zero(
+        OrderRepositoryInterface $orderRepository,
+        StateMachineInterface $stateMachine,
+        OrderInterface $order,
+    ): void {
+        $this->beConstructedWith($orderRepository, $stateMachine);
+
+        $orderRepository->findOneByNumber('00000007')->willReturn($order);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)->willReturn(true);
+        $stateMachine->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND)->willReturn(true);
+        $order->getTotal()->willReturn(0);
+
+        $this->__invoke('00000007')->shouldReturn(false);
     }
 }

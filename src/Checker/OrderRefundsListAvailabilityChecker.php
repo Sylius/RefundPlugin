@@ -20,8 +20,18 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 final readonly class OrderRefundsListAvailabilityChecker implements OrderRefundingAvailabilityCheckerInterface
 {
     /** @param OrderRepositoryInterface<OrderInterface> $orderRepository */
-    public function __construct(private OrderRepositoryInterface $orderRepository)
-    {
+    public function __construct(
+        private OrderRepositoryInterface $orderRepository,
+        private ?OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker = null,
+    ) {
+        if (null === $this->orderRefundingAvailabilityChecker) {
+            trigger_deprecation(
+                'sylius/refund-plugin',
+                '2.0',
+                'Not passing an $orderRefundingAvailabilityChecker to %s constructor is deprecated and will be prohibited in SyliusRefund 3.0.',
+                self::class,
+            );
+        }
     }
 
     public function __invoke(string $orderNumber): bool
@@ -30,6 +40,13 @@ final readonly class OrderRefundsListAvailabilityChecker implements OrderRefundi
         $order = $this->orderRepository->findOneByNumber($orderNumber);
         if ($order === null) {
             throw new \InvalidArgumentException(sprintf('Order with number "%s" does not exist.', $orderNumber));
+        }
+
+        if (null !== $this->orderRefundingAvailabilityChecker) {
+            return
+                $this->orderRefundingAvailabilityChecker->__invoke($orderNumber) ||
+                $order->getPaymentState() === OrderPaymentStates::STATE_REFUNDED
+            ;
         }
 
         return

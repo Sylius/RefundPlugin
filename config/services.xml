@@ -57,6 +57,11 @@
             <tag name="twig.extension"/>
         </service>
 
+        <service id="sylius_refund.twig.extension.order_refund_availability" class="Sylius\RefundPlugin\Twig\OrderRefundAvailabilityExtension">
+            <argument type="service" id="sylius_refund.checker.order_refunds_list_availability" />
+            <tag name="twig.extension"/>
+        </service>
+
         <service id="sylius_refund.repository.credit_memo_sequence" class="Doctrine\ORM\EntityRepository">
             <factory service="doctrine.orm.entity_manager" method="getRepository"/>
             <argument type="string">Sylius\RefundPlugin\Entity\CreditMemoSequence</argument>

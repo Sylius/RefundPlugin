@@ -44,11 +44,7 @@ final readonly class OrderRefundsListAction
         $order = $this->orderRepository->findOneByNumber($request->attributes->get('orderNumber'));
 
         if (!$this->orderRefundsListAvailabilityChecker->__invoke($request->attributes->get('orderNumber'))) {
-            if ($order->getTotal() === 0) {
-                return $this->redirectToReferer($order, 'sylius_refund.free_order_should_not_be_refund');
-            }
-
-            return $this->redirectToReferer($order, 'sylius_refund.order_should_be_paid');
+            return $this->redirectToReferer($order, 'sylius_refund.order_cannot_be_refunded');
         }
 
         return new Response(
