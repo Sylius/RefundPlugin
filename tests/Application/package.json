@@ -7,8 +7,8 @@
     "postinstall": "cd ./node_modules/@symfony/ux-autocomplete && npm install && cd - && cd ./node_modules/@symfony/ux-live-component && npm install && cd -"
   },
   "dependencies": {
-    "@sylius-ui/admin": "git+https://github.com/Sylius/SyliusAdminBundle.git#2.0",
-    "@sylius-ui/shop": "git+https://github.com/Sylius/SyliusShopBundle.git#2.0",
+    "@sylius-ui/admin": "file:../../vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle",
+    "@sylius-ui/shop": "file:../../vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle",
     "@symfony/ux-autocomplete": "file:../../vendor/symfony/ux-autocomplete/assets",
     "@symfony/ux-live-component": "file:../../vendor/symfony/ux-live-component/assets"
   },

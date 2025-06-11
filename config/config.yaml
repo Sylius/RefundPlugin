@@ -1,4 +1,5 @@
 imports:
+    - { resource: "@SyliusRefundPlugin/config/parameters.php" }
     - { resource: "@SyliusRefundPlugin/config/twig_hooks/**/*.yaml" }
     - { resource: "@SyliusRefundPlugin/config/integrations.php" }
 
