@@ -1,6 +1,10 @@
 sylius_twig_hooks:
     hooks:
         'sylius_admin.order.show.content.header.title_block.actions':
+            back: # Remove after release Sylius v2.1.1
+                template: '@SyliusRefundPlugin/admin/shared/crud/common/content/header/title_block/actions/cancel.html.twig'
+                priority: 100
+                enabled: '%sylius_refund.is_sylius_greater_equal_than_21%'
             refunds:
                 template: '@SyliusRefundPlugin/admin/order/content/header/title_block/actions/refunds.html.twig'
                 priority: -100
