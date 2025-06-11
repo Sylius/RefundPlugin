@@ -4,6 +4,12 @@ sylius_twig_hooks:
             refunds:
                 template: '@SyliusRefundPlugin/admin/order/content/header/title_block/actions/refunds.html.twig'
                 priority: -100
+                enabled: '%sylius_refund.is_sylius_lower_than_21%'
+        'sylius_admin.order.show.content.header.title_block.actions.list':
+            refunds:
+                template: '@SyliusRefundPlugin/admin/order/content/header/title_block/actions/refunds.html.twig'
+                priority: -100
+                enabled: '%sylius_refund.is_sylius_greater_equal_than_21%'
 
         'sylius_admin.order.show.content.sections.payments':
             refund_header:
