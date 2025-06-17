@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### v2.0.3 (2025-06-17)
+ 
+- [#474](https://github.com/Sylius/RefundPlugin/pull/474) Support Sylius 2.1 and Symfony 7.3 ([@GSadee](https://github.com/GSadee))
+
+### v2.0.2 (2025-06-03)
+ 
+- [#472](https://github.com/Sylius/RefundPlugin/pull/472) Validate order refund transitions ([@Wojdylak](https://github.com/Wojdylak))
+
 ### v2.0.1 (2025-04-16)
 
 - [#471](https://github.com/Sylius/RefundPlugin/pull/471) Fix wrong attributes used in refund order js ([@TheMilek](https://github.com/TheMilek))
