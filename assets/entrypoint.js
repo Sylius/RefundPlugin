@@ -1,3 +1,3 @@
-import './js/refund-button';
+// Left to keep BC TODO: remove in next major and switch to assets/*
 
-import './styles/main.scss';
+import './admin/entrypoint';

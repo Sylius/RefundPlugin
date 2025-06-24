@@ -71,6 +71,7 @@ jobs:
             APP_ENV: test
             DATABASE_URL: ${{ matrix.database == 'mysql' && format('mysql://root:root@127.0.0.1/sylius?serverVersion={0}', matrix.mysql) || format('pgsql://postgres:postgres@127.0.0.1/sylius?serverVersion={0}', matrix.postgres) }}
             TEST_SYLIUS_STATE_MACHINE_ADAPTER: "${{ matrix.state_machine_adapter }}"
+            TEST_SYLIUS_REFUND_PDF_GENERATION_DISABLED: ${{ matrix.wkhtmltopdf == false }}
 
         steps:
             -
@@ -131,12 +132,6 @@ jobs:
                     sudo dpkg -i wkhtmltox_${{ matrix.wkhtmltopdf }}.jammy_amd64.deb
 
             -
-                name: Disable PDF generation
-                if: matrix.wkhtmltopdf == false
-                run: |
-                    mv tests/Application/etc/sylius_refund_pdf_generation_disabled.yaml tests/Application/config/packages
-
-            -
                 name: Output PHP version for Symfony CLI
                 run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
 
@@ -150,7 +145,7 @@ jobs:
 
             -
                 name: Run webserver
-                run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
+                run: symfony server:start --port=8080 --daemon
 
             -
                 name: Get Composer cache directory
@@ -206,34 +201,34 @@ jobs:
 
             -
                 name: Install JS dependencies
-                run: (cd tests/Application && yarn install)
+                run: (cd vendor/sylius/test-application && yarn install)
 
             -   name: Check out database schema update
                 run: |
-                    (cd tests/Application && bin/console doctrine:database:create)
-                    (cd tests/Application && bin/console doctrine:schema:update --force)
-                    (cd tests/Application && bin/console doctrine:schema:validate)
-                    (cd tests/Application && bin/console doctrine:database:drop --force)
+                    vendor/bin/console doctrine:database:create
+                    vendor/bin/console doctrine:schema:update --force
+                    vendor/bin/console doctrine:schema:validate
+                    vendor/bin/console doctrine:database:drop --force
 
             -
                 name: Prepare test application database
                 run: |
-                    (cd tests/Application && bin/console doctrine:database:create -vvv)
-                    (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
+                    vendor/bin/console doctrine:database:create -vvv
+                    vendor/bin/console doctrine:migrations:migrate -n -vvv -q
 
             -
                 name: Prepare test application assets
                 run: |
-                    (cd tests/Application && bin/console assets:install public -vvv)
-                    (cd tests/Application && yarn build:prod)
+                    vendor/bin/console assets:install public -vvv
+                    (cd vendor/sylius/test-application && yarn build:prod)
 
             -
                 name: Prepare test application cache
-                run: (cd tests/Application && bin/console cache:warmup -vvv)
+                run: vendor/bin/console cache:warmup -vvv
 
             -
                 name: Load fixtures in test application
-                run: (cd tests/Application && bin/console sylius:fixtures:load -n)
+                run: vendor/bin/console sylius:fixtures:load -n
 
             -
                 name: Run security check
@@ -250,7 +245,7 @@ jobs:
 
             -
                 name: Lint container
-                run: (cd tests/Application && bin/console lint:container)
+                run: vendor/bin/console lint:container
 
             -
                 name: Run PHPStan
