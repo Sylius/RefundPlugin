@@ -71,6 +71,7 @@ jobs:
             APP_ENV: test
             DATABASE_URL: ${{ matrix.database == 'mysql' && format('mysql://root:root@127.0.0.1/sylius?serverVersion={0}', matrix.mysql) || format('pgsql://postgres:postgres@127.0.0.1/sylius?serverVersion={0}', matrix.postgres) }}
             TEST_SYLIUS_STATE_MACHINE_ADAPTER: "${{ matrix.state_machine_adapter }}"
+            TEST_SYLIUS_REFUND_PDF_GENERATION_DISABLED: ${{ matrix.wkhtmltopdf == false }}
 
         steps:
             -
@@ -131,26 +132,8 @@ jobs:
                     sudo dpkg -i wkhtmltox_${{ matrix.wkhtmltopdf }}.jammy_amd64.deb
 
             -
-                name: Disable PDF generation
-                if: matrix.wkhtmltopdf == false
-                run: |
-                    mv tests/Application/etc/sylius_refund_pdf_generation_disabled.yaml tests/Application/config/packages
-
-            -
                 name: Output PHP version for Symfony CLI
                 run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
-
-            -
-                name: Install certificates
-                run: symfony server:ca:install
-
-            -
-                name: Run Chrome Headless
-                run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
-
-            -
-                name: Run webserver
-                run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
 
             -
                 name: Get Composer cache directory
@@ -206,34 +189,34 @@ jobs:
 
             -
                 name: Install JS dependencies
-                run: (cd tests/Application && yarn install)
+                run: (cd vendor/sylius/test-application && yarn install)
 
             -   name: Check out database schema update
                 run: |
-                    (cd tests/Application && bin/console doctrine:database:create)
-                    (cd tests/Application && bin/console doctrine:schema:update --force)
-                    (cd tests/Application && bin/console doctrine:schema:validate)
-                    (cd tests/Application && bin/console doctrine:database:drop --force)
+                    vendor/bin/console doctrine:database:create
+                    vendor/bin/console doctrine:schema:update --force
+                    vendor/bin/console doctrine:schema:validate
+                    vendor/bin/console doctrine:database:drop --force
 
             -
                 name: Prepare test application database
                 run: |
-                    (cd tests/Application && bin/console doctrine:database:create -vvv)
-                    (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
+                    vendor/bin/console doctrine:database:create -vvv
+                    vendor/bin/console doctrine:migrations:migrate -n -vvv -q
 
             -
                 name: Prepare test application assets
                 run: |
-                    (cd tests/Application && bin/console assets:install public -vvv)
-                    (cd tests/Application && yarn build:prod)
+                    vendor/bin/console assets:install public -vvv
+                    (cd vendor/sylius/test-application && yarn build:prod)
 
             -
                 name: Prepare test application cache
-                run: (cd tests/Application && bin/console cache:warmup -vvv)
+                run: vendor/bin/console cache:warmup -vvv
 
             -
                 name: Load fixtures in test application
-                run: (cd tests/Application && bin/console sylius:fixtures:load -n)
+                run: vendor/bin/console sylius:fixtures:load -n
 
             -
                 name: Run security check
@@ -241,16 +224,15 @@ jobs:
 
             -
                 name: Validate composer.json
-#               Restore before RefundPlugin 2.0 release
-#               run: composer validate --ansi --strict
-                run: composer validate --ansi --strict --no-check-all
+                run: composer validate --ansi --strict
+
             -
                 name: Run ECS
                 run: vendor/bin/ecs check src/ spec/
 
             -
                 name: Lint container
-                run: (cd tests/Application && bin/console lint:container)
+                run: vendor/bin/console lint:container
 
             -
                 name: Run PHPStan
@@ -263,6 +245,18 @@ jobs:
             -
                 name: Run PHPUnit
                 run: vendor/bin/phpunit --colors=always
+
+            -
+                name: Install certificates
+                run: symfony server:ca:install
+
+            -
+                name: Run Chrome Headless
+                run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
+
+            -
+                name: Run webserver
+                run: symfony server:start --port=8080 --daemon
 
             -
                 name: Run Behat

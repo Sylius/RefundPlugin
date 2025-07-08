@@ -8,8 +8,8 @@
 /etc/build/*
 !/etc/build/.gitkeep
 
-/tests/Application/yarn.lock
-/tests/Application/private/credit_memos/*
+/tests/TestApplication/.env.local
+/tests/TestApplication/.env.*.local
 
 phpspec.yml
 

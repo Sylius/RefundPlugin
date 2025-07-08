@@ -1,3 +1,0 @@
-sylius_refund:
-    pdf_generator:
-        enabled: false

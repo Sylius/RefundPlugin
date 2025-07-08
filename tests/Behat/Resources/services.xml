@@ -109,5 +109,21 @@
         <service id="Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext">
             <argument>%sylius_refund.credit_memo_save_path%</argument>
         </service>
+
+        <service
+            id="Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory"
+            decorates="sylius_refund.factory.refund_payment"
+            public="false"
+        >
+            <argument type="service" id=".inner" />
+        </service>
+
+        <service
+            id="Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator"
+            decorates="sylius_refund.generator.credit_memo"
+            public="false"
+        >
+            <argument type="service" id=".inner" />
+        </service>
     </services>
 </container>
