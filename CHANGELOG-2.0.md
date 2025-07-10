@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### v2.0.4 (2025-07-10)
+
+- [#475](https://github.com/Sylius/RefundPlugin/pull/475) [Maintenance] Switch to new TestApplication ([@NoResponseMate](https://github.com/NoResponseMate))
+
 ### v2.0.3 (2025-06-17)
  
 - [#474](https://github.com/Sylius/RefundPlugin/pull/474) Support Sylius 2.1 and Symfony 7.3 ([@GSadee](https://github.com/GSadee))
