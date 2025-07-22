@@ -29,9 +29,14 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 final class RefundCreatorTest extends TestCase
 {
     private RefundFactoryInterface&MockObject $refundFactory;
+
     private RemainingTotalProviderInterface&MockObject $remainingTotalProvider;
+
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private EntityManagerInterface&MockObject $refundEntityManager;
+
     private RefundCreator $refundCreator;
 
     protected function setUp(): void

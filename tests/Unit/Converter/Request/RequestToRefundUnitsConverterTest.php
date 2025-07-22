@@ -24,7 +24,9 @@ use Symfony\Component\HttpFoundation\Request;
 final class RequestToRefundUnitsConverterTest extends TestCase
 {
     private RequestToRefundUnitsConverterInterface&MockObject $orderItemUnitConverter;
+
     private RequestToRefundUnitsConverterInterface&MockObject $shipmentConverter;
+
     private RequestToRefundUnitsConverter $converter;
 
     protected function setUp(): void
@@ -36,13 +38,13 @@ final class RequestToRefundUnitsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_is_request_to_refund_units_converter(): void
+    public function it_is_request_to_refund_units_converter(): void
     {
         self::assertInstanceOf(RequestToRefundUnitsConverterInterface::class, $this->converter);
     }
 
     /** @test */
-    function it_creates_final_refund_list_from_aggregated_services(): void
+    public function it_creates_final_refund_list_from_aggregated_services(): void
     {
         $request = $this->createMock(Request::class);
         $firstUnitRefund = new OrderItemUnitRefund(1, 1000);

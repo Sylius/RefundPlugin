@@ -32,19 +32,19 @@ final class TaxRateProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(TaxRateProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_tax_rate_provider_interface(): void
+    public function it_implements_tax_rate_provider_interface(): void
     {
         self::assertInstanceOf(TaxRateProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_provides_a_tax_rate_from_tax_adjustment_details(): void
+    public function it_provides_a_tax_rate_from_tax_adjustment_details(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $taxAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -66,7 +66,7 @@ final class TaxRateProviderTest extends TestCase
     }
 
     /** @test */
-    function it_returns_null_if_there_is_no_tax_adjustment(): void
+    public function it_returns_null_if_there_is_no_tax_adjustment(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
 
@@ -82,7 +82,7 @@ final class TaxRateProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_there_is_no_tax_rate_amount_in_details_of_adjustment(): void
+    public function it_throws_an_exception_if_there_is_no_tax_rate_amount_in_details_of_adjustment(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $taxAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -104,7 +104,7 @@ final class TaxRateProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(): void
+    public function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $firstTaxAdjustment = $this->createMock(AdjustmentInterface::class);

@@ -32,19 +32,19 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(DefaultRelatedPaymentIdProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_related_payment_id_provider_interface(): void
+    public function it_implements_related_payment_id_provider_interface(): void
     {
         self::assertInstanceOf(RelatedPaymentIdProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_provides_id_of_last_completed_payment_from_refund_payment_order(): void
+    public function it_provides_id_of_last_completed_payment_from_refund_payment_order(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -72,7 +72,7 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_order_has_no_completed_payments(): void
+    public function it_throws_exception_if_order_has_no_completed_payments(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);
         $order = $this->createMock(OrderInterface::class);

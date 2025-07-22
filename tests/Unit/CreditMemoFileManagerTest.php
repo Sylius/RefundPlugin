@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit;
@@ -14,7 +23,7 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 final class CreditMemoFileManagerTest extends TestCase
 {
     /** @test */
-    function it_creates_file_in_given_filesystem(): void
+    public function it_creates_file_in_given_filesystem(): void
     {
         $creditMemoFileManager = $this->prepareCreditMemoFileManager();
 
@@ -28,7 +37,7 @@ final class CreditMemoFileManagerTest extends TestCase
     }
 
     /** @test */
-    function it_removes_file_from_given_filesystem(): void
+    public function it_removes_file_from_given_filesystem(): void
     {
         $creditMemoFileManager = $this->prepareCreditMemoFileManager();
 
@@ -40,7 +49,7 @@ final class CreditMemoFileManagerTest extends TestCase
     }
 
     /** @test */
-    function it_provides_file_from_given_filesystem(): void
+    public function it_provides_file_from_given_filesystem(): void
     {
         $creditMemoFileManager = $this->prepareCreditMemoFileManager();
 
@@ -58,19 +67,20 @@ final class CreditMemoFileManagerTest extends TestCase
         $this->clearTemporaryDirectory();
 
         $adapter = new Local('temp', true);
+
         return new CreditMemoFileManager(new Filesystem($adapter));
     }
 
     private function clearTemporaryDirectory(): void
     {
-        if (file_exists('temp/credit-memo.pdf')){
+        if (file_exists('temp/credit-memo.pdf')) {
             unlink('temp/credit-memo.pdf');
             rmdir('temp');
 
             return;
         }
 
-        if (is_dir('temp')){
+        if (is_dir('temp')) {
             rmdir('temp');
         }
     }

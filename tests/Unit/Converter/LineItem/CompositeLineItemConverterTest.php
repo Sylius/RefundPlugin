@@ -27,8 +27,11 @@ use Sylius\RefundPlugin\Model\UnitRefundInterface;
 final class CompositeLineItemConverterTest extends TestCase
 {
     private LineItemsConverterUnitRefundAwareInterface&MockObject $firstLineItemsConverter;
+
     private LineItemsConverterUnitRefundAwareInterface&MockObject $secondLineItemsConverter;
+
     private UnitRefundFilterInterface&MockObject $unitRefundFilter;
+
     private CompositeLineItemConverter $converter;
 
     protected function setUp(): void
@@ -40,18 +43,18 @@ final class CompositeLineItemConverterTest extends TestCase
 
         $this->converter = new CompositeLineItemConverter(
             [$this->firstLineItemsConverter, $this->secondLineItemsConverter],
-            $this->unitRefundFilter
+            $this->unitRefundFilter,
         );
     }
 
     /** @test */
-    function it_implements_line_items_converter_interface(): void
+    public function it_implements_line_items_converter_interface(): void
     {
         self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
     /** @test */
-    function it_uses_all_line_items_converters_to_provide_line_items(): void
+    public function it_uses_all_line_items_converters_to_provide_line_items(): void
     {
         $unsupportedUnitRefund = $this->createMock(UnitRefundInterface::class);
         $firstLineItem = $this->createMock(LineItemInterface::class);

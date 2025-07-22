@@ -23,6 +23,7 @@ use Sylius\RefundPlugin\Provider\RefundUnitTotalProviderInterface;
 final class OrderItemUnitTotalProviderTest extends TestCase
 {
     private RepositoryInterface&MockObject $orderItemUnitRepository;
+
     private OrderItemUnitTotalProvider $provider;
 
     protected function setUp(): void
@@ -33,19 +34,19 @@ final class OrderItemUnitTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(OrderItemUnitTotalProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_is_refund_unit_total_provider(): void
+    public function it_is_refund_unit_total_provider(): void
     {
         self::assertInstanceOf(RefundUnitTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_returns_order_item_unit_total_to_refund(): void
+    public function it_returns_order_item_unit_total_to_refund(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
 
@@ -66,7 +67,7 @@ final class OrderItemUnitTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(): void
+    public function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(): void
     {
         $this->orderItemUnitRepository
             ->expects(self::once())

@@ -26,8 +26,11 @@ use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
 final class CreditMemoEmailSenderTest extends TestCase
 {
     private SenderInterface&MockObject $sender;
+
     private CreditMemoFileResolverInterface&MockObject $creditMemoFileResolver;
+
     private CreditMemoFilePathResolverInterface&MockObject $creditMemoFilePathResolver;
+
     private CreditMemoEmailSender $creditMemoEmailSender;
 
     protected function setUp(): void
@@ -41,18 +44,18 @@ final class CreditMemoEmailSenderTest extends TestCase
             $this->sender,
             true,
             $this->creditMemoFileResolver,
-            $this->creditMemoFilePathResolver
+            $this->creditMemoFilePathResolver,
         );
     }
 
     /** @test */
-    function it_implements_credit_memo_email_sender_interface(): void
+    public function it_implements_credit_memo_email_sender_interface(): void
     {
         self::assertInstanceOf(CreditMemoEmailSenderInterface::class, $this->creditMemoEmailSender);
     }
 
     /** @test */
-    function it_sends_an_email_with_credit_memo_and_pdf_file_attachment_to_customer(): void
+    public function it_sends_an_email_with_credit_memo_and_pdf_file_attachment_to_customer(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
         $creditMemoPdf = new CreditMemoPdf('credit-memo.pdf', 'Content of the credit memo');
@@ -78,13 +81,13 @@ final class CreditMemoEmailSenderTest extends TestCase
     }
 
     /** @test */
-    function it_sends_an_email_with_credit_memo_to_customer_without_pdf_file_attachment_if_pdf_generator_is_disabled(): void
+    public function it_sends_an_email_with_credit_memo_to_customer_without_pdf_file_attachment_if_pdf_generator_is_disabled(): void
     {
         $this->creditMemoEmailSender = new CreditMemoEmailSender(
             $this->sender,
             false,
             $this->creditMemoFileResolver,
-            $this->creditMemoFilePathResolver
+            $this->creditMemoFilePathResolver,
         );
 
         $creditMemo = $this->createMock(CreditMemoInterface::class);

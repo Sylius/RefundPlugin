@@ -30,26 +30,26 @@ final class LineItemTest extends TestCase
     }
 
     /** @test */
-    function it_implements_line_item_interface(): void
+    public function it_implements_line_item_interface(): void
     {
         self::assertInstanceOf(LineItemInterface::class, $this->lineItem);
     }
 
     /** @test */
-    function it_implements_resource_interface(): void
+    public function it_implements_resource_interface(): void
     {
         self::assertInstanceOf(ResourceInterface::class, $this->lineItem);
     }
 
     /** @test */
-    function it_has_no_id_by_default(): void
+    public function it_has_no_id_by_default(): void
     {
         self::assertNull($this->lineItem->getId());
         self::assertNull($this->lineItem->id());
     }
 
     /** @test */
-    function it_has_proper_line_item_data(): void
+    public function it_has_proper_line_item_data(): void
     {
         self::assertEquals('Mjolnir', $this->lineItem->name());
         self::assertEquals(2, $this->lineItem->quantity());
@@ -62,7 +62,7 @@ final class LineItemTest extends TestCase
     }
 
     /** @test */
-    function it_merges_with_another_line_item(): void
+    public function it_merges_with_another_line_item(): void
     {
         $newLineItem = $this->createMock(LineItemInterface::class);
         $newLineItem->method('name')->willReturn('Mjolnir');
@@ -83,7 +83,7 @@ final class LineItemTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_another_line_item_is_different_during_merging(): void
+    public function it_throws_an_exception_if_another_line_item_is_different_during_merging(): void
     {
         $this->expectException(LineItemsCannotBeMerged::class);
 
@@ -97,7 +97,7 @@ final class LineItemTest extends TestCase
     }
 
     /** @test */
-    function it_compares_with_another_line_item(): void
+    public function it_compares_with_another_line_item(): void
     {
         $theSameLineItem = $this->createMock(LineItemInterface::class);
         $theSameLineItem->method('name')->willReturn('Mjolnir');

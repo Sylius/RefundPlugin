@@ -19,18 +19,18 @@ use Sylius\RefundPlugin\Model\RefundType;
 final class RefundTypeTest extends TestCase
 {
     /** @test */
-    function it_can_be_order_item_unit_type(): void
+    public function it_can_be_order_item_unit_type(): void
     {
         $refundType = RefundType::orderItemUnit();
-        
+
         self::assertEquals(RefundType::ORDER_ITEM_UNIT, $refundType->getValue());
     }
 
     /** @test */
-    function it_can_be_shipment_type(): void
+    public function it_can_be_shipment_type(): void
     {
         $refundType = RefundType::shipment();
-        
+
         self::assertEquals(RefundType::SHIPMENT, $refundType->getValue());
     }
 }

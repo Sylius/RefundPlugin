@@ -24,6 +24,7 @@ use Sylius\RefundPlugin\Model\RefundType;
 final class RefundUnitsConverterTest extends TestCase
 {
     private UnitRefundTotalCalculatorInterface&MockObject $unitRefundTotalCalculator;
+
     private RefundUnitsConverter $converter;
 
     protected function setUp(): void
@@ -34,13 +35,13 @@ final class RefundUnitsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_implements_refund_units_converter_interface(): void
+    public function it_implements_refund_units_converter_interface(): void
     {
         self::assertInstanceOf(RefundUnitsConverterInterface::class, $this->converter);
     }
 
     /** @test */
-    function it_converts_refund_units_from_request_with_full_prices_to_models(): void
+    public function it_converts_refund_units_from_request_with_full_prices_to_models(): void
     {
         $this->unitRefundTotalCalculator
             ->expects($this->exactly(2))
@@ -49,6 +50,7 @@ final class RefundUnitsConverterTest extends TestCase
                 return match ($id) {
                     1 => 1000,
                     2 => 3000,
+                    default => 0,
                 };
             });
 
@@ -64,7 +66,7 @@ final class RefundUnitsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_converts_refund_units_from_request_with_partial_prices_to_models(): void
+    public function it_converts_refund_units_from_request_with_partial_prices_to_models(): void
     {
         $this->unitRefundTotalCalculator
             ->expects($this->exactly(2))
@@ -73,6 +75,7 @@ final class RefundUnitsConverterTest extends TestCase
                 return match ($id) {
                     1 => 1000,
                     2 => 3000,
+                    default => 0,
                 };
             });
 

@@ -25,8 +25,11 @@ use Symfony\Contracts\Service\ServiceProviderInterface;
 
 final class RemainingTotalProviderTest extends TestCase
 {
+    /** @var ServiceProviderInterface<RefundUnitTotalProviderInterface>&MockObject */
     private ServiceProviderInterface&MockObject $refundUnitTotalProviders;
+
     private RepositoryInterface&MockObject $refundRepository;
+
     private RemainingTotalProvider $provider;
 
     protected function setUp(): void
@@ -38,19 +41,19 @@ final class RemainingTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(RemainingTotalProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_remaining_total_provider_interface(): void
+    public function it_implements_remaining_total_provider_interface(): void
     {
         self::assertInstanceOf(RemainingTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_returns_remaining_total_to_refund(): void
+    public function it_returns_remaining_total_to_refund(): void
     {
         $refundType = RefundType::orderItemUnit();
         $refundUnitTotalProvider = $this->createMock(RefundUnitTotalProviderInterface::class);
@@ -85,7 +88,7 @@ final class RemainingTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_returns_unit_total_if_there_is_no_refund_for_this_unit_yet(): void
+    public function it_returns_unit_total_if_there_is_no_refund_for_this_unit_yet(): void
     {
         $refundType = RefundType::orderItemUnit();
         $refundUnitTotalProvider = $this->createMock(RefundUnitTotalProviderInterface::class);

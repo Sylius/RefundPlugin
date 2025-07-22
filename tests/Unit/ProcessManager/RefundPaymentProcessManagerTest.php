@@ -35,12 +35,21 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class RefundPaymentProcessManagerTest extends TestCase
 {
     private OrderFullyRefundedStateResolverInterface&MockObject $orderFullyRefundedStateResolver;
+
     private RelatedPaymentIdProviderInterface&MockObject $relatedPaymentIdProvider;
+
     private RefundPaymentFactoryInterface&MockObject $refundPaymentFactory;
+
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
+    /** @var PaymentMethodRepositoryInterface<PaymentMethodInterface>&MockObject */
     private PaymentMethodRepositoryInterface&MockObject $paymentMethodRepository;
+
     private EntityManagerInterface&MockObject $entityManager;
+
     private MessageBusInterface&MockObject $eventBus;
+
     private RefundPaymentProcessManager $refundPaymentProcessManager;
 
     protected function setUp(): void
@@ -66,13 +75,13 @@ final class RefundPaymentProcessManagerTest extends TestCase
     }
 
     /** @test */
-    function it_implements_units_refunded_process_step_interface(): void
+    public function it_implements_units_refunded_process_step_interface(): void
     {
         self::assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->refundPaymentProcessManager);
     }
 
     /** @test */
-    function it_reacts_on_units_refunded_event_and_creates_refund_payment(): void
+    public function it_reacts_on_units_refunded_event_and_creates_refund_payment(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);
         $order = $this->createMock(OrderInterface::class);

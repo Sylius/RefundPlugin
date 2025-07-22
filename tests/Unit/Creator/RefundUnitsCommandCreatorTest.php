@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 final class RefundUnitsCommandCreatorTest extends TestCase
 {
     private RequestToRefundUnitsConverterInterface&MockObject $refundUnitsConverter;
+
     private RefundUnitsCommandCreator $refundUnitsCommandCreator;
 
     protected function setUp(): void

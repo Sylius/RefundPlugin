@@ -31,13 +31,13 @@ final class UnitRefundFilterTest extends TestCase
     }
 
     /** @test */
-    function it_implements_unit_refund_filter_interface(): void
+    public function it_implements_unit_refund_filter_interface(): void
     {
         self::assertInstanceOf(UnitRefundFilterInterface::class, $this->filter);
     }
 
     /** @test */
-    function it_filters_unit_refunds_by_given_unit_refund_class(): void
+    public function it_filters_unit_refunds_by_given_unit_refund_class(): void
     {
         $fourthUnitRefund = $this->createMock(UnitRefundInterface::class);
         $firstUnitRefund = new OrderItemUnitRefund(1, 1);
@@ -58,7 +58,7 @@ final class UnitRefundFilterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_at_least_one_of_given_units_does_not_implement_unit_refund_interface(): void
+    public function it_throws_an_exception_if_at_least_one_of_given_units_does_not_implement_unit_refund_interface(): void
     {
         $fifthUnitRefund = $this->createMock(UnitRefundInterface::class);
         $firstUnitRefund = new OrderItemUnitRefund(1, 1);

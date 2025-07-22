@@ -27,9 +27,14 @@ use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver;
 final class OrderFullyRefundedStateResolverTest extends TestCase
 {
     private StateMachineInterface&MockObject $stateMachineFactory;
+
     private EntityManagerInterface&MockObject $orderManager;
+
     private OrderFullyRefundedTotalCheckerInterface&MockObject $orderFullyRefundedTotalChecker;
+
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private OrderFullyRefundedStateResolver $resolver;
 
     protected function setUp(): void
@@ -44,12 +49,12 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
             $this->stateMachineFactory,
             $this->orderManager,
             $this->orderFullyRefundedTotalChecker,
-            $this->orderRepository
+            $this->orderRepository,
         );
     }
 
     /** @test */
-    function it_applies_refund_transition_on_order(): void
+    public function it_applies_refund_transition_on_order(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $orderManager = $this->createMock(EntityManagerInterface::class);
@@ -89,7 +94,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_does_nothing_if_order_state_is_fully_refunded(): void
+    public function it_does_nothing_if_order_state_is_fully_refunded(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $orderManager = $this->createMock(EntityManagerInterface::class);
@@ -124,7 +129,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_does_nothing_if_order_is_not_fully_refunded(): void
+    public function it_does_nothing_if_order_is_not_fully_refunded(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $orderManager = $this->createMock(EntityManagerInterface::class);
@@ -154,7 +159,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_there_is_no_order_with_given_number(): void
+    public function it_throws_an_exception_if_there_is_no_order_with_given_number(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $orderManager = $this->createMock(EntityManagerInterface::class);
@@ -175,7 +180,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_uses_winzou_state_machine_if_abstraction_not_passed_to_apply_refund_transition_on_order(): void
+    public function it_uses_winzou_state_machine_if_abstraction_not_passed_to_apply_refund_transition_on_order(): void
     {
         $order = $this->createMock(OrderInterface::class);
 

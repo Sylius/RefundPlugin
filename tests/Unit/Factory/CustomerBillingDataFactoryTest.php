@@ -24,6 +24,7 @@ use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
 final class CustomerBillingDataFactoryTest extends TestCase
 {
     private FactoryInterface&MockObject $customerBillingDataFactory;
+
     private CustomerBillingDataFactory $factory;
 
     protected function setUp(): void

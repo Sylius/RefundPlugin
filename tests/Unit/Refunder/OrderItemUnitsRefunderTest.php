@@ -29,8 +29,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class OrderItemUnitsRefunderTest extends TestCase
 {
     private RefundCreatorInterface&MockObject $refundCreator;
+
     private MessageBusInterface&MockObject $eventBus;
+
     private UnitRefundFilterInterface&MockObject $unitRefundFilter;
+
     private OrderItemUnitsRefunder $refunder;
 
     protected function setUp(): void
@@ -71,7 +74,7 @@ final class OrderItemUnitsRefunderTest extends TestCase
             ->method('__invoke')
             ->withConsecutive(
                 ['000222', 1, 1500, RefundType::orderItemUnit()],
-                ['000222', 3, 1000, RefundType::orderItemUnit()]
+                ['000222', 3, 1000, RefundType::orderItemUnit()],
             );
 
         $firstEvent = new UnitRefunded('000222', 1, 1500);
@@ -82,11 +85,11 @@ final class OrderItemUnitsRefunderTest extends TestCase
             ->method('dispatch')
             ->withConsecutive(
                 [$firstEvent],
-                [$secondEvent]
+                [$secondEvent],
             )
             ->willReturnOnConsecutiveCalls(
                 new Envelope($firstEvent),
-                new Envelope($secondEvent)
+                new Envelope($secondEvent),
             );
 
         $result = $this->refunder->refundFromOrder([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], '000222');

@@ -24,6 +24,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class CreditMemoGeneratedEventListenerTest extends TestCase
 {
     private MessageBusInterface&MockObject $commandBus;
+
     private CreditMemoGeneratedEventListener $listener;
 
     protected function setUp(): void
@@ -34,7 +35,7 @@ final class CreditMemoGeneratedEventListenerTest extends TestCase
     }
 
     /** @test */
-    function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(): void
+    public function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(): void
     {
         $event = new CreditMemoGenerated('01/01/000002', '000222');
 

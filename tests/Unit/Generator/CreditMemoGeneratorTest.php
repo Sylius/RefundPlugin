@@ -37,10 +37,15 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 final class CreditMemoGeneratorTest extends TestCase
 {
     private LineItemsConverterInterface&MockObject $lineItemsConverter;
+
     private TaxItemsGeneratorInterface&MockObject $taxItemsGenerator;
+
     private CreditMemoFactoryInterface&MockObject $creditMemoFactory;
+
     private CustomerBillingDataFactoryInterface&MockObject $customerBillingDataFactory;
+
     private ShopBillingDataFactoryInterface&MockObject $shopBillingDataFactory;
+
     private CreditMemoGenerator $creditMemoGenerator;
 
     protected function setUp(): void
@@ -190,7 +195,7 @@ final class CreditMemoGeneratorTest extends TestCase
             $order,
             1400,
             [$firstUnitRefund, $secondUnitRefund, $shipmentRefund],
-            'Comment'
+            'Comment',
         );
 
         self::assertSame($creditMemo, $result);

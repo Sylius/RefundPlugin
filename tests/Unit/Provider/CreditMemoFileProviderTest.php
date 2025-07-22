@@ -25,7 +25,9 @@ use Sylius\RefundPlugin\Provider\CreditMemoFileProviderInterface;
 final class CreditMemoFileProviderTest extends TestCase
 {
     private CreditMemoFileNameGeneratorInterface&MockObject $creditMemoFileNameGenerator;
+
     private CreditMemoFileManagerInterface&MockObject $creditMemoFileManager;
+
     private CreditMemoFileProvider $provider;
 
     protected function setUp(): void
@@ -37,19 +39,19 @@ final class CreditMemoFileProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(CreditMemoFileProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_credit_memo_file_provider_interface(): void
+    public function it_implements_credit_memo_file_provider_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_provides_credit_memo_pdf_for_credit_memo(): void
+    public function it_provides_credit_memo_pdf_for_credit_memo(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
 

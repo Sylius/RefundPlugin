@@ -24,6 +24,7 @@ use Sylius\RefundPlugin\Provider\ShipmentTotalProvider;
 final class ShipmentTotalProviderTest extends TestCase
 {
     private RepositoryInterface&MockObject $adjustmentRepository;
+
     private ShipmentTotalProvider $provider;
 
     protected function setUp(): void
@@ -34,19 +35,19 @@ final class ShipmentTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(ShipmentTotalProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_is_refund_unit_total_provider(): void
+    public function it_is_refund_unit_total_provider(): void
     {
         self::assertInstanceOf(RefundUnitTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_returns_shipment_total_to_refund(): void
+    public function it_returns_shipment_total_to_refund(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
         $shipment = $this->createMock(ShipmentInterface::class);
@@ -73,7 +74,7 @@ final class ShipmentTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_there_is_no_shipment_with_given_id(): void
+    public function it_throws_exception_if_there_is_no_shipment_with_given_id(): void
     {
         $this->adjustmentRepository
             ->expects(self::once())

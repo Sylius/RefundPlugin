@@ -23,6 +23,7 @@ use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 final class RefundedShipmentFeeProviderTest extends TestCase
 {
     private RepositoryInterface&MockObject $adjustmentRepository;
+
     private RefundedShipmentFeeProvider $provider;
 
     protected function setUp(): void
@@ -33,19 +34,19 @@ final class RefundedShipmentFeeProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(RefundedShipmentFeeProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_refunded_shipment_fee_provider_interface(): void
+    public function it_implements_refunded_shipment_fee_provider_interface(): void
     {
         self::assertInstanceOf(RefundedShipmentFeeProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_returns_fee_from_shipping_adjustment(): void
+    public function it_returns_fee_from_shipping_adjustment(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
 
@@ -71,7 +72,7 @@ final class RefundedShipmentFeeProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_there_is_no_adjustment_with_given_id(): void
+    public function it_throws_exception_if_there_is_no_adjustment_with_given_id(): void
     {
         $this->adjustmentRepository
             ->expects(self::once())
@@ -85,7 +86,7 @@ final class RefundedShipmentFeeProviderTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_adjustment_is_not_shipping_adjustment(): void
+    public function it_throws_exception_if_adjustment_is_not_shipping_adjustment(): void
     {
         $adjustment = $this->createMock(AdjustmentInterface::class);
 

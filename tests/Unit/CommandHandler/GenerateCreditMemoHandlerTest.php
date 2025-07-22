@@ -33,10 +33,16 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class GenerateCreditMemoHandlerTest extends TestCase
 {
     private CreditMemoGeneratorInterface&MockObject $creditMemoGenerator;
+
     private EntityManagerInterface&MockObject $creditMemoManager;
+
     private MessageBusInterface&MockObject $eventBus;
+
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private CreditMemoFileResolverInterface&MockObject $creditMemoFileResolver;
+
     private GenerateCreditMemoHandler $handler;
 
     protected function setUp(): void
@@ -54,12 +60,12 @@ final class GenerateCreditMemoHandlerTest extends TestCase
             $this->eventBus,
             $this->orderRepository,
             $this->creditMemoFileResolver,
-            true
+            true,
         );
     }
 
     /** @test */
-    function it_generates_credit_memo_with_a_pdf_file(): void
+    public function it_generates_credit_memo_with_a_pdf_file(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -115,7 +121,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
     }
 
     /** @test */
-    function it_generates_only_credit_memo_without_a_pdf_file(): void
+    public function it_generates_only_credit_memo_without_a_pdf_file(): void
     {
         $handler = new GenerateCreditMemoHandler(
             $this->creditMemoGenerator,
@@ -123,7 +129,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
             $this->eventBus,
             $this->orderRepository,
             $this->creditMemoFileResolver,
-            false
+            false,
         );
 
         $creditMemo = $this->createMock(CreditMemoInterface::class);
@@ -177,7 +183,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
     }
 
     /** @test */
-    function it_generates_only_credit_memo_without_a_pdf_file_if_pdf_generation_is_disabled(): void
+    public function it_generates_only_credit_memo_without_a_pdf_file_if_pdf_generation_is_disabled(): void
     {
         $handler = new GenerateCreditMemoHandler(
             $this->creditMemoGenerator,
@@ -185,7 +191,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
             $this->eventBus,
             $this->orderRepository,
             $this->creditMemoFileResolver,
-            false
+            false,
         );
 
         $creditMemo = $this->createMock(CreditMemoInterface::class);

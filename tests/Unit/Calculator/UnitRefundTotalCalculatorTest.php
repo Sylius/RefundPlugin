@@ -23,6 +23,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 final class UnitRefundTotalCalculatorTest extends TestCase
 {
     private RemainingTotalProviderInterface&MockObject $remainingTotalProvider;
+
     private UnitRefundTotalCalculator $unitRefundTotalCalculator;
 
     protected function setUp(): void
@@ -33,13 +34,13 @@ final class UnitRefundTotalCalculatorTest extends TestCase
     }
 
     /** @test */
-    function it_implements_unit_refund_total_calculator_interface(): void
+    public function it_implements_unit_refund_total_calculator_interface(): void
     {
         self::assertInstanceOf(UnitRefundTotalCalculatorInterface::class, $this->unitRefundTotalCalculator);
     }
 
     /** @test */
-    function it_provides_remaining_total_if_full_refund_option_is_chosen(): void
+    public function it_provides_remaining_total_if_full_refund_option_is_chosen(): void
     {
         $refundType = RefundType::shipment();
 
@@ -55,7 +56,7 @@ final class UnitRefundTotalCalculatorTest extends TestCase
     }
 
     /** @test */
-    function it_provides_specified_amount_as_an_integer(): void
+    public function it_provides_specified_amount_as_an_integer(): void
     {
         $result = $this->unitRefundTotalCalculator->calculateForUnitWithIdAndType(100, RefundType::shipment(), 30.40);
 

@@ -20,7 +20,7 @@ use Sylius\RefundPlugin\Model\UnitRefundInterface;
 final class RefundUnitsTest extends TestCase
 {
     /** @test */
-    function it_represents_an_intention_to_refund_specific_units(): void
+    public function it_represents_an_intention_to_refund_specific_units(): void
     {
         $orderItemUnit = $this->createMock(UnitRefundInterface::class);
         $shipmentUnit = $this->createMock(UnitRefundInterface::class);
@@ -35,10 +35,10 @@ final class RefundUnitsTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_units_are_not_an_instance_of_unit_refund_interface(): void
+    public function it_throws_an_exception_if_units_are_not_an_instance_of_unit_refund_interface(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        
+
         new RefundUnits('000222', [new \stdClass()], 1, 'Comment');
     }
 }

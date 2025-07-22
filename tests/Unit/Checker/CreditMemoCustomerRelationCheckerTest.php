@@ -27,7 +27,9 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 final class CreditMemoCustomerRelationCheckerTest extends TestCase
 {
     private CustomerContextInterface&MockObject $customerContext;
+
     private RepositoryInterface&MockObject $creditMemoRepository;
+
     private CreditMemoCustomerRelationChecker $checker;
 
     protected function setUp(): void
@@ -39,19 +41,19 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(CreditMemoCustomerRelationChecker::class, $this->checker);
     }
 
     /** @test */
-    function it_implements_credit_memo_customer_relation_checker_interface(): void
+    public function it_implements_credit_memo_customer_relation_checker_interface(): void
     {
         self::assertInstanceOf(CreditMemoCustomerRelationCheckerInterface::class, $this->checker);
     }
 
     /** @test */
-    function it_checks_if_customer_id_from_order_is_equal_to_customer_id_from_customer_context(): void
+    public function it_checks_if_customer_id_from_order_is_equal_to_customer_id_from_customer_context(): void
     {
         $creditMemo = $this->createMock(CreditMemo::class);
         $order = $this->createMock(OrderInterface::class);
@@ -93,7 +95,7 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_customer_id_from_order_is_not_equal_to_id_from_context(): void
+    public function it_throws_exception_if_customer_id_from_order_is_not_equal_to_id_from_context(): void
     {
         $creditMemo = $this->createMock(CreditMemo::class);
         $order = $this->createMock(OrderInterface::class);

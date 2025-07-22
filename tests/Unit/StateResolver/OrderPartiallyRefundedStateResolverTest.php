@@ -26,9 +26,13 @@ use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver;
 
 final class OrderPartiallyRefundedStateResolverTest extends TestCase
 {
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private StateMachineInterface&MockObject $stateMachineFactory;
+
     private EntityManagerInterface&MockObject $orderManager;
+
     private OrderPartiallyRefundedStateResolver $resolver;
 
     protected function setUp(): void
@@ -42,7 +46,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_marks_order_as_partially_refunded(): void
+    public function it_marks_order_as_partially_refunded(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -75,7 +79,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_does_nothing_if_order_is_already_marked_as_partially_refunded(): void
+    public function it_does_nothing_if_order_is_already_marked_as_partially_refunded(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -103,7 +107,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_if_there_is_no_order_with_given_number(): void
+    public function it_throws_exception_if_there_is_no_order_with_given_number(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -124,7 +128,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
     }
 
     /** @test */
-    function it_uses_winzou_state_machine_if_abstraction_not_passed_to_mark_order_as_partially_refunded(): void
+    public function it_uses_winzou_state_machine_if_abstraction_not_passed_to_mark_order_as_partially_refunded(): void
     {
         $order = $this->createMock(OrderInterface::class);
 

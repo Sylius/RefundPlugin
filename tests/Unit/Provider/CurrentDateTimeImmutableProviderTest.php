@@ -28,19 +28,19 @@ final class CurrentDateTimeImmutableProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(CurrentDateTimeImmutableProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_current_date_time_immutable_provider_interface(): void
+    public function it_implements_current_date_time_immutable_provider_interface(): void
     {
         self::assertInstanceOf(CurrentDateTimeImmutableProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_provides_current_immutable_date_and_time(): void
+    public function it_provides_current_immutable_date_and_time(): void
     {
         $now = new \DateTimeImmutable();
         $result = $this->provider->now();

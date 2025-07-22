@@ -31,8 +31,11 @@ use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 final class ShipmentLineItemsConverterTest extends TestCase
 {
     private RepositoryInterface&MockObject $adjustmentRepository;
+
     private TaxRateProviderInterface&MockObject $taxRateProvider;
+
     private LineItemFactoryInterface&MockObject $lineItemFactory;
+
     private ShipmentLineItemsConverter $converter;
 
     protected function setUp(): void
@@ -45,18 +48,18 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $this->converter = new ShipmentLineItemsConverter(
             $this->adjustmentRepository,
             $this->taxRateProvider,
-            $this->lineItemFactory
+            $this->lineItemFactory,
         );
     }
 
     /** @test */
-    function it_implements_line_items_converter_interface(): void
+    public function it_implements_line_items_converter_interface(): void
     {
         self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
     /** @test */
-    function it_converts_shipment_unit_refunds_to_line_items(): void
+    public function it_converts_shipment_unit_refunds_to_line_items(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
         $taxAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -115,7 +118,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
+    public function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
     {
         $shipmentRefund = new ShipmentRefund(1, 575);
         $orderItemUnitRefund = new OrderItemUnitRefund(3, 300);
@@ -126,7 +129,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(): void
+    public function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(): void
     {
         $shipmentRefund = new ShipmentRefund(1, 500);
 
@@ -142,7 +145,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(): void
+    public function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
         $shipment = $this->createMock(ShipmentInterface::class);
@@ -171,7 +174,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_shipment_has_more_tax_adjustments_than_one(): void
+    public function it_throws_an_exception_if_shipment_has_more_tax_adjustments_than_one(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
         $firstTaxAdjustment = $this->createMock(AdjustmentInterface::class);

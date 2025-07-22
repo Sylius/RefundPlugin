@@ -24,6 +24,7 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 final class OrderRefundedTotalProviderTest extends TestCase
 {
     private RepositoryInterface&MockObject $refundRepository;
+
     private OrderRefundedTotalProvider $provider;
 
     protected function setUp(): void
@@ -34,19 +35,19 @@ final class OrderRefundedTotalProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(OrderRefundedTotalProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_order_refunded_total_provider_interface(): void
+    public function it_implements_order_refunded_total_provider_interface(): void
     {
         self::assertInstanceOf(OrderRefundedTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_returns_refunded_total_of_order_with_given_number(): void
+    public function it_returns_refunded_total_of_order_with_given_number(): void
     {
         $order = $this->createMock(OrderInterface::class);
         $firstRefund = $this->createMock(RefundInterface::class);

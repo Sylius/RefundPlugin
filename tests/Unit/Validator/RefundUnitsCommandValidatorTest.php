@@ -29,9 +29,13 @@ use Sylius\RefundPlugin\Validator\UnitRefundsBelongingToOrderValidatorInterface;
 final class RefundUnitsCommandValidatorTest extends TestCase
 {
     private OrderRefundingAvailabilityCheckerInterface&MockObject $orderRefundingAvailabilityChecker;
+
     private RefundAmountValidatorInterface&MockObject $refundAmountValidator;
+
     private UnitRefundsBelongingToOrderValidatorInterface&MockObject $firstUnitRefundsBelongingToOrderValidator;
+
     private UnitRefundsBelongingToOrderValidatorInterface&MockObject $secondUnitRefundsBelongingToOrderValidator;
+
     private RefundUnitsCommandValidator $validator;
 
     protected function setUp(): void
@@ -48,12 +52,12 @@ final class RefundUnitsCommandValidatorTest extends TestCase
             [
                 $this->firstUnitRefundsBelongingToOrderValidator,
                 $this->secondUnitRefundsBelongingToOrderValidator,
-            ]
+            ],
         );
     }
 
     /** @test */
-    function it_throws_exception_when_order_is_not_available_for_refund(): void
+    public function it_throws_exception_when_order_is_not_available_for_refund(): void
     {
         $this->orderRefundingAvailabilityChecker
             ->expects(self::once())
@@ -69,7 +73,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_when_order_item_units_amount_is_not_valid(): void
+    public function it_throws_exception_when_order_item_units_amount_is_not_valid(): void
     {
         $this->orderRefundingAvailabilityChecker
             ->expects(self::once())
@@ -102,7 +106,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_when_order_item_units_do_not_belong_to_an_order(): void
+    public function it_throws_exception_when_order_item_units_do_not_belong_to_an_order(): void
     {
         $this->orderRefundingAvailabilityChecker
             ->expects(self::once())
@@ -133,7 +137,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_when_shipment_amount_is_not_valid(): void
+    public function it_throws_exception_when_shipment_amount_is_not_valid(): void
     {
         $this->orderRefundingAvailabilityChecker
             ->expects(self::once())
@@ -166,7 +170,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     }
 
     /** @test */
-    function it_throws_exception_when_shipment_does_not_belong_to_an_order(): void
+    public function it_throws_exception_when_shipment_does_not_belong_to_an_order(): void
     {
         $this->orderRefundingAvailabilityChecker
             ->expects(self::once())

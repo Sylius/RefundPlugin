@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 final class RefundPaymentGeneratedTest extends TestCase
 {
     /** @test */
-    function it_represents_an_immutable_fact_that_refund_payment_has_been_generated(): void
+    public function it_represents_an_immutable_fact_that_refund_payment_has_been_generated(): void
     {
         $refundPaymentGenerated = new RefundPaymentGenerated(1, '000222', 10000, 'GBP', 2, 3);
 

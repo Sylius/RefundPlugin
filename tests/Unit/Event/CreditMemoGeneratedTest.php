@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 final class CreditMemoGeneratedTest extends TestCase
 {
     /** @test */
-    function it_represents_an_immutable_fact_that_credit_memo_has_been_generated(): void
+    public function it_represents_an_immutable_fact_that_credit_memo_has_been_generated(): void
     {
         $creditMemoGenerated = new CreditMemoGenerated('2018/01/000001', '000222');
 

@@ -33,9 +33,13 @@ use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 final class CreditMemoFactoryTest extends TestCase
 {
     private FactoryInterface&MockObject $creditMemoFactory;
+
     private CreditMemoIdentifierGeneratorInterface&MockObject $creditMemoIdentifierGenerator;
+
     private CreditMemoNumberGeneratorInterface&MockObject $creditMemoNumberGenerator;
+
     private CurrentDateTimeImmutableProviderInterface&MockObject $currentDateTimeImmutableProvider;
+
     private CreditMemoFactory $factory;
 
     protected function setUp(): void

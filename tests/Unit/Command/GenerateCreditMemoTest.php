@@ -21,7 +21,7 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 final class GenerateCreditMemoTest extends TestCase
 {
     /** @test */
-    function it_represents_an_intention_to_generate_credit_memo(): void
+    public function it_represents_an_intention_to_generate_credit_memo(): void
     {
         $unitRefunds = [
             new OrderItemUnitRefund(1, 1000),

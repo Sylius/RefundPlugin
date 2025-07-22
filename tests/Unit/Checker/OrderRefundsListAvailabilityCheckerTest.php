@@ -18,12 +18,14 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
+use Sylius\RefundPlugin\Checker\OrderRefundsListAvailabilityChecker;
 
 final class OrderRefundsListAvailabilityCheckerTest extends TestCase
 {
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private OrderRefundsListAvailabilityChecker $checker;
 
     protected function setUp(): void
@@ -34,13 +36,13 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_implements_order_refunding_availability_checker_interface(): void
+    public function it_implements_order_refunding_availability_checker_interface(): void
     {
         self::assertInstanceOf(OrderRefundingAvailabilityCheckerInterface::class, $this->checker);
     }
 
     /** @test */
-    function it_returns_true_if_order_is_paid_and_not_free(): void
+    public function it_returns_true_if_order_is_paid_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -66,7 +68,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_order_is_refunded_and_not_free(): void
+    public function it_returns_true_if_order_is_refunded_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -92,7 +94,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_order_is_partially_refunded_and_not_free(): void
+    public function it_returns_true_if_order_is_partially_refunded_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -118,7 +120,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_in_other_state_and_not_free(): void
+    public function it_returns_false_if_order_is_in_other_state_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -141,7 +143,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_paid_and_free(): void
+    public function it_returns_false_if_order_is_paid_and_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -167,7 +169,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_refunded_and_free(): void
+    public function it_returns_false_if_order_is_refunded_and_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -193,7 +195,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_in_other_state_and_free(): void
+    public function it_returns_false_if_order_is_in_other_state_and_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -216,7 +218,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_refunding_checker_allows_it(): void
+    public function it_returns_true_if_refunding_checker_allows_it(): void
     {
         $orderRefundingAvailabilityChecker = $this->createMock(OrderRefundingAvailabilityCheckerInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -241,7 +243,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_checker_returns_false_but_order_is_refunded(): void
+    public function it_returns_true_if_checker_returns_false_but_order_is_refunded(): void
     {
         $orderRefundingAvailabilityChecker = $this->createMock(OrderRefundingAvailabilityCheckerInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -271,7 +273,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_checker_returns_false_and_order_is_not_refunded(): void
+    public function it_returns_false_if_checker_returns_false_and_order_is_not_refunded(): void
     {
         $orderRefundingAvailabilityChecker = $this->createMock(OrderRefundingAvailabilityCheckerInterface::class);
         $order = $this->createMock(OrderInterface::class);

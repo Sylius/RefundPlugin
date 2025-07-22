@@ -28,6 +28,7 @@ final class SequentialCreditMemoNumberGeneratorTest extends TestCase
 {
     private SequentialCreditMemoNumberGenerator $generator;
 
+    /** @var ObjectRepository<CreditMemoSequenceInterface>&MockObject */
     private ObjectRepository&MockObject $sequenceRepository;
 
     private CreditMemoSequenceFactoryInterface&MockObject $sequenceFactory;

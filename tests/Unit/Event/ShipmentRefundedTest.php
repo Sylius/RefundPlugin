@@ -19,7 +19,7 @@ use Sylius\RefundPlugin\Event\ShipmentRefunded;
 final class ShipmentRefundedTest extends TestCase
 {
     /** @test */
-    function it_represents_an_immutable_fact_that_shipment_has_been_refunded(): void
+    public function it_represents_an_immutable_fact_that_shipment_has_been_refunded(): void
     {
         $shipmentRefunded = new ShipmentRefunded('000222', 1, 1000);
 

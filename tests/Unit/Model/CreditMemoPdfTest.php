@@ -19,18 +19,18 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 final class CreditMemoPdfTest extends TestCase
 {
     /** @test */
-    function it_has_filename(): void
+    public function it_has_filename(): void
     {
         $creditMemoPdf = new CreditMemoPdf('2018_01_0000002.pdf', 'pdf content');
-        
+
         self::assertEquals('2018_01_0000002.pdf', $creditMemoPdf->filename());
     }
 
     /** @test */
-    function it_has_content(): void
+    public function it_has_content(): void
     {
         $creditMemoPdf = new CreditMemoPdf('2018_01_0000002.pdf', 'pdf content');
-        
+
         self::assertEquals('pdf content', $creditMemoPdf->content());
     }
 }

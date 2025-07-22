@@ -30,19 +30,19 @@ final class CreditMemoFileResponseBuilderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(CreditMemoFileResponseBuilder::class, $this->builder);
     }
 
     /** @test */
-    function it_implements_credit_memo_file_response_builder_interface(): void
+    public function it_implements_credit_memo_file_response_builder_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileResponseBuilderInterface::class, $this->builder);
     }
 
     /** @test */
-    function it_returns_response_containing_pdf_file_when_its_provided(): void
+    public function it_returns_response_containing_pdf_file_when_its_provided(): void
     {
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'credit_memo_content');
 

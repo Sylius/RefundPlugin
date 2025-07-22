@@ -28,9 +28,13 @@ use Symfony\Component\Config\FileLocatorInterface;
 final class CreditMemoPdfFileGeneratorTest extends TestCase
 {
     private RepositoryInterface&MockObject $creditMemoRepository;
+
     private FileLocatorInterface&MockObject $fileLocator;
+
     private TwigToPdfGeneratorInterface&MockObject $twigToPdfGenerator;
+
     private CreditMemoFileNameGeneratorInterface&MockObject $creditMemoFileNameGenerator;
+
     private CreditMemoPdfFileGenerator $generator;
 
     protected function setUp(): void
@@ -82,7 +86,7 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
             ->method('generate')
             ->with('creditMemoTemplate.html.twig', [
                 'creditMemo' => $creditMemo,
-                'creditMemoLogoPath' => 'located-path/sylius-logo.png'
+                'creditMemoLogoPath' => 'located-path/sylius-logo.png',
             ])
             ->willReturn('PDF FILE');
 

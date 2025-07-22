@@ -65,7 +65,7 @@ final class TwigToPdfGeneratorTest extends TestCase
             ->method('getOutputFromHtml')
             ->with(
                 '<html>I am a pdf file generated from twig template</html>',
-                ['allow' => ['allowed_file_in_knp_snappy_config.png', 'located-path/swans.png']]
+                ['allow' => ['allowed_file_in_knp_snappy_config.png', 'located-path/swans.png']],
             )
             ->willReturn('PDF FILE');
 

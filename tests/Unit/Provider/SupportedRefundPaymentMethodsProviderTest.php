@@ -25,7 +25,9 @@ use Sylius\RefundPlugin\Provider\SupportedRefundPaymentMethodsProvider;
 
 final class SupportedRefundPaymentMethodsProviderTest extends TestCase
 {
+    /** @var PaymentMethodRepositoryInterface<PaymentMethodInterface>&MockObject */
     private PaymentMethodRepositoryInterface&MockObject $paymentMethodRepository;
+
     private SupportedRefundPaymentMethodsProvider $provider;
 
     protected function setUp(): void
@@ -36,19 +38,19 @@ final class SupportedRefundPaymentMethodsProviderTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(SupportedRefundPaymentMethodsProvider::class, $this->provider);
     }
 
     /** @test */
-    function it_implements_refund_payment_methods_provider_interface(): void
+    public function it_implements_refund_payment_methods_provider_interface(): void
     {
         self::assertInstanceOf(RefundPaymentMethodsProviderInterface::class, $this->provider);
     }
 
     /** @test */
-    function it_provides_only_supported_payment_methods(): void
+    public function it_provides_only_supported_payment_methods(): void
     {
         $order = $this->createMock(OrderInterface::class);
         $channel = $this->createMock(ChannelInterface::class);

@@ -25,6 +25,7 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 final class CreditMemoFileManagerTest extends TestCase
 {
     private FilesystemInterface&MockObject $filesystem;
+
     private CreditMemoFileManager $creditMemoFileManager;
 
     protected function setUp(): void
@@ -35,13 +36,13 @@ final class CreditMemoFileManagerTest extends TestCase
     }
 
     /** @test */
-    function it_implements_credit_memo_file_manager_interface(): void
+    public function it_implements_credit_memo_file_manager_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileManagerInterface::class, $this->creditMemoFileManager);
     }
 
     /** @test */
-    function it_saves_credit_memo_pdf_in_given_filesystem(): void
+    public function it_saves_credit_memo_pdf_in_given_filesystem(): void
     {
         $this->filesystem
             ->expects(self::once())
@@ -52,7 +53,7 @@ final class CreditMemoFileManagerTest extends TestCase
     }
 
     /** @test */
-    function it_removes_credit_memo_pdf_from_given_filesystem(): void
+    public function it_removes_credit_memo_pdf_from_given_filesystem(): void
     {
         $this->filesystem
             ->expects(self::once())
@@ -63,7 +64,7 @@ final class CreditMemoFileManagerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_credit_memo_pdf_for_given_file_name_from_filesystem(): void
+    public function it_returns_credit_memo_pdf_for_given_file_name_from_filesystem(): void
     {
         $file = $this->createMock(File::class);
         $file
@@ -83,7 +84,7 @@ final class CreditMemoFileManagerTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_there_is_no_file_for_given_file_name_in_filesystem(): void
+    public function it_throws_an_exception_if_there_is_no_file_for_given_file_name_in_filesystem(): void
     {
         $this->filesystem
             ->expects(self::once())

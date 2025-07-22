@@ -28,9 +28,13 @@ use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 final class CreditMemoFileResolverTest extends TestCase
 {
     private CreditMemoRepositoryInterface&MockObject $creditMemoRepository;
+
     private CreditMemoFileProviderInterface&MockObject $creditMemoFileProvider;
+
     private CreditMemoPdfFileGeneratorInterface&MockObject $creditMemoPdfFileGenerator;
+
     private CreditMemoFileManagerInterface&MockObject $creditMemoFileManager;
+
     private CreditMemoFileResolver $resolver;
 
     protected function setUp(): void

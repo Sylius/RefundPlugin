@@ -28,19 +28,19 @@ final class CreditMemoSequenceTest extends TestCase
     }
 
     /** @test */
-    function it_implements_credit_memo_sequence_interface(): void
+    public function it_implements_credit_memo_sequence_interface(): void
     {
         self::assertInstanceOf(CreditMemoSequenceInterface::class, $this->creditMemoSequence);
     }
 
     /** @test */
-    function it_has_no_id_by_default(): void
+    public function it_has_no_id_by_default(): void
     {
         self::assertNull($this->creditMemoSequence->getId());
     }
 
     /** @test */
-    function it_has_incrementable_index(): void
+    public function it_has_incrementable_index(): void
     {
         self::assertEquals(0, $this->creditMemoSequence->getIndex());
 
@@ -51,7 +51,7 @@ final class CreditMemoSequenceTest extends TestCase
     }
 
     /** @test */
-    function it_has_version(): void
+    public function it_has_version(): void
     {
         self::assertEquals(1, $this->creditMemoSequence->getVersion());
 

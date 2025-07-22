@@ -25,7 +25,9 @@ use Sylius\RefundPlugin\StateResolver\RefundPaymentTransitions;
 final class RefundPaymentCompletedStateApplierTest extends TestCase
 {
     private StateMachineInterface&MockObject $stateMachineFactory;
+
     private EntityManagerInterface&MockObject $refundPaymentManager;
+
     private RefundPaymentCompletedStateApplier $applier;
 
     protected function setUp(): void
@@ -38,19 +40,19 @@ final class RefundPaymentCompletedStateApplierTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(RefundPaymentCompletedStateApplier::class, $this->applier);
     }
 
     /** @test */
-    function it_implements_refund_payment_completed_state_applier_interface(): void
+    public function it_implements_refund_payment_completed_state_applier_interface(): void
     {
         self::assertInstanceOf(RefundPaymentCompletedStateApplierInterface::class, $this->applier);
     }
 
     /** @test */
-    function it_applies_complete_transition_on_refund_payment(): void
+    public function it_applies_complete_transition_on_refund_payment(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $refundPaymentManager = $this->createMock(EntityManagerInterface::class);
@@ -71,7 +73,7 @@ final class RefundPaymentCompletedStateApplierTest extends TestCase
     }
 
     /** @test */
-    function it_uses_winzou_state_machine_if_abstraction_not_passed_to_apply_complete_transition_on_refund_payment(): void
+    public function it_uses_winzou_state_machine_if_abstraction_not_passed_to_apply_complete_transition_on_refund_payment(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);
 

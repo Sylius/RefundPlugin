@@ -35,27 +35,27 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_implements_a_credit_memo_interface(): void
+    public function it_implements_a_credit_memo_interface(): void
     {
         self::assertInstanceOf(CreditMemoInterface::class, $this->creditMemo);
     }
 
     /** @test */
-    function it_has_an_id(): void
+    public function it_has_an_id(): void
     {
         $this->creditMemo->setId('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
         self::assertEquals('7903c83a-4c5e-4bcf-81d8-9dc304c6a353', $this->creditMemo->getId());
     }
 
     /** @test */
-    function it_has_a_number(): void
+    public function it_has_a_number(): void
     {
         $this->creditMemo->setNumber('2018/07/00003333');
         self::assertEquals('2018/07/00003333', $this->creditMemo->getNumber());
     }
 
     /** @test */
-    function it_has_an_order(): void
+    public function it_has_an_order(): void
     {
         $order = $this->createMock(OrderInterface::class);
         $this->creditMemo->setOrder($order);
@@ -63,28 +63,28 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_total(): void
+    public function it_has_a_total(): void
     {
         $this->creditMemo->setTotal(1000);
         self::assertEquals(1000, $this->creditMemo->getTotal());
     }
 
     /** @test */
-    function it_has_a_currency_code(): void
+    public function it_has_a_currency_code(): void
     {
         $this->creditMemo->setCurrencyCode('USD');
         self::assertEquals('USD', $this->creditMemo->getCurrencyCode());
     }
 
     /** @test */
-    function it_has_a_locale_code(): void
+    public function it_has_a_locale_code(): void
     {
         $this->creditMemo->setLocaleCode('en_US');
         self::assertEquals('en_US', $this->creditMemo->getLocaleCode());
     }
 
     /** @test */
-    function it_has_a_channel(): void
+    public function it_has_a_channel(): void
     {
         $channel = $this->createMock(ChannelInterface::class);
         $this->creditMemo->setChannel($channel);
@@ -92,7 +92,7 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_has_line_items(): void
+    public function it_has_line_items(): void
     {
         $lineItem = $this->createMock(LineItemInterface::class);
         $lineItems = new ArrayCollection([$lineItem]);
@@ -101,7 +101,7 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_has_tax_items(): void
+    public function it_has_tax_items(): void
     {
         $taxItem = $this->createMock(TaxItemInterface::class);
         $taxItems = new ArrayCollection([$taxItem]);
@@ -110,7 +110,7 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_date_of_creation(): void
+    public function it_has_a_date_of_creation(): void
     {
         $issuedAt = new \DateTimeImmutable('01-01-2020 10:10:10');
         $this->creditMemo->setIssuedAt($issuedAt);
@@ -118,14 +118,14 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_comment(): void
+    public function it_has_a_comment(): void
     {
         $this->creditMemo->setComment('Comment');
         self::assertEquals('Comment', $this->creditMemo->getComment());
     }
 
     /** @test */
-    function it_has_a_from_address(): void
+    public function it_has_a_from_address(): void
     {
         $from = $this->createMock(CustomerBillingDataInterface::class);
         $this->creditMemo->setFrom($from);
@@ -133,7 +133,7 @@ final class CreditMemoTest extends TestCase
     }
 
     /** @test */
-    function it_has_a_to_address(): void
+    public function it_has_a_to_address(): void
     {
         $to = $this->createMock(ShopBillingDataInterface::class);
         $this->creditMemo->setTo($to);

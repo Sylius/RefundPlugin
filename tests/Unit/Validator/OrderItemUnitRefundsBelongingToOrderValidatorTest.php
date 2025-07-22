@@ -26,7 +26,9 @@ use Sylius\RefundPlugin\Validator\UnitRefundsBelongingToOrderValidatorInterface;
 final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
 {
     private UnitRefundFilterInterface&MockObject $unitRefundFilter;
+
     private CountRefundsBelongingToOrderQueryInterface&MockObject $countRefundsBelongingToOrderQuery;
+
     private OrderItemUnitRefundsBelongingToOrderValidator $validator;
 
     protected function setUp(): void
@@ -36,18 +38,18 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
         $this->countRefundsBelongingToOrderQuery = $this->createMock(CountRefundsBelongingToOrderQueryInterface::class);
         $this->validator = new OrderItemUnitRefundsBelongingToOrderValidator(
             $this->unitRefundFilter,
-            $this->countRefundsBelongingToOrderQuery
+            $this->countRefundsBelongingToOrderQuery,
         );
     }
 
     /** @test */
-    function it_implements_unit_refunds_belonging_to_order_validator_interface(): void
+    public function it_implements_unit_refunds_belonging_to_order_validator_interface(): void
     {
         self::assertInstanceOf(UnitRefundsBelongingToOrderValidatorInterface::class, $this->validator);
     }
 
     /** @test */
-    function it_throws_an_exception_if_some_order_item_unit_refunds_do_not_belong_to_the_order(): void
+    public function it_throws_an_exception_if_some_order_item_unit_refunds_do_not_belong_to_the_order(): void
     {
         $unitRefunds = [
             $firstOrderItemUnitRefund = new OrderItemUnitRefund(1, 3000),
@@ -77,7 +79,7 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
     }
 
     /** @test */
-    function it_does_not_throw_an_exception_if_all_order_item_unit_refunds_belong_to_the_order(): void
+    public function it_does_not_throw_an_exception_if_all_order_item_unit_refunds_belong_to_the_order(): void
     {
         $unitRefunds = [
             $firstOrderItemUnitRefund = new OrderItemUnitRefund(1, 3000),

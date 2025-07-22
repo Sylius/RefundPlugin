@@ -23,6 +23,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 final class UnitRefundingAvailabilityCheckerTest extends TestCase
 {
     private RemainingTotalProviderInterface&MockObject $remainingTotalProvider;
+
     private UnitRefundingAvailabilityChecker $checker;
 
     protected function setUp(): void
@@ -32,13 +33,13 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_implements_unit_refunding_availability_checker_interface(): void
+    public function it_implements_unit_refunding_availability_checker_interface(): void
     {
         self::assertInstanceOf(UnitRefundingAvailabilityCheckerInterface::class, $this->checker);
     }
 
     /** @test */
-    function it_returns_false_if_remaining_unit_total_is_0(): void
+    public function it_returns_false_if_remaining_unit_total_is_0(): void
     {
         $type = RefundType::orderItemUnit();
 
@@ -54,7 +55,7 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_remaining_unit_total_is_more_than_0(): void
+    public function it_returns_true_if_remaining_unit_total_is_more_than_0(): void
     {
         $type = RefundType::shipment();
 

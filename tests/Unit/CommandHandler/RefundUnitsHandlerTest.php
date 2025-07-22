@@ -31,10 +31,16 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class RefundUnitsHandlerTest extends TestCase
 {
     private RefunderInterface&MockObject $orderItemUnitsRefunder;
+
     private RefunderInterface&MockObject $orderShipmentsRefunder;
+
     private MessageBusInterface&MockObject $eventBus;
+
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private RefundUnitsCommandValidatorInterface&MockObject $refundUnitsCommandValidator;
+
     private RefundUnitsHandler $handler;
 
     protected function setUp(): void
@@ -50,12 +56,12 @@ final class RefundUnitsHandlerTest extends TestCase
             [$this->orderItemUnitsRefunder, $this->orderShipmentsRefunder],
             $this->eventBus,
             $this->orderRepository,
-            $this->refundUnitsCommandValidator
+            $this->refundUnitsCommandValidator,
         );
     }
 
     /** @test */
-    function it_handles_command_and_create_refund_for_each_refunded_unit(): void
+    public function it_handles_command_and_create_refund_for_each_refunded_unit(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -100,7 +106,7 @@ final class RefundUnitsHandlerTest extends TestCase
             1,
             7000,
             'USD',
-            'Comment'
+            'Comment',
         );
         $this->eventBus
             ->expects(self::once())
@@ -112,7 +118,7 @@ final class RefundUnitsHandlerTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_if_order_is_not_available_for_refund(): void
+    public function it_throws_an_exception_if_order_is_not_available_for_refund(): void
     {
         $refundUnitsCommand = new RefundUnits(
             '000222',
@@ -120,10 +126,10 @@ final class RefundUnitsHandlerTest extends TestCase
                 new OrderItemUnitRefund(1, 3000),
                 new OrderItemUnitRefund(3, 4000),
                 new ShipmentRefund(3, 500),
-                new ShipmentRefund(4, 1000)
+                new ShipmentRefund(4, 1000),
             ],
             1,
-            'Comment'
+            'Comment',
         );
 
         $this->refundUnitsCommandValidator

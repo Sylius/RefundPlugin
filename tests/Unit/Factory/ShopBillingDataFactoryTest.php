@@ -23,6 +23,7 @@ use Sylius\RefundPlugin\Factory\ShopBillingDataFactoryInterface;
 final class ShopBillingDataFactoryTest extends TestCase
 {
     private FactoryInterface&MockObject $shopBillingDataFactory;
+
     private ShopBillingDataFactory $factory;
 
     protected function setUp(): void

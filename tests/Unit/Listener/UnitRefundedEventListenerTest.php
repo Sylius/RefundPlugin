@@ -24,6 +24,7 @@ use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolverInterfa
 final class UnitRefundedEventListenerTest extends TestCase
 {
     private OrderPartiallyRefundedStateResolverInterface&MockObject $orderPartiallyRefundedStateResolver;
+
     private UnitRefundedEventListener $listener;
 
     protected function setUp(): void
@@ -34,7 +35,7 @@ final class UnitRefundedEventListenerTest extends TestCase
     }
 
     /** @test */
-    function it_resolves_order_partially_refunded_state_with_unit_refunded_event(): void
+    public function it_resolves_order_partially_refunded_state_with_unit_refunded_event(): void
     {
         $this->orderPartiallyRefundedStateResolver
             ->expects(self::once())
@@ -45,7 +46,7 @@ final class UnitRefundedEventListenerTest extends TestCase
     }
 
     /** @test */
-    function it_resolves_order_partially_refunded_state_with_shipment_refunded_event(): void
+    public function it_resolves_order_partially_refunded_state_with_shipment_refunded_event(): void
     {
         $this->orderPartiallyRefundedStateResolver
             ->expects(self::once())
@@ -56,7 +57,7 @@ final class UnitRefundedEventListenerTest extends TestCase
     }
 
     /** @test */
-    function it_resolves_order_partially_refunded_state_with_an_event_implementing_unit_refunded_interface(): void
+    public function it_resolves_order_partially_refunded_state_with_an_event_implementing_unit_refunded_interface(): void
     {
         $unitRefunded = $this->createMock(UnitRefundedInterface::class);
 

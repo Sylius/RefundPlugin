@@ -29,8 +29,11 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class OrderShipmentsRefunderTest extends TestCase
 {
     private RefundCreatorInterface&MockObject $refundCreator;
+
     private MessageBusInterface&MockObject $eventBus;
+
     private UnitRefundFilterInterface&MockObject $unitRefundFilter;
+
     private OrderShipmentsRefunder $refunder;
 
     protected function setUp(): void

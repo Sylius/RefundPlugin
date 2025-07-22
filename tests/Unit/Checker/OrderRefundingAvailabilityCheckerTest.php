@@ -25,7 +25,9 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 
 final class OrderRefundingAvailabilityCheckerTest extends TestCase
 {
+    /** @var OrderRepositoryInterface<OrderInterface>&MockObject */
     private OrderRepositoryInterface&MockObject $orderRepository;
+
     private OrderRefundingAvailabilityChecker $checker;
 
     protected function setUp(): void
@@ -36,13 +38,13 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_implements_order_refunding_availability_checker_interface(): void
+    public function it_implements_order_refunding_availability_checker_interface(): void
     {
         self::assertInstanceOf(OrderRefundingAvailabilityCheckerInterface::class, $this->checker);
     }
 
     /** @test */
-    function it_returns_true_if_order_is_paid_and_not_free(): void
+    public function it_returns_true_if_order_is_paid_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -68,7 +70,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_order_is_partially_refunded_and_not_free(): void
+    public function it_returns_true_if_order_is_partially_refunded_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -94,7 +96,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_in_other_state_and_not_free(): void
+    public function it_returns_false_if_order_is_in_other_state_and_not_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -117,7 +119,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_free(): void
+    public function it_returns_false_if_order_is_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -143,7 +145,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_partially_refunded_and_free(): void
+    public function it_returns_false_if_order_is_partially_refunded_and_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -169,7 +171,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_order_is_in_other_state_and_free(): void
+    public function it_returns_false_if_order_is_in_other_state_and_free(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -192,7 +194,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_partially_refund_transition_is_possible_and_total_is_not_zero(): void
+    public function it_returns_true_if_partially_refund_transition_is_possible_and_total_is_not_zero(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -222,7 +224,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_refund_transition_is_possible_and_total_is_not_zero(): void
+    public function it_returns_true_if_refund_transition_is_possible_and_total_is_not_zero(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -240,7 +242,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
             ->method('can')
             ->withConsecutive(
                 [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND],
-                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND]
+                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND],
             )
             ->willReturnOnConsecutiveCalls(false, true);
 
@@ -255,7 +257,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_no_transition_is_possible_even_if_total_is_not_zero(): void
+    public function it_returns_false_if_no_transition_is_possible_even_if_total_is_not_zero(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $order = $this->createMock(OrderInterface::class);
@@ -273,7 +275,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
             ->method('can')
             ->withConsecutive(
                 [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND],
-                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND]
+                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND],
             )
             ->willReturnOnConsecutiveCalls(false, false);
 
@@ -285,7 +287,7 @@ final class OrderRefundingAvailabilityCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_false_if_transition_is_possible_but_total_is_zero(): void
+    public function it_returns_false_if_transition_is_possible_but_total_is_zero(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
         $order = $this->createMock(OrderInterface::class);

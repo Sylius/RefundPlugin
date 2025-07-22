@@ -25,7 +25,9 @@ use Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface;
 final class UnitsRefundedProcessManagerTest extends TestCase
 {
     private UnitsRefundedProcessStepInterface&MockObject $creditMemoProcessManager;
+
     private UnitsRefundedProcessStepInterface&MockObject $refundPaymentProcessManager;
+
     private UnitsRefundedProcessManager $unitsRefundedProcessManager;
 
     protected function setUp(): void
@@ -36,18 +38,18 @@ final class UnitsRefundedProcessManagerTest extends TestCase
 
         $this->unitsRefundedProcessManager = new UnitsRefundedProcessManager([
             $this->creditMemoProcessManager,
-            $this->refundPaymentProcessManager
+            $this->refundPaymentProcessManager,
         ]);
     }
 
     /** @test */
-    function it_implements_units_refunded_process_manager_interface(): void
+    public function it_implements_units_refunded_process_manager_interface(): void
     {
         self::assertInstanceOf(UnitsRefundedProcessManagerInterface::class, $this->unitsRefundedProcessManager);
     }
 
     /** @test */
-    function it_triggers_all_process_steps_if_all_are_successful(): void
+    public function it_triggers_all_process_steps_if_all_are_successful(): void
     {
         $unitRefunds = [
             new OrderItemUnitRefund(1, 1000),

@@ -23,7 +23,9 @@ use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 final class RefundPaymentTest extends TestCase
 {
     private RefundPayment $refundPayment;
+
     private OrderInterface&MockObject $order;
+
     private PaymentMethodInterface $paymentMethod;
 
     protected function setUp(): void
@@ -35,25 +37,25 @@ final class RefundPaymentTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(RefundPayment::class, $this->refundPayment);
     }
 
     /** @test */
-    function it_implements_refund_payment_interface(): void
+    public function it_implements_refund_payment_interface(): void
     {
         self::assertInstanceOf(RefundPaymentInterface::class, $this->refundPayment);
     }
 
     /** @test */
-    function it_has_no_id_by_default(): void
+    public function it_has_no_id_by_default(): void
     {
         self::assertNull($this->refundPayment->getId());
     }
 
     /** @test */
-    function it_has_an_order(): void
+    public function it_has_an_order(): void
     {
         $this->order->method('getNumber')->willReturn('000002');
 
@@ -61,25 +63,25 @@ final class RefundPaymentTest extends TestCase
     }
 
     /** @test */
-    function it_has_amount(): void
+    public function it_has_amount(): void
     {
         self::assertEquals(100, $this->refundPayment->getAmount());
     }
 
     /** @test */
-    function it_has_currency_code(): void
+    public function it_has_currency_code(): void
     {
         self::assertEquals('USD', $this->refundPayment->getCurrencyCode());
     }
 
     /** @test */
-    function it_has_state(): void
+    public function it_has_state(): void
     {
         self::assertEquals(RefundPaymentInterface::STATE_NEW, $this->refundPayment->getState());
     }
 
     /** @test */
-    function it_has_payment_method(): void
+    public function it_has_payment_method(): void
     {
         self::assertInstanceOf(PaymentMethodInterface::class, $this->refundPayment->getPaymentMethod());
     }

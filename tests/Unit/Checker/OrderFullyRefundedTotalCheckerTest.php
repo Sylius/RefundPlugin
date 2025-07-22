@@ -23,6 +23,7 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 final class OrderFullyRefundedTotalCheckerTest extends TestCase
 {
     private OrderRefundedTotalProviderInterface&MockObject $orderRefundedTotalProvider;
+
     private OrderFullyRefundedTotalChecker $checker;
 
     protected function setUp(): void
@@ -33,19 +34,19 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_is_initializable(): void
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(OrderFullyRefundedTotalChecker::class, $this->checker);
     }
 
     /** @test */
-    function it_implements_order_fully_refunded_total_checker_interface(): void
+    public function it_implements_order_fully_refunded_total_checker_interface(): void
     {
         self::assertInstanceOf(OrderFullyRefundedTotalCheckerInterface::class, $this->checker);
     }
 
     /** @test */
-    function it_returns_false_if_order_refunded_total_is_lower_than_order_total(): void
+    public function it_returns_false_if_order_refunded_total_is_lower_than_order_total(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -66,7 +67,7 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
     }
 
     /** @test */
-    function it_returns_true_if_order_refunded_total_is_equal_to_order_total(): void
+    public function it_returns_true_if_order_refunded_total_is_equal_to_order_total(): void
     {
         $order = $this->createMock(OrderInterface::class);
 

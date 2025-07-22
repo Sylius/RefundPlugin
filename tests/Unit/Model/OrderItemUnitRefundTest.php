@@ -21,34 +21,34 @@ use Sylius\RefundPlugin\Model\UnitRefundInterface;
 final class OrderItemUnitRefundTest extends TestCase
 {
     /** @test */
-    function it_implements_unit_refund_interface(): void
+    public function it_implements_unit_refund_interface(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
-        
+
         self::assertInstanceOf(UnitRefundInterface::class, $orderItemUnitRefund);
     }
 
     /** @test */
-    function it_has_id(): void
+    public function it_has_id(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
-        
+
         self::assertEquals(1, $orderItemUnitRefund->id());
     }
 
     /** @test */
-    function it_has_total(): void
+    public function it_has_total(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
-        
+
         self::assertEquals(1000, $orderItemUnitRefund->total());
     }
 
     /** @test */
-    function it_has_type(): void
+    public function it_has_type(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
-        
+
         self::assertEquals(RefundType::orderItemUnit(), $orderItemUnitRefund->type());
     }
 }

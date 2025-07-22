@@ -28,26 +28,26 @@ final class TaxItemTest extends TestCase
     }
 
     /** @test */
-    function it_implements_tax_item_interface(): void
+    public function it_implements_tax_item_interface(): void
     {
         self::assertInstanceOf(TaxItemInterface::class, $this->taxItem);
     }
 
     /** @test */
-    function it_has_no_id_by_default(): void
+    public function it_has_no_id_by_default(): void
     {
         self::assertNull($this->taxItem->getId());
         self::assertNull($this->taxItem->id());
     }
 
     /** @test */
-    function it_has_a_label(): void
+    public function it_has_a_label(): void
     {
         self::assertEquals('VAT', $this->taxItem->label());
     }
 
     /** @test */
-    function it_has_an_amount(): void
+    public function it_has_an_amount(): void
     {
         self::assertEquals(100, $this->taxItem->amount());
     }
