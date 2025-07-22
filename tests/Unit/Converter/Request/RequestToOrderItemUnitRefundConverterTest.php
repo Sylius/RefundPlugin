@@ -28,7 +28,9 @@ final class RequestToOrderItemUnitRefundConverterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->refundUnitsConverter = $this->createMock(RefundUnitsConverterInterface::class);
+        $this->refundUnitsConverter = $this->getMockBuilder(RefundUnitsConverterInterface::class)
+            ->addMethods(['convert'])
+            ->getMock();
         $this->converter = new RequestToOrderItemUnitRefundConverter($this->refundUnitsConverter);
     }
 
