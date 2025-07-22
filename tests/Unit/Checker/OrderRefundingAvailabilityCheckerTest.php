@@ -1,0 +1,314 @@
+<?php
+
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Tests\Sylius\RefundPlugin\Unit\Checker;
+
+use PHPUnit\Framework\TestCase;
+use Sylius\Abstraction\StateMachine\StateMachineInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\OrderPaymentStates;
+use Sylius\Component\Core\OrderPaymentTransitions;
+use Sylius\Component\Core\Repository\OrderRepositoryInterface;
+use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityChecker;
+use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
+
+final class OrderRefundingAvailabilityCheckerTest extends TestCase
+{
+    private OrderRepositoryInterface $orderRepository;
+    private OrderRefundingAvailabilityChecker $checker;
+
+    protected function setUp(): void
+    {
+        $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
+        $this->checker = new OrderRefundingAvailabilityChecker($this->orderRepository);
+    }
+
+    /** @test */
+    function it_implements_order_refunding_availability_checker_interface(): void
+    {
+        $this->assertInstanceOf(OrderRefundingAvailabilityCheckerInterface::class, $this->checker);
+    }
+
+    /** @test */
+    function it_returns_true_if_order_is_paid_and_not_free(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $order
+            ->expects($this->once())
+            ->method('getPaymentState')
+            ->willReturn(OrderPaymentStates::STATE_PAID);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(100);
+
+        $result = $this->checker->__invoke('00000007');
+
+        $this->assertTrue($result);
+    }
+
+    /** @test */
+    function it_returns_true_if_order_is_partially_refunded_and_not_free(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $order
+            ->expects($this->once())
+            ->method('getPaymentState')
+            ->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(100);
+
+        $result = $this->checker->__invoke('00000007');
+
+        $this->assertTrue($result);
+    }
+
+    /** @test */
+    function it_returns_false_if_order_is_in_other_state_and_not_free(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $order
+            ->expects($this->once())
+            ->method('getPaymentState')
+            ->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
+
+        // getTotal() is not called due to short-circuit evaluation
+
+        $result = $this->checker->__invoke('00000007');
+
+        $this->assertFalse($result);
+    }
+
+    /** @test */
+    function it_returns_false_if_order_is_free(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $order
+            ->expects($this->once())
+            ->method('getPaymentState')
+            ->willReturn(OrderPaymentStates::STATE_PAID);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(0);
+
+        $result = $this->checker->__invoke('00000007');
+
+        $this->assertFalse($result);
+    }
+
+    /** @test */
+    function it_returns_false_if_order_is_partially_refunded_and_free(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $order
+            ->expects($this->once())
+            ->method('getPaymentState')
+            ->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(0);
+
+        $result = $this->checker->__invoke('00000007');
+
+        $this->assertFalse($result);
+    }
+
+    /** @test */
+    function it_returns_false_if_order_is_in_other_state_and_free(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $order
+            ->expects($this->once())
+            ->method('getPaymentState')
+            ->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
+
+        // getTotal() is not called due to short-circuit evaluation
+
+        $result = $this->checker->__invoke('00000007');
+
+        $this->assertFalse($result);
+    }
+
+    /** @test */
+    function it_returns_true_if_partially_refund_transition_is_possible_and_total_is_not_zero(): void
+    {
+        $stateMachine = $this->createMock(StateMachineInterface::class);
+        $order = $this->createMock(OrderInterface::class);
+
+        $checker = new OrderRefundingAvailabilityChecker($this->orderRepository, $stateMachine);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $stateMachine
+            ->expects($this->once())
+            ->method('can')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)
+            ->willReturn(true);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(1000);
+
+        $result = $checker->__invoke('00000007');
+
+        $this->assertTrue($result);
+    }
+
+    /** @test */
+    function it_returns_true_if_refund_transition_is_possible_and_total_is_not_zero(): void
+    {
+        $stateMachine = $this->createMock(StateMachineInterface::class);
+        $order = $this->createMock(OrderInterface::class);
+
+        $checker = new OrderRefundingAvailabilityChecker($this->orderRepository, $stateMachine);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $stateMachine
+            ->expects($this->exactly(2))
+            ->method('can')
+            ->withConsecutive(
+                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND],
+                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND]
+            )
+            ->willReturnOnConsecutiveCalls(false, true);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(1000);
+
+        $result = $checker->__invoke('00000007');
+
+        $this->assertTrue($result);
+    }
+
+    /** @test */
+    function it_returns_false_if_no_transition_is_possible_even_if_total_is_not_zero(): void
+    {
+        $stateMachine = $this->createMock(StateMachineInterface::class);
+        $order = $this->createMock(OrderInterface::class);
+
+        $checker = new OrderRefundingAvailabilityChecker($this->orderRepository, $stateMachine);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $stateMachine
+            ->expects($this->exactly(2))
+            ->method('can')
+            ->withConsecutive(
+                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND],
+                [$order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND]
+            )
+            ->willReturnOnConsecutiveCalls(false, false);
+
+        // getTotal() is not called due to short-circuit evaluation
+
+        $result = $checker->__invoke('00000007');
+
+        $this->assertFalse($result);
+    }
+
+    /** @test */
+    function it_returns_false_if_transition_is_possible_but_total_is_zero(): void
+    {
+        $stateMachine = $this->createMock(StateMachineInterface::class);
+        $order = $this->createMock(OrderInterface::class);
+
+        $checker = new OrderRefundingAvailabilityChecker($this->orderRepository, $stateMachine);
+
+        $this->orderRepository
+            ->expects($this->once())
+            ->method('findOneByNumber')
+            ->with('00000007')
+            ->willReturn($order);
+
+        $stateMachine
+            ->expects($this->once())
+            ->method('can')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)
+            ->willReturn(true);
+
+        $order
+            ->expects($this->once())
+            ->method('getTotal')
+            ->willReturn(0);
+
+        $result = $checker->__invoke('00000007');
+
+        $this->assertFalse($result);
+    }
+}

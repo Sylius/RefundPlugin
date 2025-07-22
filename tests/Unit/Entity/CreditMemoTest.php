@@ -1,0 +1,141 @@
+<?php
+
+/*
+ * This file is part of the Sylius package.
+ *
+ * (c) Sylius Sp. z o.o.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Tests\Sylius\RefundPlugin\Unit\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\TestCase;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\RefundPlugin\Entity\CreditMemo;
+use Sylius\RefundPlugin\Entity\CreditMemoInterface;
+use Sylius\RefundPlugin\Entity\CustomerBillingDataInterface;
+use Sylius\RefundPlugin\Entity\LineItemInterface;
+use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
+use Sylius\RefundPlugin\Entity\TaxItemInterface;
+
+final class CreditMemoTest extends TestCase
+{
+    private CreditMemo $creditMemo;
+
+    protected function setUp(): void
+    {
+        $this->creditMemo = new CreditMemo();
+    }
+
+    /** @test */
+    function it_implements_a_credit_memo_interface(): void
+    {
+        $this->assertInstanceOf(CreditMemoInterface::class, $this->creditMemo);
+    }
+
+    /** @test */
+    function it_has_an_id(): void
+    {
+        $this->creditMemo->setId('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
+        $this->assertEquals('7903c83a-4c5e-4bcf-81d8-9dc304c6a353', $this->creditMemo->getId());
+    }
+
+    /** @test */
+    function it_has_a_number(): void
+    {
+        $this->creditMemo->setNumber('2018/07/00003333');
+        $this->assertEquals('2018/07/00003333', $this->creditMemo->getNumber());
+    }
+
+    /** @test */
+    function it_has_an_order(): void
+    {
+        $order = $this->createMock(OrderInterface::class);
+        $this->creditMemo->setOrder($order);
+        $this->assertSame($order, $this->creditMemo->getOrder());
+    }
+
+    /** @test */
+    function it_has_a_total(): void
+    {
+        $this->creditMemo->setTotal(1000);
+        $this->assertEquals(1000, $this->creditMemo->getTotal());
+    }
+
+    /** @test */
+    function it_has_a_currency_code(): void
+    {
+        $this->creditMemo->setCurrencyCode('USD');
+        $this->assertEquals('USD', $this->creditMemo->getCurrencyCode());
+    }
+
+    /** @test */
+    function it_has_a_locale_code(): void
+    {
+        $this->creditMemo->setLocaleCode('en_US');
+        $this->assertEquals('en_US', $this->creditMemo->getLocaleCode());
+    }
+
+    /** @test */
+    function it_has_a_channel(): void
+    {
+        $channel = $this->createMock(ChannelInterface::class);
+        $this->creditMemo->setChannel($channel);
+        $this->assertSame($channel, $this->creditMemo->getChannel());
+    }
+
+    /** @test */
+    function it_has_line_items(): void
+    {
+        $lineItem = $this->createMock(LineItemInterface::class);
+        $lineItems = new ArrayCollection([$lineItem]);
+        $this->creditMemo->setLineItems($lineItems);
+        $this->assertEquals($lineItems, $this->creditMemo->getLineItems());
+    }
+
+    /** @test */
+    function it_has_tax_items(): void
+    {
+        $taxItem = $this->createMock(TaxItemInterface::class);
+        $taxItems = new ArrayCollection([$taxItem]);
+        $this->creditMemo->setTaxItems($taxItems);
+        $this->assertEquals($taxItems, $this->creditMemo->getTaxItems());
+    }
+
+    /** @test */
+    function it_has_a_date_of_creation(): void
+    {
+        $issuedAt = new \DateTimeImmutable('01-01-2020 10:10:10');
+        $this->creditMemo->setIssuedAt($issuedAt);
+        $this->assertEquals($issuedAt, $this->creditMemo->getIssuedAt());
+    }
+
+    /** @test */
+    function it_has_a_comment(): void
+    {
+        $this->creditMemo->setComment('Comment');
+        $this->assertEquals('Comment', $this->creditMemo->getComment());
+    }
+
+    /** @test */
+    function it_has_a_from_address(): void
+    {
+        $from = $this->createMock(CustomerBillingDataInterface::class);
+        $this->creditMemo->setFrom($from);
+        $this->assertSame($from, $this->creditMemo->getFrom());
+    }
+
+    /** @test */
+    function it_has_a_to_address(): void
+    {
+        $to = $this->createMock(ShopBillingDataInterface::class);
+        $this->creditMemo->setTo($to);
+        $this->assertSame($to, $this->creditMemo->getTo());
+    }
+}
