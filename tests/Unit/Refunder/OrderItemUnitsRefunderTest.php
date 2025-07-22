@@ -28,13 +28,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderItemUnitsRefunderTest extends TestCase
 {
-    private RefundCreatorInterface|MockObject $refundCreator;
-    private MessageBusInterface|MockObject $eventBus;
-    private UnitRefundFilterInterface|MockObject $unitRefundFilter;
+    private RefundCreatorInterface&MockObject $refundCreator;
+    private MessageBusInterface&MockObject $eventBus;
+    private UnitRefundFilterInterface&MockObject $unitRefundFilter;
     private OrderItemUnitsRefunder $refunder;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundCreator = $this->createMock(RefundCreatorInterface::class);
         $this->eventBus = $this->createMock(MessageBusInterface::class);
         $this->unitRefundFilter = $this->createMock(UnitRefundFilterInterface::class);
@@ -49,7 +50,7 @@ final class OrderItemUnitsRefunderTest extends TestCase
     /** @test */
     public function it_implements_refunder_interface(): void
     {
-        $this->assertInstanceOf(RefunderInterface::class, $this->refunder);
+        self::assertInstanceOf(RefunderInterface::class, $this->refunder);
     }
 
     /** @test */
@@ -60,7 +61,7 @@ final class OrderItemUnitsRefunderTest extends TestCase
         $shipmentRefund = new ShipmentRefund(3, 1000);
 
         $this->unitRefundFilter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('filterUnitRefunds')
             ->with([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], OrderItemUnitRefund::class)
             ->willReturn([$firstUnitRefund, $secondUnitRefund]);
@@ -90,6 +91,6 @@ final class OrderItemUnitsRefunderTest extends TestCase
 
         $result = $this->refunder->refundFromOrder([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], '000222');
 
-        $this->assertEquals(2500, $result);
+        self::assertEquals(2500, $result);
     }
 }

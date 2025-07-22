@@ -23,8 +23,8 @@ final class UnitRefundedTest extends TestCase
     {
         $unitRefunded = new UnitRefunded('000222', 1, 1000);
 
-        $this->assertEquals('000222', $unitRefunded->orderNumber());
-        $this->assertEquals(1, $unitRefunded->unitId());
-        $this->assertEquals(1000, $unitRefunded->amount());
+        self::assertEquals('000222', $unitRefunded->orderNumber());
+        self::assertEquals(1, $unitRefunded->unitId());
+        self::assertEquals(1000, $unitRefunded->amount());
     }
 }

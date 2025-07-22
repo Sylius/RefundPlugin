@@ -23,7 +23,7 @@ final class CreditMemoPdfTest extends TestCase
     {
         $creditMemoPdf = new CreditMemoPdf('2018_01_0000002.pdf', 'pdf content');
         
-        $this->assertEquals('2018_01_0000002.pdf', $creditMemoPdf->filename());
+        self::assertEquals('2018_01_0000002.pdf', $creditMemoPdf->filename());
     }
 
     /** @test */
@@ -31,6 +31,6 @@ final class CreditMemoPdfTest extends TestCase
     {
         $creditMemoPdf = new CreditMemoPdf('2018_01_0000002.pdf', 'pdf content');
         
-        $this->assertEquals('pdf content', $creditMemoPdf->content());
+        self::assertEquals('pdf content', $creditMemoPdf->content());
     }
 }

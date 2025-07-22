@@ -27,19 +27,20 @@ final class TaxRateProviderTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->provider = new TaxRateProvider();
     }
 
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(TaxRateProvider::class, $this->provider);
+        self::assertInstanceOf(TaxRateProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_tax_rate_provider_interface(): void
     {
-        $this->assertInstanceOf(TaxRateProviderInterface::class, $this->provider);
+        self::assertInstanceOf(TaxRateProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -49,19 +50,19 @@ final class TaxRateProviderTest extends TestCase
         $taxAdjustment = $this->createMock(AdjustmentInterface::class);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustments')
             ->with(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([$taxAdjustment]));
 
         $taxAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDetails')
             ->willReturn(['taxRateAmount' => 0.2]);
 
         $result = $this->provider->provide($orderItemUnit);
 
-        $this->assertSame('20%', $result);
+        self::assertSame('20%', $result);
     }
 
     /** @test */
@@ -70,14 +71,14 @@ final class TaxRateProviderTest extends TestCase
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustments')
             ->with(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([]));
 
         $result = $this->provider->provide($orderItemUnit);
 
-        $this->assertNull($result);
+        self::assertNull($result);
     }
 
     /** @test */
@@ -87,13 +88,13 @@ final class TaxRateProviderTest extends TestCase
         $taxAdjustment = $this->createMock(AdjustmentInterface::class);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustments')
             ->with(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([$taxAdjustment]));
 
         $taxAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getDetails')
             ->willReturn([]);
 
@@ -110,7 +111,7 @@ final class TaxRateProviderTest extends TestCase
         $secondTaxAdjustment = $this->createMock(AdjustmentInterface::class);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustments')
             ->with(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([$firstTaxAdjustment, $secondTaxAdjustment]));

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\LineItem;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Converter\LineItem\CompositeLineItemConverter;
 use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterInterface;
@@ -25,19 +26,20 @@ use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 final class CompositeLineItemConverterTest extends TestCase
 {
-    private LineItemsConverterUnitRefundAwareInterface $firstLineItemsConverter;
-    private LineItemsConverterUnitRefundAwareInterface $secondLineItemsConverter;
-    private UnitRefundFilterInterface $unitRefundFilter;
+    private LineItemsConverterUnitRefundAwareInterface&MockObject $firstLineItemsConverter;
+    private LineItemsConverterUnitRefundAwareInterface&MockObject $secondLineItemsConverter;
+    private UnitRefundFilterInterface&MockObject $unitRefundFilter;
     private CompositeLineItemConverter $converter;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->firstLineItemsConverter = $this->createMock(LineItemsConverterUnitRefundAwareInterface::class);
         $this->secondLineItemsConverter = $this->createMock(LineItemsConverterUnitRefundAwareInterface::class);
         $this->unitRefundFilter = $this->createMock(UnitRefundFilterInterface::class);
-        
+
         $this->converter = new CompositeLineItemConverter(
-            [$this->firstLineItemsConverter, $this->secondLineItemsConverter], 
+            [$this->firstLineItemsConverter, $this->secondLineItemsConverter],
             $this->unitRefundFilter
         );
     }
@@ -45,7 +47,7 @@ final class CompositeLineItemConverterTest extends TestCase
     /** @test */
     function it_implements_line_items_converter_interface(): void
     {
-        $this->assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
+        self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
     /** @test */
@@ -75,29 +77,29 @@ final class CompositeLineItemConverterTest extends TestCase
             ]);
 
         $this->firstLineItemsConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUnitRefundClass')
             ->willReturn(OrderItemUnitRefund::class);
-        
+
         $this->firstLineItemsConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('convert')
             ->with($orderItemUnits)
             ->willReturn([$firstLineItem, $secondLineItem]);
 
         $this->secondLineItemsConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getUnitRefundClass')
             ->willReturn(ShipmentRefund::class);
-        
+
         $this->secondLineItemsConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('convert')
             ->with($shipmentUnits)
             ->willReturn([$thirdLineItem, $fourthLineItem]);
 
         $result = $this->converter->convert($units);
 
-        $this->assertEquals([$firstLineItem, $secondLineItem, $thirdLineItem, $fourthLineItem], $result);
+        self::assertEquals([$firstLineItem, $secondLineItem, $thirdLineItem, $fourthLineItem], $result);
     }
 }

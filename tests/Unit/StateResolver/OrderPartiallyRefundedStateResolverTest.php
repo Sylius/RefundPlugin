@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\StateResolver;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -25,17 +26,18 @@ use Sylius\RefundPlugin\StateResolver\OrderPartiallyRefundedStateResolver;
 
 final class OrderPartiallyRefundedStateResolverTest extends TestCase
 {
-    private OrderRepositoryInterface $orderRepository;
-    private StateMachineInterface $stateMachineFactory;
-    private EntityManagerInterface $orderManager;
+    private OrderRepositoryInterface&MockObject $orderRepository;
+    private StateMachineInterface&MockObject $stateMachineFactory;
+    private EntityManagerInterface&MockObject $orderManager;
     private OrderPartiallyRefundedStateResolver $resolver;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $this->stateMachineFactory = $this->createMock(StateMachineInterface::class);
         $this->orderManager = $this->createMock(EntityManagerInterface::class);
-        
+
         $this->resolver = new OrderPartiallyRefundedStateResolver($this->orderRepository, $this->stateMachineFactory, $this->orderManager);
     }
 
@@ -50,23 +52,23 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $resolver = new OrderPartiallyRefundedStateResolver($orderRepository, $stateMachine, $orderManager);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000777')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $stateMachine
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
             ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND);
 
         $orderManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $resolver->resolve('000777');
@@ -83,13 +85,13 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $resolver = new OrderPartiallyRefundedStateResolver($orderRepository, $stateMachine, $orderManager);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000777')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
 
@@ -110,7 +112,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $resolver = new OrderPartiallyRefundedStateResolver($orderRepository, $stateMachine, $orderManager);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000777')
             ->willReturn(null);
@@ -127,23 +129,23 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000777')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $this->stateMachineFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
             ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND);
 
         $this->orderManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->resolver->resolve('000777');

@@ -26,12 +26,13 @@ final class TaxItemsGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->generator = new TaxItemsGenerator();
     }
 
     public function testItImplementsTaxItemsGeneratorInterface(): void
     {
-        $this->assertInstanceOf(TaxItemsGeneratorInterface::class, $this->generator);
+        self::assertInstanceOf(TaxItemsGeneratorInterface::class, $this->generator);
     }
 
     public function testItGeneratesTaxItems(): void
@@ -39,24 +40,24 @@ final class TaxItemsGeneratorTest extends TestCase
         $firstLineItem = $this->createMock(LineItemInterface::class);
         $secondLineItem = $this->createMock(LineItemInterface::class);
 
-        $firstLineItem->expects($this->once())
+        $firstLineItem->expects(self::once())
             ->method('taxRate')
             ->willReturn('VAT');
 
-        $firstLineItem->expects($this->once())
+        $firstLineItem->expects(self::once())
             ->method('taxAmount')
             ->willReturn(500);
 
-        $secondLineItem->expects($this->once())
+        $secondLineItem->expects(self::once())
             ->method('taxRate')
             ->willReturn('VAT');
 
-        $secondLineItem->expects($this->once())
+        $secondLineItem->expects(self::once())
             ->method('taxAmount')
             ->willReturn(800);
 
         $result = $this->generator->generate([$firstLineItem, $secondLineItem]);
 
-        $this->assertEquals([new TaxItem('VAT', 1300)], $result);
+        self::assertEquals([new TaxItem('VAT', 1300)], $result);
     }
 }

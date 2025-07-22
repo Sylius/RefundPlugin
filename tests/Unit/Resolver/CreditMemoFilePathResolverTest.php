@@ -24,13 +24,14 @@ final class CreditMemoFilePathResolverTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->resolver = new CreditMemoFilePathResolver('/path/to/credit_memos');
     }
 
     /** @test */
     public function it_implements_credit_memo_file_path_resolver_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoFilePathResolverInterface::class, $this->resolver);
+        self::assertInstanceOf(CreditMemoFilePathResolverInterface::class, $this->resolver);
     }
 
     /** @test */
@@ -40,6 +41,6 @@ final class CreditMemoFilePathResolverTest extends TestCase
 
         $result = $this->resolver->resolve($creditMemoPdf);
 
-        $this->assertEquals('/path/to/credit_memos/credit_memo.pdf', $result);
+        self::assertEquals('/path/to/credit_memos/credit_memo.pdf', $result);
     }
 }

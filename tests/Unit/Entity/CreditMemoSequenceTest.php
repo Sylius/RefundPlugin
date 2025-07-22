@@ -23,38 +23,39 @@ final class CreditMemoSequenceTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemoSequence = new CreditMemoSequence();
     }
 
     /** @test */
     function it_implements_credit_memo_sequence_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoSequenceInterface::class, $this->creditMemoSequence);
+        self::assertInstanceOf(CreditMemoSequenceInterface::class, $this->creditMemoSequence);
     }
 
     /** @test */
     function it_has_no_id_by_default(): void
     {
-        $this->assertNull($this->creditMemoSequence->getId());
+        self::assertNull($this->creditMemoSequence->getId());
     }
 
     /** @test */
     function it_has_incrementable_index(): void
     {
-        $this->assertEquals(0, $this->creditMemoSequence->getIndex());
+        self::assertEquals(0, $this->creditMemoSequence->getIndex());
 
         $this->creditMemoSequence->incrementIndex();
         $this->creditMemoSequence->incrementIndex();
 
-        $this->assertEquals(2, $this->creditMemoSequence->getIndex());
+        self::assertEquals(2, $this->creditMemoSequence->getIndex());
     }
 
     /** @test */
     function it_has_version(): void
     {
-        $this->assertEquals(1, $this->creditMemoSequence->getVersion());
+        self::assertEquals(1, $this->creditMemoSequence->getVersion());
 
         $this->creditMemoSequence->setVersion(2);
-        $this->assertEquals(2, $this->creditMemoSequence->getVersion());
+        self::assertEquals(2, $this->creditMemoSequence->getVersion());
     }
 }

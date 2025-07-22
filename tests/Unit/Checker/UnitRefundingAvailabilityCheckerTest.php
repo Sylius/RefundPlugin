@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityCheckerInterface;
@@ -21,7 +22,7 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundingAvailabilityCheckerTest extends TestCase
 {
-    private RemainingTotalProviderInterface $remainingTotalProvider;
+    private RemainingTotalProviderInterface&MockObject $remainingTotalProvider;
     private UnitRefundingAvailabilityChecker $checker;
 
     protected function setUp(): void
@@ -33,7 +34,7 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
     /** @test */
     function it_implements_unit_refunding_availability_checker_interface(): void
     {
-        $this->assertInstanceOf(UnitRefundingAvailabilityCheckerInterface::class, $this->checker);
+        self::assertInstanceOf(UnitRefundingAvailabilityCheckerInterface::class, $this->checker);
     }
 
     /** @test */
@@ -42,14 +43,14 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
         $type = RefundType::orderItemUnit();
 
         $this->remainingTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(1, $type)
             ->willReturn(0);
 
         $result = $this->checker->__invoke(1, $type);
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /** @test */
@@ -58,13 +59,13 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
         $type = RefundType::shipment();
 
         $this->remainingTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(1, $type)
             ->willReturn(100);
 
         $result = $this->checker->__invoke(1, $type);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 }

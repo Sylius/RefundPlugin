@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Validator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
@@ -27,19 +28,20 @@ use Sylius\RefundPlugin\Validator\UnitRefundsBelongingToOrderValidatorInterface;
 
 final class RefundUnitsCommandValidatorTest extends TestCase
 {
-    private OrderRefundingAvailabilityCheckerInterface $orderRefundingAvailabilityChecker;
-    private RefundAmountValidatorInterface $refundAmountValidator;
-    private UnitRefundsBelongingToOrderValidatorInterface $firstUnitRefundsBelongingToOrderValidator;
-    private UnitRefundsBelongingToOrderValidatorInterface $secondUnitRefundsBelongingToOrderValidator;
+    private OrderRefundingAvailabilityCheckerInterface&MockObject $orderRefundingAvailabilityChecker;
+    private RefundAmountValidatorInterface&MockObject $refundAmountValidator;
+    private UnitRefundsBelongingToOrderValidatorInterface&MockObject $firstUnitRefundsBelongingToOrderValidator;
+    private UnitRefundsBelongingToOrderValidatorInterface&MockObject $secondUnitRefundsBelongingToOrderValidator;
     private RefundUnitsCommandValidator $validator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderRefundingAvailabilityChecker = $this->createMock(OrderRefundingAvailabilityCheckerInterface::class);
         $this->refundAmountValidator = $this->createMock(RefundAmountValidatorInterface::class);
         $this->firstUnitRefundsBelongingToOrderValidator = $this->createMock(UnitRefundsBelongingToOrderValidatorInterface::class);
         $this->secondUnitRefundsBelongingToOrderValidator = $this->createMock(UnitRefundsBelongingToOrderValidatorInterface::class);
-        
+
         $this->validator = new RefundUnitsCommandValidator(
             $this->orderRefundingAvailabilityChecker,
             $this->refundAmountValidator,
@@ -54,7 +56,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     function it_throws_exception_when_order_is_not_available_for_refund(): void
     {
         $this->orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('000001')
             ->willReturn(false);
@@ -70,7 +72,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     function it_throws_exception_when_order_item_units_amount_is_not_valid(): void
     {
         $this->orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('000001')
             ->willReturn(true);
@@ -79,18 +81,18 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         $refundUnits = new RefundUnits('000001', [$orderItemUnitRefund], 1, '');
 
         $this->refundAmountValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$orderItemUnitRefund])
             ->willThrowException(new InvalidRefundAmount());
 
         $this->firstUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$orderItemUnitRefund], '000001');
 
         $this->secondUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$orderItemUnitRefund], '000001');
 
@@ -103,7 +105,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     function it_throws_exception_when_order_item_units_do_not_belong_to_an_order(): void
     {
         $this->orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('000001')
             ->willReturn(true);
@@ -116,7 +118,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
             ->method('validateUnits');
 
         $this->firstUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$orderItemUnitRefund], '000001')
             ->willThrowException(new RefundUnitsNotBelongToOrder());
@@ -134,7 +136,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     function it_throws_exception_when_shipment_amount_is_not_valid(): void
     {
         $this->orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('000001')
             ->willReturn(true);
@@ -143,18 +145,18 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         $refundUnits = new RefundUnits('000001', [$shipmentRefund], 1, '');
 
         $this->refundAmountValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$shipmentRefund])
             ->willThrowException(new InvalidRefundAmount());
 
         $this->firstUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$shipmentRefund], '000001');
 
         $this->secondUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$shipmentRefund], '000001');
 
@@ -167,7 +169,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
     function it_throws_exception_when_shipment_does_not_belong_to_an_order(): void
     {
         $this->orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('000001')
             ->willReturn(true);
@@ -180,12 +182,12 @@ final class RefundUnitsCommandValidatorTest extends TestCase
             ->method('validateUnits');
 
         $this->firstUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$shipmentRefund], '000001');
 
         $this->secondUnitRefundsBelongingToOrderValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validateUnits')
             ->with([$shipmentRefund], '000001')
             ->willThrowException(new RefundUnitsNotBelongToOrder());

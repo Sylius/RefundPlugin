@@ -23,19 +23,20 @@ final class CurrentDateTimeImmutableProviderTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->provider = new CurrentDateTimeImmutableProvider();
     }
 
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(CurrentDateTimeImmutableProvider::class, $this->provider);
+        self::assertInstanceOf(CurrentDateTimeImmutableProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_current_date_time_immutable_provider_interface(): void
     {
-        $this->assertInstanceOf(CurrentDateTimeImmutableProviderInterface::class, $this->provider);
+        self::assertInstanceOf(CurrentDateTimeImmutableProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -44,13 +45,13 @@ final class CurrentDateTimeImmutableProviderTest extends TestCase
         $now = new \DateTimeImmutable();
         $result = $this->provider->now();
 
-        $this->assertInstanceOf(\DateTimeImmutable::class, $result);
-        
+        self::assertInstanceOf(\DateTimeImmutable::class, $result);
+
         // Check that the returned date is within a reasonable time frame (1 second)
         $diff = abs($result->getTimestamp() - $now->getTimestamp());
-        $this->assertLessThanOrEqual(1, $diff);
-        
+        self::assertLessThanOrEqual(1, $diff);
+
         // Alternative check using format comparison
-        $this->assertEquals($now->format('d/m/Y H:i:s'), $result->format('d/m/Y H:i:s'));
+        self::assertEquals($now->format('d/m/Y H:i:s'), $result->format('d/m/Y H:i:s'));
     }
 }

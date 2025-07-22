@@ -25,7 +25,7 @@ final class ShipmentRefundTest extends TestCase
     {
         $shipmentRefund = new ShipmentRefund(1, 1000);
         
-        $this->assertInstanceOf(UnitRefundInterface::class, $shipmentRefund);
+        self::assertInstanceOf(UnitRefundInterface::class, $shipmentRefund);
     }
 
     /** @test */
@@ -33,7 +33,7 @@ final class ShipmentRefundTest extends TestCase
     {
         $shipmentRefund = new ShipmentRefund(1, 1000);
         
-        $this->assertEquals(1, $shipmentRefund->id());
+        self::assertEquals(1, $shipmentRefund->id());
     }
 
     /** @test */
@@ -41,7 +41,7 @@ final class ShipmentRefundTest extends TestCase
     {
         $shipmentRefund = new ShipmentRefund(1, 1000);
         
-        $this->assertEquals(1000, $shipmentRefund->total());
+        self::assertEquals(1000, $shipmentRefund->total());
     }
 
     /** @test */
@@ -49,6 +49,6 @@ final class ShipmentRefundTest extends TestCase
     {
         $shipmentRefund = new ShipmentRefund(1, 1000);
         
-        $this->assertEquals(RefundType::shipment(), $shipmentRefund->type());
+        self::assertEquals(RefundType::shipment(), $shipmentRefund->type());
     }
 }

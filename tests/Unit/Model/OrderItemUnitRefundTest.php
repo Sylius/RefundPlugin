@@ -25,7 +25,7 @@ final class OrderItemUnitRefundTest extends TestCase
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
         
-        $this->assertInstanceOf(UnitRefundInterface::class, $orderItemUnitRefund);
+        self::assertInstanceOf(UnitRefundInterface::class, $orderItemUnitRefund);
     }
 
     /** @test */
@@ -33,7 +33,7 @@ final class OrderItemUnitRefundTest extends TestCase
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
         
-        $this->assertEquals(1, $orderItemUnitRefund->id());
+        self::assertEquals(1, $orderItemUnitRefund->id());
     }
 
     /** @test */
@@ -41,7 +41,7 @@ final class OrderItemUnitRefundTest extends TestCase
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
         
-        $this->assertEquals(1000, $orderItemUnitRefund->total());
+        self::assertEquals(1000, $orderItemUnitRefund->total());
     }
 
     /** @test */
@@ -49,6 +49,6 @@ final class OrderItemUnitRefundTest extends TestCase
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
         
-        $this->assertEquals(RefundType::orderItemUnit(), $orderItemUnitRefund->type());
+        self::assertEquals(RefundType::orderItemUnit(), $orderItemUnitRefund->type());
     }
 }

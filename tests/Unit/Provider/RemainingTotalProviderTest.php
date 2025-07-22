@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\RefundInterface;
@@ -24,12 +25,13 @@ use Symfony\Contracts\Service\ServiceProviderInterface;
 
 final class RemainingTotalProviderTest extends TestCase
 {
-    private ServiceProviderInterface $refundUnitTotalProviders;
-    private RepositoryInterface $refundRepository;
+    private ServiceProviderInterface&MockObject $refundUnitTotalProviders;
+    private RepositoryInterface&MockObject $refundRepository;
     private RemainingTotalProvider $provider;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundUnitTotalProviders = $this->createMock(ServiceProviderInterface::class);
         $this->refundRepository = $this->createMock(RepositoryInterface::class);
         $this->provider = new RemainingTotalProvider($this->refundUnitTotalProviders, $this->refundRepository);
@@ -38,13 +40,13 @@ final class RemainingTotalProviderTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(RemainingTotalProvider::class, $this->provider);
+        self::assertInstanceOf(RemainingTotalProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_remaining_total_provider_interface(): void
     {
-        $this->assertInstanceOf(RemainingTotalProviderInterface::class, $this->provider);
+        self::assertInstanceOf(RemainingTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -55,31 +57,31 @@ final class RemainingTotalProviderTest extends TestCase
         $refund = $this->createMock(RefundInterface::class);
 
         $this->refundUnitTotalProviders
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with($refundType->getValue())
             ->willReturn($refundUnitTotalProvider);
 
         $refundUnitTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRefundUnitTotal')
             ->with(1)
             ->willReturn(1000);
 
         $this->refundRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findBy')
             ->with(['refundedUnitId' => 1, 'type' => $refundType->__toString()])
             ->willReturn([$refund]);
 
         $refund
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAmount')
             ->willReturn(500);
 
         $result = $this->provider->getTotalLeftToRefund(1, $refundType);
 
-        $this->assertSame(500, $result);
+        self::assertSame(500, $result);
     }
 
     /** @test */
@@ -89,25 +91,25 @@ final class RemainingTotalProviderTest extends TestCase
         $refundUnitTotalProvider = $this->createMock(RefundUnitTotalProviderInterface::class);
 
         $this->refundUnitTotalProviders
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('get')
             ->with($refundType->getValue())
             ->willReturn($refundUnitTotalProvider);
 
         $refundUnitTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getRefundUnitTotal')
             ->with(1)
             ->willReturn(1000);
 
         $this->refundRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findBy')
             ->with(['refundedUnitId' => 1, 'type' => $refundType->__toString()])
             ->willReturn([]);
 
         $result = $this->provider->getTotalLeftToRefund(1, $refundType);
 
-        $this->assertSame(1000, $result);
+        self::assertSame(1000, $result);
     }
 }

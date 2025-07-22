@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\Request;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface;
 use Sylius\RefundPlugin\Converter\Request\RequestToOrderItemUnitRefundConverter;
@@ -23,11 +24,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestToOrderItemUnitRefundConverterTest extends TestCase
 {
-    private RefundUnitsConverterInterface $refundUnitsConverter;
+    private RefundUnitsConverterInterface&MockObject $refundUnitsConverter;
     private RequestToOrderItemUnitRefundConverter $converter;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundUnitsConverter = $this->getMockBuilder(RefundUnitsConverterInterface::class)
             ->addMethods(['convert'])
             ->getMock();
@@ -37,7 +39,7 @@ final class RequestToOrderItemUnitRefundConverterTest extends TestCase
     /** @test */
     function it_is_request_to_refund_units_converter(): void
     {
-        $this->assertInstanceOf(RequestToRefundUnitsConverterInterface::class, $this->converter);
+        self::assertInstanceOf(RequestToRefundUnitsConverterInterface::class, $this->converter);
     }
 
     /** @test */
@@ -55,7 +57,7 @@ final class RequestToOrderItemUnitRefundConverterTest extends TestCase
         ]);
 
         $this->refundUnitsConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('convert')
             ->with(
                 [
@@ -68,6 +70,6 @@ final class RequestToOrderItemUnitRefundConverterTest extends TestCase
 
         $result = $this->converter->convert($request);
 
-        $this->assertEquals([$firstUnitRefund, $secondUnitRefund], $result);
+        self::assertEquals([$firstUnitRefund, $secondUnitRefund], $result);
     }
 }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -21,11 +22,12 @@ use Sylius\RefundPlugin\Provider\RefundUnitTotalProviderInterface;
 
 final class OrderItemUnitTotalProviderTest extends TestCase
 {
-    private RepositoryInterface $orderItemUnitRepository;
+    private RepositoryInterface&MockObject $orderItemUnitRepository;
     private OrderItemUnitTotalProvider $provider;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderItemUnitRepository = $this->createMock(RepositoryInterface::class);
         $this->provider = new OrderItemUnitTotalProvider($this->orderItemUnitRepository);
     }
@@ -33,13 +35,13 @@ final class OrderItemUnitTotalProviderTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(OrderItemUnitTotalProvider::class, $this->provider);
+        self::assertInstanceOf(OrderItemUnitTotalProvider::class, $this->provider);
     }
 
     /** @test */
     function it_is_refund_unit_total_provider(): void
     {
-        $this->assertInstanceOf(RefundUnitTotalProviderInterface::class, $this->provider);
+        self::assertInstanceOf(RefundUnitTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -48,26 +50,26 @@ final class OrderItemUnitTotalProviderTest extends TestCase
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
 
         $this->orderItemUnitRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($orderItemUnit);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(1000);
 
         $result = $this->provider->getRefundUnitTotal(1);
 
-        $this->assertSame(1000, $result);
+        self::assertSame(1000, $result);
     }
 
     /** @test */
     function it_throws_exception_if_there_is_no_order_item_unit_with_given_id(): void
     {
         $this->orderItemUnitRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn(null);

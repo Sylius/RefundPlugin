@@ -27,19 +27,20 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->provider = new DefaultRelatedPaymentIdProvider();
     }
 
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(DefaultRelatedPaymentIdProvider::class, $this->provider);
+        self::assertInstanceOf(DefaultRelatedPaymentIdProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_related_payment_id_provider_interface(): void
     {
-        $this->assertInstanceOf(RelatedPaymentIdProviderInterface::class, $this->provider);
+        self::assertInstanceOf(RelatedPaymentIdProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -50,24 +51,24 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
         $payment = $this->createMock(PaymentInterface::class);
 
         $refundPayment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrder')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getLastPayment')
             ->with(PaymentInterface::STATE_COMPLETED)
             ->willReturn($payment);
 
         $payment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn(4);
 
         $result = $this->provider->getForRefundPayment($refundPayment);
 
-        $this->assertSame(4, $result);
+        self::assertSame(4, $result);
     }
 
     /** @test */
@@ -77,17 +78,17 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $refundPayment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrder')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getNumber')
             ->willReturn('000666');
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getLastPayment')
             ->with(PaymentInterface::STATE_COMPLETED)
             ->willReturn(null);

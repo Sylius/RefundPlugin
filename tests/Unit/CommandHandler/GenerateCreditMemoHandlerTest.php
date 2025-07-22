@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\CommandHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
@@ -31,21 +32,22 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class GenerateCreditMemoHandlerTest extends TestCase
 {
-    private CreditMemoGeneratorInterface $creditMemoGenerator;
-    private EntityManagerInterface $creditMemoManager;
-    private MessageBusInterface $eventBus;
-    private OrderRepositoryInterface $orderRepository;
-    private CreditMemoFileResolverInterface $creditMemoFileResolver;
+    private CreditMemoGeneratorInterface&MockObject $creditMemoGenerator;
+    private EntityManagerInterface&MockObject $creditMemoManager;
+    private MessageBusInterface&MockObject $eventBus;
+    private OrderRepositoryInterface&MockObject $orderRepository;
+    private CreditMemoFileResolverInterface&MockObject $creditMemoFileResolver;
     private GenerateCreditMemoHandler $handler;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemoGenerator = $this->createMock(CreditMemoGeneratorInterface::class);
         $this->creditMemoManager = $this->createMock(EntityManagerInterface::class);
         $this->eventBus = $this->createMock(MessageBusInterface::class);
         $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $this->creditMemoFileResolver = $this->createMock(CreditMemoFileResolverInterface::class);
-        
+
         $this->handler = new GenerateCreditMemoHandler(
             $this->creditMemoGenerator,
             $this->creditMemoManager,
@@ -70,41 +72,41 @@ final class GenerateCreditMemoHandlerTest extends TestCase
         ];
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000666')
             ->willReturn($order);
 
         $this->creditMemoGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with($order, 7000, $refundUnits, 'Comment')
             ->willReturn($creditMemo);
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getNumber')
             ->willReturn('2018/01/000001');
 
         $this->creditMemoManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
             ->with($creditMemo);
 
         $this->creditMemoManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');
         $this->creditMemoFileResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolveByCreditMemo')
             ->with($creditMemo)
             ->willReturn($creditMemoPdf);
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $this->eventBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($event)
             ->willReturn(new Envelope($event));
@@ -135,29 +137,29 @@ final class GenerateCreditMemoHandlerTest extends TestCase
         ];
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000666')
             ->willReturn($order);
 
         $this->creditMemoGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with($order, 7000, $refundUnits, 'Comment')
             ->willReturn($creditMemo);
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getNumber')
             ->willReturn('2018/01/000001');
 
         $this->creditMemoManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
             ->with($creditMemo);
 
         $this->creditMemoManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->creditMemoFileResolver
@@ -166,7 +168,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $this->eventBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($event)
             ->willReturn(new Envelope($event));
@@ -197,29 +199,29 @@ final class GenerateCreditMemoHandlerTest extends TestCase
         ];
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000666')
             ->willReturn($order);
 
         $this->creditMemoGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with($order, 7000, $refundUnits, 'Comment')
             ->willReturn($creditMemo);
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getNumber')
             ->willReturn('2018/01/000001');
 
         $this->creditMemoManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
             ->with($creditMemo);
 
         $this->creditMemoManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->creditMemoFileResolver
@@ -228,7 +230,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
 
         $event = new CreditMemoGenerated('2018/01/000001', '000666');
         $this->eventBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($event)
             ->willReturn(new Envelope($event));

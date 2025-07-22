@@ -26,18 +26,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RefundUnitsCommandCreatorTest extends TestCase
 {
-    private RequestToRefundUnitsConverterInterface|MockObject $refundUnitsConverter;
+    private RequestToRefundUnitsConverterInterface&MockObject $refundUnitsConverter;
     private RefundUnitsCommandCreator $refundUnitsCommandCreator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundUnitsConverter = $this->createMock(RequestToRefundUnitsConverterInterface::class);
         $this->refundUnitsCommandCreator = new RefundUnitsCommandCreator($this->refundUnitsConverter);
     }
 
     public function testItImplementsRefundUnitsCommandCreatorInterface(): void
     {
-        $this->assertInstanceOf(RequestCommandCreatorInterface::class, $this->refundUnitsCommandCreator);
+        self::assertInstanceOf(RequestCommandCreatorInterface::class, $this->refundUnitsCommandCreator);
     }
 
     public function testItCreatesRefundUnitsCommandFromRequest(): void
@@ -53,18 +54,18 @@ final class RefundUnitsCommandCreatorTest extends TestCase
             'sylius_refund_comment' => 'Comment',
         ]);
 
-        $this->refundUnitsConverter->expects($this->once())
+        $this->refundUnitsConverter->expects(self::once())
             ->method('convert')
             ->with($request)
             ->willReturn([$firstUnitRefund, $secondUnitRefund, $shipmentRefund]);
 
         $result = $this->refundUnitsCommandCreator->fromRequest($request);
 
-        $this->assertInstanceOf(RefundUnits::class, $result);
-        $this->assertSame('00001111', $result->orderNumber());
-        $this->assertSame([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], $result->units());
-        $this->assertSame(1, $result->paymentMethodId());
-        $this->assertSame('Comment', $result->comment());
+        self::assertInstanceOf(RefundUnits::class, $result);
+        self::assertSame('00001111', $result->orderNumber());
+        self::assertSame([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], $result->units());
+        self::assertSame(1, $result->paymentMethodId());
+        self::assertSame('Comment', $result->comment());
     }
 
     public function testItThrowsExceptionIfThereIsNoUnitsNorShipmentsProvided(): void
@@ -73,7 +74,7 @@ final class RefundUnitsCommandCreatorTest extends TestCase
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
         $request->request = new InputBag(['sylius_refund_payment_method' => 1]);
 
-        $this->refundUnitsConverter->expects($this->once())
+        $this->refundUnitsConverter->expects(self::once())
             ->method('convert')
             ->with($request)
             ->willReturn([]);

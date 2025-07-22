@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
 use Sylius\RefundPlugin\Converter\RefundUnitsConverter;
@@ -22,11 +23,12 @@ use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundUnitsConverterTest extends TestCase
 {
-    private UnitRefundTotalCalculatorInterface $unitRefundTotalCalculator;
+    private UnitRefundTotalCalculatorInterface&MockObject $unitRefundTotalCalculator;
     private RefundUnitsConverter $converter;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->unitRefundTotalCalculator = $this->createMock(UnitRefundTotalCalculatorInterface::class);
         $this->converter = new RefundUnitsConverter($this->unitRefundTotalCalculator);
     }
@@ -34,7 +36,7 @@ final class RefundUnitsConverterTest extends TestCase
     /** @test */
     function it_implements_refund_units_converter_interface(): void
     {
-        $this->assertInstanceOf(RefundUnitsConverterInterface::class, $this->converter);
+        self::assertInstanceOf(RefundUnitsConverterInterface::class, $this->converter);
     }
 
     /** @test */
@@ -58,7 +60,7 @@ final class RefundUnitsConverterTest extends TestCase
             OrderItemUnitRefund::class,
         );
 
-        $this->assertEquals([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)], $result);
+        self::assertEquals([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)], $result);
     }
 
     /** @test */
@@ -82,6 +84,6 @@ final class RefundUnitsConverterTest extends TestCase
             OrderItemUnitRefund::class,
         );
 
-        $this->assertEquals([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)], $result);
+        self::assertEquals([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)], $result);
     }
 }

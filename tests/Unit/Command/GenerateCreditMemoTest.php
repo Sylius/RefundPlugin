@@ -32,9 +32,9 @@ final class GenerateCreditMemoTest extends TestCase
 
         $command = new GenerateCreditMemo('000222', 1000, $unitRefunds, 'Comment');
 
-        $this->assertEquals('000222', $command->orderNumber());
-        $this->assertEquals(1000, $command->total());
-        $this->assertEquals($unitRefunds, $command->units());
-        $this->assertEquals('Comment', $command->comment());
+        self::assertEquals('000222', $command->orderNumber());
+        self::assertEquals(1000, $command->total());
+        self::assertEquals($unitRefunds, $command->units());
+        self::assertEquals('Comment', $command->comment());
     }
 }

@@ -25,19 +25,20 @@ final class CreditMemoFileResponseBuilderTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->builder = new CreditMemoFileResponseBuilder();
     }
 
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(CreditMemoFileResponseBuilder::class, $this->builder);
+        self::assertInstanceOf(CreditMemoFileResponseBuilder::class, $this->builder);
     }
 
     /** @test */
     function it_implements_credit_memo_file_response_builder_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoFileResponseBuilderInterface::class, $this->builder);
+        self::assertInstanceOf(CreditMemoFileResponseBuilderInterface::class, $this->builder);
     }
 
     /** @test */
@@ -47,7 +48,7 @@ final class CreditMemoFileResponseBuilderTest extends TestCase
 
         $response = $this->builder->build(Response::HTTP_OK, $creditMemoPdf);
 
-        $this->assertEquals('credit_memo_content', $response->getContent());
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        self::assertEquals('credit_memo_content', $response->getContent());
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 }

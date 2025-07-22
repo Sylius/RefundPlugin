@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -22,11 +23,12 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 
 final class OrderRefundedTotalProviderTest extends TestCase
 {
-    private RepositoryInterface $refundRepository;
+    private RepositoryInterface&MockObject $refundRepository;
     private OrderRefundedTotalProvider $provider;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundRepository = $this->createMock(RepositoryInterface::class);
         $this->provider = new OrderRefundedTotalProvider($this->refundRepository);
     }
@@ -34,13 +36,13 @@ final class OrderRefundedTotalProviderTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(OrderRefundedTotalProvider::class, $this->provider);
+        self::assertInstanceOf(OrderRefundedTotalProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_order_refunded_total_provider_interface(): void
     {
-        $this->assertInstanceOf(OrderRefundedTotalProviderInterface::class, $this->provider);
+        self::assertInstanceOf(OrderRefundedTotalProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -51,23 +53,23 @@ final class OrderRefundedTotalProviderTest extends TestCase
         $secondRefund = $this->createMock(RefundInterface::class);
 
         $this->refundRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findBy')
             ->with(['order' => $order])
             ->willReturn([$firstRefund, $secondRefund]);
 
         $firstRefund
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAmount')
             ->willReturn(1000);
 
         $secondRefund
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAmount')
             ->willReturn(500);
 
         $result = $this->provider->__invoke($order);
 
-        $this->assertSame(1500, $result);
+        self::assertSame(1500, $result);
     }
 }

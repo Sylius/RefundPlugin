@@ -23,8 +23,8 @@ final class ShipmentRefundedTest extends TestCase
     {
         $shipmentRefunded = new ShipmentRefunded('000222', 1, 1000);
 
-        $this->assertEquals('000222', $shipmentRefunded->orderNumber());
-        $this->assertEquals(1, $shipmentRefunded->shipmentUnitId());
-        $this->assertEquals(1000, $shipmentRefunded->amount());
+        self::assertEquals('000222', $shipmentRefunded->orderNumber());
+        self::assertEquals(1, $shipmentRefunded->shipmentUnitId());
+        self::assertEquals(1000, $shipmentRefunded->amount());
     }
 }

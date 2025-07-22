@@ -26,12 +26,13 @@ final class RefundFactoryTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->factory = new RefundFactory(Refund::class);
     }
 
     public function testItImplementsRefundFactoryInterface(): void
     {
-        $this->assertInstanceOf(RefundFactoryInterface::class, $this->factory);
+        self::assertInstanceOf(RefundFactoryInterface::class, $this->factory);
     }
 
     public function testItAllowsToCreateRefundWithGivenData(): void
@@ -40,7 +41,7 @@ final class RefundFactoryTest extends TestCase
 
         $result = $this->factory->createWithData($order, 1, 1000, RefundType::orderItemUnit());
 
-        $this->assertEquals(new Refund($order, 1000, 1, RefundType::orderItemUnit()), $result);
+        self::assertEquals(new Refund($order, 1000, 1, RefundType::orderItemUnit()), $result);
     }
 
     public function testItThrowsExceptionIfItTriesToCreateDefaultRefundWithoutData(): void

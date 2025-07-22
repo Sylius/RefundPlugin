@@ -28,13 +28,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class OrderShipmentsRefunderTest extends TestCase
 {
-    private RefundCreatorInterface|MockObject $refundCreator;
-    private MessageBusInterface|MockObject $eventBus;
-    private UnitRefundFilterInterface|MockObject $unitRefundFilter;
+    private RefundCreatorInterface&MockObject $refundCreator;
+    private MessageBusInterface&MockObject $eventBus;
+    private UnitRefundFilterInterface&MockObject $unitRefundFilter;
     private OrderShipmentsRefunder $refunder;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundCreator = $this->createMock(RefundCreatorInterface::class);
         $this->eventBus = $this->createMock(MessageBusInterface::class);
         $this->unitRefundFilter = $this->createMock(UnitRefundFilterInterface::class);
@@ -49,7 +50,7 @@ final class OrderShipmentsRefunderTest extends TestCase
     /** @test */
     public function it_implements_refunder_interface(): void
     {
-        $this->assertInstanceOf(RefunderInterface::class, $this->refunder);
+        self::assertInstanceOf(RefunderInterface::class, $this->refunder);
     }
 
     /** @test */
@@ -59,25 +60,25 @@ final class OrderShipmentsRefunderTest extends TestCase
         $refunds = [$shipmentRefund, new OrderItemUnitRefund(8, 1000)];
 
         $this->unitRefundFilter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('filterUnitRefunds')
             ->with($refunds, ShipmentRefund::class)
             ->willReturn([$shipmentRefund]);
 
         $this->refundCreator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('000222', 4, 2500, RefundType::shipment());
 
         $event = new ShipmentRefunded('000222', 4, 2500);
         $this->eventBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($event)
             ->willReturn(new Envelope($event));
 
         $result = $this->refunder->refundFromOrder($refunds, '000222');
 
-        $this->assertEquals(2500, $result);
+        self::assertEquals(2500, $result);
     }
 }

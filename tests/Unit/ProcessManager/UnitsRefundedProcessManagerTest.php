@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\ProcessManager;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
@@ -23,12 +24,13 @@ use Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface;
 
 final class UnitsRefundedProcessManagerTest extends TestCase
 {
-    private UnitsRefundedProcessStepInterface $creditMemoProcessManager;
-    private UnitsRefundedProcessStepInterface $refundPaymentProcessManager;
+    private UnitsRefundedProcessStepInterface&MockObject $creditMemoProcessManager;
+    private UnitsRefundedProcessStepInterface&MockObject $refundPaymentProcessManager;
     private UnitsRefundedProcessManager $unitsRefundedProcessManager;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemoProcessManager = $this->createMock(UnitsRefundedProcessStepInterface::class);
         $this->refundPaymentProcessManager = $this->createMock(UnitsRefundedProcessStepInterface::class);
 
@@ -41,7 +43,7 @@ final class UnitsRefundedProcessManagerTest extends TestCase
     /** @test */
     function it_implements_units_refunded_process_manager_interface(): void
     {
-        $this->assertInstanceOf(UnitsRefundedProcessManagerInterface::class, $this->unitsRefundedProcessManager);
+        self::assertInstanceOf(UnitsRefundedProcessManagerInterface::class, $this->unitsRefundedProcessManager);
     }
 
     /** @test */
@@ -57,12 +59,12 @@ final class UnitsRefundedProcessManagerTest extends TestCase
         $event = new UnitsRefunded('000222', $unitRefunds, 1, 1500, 'USD', 'Comment');
 
         $this->creditMemoProcessManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('next')
             ->with($event);
 
         $this->refundPaymentProcessManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('next')
             ->with($event);
 

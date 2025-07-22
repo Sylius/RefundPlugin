@@ -25,23 +25,24 @@ final class CreditMemoFileNameGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->generator = new CreditMemoFileNameGenerator();
     }
 
     public function testItImplementsCreditMemoFileNameGeneratorInterface(): void
     {
-        $this->assertInstanceOf(CreditMemoFileNameGeneratorInterface::class, $this->generator);
+        self::assertInstanceOf(CreditMemoFileNameGeneratorInterface::class, $this->generator);
     }
 
     public function testItGeneratesCreditMemoFileNameBasedOnItsNumber(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('getNumber')
             ->willReturn('2018/05/000000006');
 
         $result = $this->generator->generateForPdf($creditMemo);
 
-        $this->assertSame('2018_05_000000006.pdf', $result);
+        self::assertSame('2018_05_000000006.pdf', $result);
     }
 }

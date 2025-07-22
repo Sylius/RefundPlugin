@@ -36,15 +36,16 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class CreditMemoGeneratorTest extends TestCase
 {
-    private LineItemsConverterInterface|MockObject $lineItemsConverter;
-    private TaxItemsGeneratorInterface|MockObject $taxItemsGenerator;
-    private CreditMemoFactoryInterface|MockObject $creditMemoFactory;
-    private CustomerBillingDataFactoryInterface|MockObject $customerBillingDataFactory;
-    private ShopBillingDataFactoryInterface|MockObject $shopBillingDataFactory;
+    private LineItemsConverterInterface&MockObject $lineItemsConverter;
+    private TaxItemsGeneratorInterface&MockObject $taxItemsGenerator;
+    private CreditMemoFactoryInterface&MockObject $creditMemoFactory;
+    private CustomerBillingDataFactoryInterface&MockObject $customerBillingDataFactory;
+    private ShopBillingDataFactoryInterface&MockObject $shopBillingDataFactory;
     private CreditMemoGenerator $creditMemoGenerator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->lineItemsConverter = $this->createMock(LineItemsConverterInterface::class);
         $this->taxItemsGenerator = $this->createMock(TaxItemsGeneratorInterface::class);
         $this->creditMemoFactory = $this->createMock(CreditMemoFactoryInterface::class);
@@ -62,7 +63,7 @@ final class CreditMemoGeneratorTest extends TestCase
 
     public function testItImplementsCreditMemoGeneratorInterface(): void
     {
-        $this->assertInstanceOf(CreditMemoGeneratorInterface::class, $this->creditMemoGenerator);
+        self::assertInstanceOf(CreditMemoGeneratorInterface::class, $this->creditMemoGenerator);
     }
 
     public function testItGeneratesCreditMemoBasingOnEventData(): void
@@ -82,23 +83,23 @@ final class CreditMemoGeneratorTest extends TestCase
         $taxItem = $this->createMock(TaxItemInterface::class);
         $shopBillingDataFromFactory = $this->createMock(ShopBillingData::class);
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getChannel')
             ->willReturn($channel);
 
-        $channel->expects($this->once())
+        $channel->expects(self::once())
             ->method('getShopBillingData')
             ->willReturn($shopBillingData);
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('getCompany')
             ->willReturn('Needful Things');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('getTaxId')
             ->willReturn('000222');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('getCountryCode')
             ->willReturn('US');
 
@@ -106,15 +107,15 @@ final class CreditMemoGeneratorTest extends TestCase
             ->method('getStreet')
             ->willReturn('Main St. 123');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('getCity')
             ->willReturn('New York');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('getPostcode')
             ->willReturn('90222');
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getBillingAddress')
             ->willReturn($customerBillingAddress);
 
@@ -145,22 +146,22 @@ final class CreditMemoGeneratorTest extends TestCase
         $customerBillingAddress->expects($this->never())
             ->method('getProvinceCode');
 
-        $this->lineItemsConverter->expects($this->once())
+        $this->lineItemsConverter->expects(self::once())
             ->method('convert')
             ->with([$firstUnitRefund, $secondUnitRefund, $shipmentRefund])
             ->willReturn([$firstLineItem, $secondLineItem]);
 
-        $this->taxItemsGenerator->expects($this->once())
+        $this->taxItemsGenerator->expects(self::once())
             ->method('generate')
             ->with([$firstLineItem, $secondLineItem])
             ->willReturn([$taxItem]);
 
-        $this->customerBillingDataFactory->expects($this->once())
+        $this->customerBillingDataFactory->expects(self::once())
             ->method('createWithAddress')
             ->with($customerBillingAddress)
             ->willReturn($customerBillingData);
 
-        $this->shopBillingDataFactory->expects($this->once())
+        $this->shopBillingDataFactory->expects(self::once())
             ->method('createWithData')
             ->with(
                 'Needful Things',
@@ -172,7 +173,7 @@ final class CreditMemoGeneratorTest extends TestCase
             )
             ->willReturn($shopBillingDataFromFactory);
 
-        $this->creditMemoFactory->expects($this->once())
+        $this->creditMemoFactory->expects(self::once())
             ->method('createWithData')
             ->with(
                 $order,
@@ -192,6 +193,6 @@ final class CreditMemoGeneratorTest extends TestCase
             'Comment'
         );
 
-        $this->assertSame($creditMemo, $result);
+        self::assertSame($creditMemo, $result);
     }
 }

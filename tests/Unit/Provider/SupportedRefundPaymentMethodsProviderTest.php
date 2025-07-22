@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -24,11 +25,12 @@ use Sylius\RefundPlugin\Provider\SupportedRefundPaymentMethodsProvider;
 
 final class SupportedRefundPaymentMethodsProviderTest extends TestCase
 {
-    private PaymentMethodRepositoryInterface $paymentMethodRepository;
+    private PaymentMethodRepositoryInterface&MockObject $paymentMethodRepository;
     private SupportedRefundPaymentMethodsProvider $provider;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->paymentMethodRepository = $this->createMock(PaymentMethodRepositoryInterface::class);
         $this->provider = new SupportedRefundPaymentMethodsProvider($this->paymentMethodRepository, ['offline', 'stripe']);
     }
@@ -36,13 +38,13 @@ final class SupportedRefundPaymentMethodsProviderTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(SupportedRefundPaymentMethodsProvider::class, $this->provider);
+        self::assertInstanceOf(SupportedRefundPaymentMethodsProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_refund_payment_methods_provider_interface(): void
     {
-        $this->assertInstanceOf(RefundPaymentMethodsProviderInterface::class, $this->provider);
+        self::assertInstanceOf(RefundPaymentMethodsProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -58,12 +60,12 @@ final class SupportedRefundPaymentMethodsProviderTest extends TestCase
         $stripeGatewayConfig = $this->createMock(GatewayConfigInterface::class);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getChannel')
             ->willReturn($channel);
 
         $this->paymentMethodRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findEnabledForChannel')
             ->with($channel)
             ->willReturn([
@@ -73,37 +75,37 @@ final class SupportedRefundPaymentMethodsProviderTest extends TestCase
             ]);
 
         $offlinePaymentMethod
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getGatewayConfig')
             ->willReturn($offlineGatewayConfig);
 
         $offlineGatewayConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFactoryName')
             ->willReturn('offline');
 
         $payPalPaymentMethod
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getGatewayConfig')
             ->willReturn($payPalGatewayConfig);
 
         $payPalGatewayConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFactoryName')
             ->willReturn('paypal');
 
         $stripePaymentMethod
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getGatewayConfig')
             ->willReturn($stripeGatewayConfig);
 
         $stripeGatewayConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getFactoryName')
             ->willReturn('stripe');
 
         $result = $this->provider->findForOrder($order);
 
-        $this->assertSame([$offlinePaymentMethod, $stripePaymentMethod], $result);
+        self::assertSame([$offlinePaymentMethod, $stripePaymentMethod], $result);
     }
 }

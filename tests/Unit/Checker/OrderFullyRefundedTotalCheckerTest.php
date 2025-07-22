@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Checker\OrderFullyRefundedTotalChecker;
@@ -21,11 +22,12 @@ use Sylius\RefundPlugin\Provider\OrderRefundedTotalProviderInterface;
 
 final class OrderFullyRefundedTotalCheckerTest extends TestCase
 {
-    private OrderRefundedTotalProviderInterface $orderRefundedTotalProvider;
+    private OrderRefundedTotalProviderInterface&MockObject $orderRefundedTotalProvider;
     private OrderFullyRefundedTotalChecker $checker;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderRefundedTotalProvider = $this->createMock(OrderRefundedTotalProviderInterface::class);
         $this->checker = new OrderFullyRefundedTotalChecker($this->orderRefundedTotalProvider);
     }
@@ -33,13 +35,13 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(OrderFullyRefundedTotalChecker::class, $this->checker);
+        self::assertInstanceOf(OrderFullyRefundedTotalChecker::class, $this->checker);
     }
 
     /** @test */
     function it_implements_order_fully_refunded_total_checker_interface(): void
     {
-        $this->assertInstanceOf(OrderFullyRefundedTotalCheckerInterface::class, $this->checker);
+        self::assertInstanceOf(OrderFullyRefundedTotalCheckerInterface::class, $this->checker);
     }
 
     /** @test */
@@ -48,19 +50,19 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(1000);
 
         $this->orderRefundedTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with($order)
             ->willReturn(500);
 
         $result = $this->checker->isOrderFullyRefunded($order);
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /** @test */
@@ -69,18 +71,18 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(1000);
 
         $this->orderRefundedTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with($order)
             ->willReturn(1000);
 
         $result = $this->checker->isOrderFullyRefunded($order);
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 }

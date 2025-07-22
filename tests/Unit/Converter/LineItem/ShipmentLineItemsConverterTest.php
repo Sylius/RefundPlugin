@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\LineItem;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
@@ -29,17 +30,18 @@ use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class ShipmentLineItemsConverterTest extends TestCase
 {
-    private RepositoryInterface $adjustmentRepository;
-    private TaxRateProviderInterface $taxRateProvider;
-    private LineItemFactoryInterface $lineItemFactory;
+    private RepositoryInterface&MockObject $adjustmentRepository;
+    private TaxRateProviderInterface&MockObject $taxRateProvider;
+    private LineItemFactoryInterface&MockObject $lineItemFactory;
     private ShipmentLineItemsConverter $converter;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->adjustmentRepository = $this->createMock(RepositoryInterface::class);
         $this->taxRateProvider = $this->createMock(TaxRateProviderInterface::class);
         $this->lineItemFactory = $this->createMock(LineItemFactoryInterface::class);
-        
+
         $this->converter = new ShipmentLineItemsConverter(
             $this->adjustmentRepository,
             $this->taxRateProvider,
@@ -50,7 +52,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
     /** @test */
     function it_implements_line_items_converter_interface(): void
     {
-        $this->assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
+        self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
     /** @test */
@@ -60,22 +62,22 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $taxAdjustment = $this->createMock(AdjustmentInterface::class);
         $shipment = $this->createMock(ShipmentInterface::class);
         $lineItem = $this->createMock(LineItemInterface::class);
-        
+
         $shipmentRefund = new ShipmentRefund(1, 575);
 
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn($shippingAdjustment);
 
         $shippingAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getLabel')
             ->willReturn('Galaxy post');
-        
+
         $shippingAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getShipment')
             ->willReturn($shipment);
 
@@ -83,33 +85,33 @@ final class ShipmentLineItemsConverterTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getAdjustmentsTotal')
             ->willReturn(1150);
-        
+
         $shipment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustments')
             ->with(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([$taxAdjustment]));
 
         $taxAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAmount')
             ->willReturn(150);
 
         $this->taxRateProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($shipment)
             ->willReturn('15%');
 
         $this->lineItemFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createWithData')
             ->with('Galaxy post', 1, 500, 575, 500, 575, 75, '15%')
             ->willReturn($lineItem);
 
         $result = $this->converter->convert([$shipmentRefund]);
 
-        $this->assertEquals([$lineItem], $result);
+        self::assertEquals([$lineItem], $result);
     }
 
     /** @test */
@@ -129,7 +131,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $shipmentRefund = new ShipmentRefund(1, 500);
 
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn(null);
@@ -144,22 +146,22 @@ final class ShipmentLineItemsConverterTest extends TestCase
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
         $shipment = $this->createMock(ShipmentInterface::class);
-        
+
         $shipmentRefund = new ShipmentRefund(1, 1001);
 
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn($shippingAdjustment);
 
         $shippingAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getShipment')
             ->willReturn($shipment);
-        
+
         $shipment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustmentsTotal')
             ->willReturn(1000);
 
@@ -175,11 +177,11 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $firstTaxAdjustment = $this->createMock(AdjustmentInterface::class);
         $secondTaxAdjustment = $this->createMock(AdjustmentInterface::class);
         $shipment = $this->createMock(ShipmentInterface::class);
-        
+
         $shipmentRefund = new ShipmentRefund(1, 575);
 
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => 1, 'type' => AdjustmentInterface::SHIPPING_ADJUSTMENT])
             ->willReturn($shippingAdjustment);
@@ -187,19 +189,19 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $shippingAdjustment
             ->expects($this->never())
             ->method('getLabel');
-        
+
         $shippingAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getShipment')
             ->willReturn($shipment);
 
         $shipment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustmentsTotal')
             ->willReturn(1150);
-        
+
         $shipment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAdjustments')
             ->with(AdjustmentInterface::TAX_ADJUSTMENT)
             ->willReturn(new ArrayCollection([$firstTaxAdjustment, $secondTaxAdjustment]));

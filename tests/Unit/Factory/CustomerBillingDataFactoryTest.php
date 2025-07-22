@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -22,80 +23,81 @@ use Sylius\RefundPlugin\Factory\CustomerBillingDataFactoryInterface;
 
 final class CustomerBillingDataFactoryTest extends TestCase
 {
-    private FactoryInterface $customerBillingDataFactory;
+    private FactoryInterface&MockObject $customerBillingDataFactory;
     private CustomerBillingDataFactory $factory;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->customerBillingDataFactory = $this->createMock(FactoryInterface::class);
         $this->factory = new CustomerBillingDataFactory($this->customerBillingDataFactory);
     }
 
     public function testItImplementsCustomerBillingDataFactoryInterface(): void
     {
-        $this->assertInstanceOf(CustomerBillingDataFactoryInterface::class, $this->factory);
+        self::assertInstanceOf(CustomerBillingDataFactoryInterface::class, $this->factory);
     }
 
     public function testItCreatesANewCustomerBillingData(): void
     {
         $billingData = $this->createMock(CustomerBillingDataInterface::class);
 
-        $this->customerBillingDataFactory->expects($this->once())
+        $this->customerBillingDataFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($billingData);
 
         $result = $this->factory->createNew();
 
-        $this->assertSame($billingData, $result);
+        self::assertSame($billingData, $result);
     }
 
     public function testItCreatesANewCustomerBillingDataWithData(): void
     {
         $customerBillingData = $this->createMock(CustomerBillingDataInterface::class);
 
-        $this->customerBillingDataFactory->expects($this->once())
+        $this->customerBillingDataFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($customerBillingData);
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setFirstName')
             ->with('Pablo');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setLastName')
             ->with('Escobar');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setStreet')
             ->with('Coke street');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setPostcode')
             ->with('90-210');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setCountryCode')
             ->with('CO');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setCity')
             ->with('Bogota');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setCompany')
             ->with('Coca cola but better');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setProvinceName')
             ->with('Bogota');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setProvinceCode')
             ->with('CO-DC');
 
         $result = $this->factory->createWithData('Pablo', 'Escobar', 'Coke street', '90-210', 'CO', 'Bogota', 'Coca cola but better', 'Bogota', 'CO-DC');
 
-        $this->assertSame($customerBillingData, $result);
+        self::assertSame($customerBillingData, $result);
     }
 
     public function testItCreatesANewCustomerBillingDataWithAddress(): void
@@ -128,60 +130,60 @@ final class CustomerBillingDataFactoryTest extends TestCase
             ->method('getCity')
             ->willReturn('Bogota');
 
-        $address->expects($this->once())
+        $address->expects(self::once())
             ->method('getCompany')
             ->willReturn('Coca cola but better');
 
-        $address->expects($this->once())
+        $address->expects(self::once())
             ->method('getProvinceName')
             ->willReturn('Bogota');
 
-        $address->expects($this->once())
+        $address->expects(self::once())
             ->method('getProvinceCode')
             ->willReturn('CO-DC');
 
-        $this->customerBillingDataFactory->expects($this->once())
+        $this->customerBillingDataFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($customerBillingData);
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setFirstName')
             ->with('Pablo');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setLastName')
             ->with('Escobar');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setStreet')
             ->with('Coke street');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setPostcode')
             ->with('90-210');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setCountryCode')
             ->with('CO');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setCity')
             ->with('Bogota');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setCompany')
             ->with('Coca cola but better');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setProvinceName')
             ->with('Bogota');
 
-        $customerBillingData->expects($this->once())
+        $customerBillingData->expects(self::once())
             ->method('setProvinceCode')
             ->with('CO-DC');
 
         $result = $this->factory->createWithAddress($address);
 
-        $this->assertSame($customerBillingData, $result);
+        self::assertSame($customerBillingData, $result);
     }
 }

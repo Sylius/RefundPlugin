@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderPaymentStates;
@@ -22,11 +23,12 @@ use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
 
 final class OrderRefundsListAvailabilityCheckerTest extends TestCase
 {
-    private OrderRepositoryInterface $orderRepository;
+    private OrderRepositoryInterface&MockObject $orderRepository;
     private OrderRefundsListAvailabilityChecker $checker;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $this->checker = new OrderRefundsListAvailabilityChecker($this->orderRepository);
     }
@@ -34,7 +36,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
     /** @test */
     function it_implements_order_refunding_availability_checker_interface(): void
     {
-        $this->assertInstanceOf(OrderRefundingAvailabilityCheckerInterface::class, $this->checker);
+        self::assertInstanceOf(OrderRefundingAvailabilityCheckerInterface::class, $this->checker);
     }
 
     /** @test */
@@ -43,24 +45,24 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(100);
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /** @test */
@@ -69,24 +71,24 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(100);
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /** @test */
@@ -95,24 +97,24 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(100);
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /** @test */
@@ -121,13 +123,13 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
 
@@ -135,7 +137,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /** @test */
@@ -144,24 +146,24 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(0);
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /** @test */
@@ -170,24 +172,24 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(0);
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /** @test */
@@ -196,13 +198,13 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_AWAITING_PAYMENT);
 
@@ -210,7 +212,7 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
 
         $result = $this->checker->__invoke('00000007');
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 
     /** @test */
@@ -222,20 +224,20 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $checker = new OrderRefundsListAvailabilityChecker($this->orderRepository, $orderRefundingAvailabilityChecker);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('00000007')
             ->willReturn(true);
 
         $result = $checker->__invoke('00000007');
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /** @test */
@@ -247,25 +249,25 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $checker = new OrderRefundsListAvailabilityChecker($this->orderRepository, $orderRefundingAvailabilityChecker);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('00000007')
             ->willReturn(false);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
         $result = $checker->__invoke('00000007');
 
-        $this->assertTrue($result);
+        self::assertTrue($result);
     }
 
     /** @test */
@@ -277,24 +279,24 @@ final class OrderRefundsListAvailabilityCheckerTest extends TestCase
         $checker = new OrderRefundsListAvailabilityChecker($this->orderRepository, $orderRefundingAvailabilityChecker);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('00000007')
             ->willReturn($order);
 
         $orderRefundingAvailabilityChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with('00000007')
             ->willReturn(false);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $result = $checker->__invoke('00000007');
 
-        $this->assertFalse($result);
+        self::assertFalse($result);
     }
 }

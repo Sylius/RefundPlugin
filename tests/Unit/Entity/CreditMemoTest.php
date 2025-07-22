@@ -30,27 +30,28 @@ final class CreditMemoTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemo = new CreditMemo();
     }
 
     /** @test */
     function it_implements_a_credit_memo_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoInterface::class, $this->creditMemo);
+        self::assertInstanceOf(CreditMemoInterface::class, $this->creditMemo);
     }
 
     /** @test */
     function it_has_an_id(): void
     {
         $this->creditMemo->setId('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
-        $this->assertEquals('7903c83a-4c5e-4bcf-81d8-9dc304c6a353', $this->creditMemo->getId());
+        self::assertEquals('7903c83a-4c5e-4bcf-81d8-9dc304c6a353', $this->creditMemo->getId());
     }
 
     /** @test */
     function it_has_a_number(): void
     {
         $this->creditMemo->setNumber('2018/07/00003333');
-        $this->assertEquals('2018/07/00003333', $this->creditMemo->getNumber());
+        self::assertEquals('2018/07/00003333', $this->creditMemo->getNumber());
     }
 
     /** @test */
@@ -58,28 +59,28 @@ final class CreditMemoTest extends TestCase
     {
         $order = $this->createMock(OrderInterface::class);
         $this->creditMemo->setOrder($order);
-        $this->assertSame($order, $this->creditMemo->getOrder());
+        self::assertSame($order, $this->creditMemo->getOrder());
     }
 
     /** @test */
     function it_has_a_total(): void
     {
         $this->creditMemo->setTotal(1000);
-        $this->assertEquals(1000, $this->creditMemo->getTotal());
+        self::assertEquals(1000, $this->creditMemo->getTotal());
     }
 
     /** @test */
     function it_has_a_currency_code(): void
     {
         $this->creditMemo->setCurrencyCode('USD');
-        $this->assertEquals('USD', $this->creditMemo->getCurrencyCode());
+        self::assertEquals('USD', $this->creditMemo->getCurrencyCode());
     }
 
     /** @test */
     function it_has_a_locale_code(): void
     {
         $this->creditMemo->setLocaleCode('en_US');
-        $this->assertEquals('en_US', $this->creditMemo->getLocaleCode());
+        self::assertEquals('en_US', $this->creditMemo->getLocaleCode());
     }
 
     /** @test */
@@ -87,7 +88,7 @@ final class CreditMemoTest extends TestCase
     {
         $channel = $this->createMock(ChannelInterface::class);
         $this->creditMemo->setChannel($channel);
-        $this->assertSame($channel, $this->creditMemo->getChannel());
+        self::assertSame($channel, $this->creditMemo->getChannel());
     }
 
     /** @test */
@@ -96,7 +97,7 @@ final class CreditMemoTest extends TestCase
         $lineItem = $this->createMock(LineItemInterface::class);
         $lineItems = new ArrayCollection([$lineItem]);
         $this->creditMemo->setLineItems($lineItems);
-        $this->assertEquals($lineItems, $this->creditMemo->getLineItems());
+        self::assertEquals($lineItems, $this->creditMemo->getLineItems());
     }
 
     /** @test */
@@ -105,7 +106,7 @@ final class CreditMemoTest extends TestCase
         $taxItem = $this->createMock(TaxItemInterface::class);
         $taxItems = new ArrayCollection([$taxItem]);
         $this->creditMemo->setTaxItems($taxItems);
-        $this->assertEquals($taxItems, $this->creditMemo->getTaxItems());
+        self::assertEquals($taxItems, $this->creditMemo->getTaxItems());
     }
 
     /** @test */
@@ -113,14 +114,14 @@ final class CreditMemoTest extends TestCase
     {
         $issuedAt = new \DateTimeImmutable('01-01-2020 10:10:10');
         $this->creditMemo->setIssuedAt($issuedAt);
-        $this->assertEquals($issuedAt, $this->creditMemo->getIssuedAt());
+        self::assertEquals($issuedAt, $this->creditMemo->getIssuedAt());
     }
 
     /** @test */
     function it_has_a_comment(): void
     {
         $this->creditMemo->setComment('Comment');
-        $this->assertEquals('Comment', $this->creditMemo->getComment());
+        self::assertEquals('Comment', $this->creditMemo->getComment());
     }
 
     /** @test */
@@ -128,7 +129,7 @@ final class CreditMemoTest extends TestCase
     {
         $from = $this->createMock(CustomerBillingDataInterface::class);
         $this->creditMemo->setFrom($from);
-        $this->assertSame($from, $this->creditMemo->getFrom());
+        self::assertSame($from, $this->creditMemo->getFrom());
     }
 
     /** @test */
@@ -136,6 +137,6 @@ final class CreditMemoTest extends TestCase
     {
         $to = $this->createMock(ShopBillingDataInterface::class);
         $this->creditMemo->setTo($to);
-        $this->assertSame($to, $this->creditMemo->getTo());
+        self::assertSame($to, $this->creditMemo->getTo());
     }
 }

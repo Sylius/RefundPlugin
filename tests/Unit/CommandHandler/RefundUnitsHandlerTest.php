@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\CommandHandler;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
@@ -29,21 +30,22 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundUnitsHandlerTest extends TestCase
 {
-    private RefunderInterface $orderItemUnitsRefunder;
-    private RefunderInterface $orderShipmentsRefunder;
-    private MessageBusInterface $eventBus;
-    private OrderRepositoryInterface $orderRepository;
-    private RefundUnitsCommandValidatorInterface $refundUnitsCommandValidator;
+    private RefunderInterface&MockObject $orderItemUnitsRefunder;
+    private RefunderInterface&MockObject $orderShipmentsRefunder;
+    private MessageBusInterface&MockObject $eventBus;
+    private OrderRepositoryInterface&MockObject $orderRepository;
+    private RefundUnitsCommandValidatorInterface&MockObject $refundUnitsCommandValidator;
     private RefundUnitsHandler $handler;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderItemUnitsRefunder = $this->createMock(RefunderInterface::class);
         $this->orderShipmentsRefunder = $this->createMock(RefunderInterface::class);
         $this->eventBus = $this->createMock(MessageBusInterface::class);
         $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $this->refundUnitsCommandValidator = $this->createMock(RefundUnitsCommandValidatorInterface::class);
-        
+
         $this->handler = new RefundUnitsHandler(
             [$this->orderItemUnitsRefunder, $this->orderShipmentsRefunder],
             $this->eventBus,
@@ -65,30 +67,30 @@ final class RefundUnitsHandlerTest extends TestCase
         ];
 
         $this->orderItemUnitsRefunder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('refundFromOrder')
             ->with($unitRefunds, '000222')
             ->willReturn(3000);
 
         $this->orderShipmentsRefunder
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('refundFromOrder')
             ->with($unitRefunds, '000222')
             ->willReturn(4000);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCurrencyCode')
             ->willReturn('USD');
 
         $this->refundUnitsCommandValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validate')
             ->with($this->isInstanceOf(RefundUnits::class));
 
@@ -101,7 +103,7 @@ final class RefundUnitsHandlerTest extends TestCase
             'Comment'
         );
         $this->eventBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($event)
             ->willReturn(new Envelope($event));
@@ -125,7 +127,7 @@ final class RefundUnitsHandlerTest extends TestCase
         );
 
         $this->refundUnitsCommandValidator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('validate')
             ->with($refundUnitsCommand)
             ->willThrowException(OrderNotAvailableForRefunding::withOrderNumber('000222'));

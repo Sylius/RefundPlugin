@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Resolver;
 
 use Gaufrette\Exception\FileNotFound;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
@@ -26,14 +27,15 @@ use Sylius\RefundPlugin\Resolver\CreditMemoFileResolverInterface;
 
 final class CreditMemoFileResolverTest extends TestCase
 {
-    private CreditMemoRepositoryInterface $creditMemoRepository;
-    private CreditMemoFileProviderInterface $creditMemoFileProvider;
-    private CreditMemoPdfFileGeneratorInterface $creditMemoPdfFileGenerator;
-    private CreditMemoFileManagerInterface $creditMemoFileManager;
+    private CreditMemoRepositoryInterface&MockObject $creditMemoRepository;
+    private CreditMemoFileProviderInterface&MockObject $creditMemoFileProvider;
+    private CreditMemoPdfFileGeneratorInterface&MockObject $creditMemoPdfFileGenerator;
+    private CreditMemoFileManagerInterface&MockObject $creditMemoFileManager;
     private CreditMemoFileResolver $resolver;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemoRepository = $this->createMock(CreditMemoRepositoryInterface::class);
         $this->creditMemoFileProvider = $this->createMock(CreditMemoFileProviderInterface::class);
         $this->creditMemoPdfFileGenerator = $this->createMock(CreditMemoPdfFileGeneratorInterface::class);
@@ -50,7 +52,7 @@ final class CreditMemoFileResolverTest extends TestCase
     /** @test */
     public function it_implements_credit_memo_file_resolver_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoFileResolverInterface::class, $this->resolver);
+        self::assertInstanceOf(CreditMemoFileResolverInterface::class, $this->resolver);
     }
 
     /** @test */
@@ -60,14 +62,14 @@ final class CreditMemoFileResolverTest extends TestCase
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');
 
         $this->creditMemoFileProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($creditMemo)
             ->willReturn($creditMemoPdf);
 
         $result = $this->resolver->resolveByCreditMemo($creditMemo);
 
-        $this->assertEquals($creditMemoPdf, $result);
+        self::assertEquals($creditMemoPdf, $result);
     }
 
     /** @test */
@@ -77,30 +79,30 @@ final class CreditMemoFileResolverTest extends TestCase
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $this->creditMemoFileProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($creditMemo)
             ->willThrowException(new FileNotFound('file'));
 
         $this->creditMemoPdfFileGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn($creditMemoPdf);
 
         $this->creditMemoFileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('save')
             ->with($creditMemoPdf);
 
         $result = $this->resolver->resolveByCreditMemo($creditMemo);
 
-        $this->assertEquals($creditMemoPdf, $result);
+        self::assertEquals($creditMemoPdf, $result);
     }
 
     /** @test */
@@ -110,20 +112,20 @@ final class CreditMemoFileResolverTest extends TestCase
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');
 
         $this->creditMemoRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn($creditMemo);
 
         $this->creditMemoFileProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($creditMemo)
             ->willReturn($creditMemoPdf);
 
         $result = $this->resolver->resolveById('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
-        $this->assertEquals($creditMemoPdf, $result);
+        self::assertEquals($creditMemoPdf, $result);
     }
 
     /** @test */
@@ -133,35 +135,35 @@ final class CreditMemoFileResolverTest extends TestCase
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
         $this->creditMemoRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn($creditMemo);
 
         $this->creditMemoFileProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($creditMemo)
             ->willThrowException(new FileNotFound('file'));
 
         $this->creditMemoPdfFileGenerator
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('generate')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn($creditMemoPdf);
 
         $this->creditMemoFileManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('save')
             ->with($creditMemoPdf);
 
         $result = $this->resolver->resolveById('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
-        $this->assertEquals($creditMemoPdf, $result);
+        self::assertEquals($creditMemoPdf, $result);
     }
 }

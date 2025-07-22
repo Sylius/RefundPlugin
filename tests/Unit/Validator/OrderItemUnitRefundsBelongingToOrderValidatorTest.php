@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Validator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Doctrine\ORM\CountRefundsBelongingToOrderQueryInterface;
 use Sylius\RefundPlugin\Exception\RefundUnitsNotBelongToOrder;
@@ -24,12 +25,13 @@ use Sylius\RefundPlugin\Validator\UnitRefundsBelongingToOrderValidatorInterface;
 
 final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
 {
-    private UnitRefundFilterInterface $unitRefundFilter;
-    private CountRefundsBelongingToOrderQueryInterface $countRefundsBelongingToOrderQuery;
+    private UnitRefundFilterInterface&MockObject $unitRefundFilter;
+    private CountRefundsBelongingToOrderQueryInterface&MockObject $countRefundsBelongingToOrderQuery;
     private OrderItemUnitRefundsBelongingToOrderValidator $validator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->unitRefundFilter = $this->createMock(UnitRefundFilterInterface::class);
         $this->countRefundsBelongingToOrderQuery = $this->createMock(CountRefundsBelongingToOrderQueryInterface::class);
         $this->validator = new OrderItemUnitRefundsBelongingToOrderValidator(
@@ -41,7 +43,7 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
     /** @test */
     function it_implements_unit_refunds_belonging_to_order_validator_interface(): void
     {
-        $this->assertInstanceOf(UnitRefundsBelongingToOrderValidatorInterface::class, $this->validator);
+        self::assertInstanceOf(UnitRefundsBelongingToOrderValidatorInterface::class, $this->validator);
     }
 
     /** @test */
@@ -55,7 +57,7 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
         ];
 
         $this->unitRefundFilter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('filterUnitRefunds')
             ->with($unitRefunds, OrderItemUnitRefund::class)
             ->willReturn([
@@ -64,7 +66,7 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
             ]);
 
         $this->countRefundsBelongingToOrderQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('count')
             ->with([1, 4], '000001')
             ->willReturn(1);
@@ -85,7 +87,7 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
         ];
 
         $this->unitRefundFilter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('filterUnitRefunds')
             ->with($unitRefunds, OrderItemUnitRefund::class)
             ->willReturn([
@@ -94,7 +96,7 @@ final class OrderItemUnitRefundsBelongingToOrderValidatorTest extends TestCase
             ]);
 
         $this->countRefundsBelongingToOrderQuery
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('count')
             ->with([1, 4], '000001')
             ->willReturn(2);

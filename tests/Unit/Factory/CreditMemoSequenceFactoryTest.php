@@ -24,18 +24,19 @@ final class CreditMemoSequenceFactoryTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->factory = new CreditMemoSequenceFactory();
     }
 
     public function testItImplementsSequenceFactoryInterface(): void
     {
-        $this->assertInstanceOf(CreditMemoSequenceFactoryInterface::class, $this->factory);
+        self::assertInstanceOf(CreditMemoSequenceFactoryInterface::class, $this->factory);
     }
 
     public function testItCreatesNewCreditMemoSequence(): void
     {
         $result = $this->factory->createNew();
 
-        $this->assertEquals(new CreditMemoSequence(), $result);
+        self::assertEquals(new CreditMemoSequence(), $result);
     }
 }

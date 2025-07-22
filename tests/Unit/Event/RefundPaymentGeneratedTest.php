@@ -23,11 +23,11 @@ final class RefundPaymentGeneratedTest extends TestCase
     {
         $refundPaymentGenerated = new RefundPaymentGenerated(1, '000222', 10000, 'GBP', 2, 3);
 
-        $this->assertEquals(1, $refundPaymentGenerated->id());
-        $this->assertEquals('000222', $refundPaymentGenerated->orderNumber());
-        $this->assertEquals(10000, $refundPaymentGenerated->amount());
-        $this->assertEquals('GBP', $refundPaymentGenerated->currencyCode());
-        $this->assertEquals(2, $refundPaymentGenerated->paymentMethodId());
-        $this->assertEquals(3, $refundPaymentGenerated->paymentId());
+        self::assertEquals(1, $refundPaymentGenerated->id());
+        self::assertEquals('000222', $refundPaymentGenerated->orderNumber());
+        self::assertEquals(10000, $refundPaymentGenerated->amount());
+        self::assertEquals('GBP', $refundPaymentGenerated->currencyCode());
+        self::assertEquals(2, $refundPaymentGenerated->paymentMethodId());
+        self::assertEquals(3, $refundPaymentGenerated->paymentId());
     }
 }

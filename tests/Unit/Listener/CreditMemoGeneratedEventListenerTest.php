@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Listener;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\SendCreditMemo;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
@@ -22,11 +23,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoGeneratedEventListenerTest extends TestCase
 {
-    private MessageBusInterface $commandBus;
+    private MessageBusInterface&MockObject $commandBus;
     private CreditMemoGeneratedEventListener $listener;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->commandBus = $this->createMock(MessageBusInterface::class);
         $this->listener = new CreditMemoGeneratedEventListener($this->commandBus);
     }
@@ -37,7 +39,7 @@ final class CreditMemoGeneratedEventListenerTest extends TestCase
         $event = new CreditMemoGenerated('01/01/000002', '000222');
 
         $this->commandBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with(new SendCreditMemo('01/01/000002'))
             ->willReturn(new Envelope($event));

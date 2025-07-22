@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -33,17 +34,18 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundPaymentProcessManagerTest extends TestCase
 {
-    private OrderFullyRefundedStateResolverInterface $orderFullyRefundedStateResolver;
-    private RelatedPaymentIdProviderInterface $relatedPaymentIdProvider;
-    private RefundPaymentFactoryInterface $refundPaymentFactory;
-    private OrderRepositoryInterface $orderRepository;
-    private PaymentMethodRepositoryInterface $paymentMethodRepository;
-    private EntityManagerInterface $entityManager;
-    private MessageBusInterface $eventBus;
+    private OrderFullyRefundedStateResolverInterface&MockObject $orderFullyRefundedStateResolver;
+    private RelatedPaymentIdProviderInterface&MockObject $relatedPaymentIdProvider;
+    private RefundPaymentFactoryInterface&MockObject $refundPaymentFactory;
+    private OrderRepositoryInterface&MockObject $orderRepository;
+    private PaymentMethodRepositoryInterface&MockObject $paymentMethodRepository;
+    private EntityManagerInterface&MockObject $entityManager;
+    private MessageBusInterface&MockObject $eventBus;
     private RefundPaymentProcessManager $refundPaymentProcessManager;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderFullyRefundedStateResolver = $this->createMock(OrderFullyRefundedStateResolverInterface::class);
         $this->relatedPaymentIdProvider = $this->createMock(RelatedPaymentIdProviderInterface::class);
         $this->refundPaymentFactory = $this->createMock(RefundPaymentFactoryInterface::class);
@@ -66,7 +68,7 @@ final class RefundPaymentProcessManagerTest extends TestCase
     /** @test */
     function it_implements_units_refunded_process_step_interface(): void
     {
-        $this->assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->refundPaymentProcessManager);
+        self::assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->refundPaymentProcessManager);
     }
 
     /** @test */
@@ -79,39 +81,39 @@ final class RefundPaymentProcessManagerTest extends TestCase
         $secondUnitRefund = $this->createMock(UnitRefundInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
         $this->paymentMethodRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($paymentMethod);
 
         $this->refundPaymentFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createWithData')
             ->with($order, 1000, 'USD', RefundPaymentInterface::STATE_NEW, $paymentMethod)
             ->willReturn($refundPayment);
 
         $this->entityManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('persist')
             ->with($refundPayment);
 
         $this->entityManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->orderFullyRefundedStateResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with('000222');
 
         $refundPayment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn(10);
 
@@ -124,14 +126,14 @@ final class RefundPaymentProcessManagerTest extends TestCase
             ->method('getAmount');
 
         $this->relatedPaymentIdProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getForRefundPayment')
             ->with($refundPayment)
             ->willReturn(3);
 
         $event = new RefundPaymentGenerated(10, '000222', 1000, 'USD', 1, 3);
         $this->eventBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($event)
             ->willReturn(new Envelope($event));

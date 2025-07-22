@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Sender;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -24,17 +25,18 @@ use Sylius\RefundPlugin\Sender\CreditMemoEmailSenderInterface;
 
 final class CreditMemoEmailSenderTest extends TestCase
 {
-    private SenderInterface $sender;
-    private CreditMemoFileResolverInterface $creditMemoFileResolver;
-    private CreditMemoFilePathResolverInterface $creditMemoFilePathResolver;
+    private SenderInterface&MockObject $sender;
+    private CreditMemoFileResolverInterface&MockObject $creditMemoFileResolver;
+    private CreditMemoFilePathResolverInterface&MockObject $creditMemoFilePathResolver;
     private CreditMemoEmailSender $creditMemoEmailSender;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->sender = $this->createMock(SenderInterface::class);
         $this->creditMemoFileResolver = $this->createMock(CreditMemoFileResolverInterface::class);
         $this->creditMemoFilePathResolver = $this->createMock(CreditMemoFilePathResolverInterface::class);
-        
+
         $this->creditMemoEmailSender = new CreditMemoEmailSender(
             $this->sender,
             true,
@@ -46,7 +48,7 @@ final class CreditMemoEmailSenderTest extends TestCase
     /** @test */
     function it_implements_credit_memo_email_sender_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoEmailSenderInterface::class, $this->creditMemoEmailSender);
+        self::assertInstanceOf(CreditMemoEmailSenderInterface::class, $this->creditMemoEmailSender);
     }
 
     /** @test */
@@ -54,21 +56,21 @@ final class CreditMemoEmailSenderTest extends TestCase
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
         $creditMemoPdf = new CreditMemoPdf('credit-memo.pdf', 'Content of the credit memo');
-        
+
         $this->creditMemoFileResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolveByCreditMemo')
             ->with($creditMemo)
             ->willReturn($creditMemoPdf);
 
         $this->creditMemoFilePathResolver
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('resolve')
             ->with($creditMemoPdf)
             ->willReturn('/path/to/credit_memos/credit-memo.pdf');
 
         $this->sender
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('send')
             ->with('units_refunded', ['john@example.com'], ['creditMemo' => $creditMemo], ['/path/to/credit_memos/credit-memo.pdf']);
 
@@ -84,7 +86,7 @@ final class CreditMemoEmailSenderTest extends TestCase
             $this->creditMemoFileResolver,
             $this->creditMemoFilePathResolver
         );
-        
+
         $creditMemo = $this->createMock(CreditMemoInterface::class);
 
         $this->creditMemoFileResolver
@@ -96,7 +98,7 @@ final class CreditMemoEmailSenderTest extends TestCase
             ->method('resolve');
 
         $this->sender
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('send')
             ->with('units_refunded', ['john@example.com'], ['creditMemo' => $creditMemo]);
 

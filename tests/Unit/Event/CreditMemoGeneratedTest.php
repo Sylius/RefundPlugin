@@ -23,7 +23,7 @@ final class CreditMemoGeneratedTest extends TestCase
     {
         $creditMemoGenerated = new CreditMemoGenerated('2018/01/000001', '000222');
 
-        $this->assertEquals('2018/01/000001', $creditMemoGenerated->number());
-        $this->assertEquals('000222', $creditMemoGenerated->orderNumber());
+        self::assertEquals('2018/01/000001', $creditMemoGenerated->number());
+        self::assertEquals('000222', $creditMemoGenerated->orderNumber());
     }
 }

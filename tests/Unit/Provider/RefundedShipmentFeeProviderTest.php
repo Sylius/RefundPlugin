@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -21,11 +22,12 @@ use Sylius\RefundPlugin\Provider\RefundedShipmentFeeProviderInterface;
 
 final class RefundedShipmentFeeProviderTest extends TestCase
 {
-    private RepositoryInterface $adjustmentRepository;
+    private RepositoryInterface&MockObject $adjustmentRepository;
     private RefundedShipmentFeeProvider $provider;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->adjustmentRepository = $this->createMock(RepositoryInterface::class);
         $this->provider = new RefundedShipmentFeeProvider($this->adjustmentRepository);
     }
@@ -33,13 +35,13 @@ final class RefundedShipmentFeeProviderTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(RefundedShipmentFeeProvider::class, $this->provider);
+        self::assertInstanceOf(RefundedShipmentFeeProvider::class, $this->provider);
     }
 
     /** @test */
     function it_implements_refunded_shipment_fee_provider_interface(): void
     {
-        $this->assertInstanceOf(RefundedShipmentFeeProviderInterface::class, $this->provider);
+        self::assertInstanceOf(RefundedShipmentFeeProviderInterface::class, $this->provider);
     }
 
     /** @test */
@@ -48,31 +50,31 @@ final class RefundedShipmentFeeProviderTest extends TestCase
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
 
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($shippingAdjustment);
 
         $shippingAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->willReturn(AdjustmentInterface::SHIPPING_ADJUSTMENT);
 
         $shippingAdjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getAmount')
             ->willReturn(1000);
 
         $result = $this->provider->getFeeOfShipment(1);
 
-        $this->assertSame(1000, $result);
+        self::assertSame(1000, $result);
     }
 
     /** @test */
     function it_throws_exception_if_there_is_no_adjustment_with_given_id(): void
     {
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn(null);
@@ -88,13 +90,13 @@ final class RefundedShipmentFeeProviderTest extends TestCase
         $adjustment = $this->createMock(AdjustmentInterface::class);
 
         $this->adjustmentRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($adjustment);
 
         $adjustment
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getType')
             ->willReturn('some_other_type');
 

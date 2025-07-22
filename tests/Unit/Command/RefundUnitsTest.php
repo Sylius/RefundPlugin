@@ -28,10 +28,10 @@ final class RefundUnitsTest extends TestCase
 
         $command = new RefundUnits('000222', $unitRefunds, 1, 'Comment');
 
-        $this->assertEquals('000222', $command->orderNumber());
-        $this->assertEquals($unitRefunds, $command->units());
-        $this->assertEquals(1, $command->paymentMethodId());
-        $this->assertEquals('Comment', $command->comment());
+        self::assertEquals('000222', $command->orderNumber());
+        self::assertEquals($unitRefunds, $command->units());
+        self::assertEquals(1, $command->paymentMethodId());
+        self::assertEquals('Comment', $command->comment());
     }
 
     /** @test */

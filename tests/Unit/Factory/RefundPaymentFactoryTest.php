@@ -27,17 +27,18 @@ final class RefundPaymentFactoryTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->factory = new RefundPaymentFactory(RefundPayment::class);
     }
 
     public function testItIsInitializable(): void
     {
-        $this->assertInstanceOf(RefundPaymentFactory::class, $this->factory);
+        self::assertInstanceOf(RefundPaymentFactory::class, $this->factory);
     }
 
     public function testItImplementsRefundPaymentFactoryInterface(): void
     {
-        $this->assertInstanceOf(RefundPaymentFactoryInterface::class, $this->factory);
+        self::assertInstanceOf(RefundPaymentFactoryInterface::class, $this->factory);
     }
 
     public function testItCreatesANewRefundPayment(): void
@@ -53,7 +54,7 @@ final class RefundPaymentFactoryTest extends TestCase
             $paymentMethod,
         );
 
-        $this->assertEquals(new RefundPayment(
+        self::assertEquals(new RefundPayment(
             $order,
             1000,
             'USD',

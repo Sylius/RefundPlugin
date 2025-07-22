@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -25,12 +26,13 @@ use Sylius\RefundPlugin\Exception\CreditMemoNotAccessible;
 
 final class CreditMemoCustomerRelationCheckerTest extends TestCase
 {
-    private CustomerContextInterface $customerContext;
-    private RepositoryInterface $creditMemoRepository;
+    private CustomerContextInterface&MockObject $customerContext;
+    private RepositoryInterface&MockObject $creditMemoRepository;
     private CreditMemoCustomerRelationChecker $checker;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->customerContext = $this->createMock(CustomerContextInterface::class);
         $this->creditMemoRepository = $this->createMock(RepositoryInterface::class);
         $this->checker = new CreditMemoCustomerRelationChecker($this->customerContext, $this->creditMemoRepository);
@@ -39,13 +41,13 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(CreditMemoCustomerRelationChecker::class, $this->checker);
+        self::assertInstanceOf(CreditMemoCustomerRelationChecker::class, $this->checker);
     }
 
     /** @test */
     function it_implements_credit_memo_customer_relation_checker_interface(): void
     {
-        $this->assertInstanceOf(CreditMemoCustomerRelationCheckerInterface::class, $this->checker);
+        self::assertInstanceOf(CreditMemoCustomerRelationCheckerInterface::class, $this->checker);
     }
 
     /** @test */
@@ -57,33 +59,33 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
         $contextCustomer = $this->createMock(CustomerInterface::class);
 
         $this->creditMemoRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with('00001')
             ->willReturn($creditMemo);
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrder')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCustomer')
             ->willReturn($orderCustomer);
 
         $this->customerContext
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCustomer')
             ->willReturn($contextCustomer);
 
         $orderCustomer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn(1);
 
         $contextCustomer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn(1);
 
@@ -99,28 +101,28 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
         $secondCustomer = $this->createMock(CustomerInterface::class);
 
         $this->creditMemoRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with('00001')
             ->willReturn($creditMemo);
 
         $creditMemo
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrder')
             ->willReturn($order);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCustomer')
             ->willReturn($firstCustomer);
 
         $this->customerContext
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getCustomer')
             ->willReturn($secondCustomer);
 
         $firstCustomer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getId')
             ->willReturn(1);
 

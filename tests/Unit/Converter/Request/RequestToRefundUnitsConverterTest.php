@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\Request;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverter;
 use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface;
@@ -22,12 +23,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestToRefundUnitsConverterTest extends TestCase
 {
-    private RequestToRefundUnitsConverterInterface $orderItemUnitConverter;
-    private RequestToRefundUnitsConverterInterface $shipmentConverter;
+    private RequestToRefundUnitsConverterInterface&MockObject $orderItemUnitConverter;
+    private RequestToRefundUnitsConverterInterface&MockObject $shipmentConverter;
     private RequestToRefundUnitsConverter $converter;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderItemUnitConverter = $this->createMock(RequestToRefundUnitsConverterInterface::class);
         $this->shipmentConverter = $this->createMock(RequestToRefundUnitsConverterInterface::class);
         $this->converter = new RequestToRefundUnitsConverter([$this->orderItemUnitConverter, $this->shipmentConverter]);
@@ -36,7 +38,7 @@ final class RequestToRefundUnitsConverterTest extends TestCase
     /** @test */
     function it_is_request_to_refund_units_converter(): void
     {
-        $this->assertInstanceOf(RequestToRefundUnitsConverterInterface::class, $this->converter);
+        self::assertInstanceOf(RequestToRefundUnitsConverterInterface::class, $this->converter);
     }
 
     /** @test */
@@ -48,19 +50,19 @@ final class RequestToRefundUnitsConverterTest extends TestCase
         $shipmentRefund = new ShipmentRefund(1, 5000);
 
         $this->orderItemUnitConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('convert')
             ->with($request)
             ->willReturn([$firstUnitRefund, $secondUnitRefund]);
 
         $this->shipmentConverter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('convert')
             ->with($request)
             ->willReturn([$shipmentRefund]);
 
         $result = $this->converter->convert($request);
 
-        $this->assertEquals([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], $result);
+        self::assertEquals([$firstUnitRefund, $secondUnitRefund, $shipmentRefund], $result);
     }
 }

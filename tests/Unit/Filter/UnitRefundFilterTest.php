@@ -26,13 +26,14 @@ final class UnitRefundFilterTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->filter = new UnitRefundFilter();
     }
 
     /** @test */
     function it_implements_unit_refund_filter_interface(): void
     {
-        $this->assertInstanceOf(UnitRefundFilterInterface::class, $this->filter);
+        self::assertInstanceOf(UnitRefundFilterInterface::class, $this->filter);
     }
 
     /** @test */
@@ -53,7 +54,7 @@ final class UnitRefundFilterTest extends TestCase
             OrderItemUnitRefund::class,
         );
 
-        $this->assertEquals([$firstUnitRefund, $thirdUnitRefund], $result);
+        self::assertEquals([$firstUnitRefund, $thirdUnitRefund], $result);
     }
 
     /** @test */

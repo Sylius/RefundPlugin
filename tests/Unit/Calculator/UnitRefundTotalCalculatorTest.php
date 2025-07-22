@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Calculator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator;
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
@@ -21,11 +22,12 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class UnitRefundTotalCalculatorTest extends TestCase
 {
-    private RemainingTotalProviderInterface $remainingTotalProvider;
+    private RemainingTotalProviderInterface&MockObject $remainingTotalProvider;
     private UnitRefundTotalCalculator $unitRefundTotalCalculator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->remainingTotalProvider = $this->createMock(RemainingTotalProviderInterface::class);
         $this->unitRefundTotalCalculator = new UnitRefundTotalCalculator($this->remainingTotalProvider);
     }
@@ -33,7 +35,7 @@ final class UnitRefundTotalCalculatorTest extends TestCase
     /** @test */
     function it_implements_unit_refund_total_calculator_interface(): void
     {
-        $this->assertInstanceOf(UnitRefundTotalCalculatorInterface::class, $this->unitRefundTotalCalculator);
+        self::assertInstanceOf(UnitRefundTotalCalculatorInterface::class, $this->unitRefundTotalCalculator);
     }
 
     /** @test */
@@ -42,14 +44,14 @@ final class UnitRefundTotalCalculatorTest extends TestCase
         $refundType = RefundType::shipment();
 
         $this->remainingTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(100, $refundType)
             ->willReturn(100);
 
         $result = $this->unitRefundTotalCalculator->calculateForUnitWithIdAndType(100, $refundType);
 
-        $this->assertEquals(100, $result);
+        self::assertEquals(100, $result);
     }
 
     /** @test */
@@ -57,6 +59,6 @@ final class UnitRefundTotalCalculatorTest extends TestCase
     {
         $result = $this->unitRefundTotalCalculator->calculateForUnitWithIdAndType(100, RefundType::shipment(), 30.40);
 
-        $this->assertEquals(3040, $result);
+        self::assertEquals(3040, $result);
     }
 }

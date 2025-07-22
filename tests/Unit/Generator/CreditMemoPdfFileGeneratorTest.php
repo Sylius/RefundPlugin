@@ -27,14 +27,15 @@ use Symfony\Component\Config\FileLocatorInterface;
 
 final class CreditMemoPdfFileGeneratorTest extends TestCase
 {
-    private RepositoryInterface|MockObject $creditMemoRepository;
-    private FileLocatorInterface|MockObject $fileLocator;
-    private TwigToPdfGeneratorInterface|MockObject $twigToPdfGenerator;
-    private CreditMemoFileNameGeneratorInterface|MockObject $creditMemoFileNameGenerator;
+    private RepositoryInterface&MockObject $creditMemoRepository;
+    private FileLocatorInterface&MockObject $fileLocator;
+    private TwigToPdfGeneratorInterface&MockObject $twigToPdfGenerator;
+    private CreditMemoFileNameGeneratorInterface&MockObject $creditMemoFileNameGenerator;
     private CreditMemoPdfFileGenerator $generator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemoRepository = $this->createMock(RepositoryInterface::class);
         $this->fileLocator = $this->createMock(FileLocatorInterface::class);
         $this->twigToPdfGenerator = $this->createMock(TwigToPdfGeneratorInterface::class);
@@ -52,14 +53,14 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
 
     public function testItImplementsCreditMemoPdfFileGeneratorInterface(): void
     {
-        $this->assertInstanceOf(CreditMemoPdfFileGeneratorInterface::class, $this->generator);
+        self::assertInstanceOf(CreditMemoPdfFileGeneratorInterface::class, $this->generator);
     }
 
     public function testItCreatesCreditMemoPdfWithGeneratedContentAndFileNameBasingOnCreditMemoNumber(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
 
-        $this->creditMemoRepository->expects($this->once())
+        $this->creditMemoRepository->expects(self::once())
             ->method('find')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn($creditMemo);
@@ -67,17 +68,17 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
         $creditMemo->expects($this->never())
             ->method('getNumber');
 
-        $this->creditMemoFileNameGenerator->expects($this->once())
+        $this->creditMemoFileNameGenerator->expects(self::once())
             ->method('generateForPdf')
             ->with($creditMemo)
             ->willReturn('2015_05_00004444.pdf');
 
-        $this->fileLocator->expects($this->once())
+        $this->fileLocator->expects(self::once())
             ->method('locate')
             ->with('@SyliusRefundPlugin/assets/sylius-logo.png')
             ->willReturn('located-path/sylius-logo.png');
 
-        $this->twigToPdfGenerator->expects($this->once())
+        $this->twigToPdfGenerator->expects(self::once())
             ->method('generate')
             ->with('creditMemoTemplate.html.twig', [
                 'creditMemo' => $creditMemo,
@@ -87,12 +88,12 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
 
         $result = $this->generator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
-        $this->assertEquals(new CreditMemoPdf('2015_05_00004444.pdf', 'PDF FILE'), $result);
+        self::assertEquals(new CreditMemoPdf('2015_05_00004444.pdf', 'PDF FILE'), $result);
     }
 
     public function testItThrowsExceptionIfCreditMemoWithGivenIdHasNotBeenFound(): void
     {
-        $this->creditMemoRepository->expects($this->once())
+        $this->creditMemoRepository->expects(self::once())
             ->method('find')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn(null);

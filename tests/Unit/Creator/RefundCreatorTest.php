@@ -28,14 +28,15 @@ use Sylius\RefundPlugin\Provider\RemainingTotalProviderInterface;
 
 final class RefundCreatorTest extends TestCase
 {
-    private RefundFactoryInterface|MockObject $refundFactory;
-    private RemainingTotalProviderInterface|MockObject $remainingTotalProvider;
-    private OrderRepositoryInterface|MockObject $orderRepository;
-    private EntityManagerInterface|MockObject $refundEntityManager;
+    private RefundFactoryInterface&MockObject $refundFactory;
+    private RemainingTotalProviderInterface&MockObject $remainingTotalProvider;
+    private OrderRepositoryInterface&MockObject $orderRepository;
+    private EntityManagerInterface&MockObject $refundEntityManager;
     private RefundCreator $refundCreator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->refundFactory = $this->createMock(RefundFactoryInterface::class);
         $this->remainingTotalProvider = $this->createMock(RemainingTotalProviderInterface::class);
         $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
@@ -51,7 +52,7 @@ final class RefundCreatorTest extends TestCase
 
     public function testItImplementsRefundCreatorInterface(): void
     {
-        $this->assertInstanceOf(RefundCreatorInterface::class, $this->refundCreator);
+        self::assertInstanceOf(RefundCreatorInterface::class, $this->refundCreator);
     }
 
     public function testItCreatesRefundWithGivenDataAndSaveItInDatabase(): void
@@ -60,26 +61,26 @@ final class RefundCreatorTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
         $refund = $this->createMock(RefundInterface::class);
 
-        $this->orderRepository->expects($this->once())
+        $this->orderRepository->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
-        $this->remainingTotalProvider->expects($this->once())
+        $this->remainingTotalProvider->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(1, $refundType)
             ->willReturn(1000);
 
-        $this->refundFactory->expects($this->once())
+        $this->refundFactory->expects(self::once())
             ->method('createWithData')
             ->with($order, 1, 1000, RefundType::shipment())
             ->willReturn($refund);
 
-        $this->refundEntityManager->expects($this->once())
+        $this->refundEntityManager->expects(self::once())
             ->method('persist')
             ->with($refund);
 
-        $this->refundEntityManager->expects($this->once())
+        $this->refundEntityManager->expects(self::once())
             ->method('flush');
 
         ($this->refundCreator)('000222', 1, 1000, $refundType);
@@ -89,7 +90,7 @@ final class RefundCreatorTest extends TestCase
     {
         $refundType = RefundType::shipment();
 
-        $this->orderRepository->expects($this->once())
+        $this->orderRepository->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn(null);
@@ -104,12 +105,12 @@ final class RefundCreatorTest extends TestCase
         $refundType = RefundType::shipment();
         $order = $this->createMock(OrderInterface::class);
 
-        $this->orderRepository->expects($this->once())
+        $this->orderRepository->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
-        $this->remainingTotalProvider->expects($this->once())
+        $this->remainingTotalProvider->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(1, $refundType)
             ->willReturn(0);

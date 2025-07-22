@@ -28,6 +28,7 @@ final class RefundAmountValidatorTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->remainingTotalProvider = $this->createMock(RemainingTotalProviderInterface::class);
         $this->validator = new RefundAmountValidator($this->remainingTotalProvider);
     }
@@ -35,7 +36,7 @@ final class RefundAmountValidatorTest extends TestCase
     /** @test */
     function it_implements_refund_amount_validator_interface(): void
     {
-        $this->assertInstanceOf(RefundAmountValidatorInterface::class, $this->validator);
+        self::assertInstanceOf(RefundAmountValidatorInterface::class, $this->validator);
     }
 
     /** @test */
@@ -45,7 +46,7 @@ final class RefundAmountValidatorTest extends TestCase
         $refundType = RefundType::orderItemUnit();
 
         $this->remainingTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(2, $refundType)
             ->willReturn(5);
@@ -76,7 +77,7 @@ final class RefundAmountValidatorTest extends TestCase
         $refundType = RefundType::orderItemUnit();
 
         $this->remainingTotalProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotalLeftToRefund')
             ->with(2, $refundType)
             ->willReturn(5);

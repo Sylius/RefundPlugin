@@ -23,17 +23,18 @@ final class UuidCreditMemoIdentifierGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->generator = new UuidCreditMemoIdentifierGenerator();
     }
 
     public function testItIsInitializable(): void
     {
-        $this->assertInstanceOf(UuidCreditMemoIdentifierGenerator::class, $this->generator);
+        self::assertInstanceOf(UuidCreditMemoIdentifierGenerator::class, $this->generator);
     }
 
     public function testItImplementsCreditMemoIdentifierGeneratorInterface(): void
     {
-        $this->assertInstanceOf(CreditMemoIdentifierGeneratorInterface::class, $this->generator);
+        self::assertInstanceOf(CreditMemoIdentifierGeneratorInterface::class, $this->generator);
     }
 
     public function testItReturnsTwoDifferentStringsOnSubsequentCalls(): void
@@ -41,6 +42,6 @@ final class UuidCreditMemoIdentifierGeneratorTest extends TestCase
         $firstGenerated = $this->generator->generate();
         $secondGenerated = $this->generator->generate();
 
-        $this->assertNotSame($firstGenerated, $secondGenerated);
+        self::assertNotSame($firstGenerated, $secondGenerated);
     }
 }

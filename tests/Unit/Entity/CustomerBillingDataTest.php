@@ -23,40 +23,41 @@ final class CustomerBillingDataTest extends TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->customerBillingData = new CustomerBillingData();
     }
 
     /** @test */
     function it_implements_customer_billing_data_interface(): void
     {
-        $this->assertInstanceOf(CustomerBillingDataInterface::class, $this->customerBillingData);
+        self::assertInstanceOf(CustomerBillingDataInterface::class, $this->customerBillingData);
     }
 
     /** @test */
     function it_has_no_id_by_default(): void
     {
-        $this->assertNull($this->customerBillingData->getId());
+        self::assertNull($this->customerBillingData->getId());
     }
 
     /** @test */
     function it_has_an_id(): void
     {
         $this->customerBillingData->setId(1234);
-        $this->assertEquals(1234, $this->customerBillingData->getId());
+        self::assertEquals(1234, $this->customerBillingData->getId());
     }
 
     /** @test */
     function it_has_a_first_name(): void
     {
         $this->customerBillingData->setFirstName('Rick');
-        $this->assertEquals('Rick', $this->customerBillingData->getFirstName());
+        self::assertEquals('Rick', $this->customerBillingData->getFirstName());
     }
 
     /** @test */
     function it_has_a_last_name(): void
     {
         $this->customerBillingData->setLastName('Sanchez');
-        $this->assertEquals('Sanchez', $this->customerBillingData->getLastName());
+        self::assertEquals('Sanchez', $this->customerBillingData->getLastName());
     }
 
     /** @test */
@@ -64,55 +65,55 @@ final class CustomerBillingDataTest extends TestCase
     {
         $this->customerBillingData->setFirstName('Rick');
         $this->customerBillingData->setLastName('Sanchez');
-        $this->assertEquals('Rick Sanchez', $this->customerBillingData->getFullName());
+        self::assertEquals('Rick Sanchez', $this->customerBillingData->getFullName());
     }
 
     /** @test */
     function it_has_a_company(): void
     {
         $this->customerBillingData->setCompany('Curse Purge Plus!');
-        $this->assertEquals('Curse Purge Plus!', $this->customerBillingData->getCompany());
+        self::assertEquals('Curse Purge Plus!', $this->customerBillingData->getCompany());
     }
 
     /** @test */
     function it_has_a_street(): void
     {
         $this->customerBillingData->setStreet('Main St. 3322');
-        $this->assertEquals('Main St. 3322', $this->customerBillingData->getStreet());
+        self::assertEquals('Main St. 3322', $this->customerBillingData->getStreet());
     }
 
     /** @test */
     function it_has_a_postcode(): void
     {
         $this->customerBillingData->setPostcode('90802');
-        $this->assertEquals('90802', $this->customerBillingData->getPostcode());
+        self::assertEquals('90802', $this->customerBillingData->getPostcode());
     }
 
     /** @test */
     function it_has_a_country_code(): void
     {
         $this->customerBillingData->setCountryCode('US');
-        $this->assertEquals('US', $this->customerBillingData->getCountryCode());
+        self::assertEquals('US', $this->customerBillingData->getCountryCode());
     }
 
     /** @test */
     function it_has_a_city(): void
     {
         $this->customerBillingData->setCity('Los Angeles');
-        $this->assertEquals('Los Angeles', $this->customerBillingData->getCity());
+        self::assertEquals('Los Angeles', $this->customerBillingData->getCity());
     }
 
     /** @test */
     function it_has_a_province_name(): void
     {
         $this->customerBillingData->setProvinceName('Baldwin Hills');
-        $this->assertEquals('Baldwin Hills', $this->customerBillingData->getProvinceName());
+        self::assertEquals('Baldwin Hills', $this->customerBillingData->getProvinceName());
     }
 
     /** @test */
     function it_has_a_province_code(): void
     {
         $this->customerBillingData->setProvinceCode('323');
-        $this->assertEquals('323', $this->customerBillingData->getProvinceCode());
+        self::assertEquals('323', $this->customerBillingData->getProvinceCode());
     }
 }

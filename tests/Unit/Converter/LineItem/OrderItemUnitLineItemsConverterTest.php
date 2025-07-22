@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\LineItem;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
@@ -28,17 +29,18 @@ use Sylius\RefundPlugin\Provider\TaxRateProviderInterface;
 
 final class OrderItemUnitLineItemsConverterTest extends TestCase
 {
-    private RepositoryInterface $orderItemUnitRepository;
-    private TaxRateProviderInterface $taxRateProvider;
-    private LineItemFactoryInterface $lineItemFactory;
+    private RepositoryInterface&MockObject $orderItemUnitRepository;
+    private TaxRateProviderInterface&MockObject $taxRateProvider;
+    private LineItemFactoryInterface&MockObject $lineItemFactory;
     private OrderItemUnitLineItemsConverter $converter;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->orderItemUnitRepository = $this->createMock(RepositoryInterface::class);
         $this->taxRateProvider = $this->createMock(TaxRateProviderInterface::class);
         $this->lineItemFactory = $this->createMock(LineItemFactoryInterface::class);
-        
+
         $this->converter = new OrderItemUnitLineItemsConverter(
             $this->orderItemUnitRepository,
             $this->taxRateProvider,
@@ -49,7 +51,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
     /** @test */
     function it_implements_line_items_converter_interface(): void
     {
-        $this->assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
+        self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
     /** @test */
@@ -58,50 +60,50 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $orderItem = $this->createMock(OrderItemInterface::class);
         $lineItem = $this->createMock(LineItemInterface::class);
-        
+
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
         $this->orderItemUnitRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($orderItemUnit);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrderItem')
             ->willReturn($orderItem);
-        
+
         $orderItemUnit
             ->expects($this->exactly(2))
             ->method('getTotal')
             ->willReturn(1500);
-        
+
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTaxTotal')
             ->willReturn(300);
 
         $this->taxRateProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($orderItemUnit)
             ->willReturn('25%');
 
         $orderItem
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getProductName')
             ->willReturn('Portal gun');
 
         $this->lineItemFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createWithData')
             ->with('Portal gun', 1, 400, 500, 400, 500, 100, '25%')
             ->willReturn($lineItem);
 
         $result = $this->converter->convert([$unitRefund]);
 
-        $this->assertEquals([$lineItem], $result);
+        self::assertEquals([$lineItem], $result);
     }
 
     /** @test */
@@ -109,50 +111,50 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
         $orderItem = $this->createMock(OrderItemInterface::class);
-        
+
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
         $this->lineItemFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('createWithData')
             ->with('Portal gun', 1, 400, 500, 400, 500, 100, '25%')
             ->willReturn(new LineItem('Portal gun', 1, 400, 500, 400, 500, 100, '25%'));
 
         $this->orderItemUnitRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($orderItemUnit);
 
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrderItem')
             ->willReturn($orderItem);
-        
+
         $orderItemUnit
             ->expects($this->exactly(2))
             ->method('getTotal')
             ->willReturn(1500);
-        
+
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTaxTotal')
             ->willReturn(300);
 
         $this->taxRateProvider
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('provide')
             ->with($orderItemUnit)
             ->willReturn('25%');
 
         $orderItem
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getProductName')
             ->willReturn('Portal gun');
 
         $result = $this->converter->convert([$unitRefund]);
 
-        $this->assertEquals([new LineItem('Portal gun', 1, 400, 500, 400, 500, 100, '25%')], $result);
+        self::assertEquals([new LineItem('Portal gun', 1, 400, 500, 400, 500, 100, '25%')], $result);
     }
 
     /** @test */
@@ -179,17 +181,17 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ]);
 
         $firstOrderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getOrderItem')
             ->willReturn($firstOrderItem);
-        
+
         $firstOrderItemUnit
             ->expects($this->exactly(2))
             ->method('getTotal')
             ->willReturn(1500);
-        
+
         $firstOrderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTaxTotal')
             ->willReturn(300);
 
@@ -202,7 +204,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ]);
 
         $firstOrderItem
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getProductName')
             ->willReturn('Portal gun');
 
@@ -210,12 +212,12 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getOrderItem')
             ->willReturn($secondOrderItem);
-        
+
         $secondOrderItemUnit
             ->expects($this->exactly(4))
             ->method('getTotal')
             ->willReturn(960);
-        
+
         $secondOrderItemUnit
             ->expects($this->exactly(2))
             ->method('getTaxTotal')
@@ -244,19 +246,19 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ]);
 
         $secondLineItem
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('compare')
             ->with($thirdLineItem)
             ->willReturn(true);
-        
+
         $secondLineItem
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('merge')
             ->with($thirdLineItem);
 
         $result = $this->converter->convert([$firstUnitRefund, $secondUnitRefund, $thirdUnitRefund]);
 
-        $this->assertEquals([$firstLineItem, $secondLineItem], $result);
+        self::assertEquals([$firstLineItem, $secondLineItem], $result);
     }
 
     /** @test */
@@ -276,7 +278,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         $unitRefund = new OrderItemUnitRefund(1, 500);
 
         $this->orderItemUnitRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn(null);
@@ -293,13 +295,13 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         $unitRefund = new OrderItemUnitRefund(1, 1001);
 
         $this->orderItemUnitRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('find')
             ->with(1)
             ->willReturn($orderItemUnit);
-        
+
         $orderItemUnit
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getTotal')
             ->willReturn(500);
 

@@ -33,11 +33,11 @@ final class UnitsRefundedTest extends TestCase
 
         $unitsRefunded = new UnitsRefunded('000222', $unitsRefunds, 1, 5000, 'USD', 'Comment');
 
-        $this->assertEquals('000222', $unitsRefunded->orderNumber());
-        $this->assertEquals($unitsRefunds, $unitsRefunded->units());
-        $this->assertEquals(1, $unitsRefunded->paymentMethodId());
-        $this->assertEquals(5000, $unitsRefunded->amount());
-        $this->assertEquals('USD', $unitsRefunded->currencyCode());
-        $this->assertEquals('Comment', $unitsRefunded->comment());
+        self::assertEquals('000222', $unitsRefunded->orderNumber());
+        self::assertEquals($unitsRefunds, $unitsRefunded->units());
+        self::assertEquals(1, $unitsRefunded->paymentMethodId());
+        self::assertEquals(5000, $unitsRefunded->amount());
+        self::assertEquals('USD', $unitsRefunded->currencyCode());
+        self::assertEquals('Comment', $unitsRefunded->comment());
     }
 }

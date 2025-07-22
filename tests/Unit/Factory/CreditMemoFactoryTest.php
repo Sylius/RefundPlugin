@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -31,14 +32,15 @@ use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
 
 final class CreditMemoFactoryTest extends TestCase
 {
-    private FactoryInterface $creditMemoFactory;
-    private CreditMemoIdentifierGeneratorInterface $creditMemoIdentifierGenerator;
-    private CreditMemoNumberGeneratorInterface $creditMemoNumberGenerator;
-    private CurrentDateTimeImmutableProviderInterface $currentDateTimeImmutableProvider;
+    private FactoryInterface&MockObject $creditMemoFactory;
+    private CreditMemoIdentifierGeneratorInterface&MockObject $creditMemoIdentifierGenerator;
+    private CreditMemoNumberGeneratorInterface&MockObject $creditMemoNumberGenerator;
+    private CurrentDateTimeImmutableProviderInterface&MockObject $currentDateTimeImmutableProvider;
     private CreditMemoFactory $factory;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->creditMemoFactory = $this->createMock(FactoryInterface::class);
         $this->creditMemoIdentifierGenerator = $this->createMock(CreditMemoIdentifierGeneratorInterface::class);
         $this->creditMemoNumberGenerator = $this->createMock(CreditMemoNumberGeneratorInterface::class);
@@ -54,20 +56,20 @@ final class CreditMemoFactoryTest extends TestCase
 
     public function testItImplementsACreditMemoFactoryInterface(): void
     {
-        $this->assertInstanceOf(CreditMemoFactoryInterface::class, $this->factory);
+        self::assertInstanceOf(CreditMemoFactoryInterface::class, $this->factory);
     }
 
     public function testItCreatesANewCreditMemo(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
 
-        $this->creditMemoFactory->expects($this->once())
+        $this->creditMemoFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($creditMemo);
 
         $result = $this->factory->createNew();
 
-        $this->assertSame($creditMemo, $result);
+        self::assertSame($creditMemo, $result);
     }
 
     public function testItCreatesANewCreditMemoWithData(): void
@@ -83,93 +85,93 @@ final class CreditMemoFactoryTest extends TestCase
 
         $dateTime = new \DateTimeImmutable('01-01-2020 10:10:10');
 
-        $this->creditMemoIdentifierGenerator->expects($this->once())
+        $this->creditMemoIdentifierGenerator->expects(self::once())
             ->method('generate')
             ->willReturn('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
-        $this->creditMemoNumberGenerator->expects($this->once())
+        $this->creditMemoNumberGenerator->expects(self::once())
             ->method('generate')
             ->with($order, $dateTime)
             ->willReturn('2018/07/00001111');
 
-        $this->currentDateTimeImmutableProvider->expects($this->once())
+        $this->currentDateTimeImmutableProvider->expects(self::once())
             ->method('now')
             ->willReturn($dateTime);
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getChannel')
             ->willReturn($channel);
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getCurrencyCode')
             ->willReturn('USD');
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getLocaleCode')
             ->willReturn('en_US');
 
-        $this->creditMemoFactory->expects($this->once())
+        $this->creditMemoFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($creditMemo);
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setId')
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setNumber')
             ->with('2018/07/00001111');
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setOrder')
             ->with($order);
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setChannel')
             ->with($channel);
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setCurrencyCode')
             ->with('USD');
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setLocaleCode')
             ->with('en_US');
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setTotal')
             ->with(1400);
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setLineItems')
             ->with($this->callback(function (ArrayCollection $lineItems) use ($firstLineItem, $secondLineItem) {
                 return $lineItems->contains($firstLineItem) && $lineItems->contains($secondLineItem);
             }));
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setTaxItems')
             ->with($this->callback(function (ArrayCollection $taxItems) use ($taxItem) {
                 return $taxItems->contains($taxItem);
             }));
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setComment')
             ->with('Comment');
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setIssuedAt')
             ->with($dateTime);
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setFrom')
             ->with($from);
 
-        $creditMemo->expects($this->once())
+        $creditMemo->expects(self::once())
             ->method('setTo')
             ->with($to);
 
         $result = $this->factory->createWithData($order, 1400, [$firstLineItem, $secondLineItem], [$taxItem], 'Comment', $from, $to);
 
-        $this->assertSame($creditMemo, $result);
+        self::assertSame($creditMemo, $result);
     }
 }

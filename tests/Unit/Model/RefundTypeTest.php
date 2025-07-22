@@ -23,7 +23,7 @@ final class RefundTypeTest extends TestCase
     {
         $refundType = RefundType::orderItemUnit();
         
-        $this->assertEquals(RefundType::ORDER_ITEM_UNIT, $refundType->getValue());
+        self::assertEquals(RefundType::ORDER_ITEM_UNIT, $refundType->getValue());
     }
 
     /** @test */
@@ -31,6 +31,6 @@ final class RefundTypeTest extends TestCase
     {
         $refundType = RefundType::shipment();
         
-        $this->assertEquals(RefundType::SHIPMENT, $refundType->getValue());
+        self::assertEquals(RefundType::SHIPMENT, $refundType->getValue());
     }
 }

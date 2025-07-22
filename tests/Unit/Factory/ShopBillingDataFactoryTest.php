@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
@@ -21,67 +22,68 @@ use Sylius\RefundPlugin\Factory\ShopBillingDataFactoryInterface;
 
 final class ShopBillingDataFactoryTest extends TestCase
 {
-    private FactoryInterface $shopBillingDataFactory;
+    private FactoryInterface&MockObject $shopBillingDataFactory;
     private ShopBillingDataFactory $factory;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->shopBillingDataFactory = $this->createMock(FactoryInterface::class);
         $this->factory = new ShopBillingDataFactory($this->shopBillingDataFactory);
     }
 
     public function testItImplementsShopBillingDataFactoryInterface(): void
     {
-        $this->assertInstanceOf(ShopBillingDataFactoryInterface::class, $this->factory);
+        self::assertInstanceOf(ShopBillingDataFactoryInterface::class, $this->factory);
     }
 
     public function testItCreatesNewShopBillingData(): void
     {
         $shopBillingData = $this->createMock(ShopBillingDataInterface::class);
 
-        $this->shopBillingDataFactory->expects($this->once())
+        $this->shopBillingDataFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($shopBillingData);
 
         $result = $this->factory->createNew();
 
-        $this->assertSame($shopBillingData, $result);
+        self::assertSame($shopBillingData, $result);
     }
 
     public function testItCreatesNewShopBillingDataWithData(): void
     {
         $shopBillingData = $this->createMock(ShopBillingDataInterface::class);
 
-        $this->shopBillingDataFactory->expects($this->once())
+        $this->shopBillingDataFactory->expects(self::once())
             ->method('createNew')
             ->willReturn($shopBillingData);
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('setCompany')
             ->with('Needful Things');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('setTaxId')
             ->with('000222');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('setCountryCode')
             ->with('US');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('setStreet')
             ->with('Main St. 123');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('setCity')
             ->with('Los Angeles');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects(self::once())
             ->method('setPostcode')
             ->with('90001');
 
         $result = $this->factory->createWithData('Needful Things', '000222', 'US', 'Main St. 123', 'Los Angeles', '90001');
 
-        $this->assertSame($shopBillingData, $result);
+        self::assertSame($shopBillingData, $result);
     }
 }

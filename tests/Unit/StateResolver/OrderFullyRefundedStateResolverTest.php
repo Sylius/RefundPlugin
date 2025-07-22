@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\StateResolver;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -25,19 +26,20 @@ use Sylius\RefundPlugin\StateResolver\OrderFullyRefundedStateResolver;
 
 final class OrderFullyRefundedStateResolverTest extends TestCase
 {
-    private StateMachineInterface $stateMachineFactory;
-    private EntityManagerInterface $orderManager;
-    private OrderFullyRefundedTotalCheckerInterface $orderFullyRefundedTotalChecker;
-    private OrderRepositoryInterface $orderRepository;
+    private StateMachineInterface&MockObject $stateMachineFactory;
+    private EntityManagerInterface&MockObject $orderManager;
+    private OrderFullyRefundedTotalCheckerInterface&MockObject $orderFullyRefundedTotalChecker;
+    private OrderRepositoryInterface&MockObject $orderRepository;
     private OrderFullyRefundedStateResolver $resolver;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->stateMachineFactory = $this->createMock(StateMachineInterface::class);
         $this->orderManager = $this->createMock(EntityManagerInterface::class);
         $this->orderFullyRefundedTotalChecker = $this->createMock(OrderFullyRefundedTotalCheckerInterface::class);
         $this->orderRepository = $this->createMock(OrderRepositoryInterface::class);
-        
+
         $this->resolver = new OrderFullyRefundedStateResolver(
             $this->stateMachineFactory,
             $this->orderManager,
@@ -58,29 +60,29 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver = new OrderFullyRefundedStateResolver($stateMachine, $orderManager, $orderFullyRefundedTotalChecker, $orderRepository);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
         $orderFullyRefundedTotalChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isOrderFullyRefunded')
             ->with($order)
             ->willReturn(true);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $stateMachine
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
             ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND);
 
         $orderManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $resolver->resolve('000222');
@@ -98,19 +100,19 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver = new OrderFullyRefundedStateResolver($stateMachine, $orderManager, $orderFullyRefundedTotalChecker, $orderRepository);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
         $orderFullyRefundedTotalChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isOrderFullyRefunded')
             ->with($order)
             ->willReturn(true);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_REFUNDED);
 
@@ -133,13 +135,13 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver = new OrderFullyRefundedStateResolver($stateMachine, $orderManager, $orderFullyRefundedTotalChecker, $orderRepository);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
         $orderFullyRefundedTotalChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isOrderFullyRefunded')
             ->with($order)
             ->willReturn(false);
@@ -162,7 +164,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver = new OrderFullyRefundedStateResolver($stateMachine, $orderManager, $orderFullyRefundedTotalChecker, $orderRepository);
 
         $orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn(null);
@@ -178,29 +180,29 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
 
         $this->orderRepository
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('findOneByNumber')
             ->with('000222')
             ->willReturn($order);
 
         $this->orderFullyRefundedTotalChecker
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isOrderFullyRefunded')
             ->with($order)
             ->willReturn(true);
 
         $order
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getPaymentState')
             ->willReturn(OrderPaymentStates::STATE_PAID);
 
         $this->stateMachineFactory
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('apply')
             ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_REFUND);
 
         $this->orderManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('flush');
 
         $this->resolver->resolve('000222');

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Entity;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -22,11 +23,12 @@ use Sylius\RefundPlugin\Entity\RefundPaymentInterface;
 final class RefundPaymentTest extends TestCase
 {
     private RefundPayment $refundPayment;
-    private OrderInterface $order;
+    private OrderInterface&MockObject $order;
     private PaymentMethodInterface $paymentMethod;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->order = $this->createMock(OrderInterface::class);
         $this->paymentMethod = $this->createMock(PaymentMethodInterface::class);
         $this->refundPayment = new RefundPayment($this->order, 100, 'USD', RefundPaymentInterface::STATE_NEW, $this->paymentMethod);
@@ -35,19 +37,19 @@ final class RefundPaymentTest extends TestCase
     /** @test */
     function it_is_initializable(): void
     {
-        $this->assertInstanceOf(RefundPayment::class, $this->refundPayment);
+        self::assertInstanceOf(RefundPayment::class, $this->refundPayment);
     }
 
     /** @test */
     function it_implements_refund_payment_interface(): void
     {
-        $this->assertInstanceOf(RefundPaymentInterface::class, $this->refundPayment);
+        self::assertInstanceOf(RefundPaymentInterface::class, $this->refundPayment);
     }
 
     /** @test */
     function it_has_no_id_by_default(): void
     {
-        $this->assertNull($this->refundPayment->getId());
+        self::assertNull($this->refundPayment->getId());
     }
 
     /** @test */
@@ -55,30 +57,30 @@ final class RefundPaymentTest extends TestCase
     {
         $this->order->method('getNumber')->willReturn('000002');
 
-        $this->assertSame($this->order, $this->refundPayment->getOrder());
+        self::assertSame($this->order, $this->refundPayment->getOrder());
     }
 
     /** @test */
     function it_has_amount(): void
     {
-        $this->assertEquals(100, $this->refundPayment->getAmount());
+        self::assertEquals(100, $this->refundPayment->getAmount());
     }
 
     /** @test */
     function it_has_currency_code(): void
     {
-        $this->assertEquals('USD', $this->refundPayment->getCurrencyCode());
+        self::assertEquals('USD', $this->refundPayment->getCurrencyCode());
     }
 
     /** @test */
     function it_has_state(): void
     {
-        $this->assertEquals(RefundPaymentInterface::STATE_NEW, $this->refundPayment->getState());
+        self::assertEquals(RefundPaymentInterface::STATE_NEW, $this->refundPayment->getState());
     }
 
     /** @test */
     function it_has_payment_method(): void
     {
-        $this->assertInstanceOf(PaymentMethodInterface::class, $this->refundPayment->getPaymentMethod());
+        self::assertInstanceOf(PaymentMethodInterface::class, $this->refundPayment->getPaymentMethod());
     }
 }

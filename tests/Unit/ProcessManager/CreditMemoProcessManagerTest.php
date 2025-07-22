@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\ProcessManager;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -25,11 +26,12 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CreditMemoProcessManagerTest extends TestCase
 {
-    private MessageBusInterface $commandBus;
+    private MessageBusInterface&MockObject $commandBus;
     private CreditMemoProcessManager $creditMemoProcessManager;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->commandBus = $this->createMock(MessageBusInterface::class);
         $this->creditMemoProcessManager = new CreditMemoProcessManager($this->commandBus);
     }
@@ -37,7 +39,7 @@ final class CreditMemoProcessManagerTest extends TestCase
     /** @test */
     function it_implements_units_refunded_process_step_interface(): void
     {
-        $this->assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->creditMemoProcessManager);
+        self::assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->creditMemoProcessManager);
     }
 
     /** @test */
@@ -52,9 +54,9 @@ final class CreditMemoProcessManagerTest extends TestCase
         ];
 
         $command = new GenerateCreditMemo('000222', 3000, $unitRefunds, 'Comment');
-        
+
         $this->commandBus
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('dispatch')
             ->with($command)
             ->willReturn(new Envelope($command));

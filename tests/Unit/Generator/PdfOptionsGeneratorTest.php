@@ -21,11 +21,12 @@ use Symfony\Component\Config\FileLocatorInterface;
 
 final class PdfOptionsGeneratorTest extends TestCase
 {
-    private FileLocatorInterface|MockObject $fileLocator;
+    private FileLocatorInterface&MockObject $fileLocator;
     private PdfOptionsGenerator $generator;
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->fileLocator = $this->createMock(FileLocatorInterface::class);
 
         $this->generator = new PdfOptionsGenerator(
@@ -37,19 +38,19 @@ final class PdfOptionsGeneratorTest extends TestCase
 
     public function testItIsPdfOptionsGeneratorInterface(): void
     {
-        $this->assertInstanceOf(PdfOptionsGeneratorInterface::class, $this->generator);
+        self::assertInstanceOf(PdfOptionsGeneratorInterface::class, $this->generator);
     }
 
     public function testItGeneratesPdfOptions(): void
     {
-        $this->fileLocator->expects($this->once())
+        $this->fileLocator->expects(self::once())
             ->method('locate')
             ->with('swans.png')
             ->willReturn('located-path/swans.png');
 
         $result = $this->generator->generate();
 
-        $this->assertSame([
+        self::assertSame([
             'allow' => [
                 'allowed_file_in_knp_snappy_config.png',
                 'located-path/swans.png',
