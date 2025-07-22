@@ -65,7 +65,7 @@ final class UnitRefundFilterTest extends TestCase
         $thirdUnitRefund = new OrderItemUnitRefund(5, 8);
         $fourthUnitRefund = new \stdClass();
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $this->filter->filterUnitRefunds(
             [

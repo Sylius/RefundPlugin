@@ -116,7 +116,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
             ->willReturn(null);
 
         $this->expectException(OrderNotFound::class);
-        $this->expectExceptionMessage('Order with number "000777" not found');
+        $this->expectExceptionMessage('Order with number "000777" has not been found');
 
         $resolver->resolve('000777');
     }

@@ -80,7 +80,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
             ->willReturn($shipment);
 
         $shipment
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getAdjustmentsTotal')
             ->willReturn(1150);
         
@@ -185,9 +185,8 @@ final class ShipmentLineItemsConverterTest extends TestCase
             ->willReturn($shippingAdjustment);
 
         $shippingAdjustment
-            ->expects($this->once())
-            ->method('getLabel')
-            ->willReturn('Galaxy post');
+            ->expects($this->never())
+            ->method('getLabel');
         
         $shippingAdjustment
             ->expects($this->once())

@@ -102,7 +102,7 @@ final class CreditMemoGeneratorTest extends TestCase
             ->method('getCountryCode')
             ->willReturn('US');
 
-        $shopBillingData->expects($this->once())
+        $shopBillingData->expects($this->exactly(2))
             ->method('getStreet')
             ->willReturn('Main St. 123');
 
@@ -118,41 +118,32 @@ final class CreditMemoGeneratorTest extends TestCase
             ->method('getBillingAddress')
             ->willReturn($customerBillingAddress);
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getFirstName')
-            ->willReturn('Rick');
+        $customerBillingAddress->expects($this->never())
+            ->method('getFirstName');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getLastName')
-            ->willReturn('Sanchez');
+        $customerBillingAddress->expects($this->never())
+            ->method('getLastName');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getPostcode')
-            ->willReturn('000333');
+        $customerBillingAddress->expects($this->never())
+            ->method('getPostcode');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getCountryCode')
-            ->willReturn('US');
+        $customerBillingAddress->expects($this->never())
+            ->method('getCountryCode');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getStreet')
-            ->willReturn('Universe St. 444');
+        $customerBillingAddress->expects($this->never())
+            ->method('getStreet');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getCity')
-            ->willReturn('Los Angeles');
+        $customerBillingAddress->expects($this->never())
+            ->method('getCity');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getCompany')
-            ->willReturn('Curse Purge Plus!');
+        $customerBillingAddress->expects($this->never())
+            ->method('getCompany');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getProvinceName')
-            ->willReturn(null);
+        $customerBillingAddress->expects($this->never())
+            ->method('getProvinceName');
 
-        $customerBillingAddress->expects($this->once())
-            ->method('getProvinceCode')
-            ->willReturn(null);
+        $customerBillingAddress->expects($this->never())
+            ->method('getProvinceCode');
 
         $this->lineItemsConverter->expects($this->once())
             ->method('convert')

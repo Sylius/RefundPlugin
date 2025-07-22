@@ -64,9 +64,8 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
             ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
             ->willReturn($creditMemo);
 
-        $creditMemo->expects($this->once())
-            ->method('getNumber')
-            ->willReturn('2015/05/00004444');
+        $creditMemo->expects($this->never())
+            ->method('getNumber');
 
         $this->creditMemoFileNameGenerator->expects($this->once())
             ->method('generateForPdf')

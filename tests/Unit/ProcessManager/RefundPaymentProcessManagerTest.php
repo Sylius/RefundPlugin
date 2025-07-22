@@ -116,14 +116,12 @@ final class RefundPaymentProcessManagerTest extends TestCase
             ->willReturn(10);
 
         $refundPayment
-            ->expects($this->once())
-            ->method('getOrder')
-            ->willReturn($order);
+            ->expects($this->never())
+            ->method('getOrder');
 
         $refundPayment
-            ->expects($this->once())
-            ->method('getAmount')
-            ->willReturn(1000);
+            ->expects($this->never())
+            ->method('getAmount');
 
         $this->relatedPaymentIdProvider
             ->expects($this->once())

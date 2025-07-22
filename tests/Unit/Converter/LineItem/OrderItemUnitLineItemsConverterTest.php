@@ -73,7 +73,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ->willReturn($orderItem);
         
         $orderItemUnit
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getTotal')
             ->willReturn(1500);
         
@@ -130,7 +130,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ->willReturn($orderItem);
         
         $orderItemUnit
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getTotal')
             ->willReturn(1500);
         
@@ -184,7 +184,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ->willReturn($firstOrderItem);
         
         $firstOrderItemUnit
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getTotal')
             ->willReturn(1500);
         
@@ -212,7 +212,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
             ->willReturn($secondOrderItem);
         
         $secondOrderItemUnit
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getTotal')
             ->willReturn(960);
         
