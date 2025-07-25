@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Validator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Exception\InvalidRefundAmount;
@@ -35,13 +36,13 @@ final class RefundAmountValidatorTest extends TestCase
         $this->validator = new RefundAmountValidator($this->remainingTotalProvider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_refund_amount_validator_interface(): void
     {
         self::assertInstanceOf(RefundAmountValidatorInterface::class, $this->validator);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_unit_refund_total_is_bigger_than_remaining_unit_refunded_total(): void
     {
         $correctOrderItemUnitRefund = new OrderItemUnitRefund(2, 10);
@@ -58,7 +59,7 @@ final class RefundAmountValidatorTest extends TestCase
         $this->validator->validateUnits([$correctOrderItemUnitRefund]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_total_of_at_least_one_unit_is_below_zero(): void
     {
         $incorrectOrderItemUnitRefund = new OrderItemUnitRefund(1, -10);
@@ -70,10 +71,9 @@ final class RefundAmountValidatorTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @legacy will be removed in RefundPlugin 2.0
      */
+    #[Test]
     public function it_throws_exception_if_unit_refund_total_is_bigger_than_remaining_unit_refunded_total_with_deprecations(): void
     {
         $correctOrderItemUnitRefund = new OrderItemUnitRefund(2, 10);
@@ -91,10 +91,9 @@ final class RefundAmountValidatorTest extends TestCase
     }
 
     /**
-     * @test
-     *
      * @legacy will be removed in RefundPlugin 2.0
      */
+    #[Test]
     public function it_throws_exception_if_total_of_at_least_one_unit_is_below_zero_with_deprecations(): void
     {
         $incorrectOrderItemUnitRefund = new OrderItemUnitRefund(1, -10);

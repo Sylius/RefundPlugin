@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Command;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\RefundUnits;
 use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 final class RefundUnitsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_represents_an_intention_to_refund_specific_units(): void
     {
         $orderItemUnit = $this->createMock(UnitRefundInterface::class);
@@ -34,7 +35,7 @@ final class RefundUnitsTest extends TestCase
         self::assertEquals('Comment', $command->comment());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_units_are_not_an_instance_of_unit_refund_interface(): void
     {
         $this->expectException(\InvalidArgumentException::class);

@@ -16,6 +16,7 @@ namespace Tests\Sylius\RefundPlugin\Unit\Manager;
 use Gaufrette\Exception\FileNotFound;
 use Gaufrette\File;
 use Gaufrette\FilesystemInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Manager\CreditMemoFileManager;
@@ -35,13 +36,13 @@ final class CreditMemoFileManagerTest extends TestCase
         $this->creditMemoFileManager = new CreditMemoFileManager($this->filesystem);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_credit_memo_file_manager_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileManagerInterface::class, $this->creditMemoFileManager);
     }
 
-    /** @test */
+    #[Test]
     public function it_saves_credit_memo_pdf_in_given_filesystem(): void
     {
         $this->filesystem
@@ -52,7 +53,7 @@ final class CreditMemoFileManagerTest extends TestCase
         $this->creditMemoFileManager->save(new CreditMemoPdf('2018_05_000000006.pdf', 'CONTENT'));
     }
 
-    /** @test */
+    #[Test]
     public function it_removes_credit_memo_pdf_from_given_filesystem(): void
     {
         $this->filesystem
@@ -63,7 +64,7 @@ final class CreditMemoFileManagerTest extends TestCase
         $this->creditMemoFileManager->remove(new CreditMemoPdf('2018_05_000000006.pdf', 'CONTENT'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_credit_memo_pdf_for_given_file_name_from_filesystem(): void
     {
         $file = $this->createMock(File::class);
@@ -83,7 +84,7 @@ final class CreditMemoFileManagerTest extends TestCase
         self::assertEquals(new CreditMemoPdf('2018_05_000000006.pdf', 'CONTENT'), $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_there_is_no_file_for_given_file_name_in_filesystem(): void
     {
         $this->filesystem

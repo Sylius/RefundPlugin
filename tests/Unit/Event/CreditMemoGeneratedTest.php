@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Event;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Event\CreditMemoGenerated;
 
 final class CreditMemoGeneratedTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_represents_an_immutable_fact_that_credit_memo_has_been_generated(): void
     {
         $creditMemoGenerated = new CreditMemoGenerated('2018/01/000001', '000222');

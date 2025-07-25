@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\StateResolver;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
@@ -53,7 +54,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_applies_refund_transition_on_order(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -93,7 +94,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000222');
     }
 
-    /** @test */
+    #[Test]
     public function it_does_nothing_if_order_state_is_fully_refunded(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -128,7 +129,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000222');
     }
 
-    /** @test */
+    #[Test]
     public function it_does_nothing_if_order_is_not_fully_refunded(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -158,7 +159,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000222');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_there_is_no_order_with_given_number(): void
     {
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -179,7 +180,7 @@ final class OrderFullyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000222');
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_winzou_state_machine_if_abstraction_not_passed_to_apply_refund_transition_on_order(): void
     {
         $order = $this->createMock(OrderInterface::class);

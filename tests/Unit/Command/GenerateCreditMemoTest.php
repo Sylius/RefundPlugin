@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Command;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
@@ -20,7 +21,7 @@ use Sylius\RefundPlugin\Model\ShipmentRefund;
 
 final class GenerateCreditMemoTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_represents_an_intention_to_generate_credit_memo(): void
     {
         $unitRefunds = [

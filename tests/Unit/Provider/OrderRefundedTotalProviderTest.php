@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -34,19 +35,19 @@ final class OrderRefundedTotalProviderTest extends TestCase
         $this->provider = new OrderRefundedTotalProvider($this->refundRepository);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(OrderRefundedTotalProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_order_refunded_total_provider_interface(): void
     {
         self::assertInstanceOf(OrderRefundedTotalProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_refunded_total_of_order_with_given_number(): void
     {
         $order = $this->createMock(OrderInterface::class);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -33,19 +34,19 @@ final class RefundedShipmentFeeProviderTest extends TestCase
         $this->provider = new RefundedShipmentFeeProvider($this->adjustmentRepository);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(RefundedShipmentFeeProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_refunded_shipment_fee_provider_interface(): void
     {
         self::assertInstanceOf(RefundedShipmentFeeProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_fee_from_shipping_adjustment(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -71,7 +72,7 @@ final class RefundedShipmentFeeProviderTest extends TestCase
         self::assertSame(1000, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_there_is_no_adjustment_with_given_id(): void
     {
         $this->adjustmentRepository
@@ -85,7 +86,7 @@ final class RefundedShipmentFeeProviderTest extends TestCase
         $this->provider->getFeeOfShipment(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_adjustment_is_not_shipping_adjustment(): void
     {
         $adjustment = $this->createMock(AdjustmentInterface::class);

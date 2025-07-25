@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Tests\Unit\Creator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\RefundUnits;
@@ -37,12 +38,14 @@ final class RefundUnitsCommandCreatorTest extends TestCase
         $this->refundUnitsCommandCreator = new RefundUnitsCommandCreator($this->refundUnitsConverter);
     }
 
-    public function testItImplementsRefundUnitsCommandCreatorInterface(): void
+    #[Test]
+    public function it_implements_refund_units_command_creator_interface(): void
     {
         self::assertInstanceOf(RequestCommandCreatorInterface::class, $this->refundUnitsCommandCreator);
     }
 
-    public function testItCreatesRefundUnitsCommandFromRequest(): void
+    #[Test]
+    public function it_creates_refund_units_command_from_request(): void
     {
         $firstUnitRefund = $this->createMock(UnitRefundInterface::class);
         $secondUnitRefund = $this->createMock(UnitRefundInterface::class);
@@ -69,7 +72,8 @@ final class RefundUnitsCommandCreatorTest extends TestCase
         self::assertSame('Comment', $result->comment());
     }
 
-    public function testItThrowsExceptionIfThereIsNoUnitsNorShipmentsProvided(): void
+    #[Test]
+    public function it_throws_exception_if_there_is_no_units_nor_shipments_provided(): void
     {
         $request = $this->createMock(Request::class);
         $request->attributes = new ParameterBag(['orderNumber' => '00001111']);
@@ -85,7 +89,8 @@ final class RefundUnitsCommandCreatorTest extends TestCase
         $this->refundUnitsCommandCreator->fromRequest($request);
     }
 
-    public function testItThrowsExceptionIfThereIsNoOrderNumberProvided(): void
+    #[Test]
+    public function it_throws_exception_if_there_is_no_order_number_provided(): void
     {
         $request = $this->createMock(Request::class);
         $request->attributes = new ParameterBag([]);

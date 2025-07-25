@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -31,17 +32,20 @@ final class RefundPaymentFactoryTest extends TestCase
         $this->factory = new RefundPaymentFactory(RefundPayment::class);
     }
 
-    public function testItIsInitializable(): void
+    #[Test]
+    public function it_is_initializable(): void
     {
         self::assertInstanceOf(RefundPaymentFactory::class, $this->factory);
     }
 
-    public function testItImplementsRefundPaymentFactoryInterface(): void
+    #[Test]
+    public function it_implements_refund_payment_factory_interface(): void
     {
         self::assertInstanceOf(RefundPaymentFactoryInterface::class, $this->factory);
     }
 
-    public function testItCreatesANewRefundPayment(): void
+    #[Test]
+    public function it_creates_a_new_refund_payment(): void
     {
         $order = $this->createMock(OrderInterface::class);
         $paymentMethod = $this->createMock(PaymentMethodInterface::class);
@@ -63,7 +67,8 @@ final class RefundPaymentFactoryTest extends TestCase
         ), $result);
     }
 
-    public function testItThrowsExceptionIfItTriesToCreateDefaultRefundPaymentWithoutData(): void
+    #[Test]
+    public function it_throws_exception_if_it_tries_to_create_default_refund_payment_without_data(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

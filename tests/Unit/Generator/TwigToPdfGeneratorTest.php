@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 
 use Knp\Snappy\GeneratorInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface;
@@ -45,12 +46,14 @@ final class TwigToPdfGeneratorTest extends TestCase
         );
     }
 
-    public function testItImplementsTwigToPdfGeneratorInterface(): void
+    #[Test]
+    public function it_implements_twig_to_pdf_generator_interface(): void
     {
         self::assertInstanceOf(TwigToPdfGeneratorInterface::class, $this->generator);
     }
 
-    public function testItGeneratesPdfFromTwigTemplate(): void
+    #[Test]
+    public function it_generates_pdf_from_twig_template(): void
     {
         $this->twig->expects(self::once())
             ->method('render')

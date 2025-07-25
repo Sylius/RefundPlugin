@@ -15,6 +15,7 @@ namespace Tests\Sylius\RefundPlugin\Unit;
 
 use Gaufrette\Adapter\Local;
 use Gaufrette\Filesystem;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Manager\CreditMemoFileManager;
 use Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface;
@@ -22,7 +23,7 @@ use Sylius\RefundPlugin\Model\CreditMemoPdf;
 
 final class CreditMemoFileManagerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_creates_file_in_given_filesystem(): void
     {
         $creditMemoFileManager = $this->prepareCreditMemoFileManager();
@@ -36,7 +37,7 @@ final class CreditMemoFileManagerTest extends TestCase
         $this->clearTemporaryDirectory();
     }
 
-    /** @test */
+    #[Test]
     public function it_removes_file_from_given_filesystem(): void
     {
         $creditMemoFileManager = $this->prepareCreditMemoFileManager();
@@ -48,7 +49,7 @@ final class CreditMemoFileManagerTest extends TestCase
         self::assertFileDoesNotExist('temp/credit-memo.pdf');
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_file_from_given_filesystem(): void
     {
         $creditMemoFileManager = $this->prepareCreditMemoFileManager();

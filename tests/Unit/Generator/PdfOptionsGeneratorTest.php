@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Generator\PdfOptionsGenerator;
@@ -37,12 +38,14 @@ final class PdfOptionsGeneratorTest extends TestCase
         );
     }
 
-    public function testItIsPdfOptionsGeneratorInterface(): void
+    #[Test]
+    public function it_is_pdf_options_generator_interface(): void
     {
         self::assertInstanceOf(PdfOptionsGeneratorInterface::class, $this->generator);
     }
 
-    public function testItGeneratesPdfOptions(): void
+    #[Test]
+    public function it_generates_pdf_options(): void
     {
         $this->fileLocator->expects(self::once())
             ->method('locate')

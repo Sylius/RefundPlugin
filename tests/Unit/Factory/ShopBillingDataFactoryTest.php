@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -33,12 +34,14 @@ final class ShopBillingDataFactoryTest extends TestCase
         $this->factory = new ShopBillingDataFactory($this->shopBillingDataFactory);
     }
 
-    public function testItImplementsShopBillingDataFactoryInterface(): void
+    #[Test]
+    public function it_implements_shop_billing_data_factory_interface(): void
     {
         self::assertInstanceOf(ShopBillingDataFactoryInterface::class, $this->factory);
     }
 
-    public function testItCreatesNewShopBillingData(): void
+    #[Test]
+    public function it_creates_new_shop_billing_data(): void
     {
         $shopBillingData = $this->createMock(ShopBillingDataInterface::class);
 
@@ -51,7 +54,8 @@ final class ShopBillingDataFactoryTest extends TestCase
         self::assertSame($shopBillingData, $result);
     }
 
-    public function testItCreatesNewShopBillingDataWithData(): void
+    #[Test]
+    public function it_creates_new_shop_billing_data_with_data(): void
     {
         $shopBillingData = $this->createMock(ShopBillingDataInterface::class);
 

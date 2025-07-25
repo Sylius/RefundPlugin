@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Validator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Doctrine\ORM\CountRefundsBelongingToOrderQueryInterface;
@@ -42,13 +43,13 @@ final class ShipmentRefundsBelongingToOrderValidatorTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_unit_refunds_belonging_to_order_validator_interface(): void
     {
         self::assertInstanceOf(UnitRefundsBelongingToOrderValidatorInterface::class, $this->validator);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_some_order_item_unit_refunds_do_not_belong_to_the_order(): void
     {
         $unitRefunds = [
@@ -78,7 +79,7 @@ final class ShipmentRefundsBelongingToOrderValidatorTest extends TestCase
         $this->validator->validateUnits($unitRefunds, '000001');
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_throw_an_exception_if_all_order_item_unit_refunds_belong_to_the_order(): void
     {
         $unitRefunds = [

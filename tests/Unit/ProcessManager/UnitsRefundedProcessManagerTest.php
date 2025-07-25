@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\ProcessManager;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Event\UnitsRefunded;
@@ -42,13 +43,13 @@ final class UnitsRefundedProcessManagerTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_units_refunded_process_manager_interface(): void
     {
         self::assertInstanceOf(UnitsRefundedProcessManagerInterface::class, $this->unitsRefundedProcessManager);
     }
 
-    /** @test */
+    #[Test]
     public function it_triggers_all_process_steps_if_all_are_successful(): void
     {
         $unitRefunds = [

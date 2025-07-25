@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\LineItem;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Converter\LineItem\CompositeLineItemConverter;
@@ -47,13 +48,13 @@ final class CompositeLineItemConverterTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_line_items_converter_interface(): void
     {
         self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_all_line_items_converters_to_provide_line_items(): void
     {
         $unsupportedUnitRefund = $this->createMock(UnitRefundInterface::class);

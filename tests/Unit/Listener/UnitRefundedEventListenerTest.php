@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Listener;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Event\ShipmentRefunded;
@@ -34,7 +35,7 @@ final class UnitRefundedEventListenerTest extends TestCase
         $this->listener = new UnitRefundedEventListener($this->orderPartiallyRefundedStateResolver);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_order_partially_refunded_state_with_unit_refunded_event(): void
     {
         $this->orderPartiallyRefundedStateResolver
@@ -45,7 +46,7 @@ final class UnitRefundedEventListenerTest extends TestCase
         $this->listener->__invoke(new UnitRefunded('000777', 10, 1000));
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_order_partially_refunded_state_with_shipment_refunded_event(): void
     {
         $this->orderPartiallyRefundedStateResolver
@@ -56,7 +57,7 @@ final class UnitRefundedEventListenerTest extends TestCase
         $this->listener->__invoke(new ShipmentRefunded('000777', 10, 1000));
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_order_partially_refunded_state_with_an_event_implementing_unit_refunded_interface(): void
     {
         $unitRefunded = $this->createMock(UnitRefundedInterface::class);

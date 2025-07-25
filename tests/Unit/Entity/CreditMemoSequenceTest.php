@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Entity;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\CreditMemoSequence;
 use Sylius\RefundPlugin\Entity\CreditMemoSequenceInterface;
@@ -27,19 +28,19 @@ final class CreditMemoSequenceTest extends TestCase
         $this->creditMemoSequence = new CreditMemoSequence();
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_credit_memo_sequence_interface(): void
     {
         self::assertInstanceOf(CreditMemoSequenceInterface::class, $this->creditMemoSequence);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_no_id_by_default(): void
     {
         self::assertNull($this->creditMemoSequence->getId());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_incrementable_index(): void
     {
         self::assertEquals(0, $this->creditMemoSequence->getIndex());
@@ -50,7 +51,7 @@ final class CreditMemoSequenceTest extends TestCase
         self::assertEquals(2, $this->creditMemoSequence->getIndex());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_version(): void
     {
         self::assertEquals(1, $this->creditMemoSequence->getVersion());

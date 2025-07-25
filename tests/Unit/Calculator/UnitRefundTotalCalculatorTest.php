@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Calculator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculator;
@@ -33,7 +34,7 @@ final class UnitRefundTotalCalculatorTest extends TestCase
         $this->unitRefundTotalCalculator = new UnitRefundTotalCalculator($this->remainingTotalProvider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_unit_refund_total_calculator_interface(): void
     {
         self::assertInstanceOf(UnitRefundTotalCalculatorInterface::class, $this->unitRefundTotalCalculator);
@@ -55,7 +56,7 @@ final class UnitRefundTotalCalculatorTest extends TestCase
         self::assertEquals(100, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_specified_amount_as_an_integer(): void
     {
         $result = $this->unitRefundTotalCalculator->calculateForUnitWithIdAndType(100, RefundType::shipment(), 30.40);

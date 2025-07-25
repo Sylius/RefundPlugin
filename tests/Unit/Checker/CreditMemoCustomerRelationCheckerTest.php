@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -40,19 +41,19 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
         $this->checker = new CreditMemoCustomerRelationChecker($this->customerContext, $this->creditMemoRepository);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(CreditMemoCustomerRelationChecker::class, $this->checker);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_credit_memo_customer_relation_checker_interface(): void
     {
         self::assertInstanceOf(CreditMemoCustomerRelationCheckerInterface::class, $this->checker);
     }
 
-    /** @test */
+    #[Test]
     public function it_checks_if_customer_id_from_order_is_equal_to_customer_id_from_customer_context(): void
     {
         $creditMemo = $this->createMock(CreditMemo::class);
@@ -94,7 +95,7 @@ final class CreditMemoCustomerRelationCheckerTest extends TestCase
         $this->checker->check('00001');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_customer_id_from_order_is_not_equal_to_id_from_context(): void
     {
         $creditMemo = $this->createMock(CreditMemo::class);

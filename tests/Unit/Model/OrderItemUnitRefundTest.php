@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Model;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Model\OrderItemUnitRefund;
 use Sylius\RefundPlugin\Model\RefundType;
@@ -20,7 +21,7 @@ use Sylius\RefundPlugin\Model\UnitRefundInterface;
 
 final class OrderItemUnitRefundTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_implements_unit_refund_interface(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
@@ -28,7 +29,7 @@ final class OrderItemUnitRefundTest extends TestCase
         self::assertInstanceOf(UnitRefundInterface::class, $orderItemUnitRefund);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_id(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
@@ -36,7 +37,7 @@ final class OrderItemUnitRefundTest extends TestCase
         self::assertEquals(1, $orderItemUnitRefund->id());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_total(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);
@@ -44,7 +45,7 @@ final class OrderItemUnitRefundTest extends TestCase
         self::assertEquals(1000, $orderItemUnitRefund->total());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_type(): void
     {
         $orderItemUnitRefund = new OrderItemUnitRefund(1, 1000);

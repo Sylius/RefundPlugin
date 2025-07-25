@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
@@ -31,19 +32,19 @@ final class TaxRateProviderTest extends TestCase
         $this->provider = new TaxRateProvider();
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(TaxRateProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_tax_rate_provider_interface(): void
     {
         self::assertInstanceOf(TaxRateProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_a_tax_rate_from_tax_adjustment_details(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
@@ -65,7 +66,7 @@ final class TaxRateProviderTest extends TestCase
         self::assertSame('20%', $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_if_there_is_no_tax_adjustment(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
@@ -81,7 +82,7 @@ final class TaxRateProviderTest extends TestCase
         self::assertNull($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_there_is_no_tax_rate_amount_in_details_of_adjustment(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
@@ -103,7 +104,7 @@ final class TaxRateProviderTest extends TestCase
         $this->provider->provide($orderItemUnit);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_order_item_unit_has_more_adjustments_than_one(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);

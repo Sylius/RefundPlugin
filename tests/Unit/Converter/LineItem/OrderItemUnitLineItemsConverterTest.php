@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\LineItem;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderItemInterface;
@@ -51,13 +52,13 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_line_items_converter_interface(): void
     {
         self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
-    /** @test */
+    #[Test]
     public function it_converts_unit_refunds_to_line_items(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
@@ -109,7 +110,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         self::assertEquals([$lineItem], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_converts_unit_refunds_to_line_items_without_using_factory(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);
@@ -160,7 +161,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         self::assertEquals([new LineItem('Portal gun', 1, 400, 500, 400, 500, 100, '25%')], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_groups_the_same_line_items_during_converting(): void
     {
         $firstOrderItemUnit = $this->createMock(OrderItemUnitInterface::class);
@@ -264,7 +265,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         self::assertEquals([$firstLineItem, $secondLineItem], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
     {
         $unitRefund = new OrderItemUnitRefund(1, 500);
@@ -275,7 +276,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         $this->converter->convert([$unitRefund, $shipmentRefund]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_there_is_no_order_item_unit_with_given_id(): void
     {
         $unitRefund = new OrderItemUnitRefund(1, 500);
@@ -291,7 +292,7 @@ final class OrderItemUnitLineItemsConverterTest extends TestCase
         $this->converter->convert([$unitRefund]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_refund_amount_is_higher_than_order_item_unit_total(): void
     {
         $orderItemUnit = $this->createMock(OrderItemUnitInterface::class);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\CommandHandler;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -60,7 +61,7 @@ final class RefundUnitsHandlerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_handles_command_and_create_refund_for_each_refunded_unit(): void
     {
         $order = $this->createMock(OrderInterface::class);
@@ -117,7 +118,7 @@ final class RefundUnitsHandlerTest extends TestCase
         $this->handler->__invoke(new RefundUnits('000222', $unitRefunds, 1, 'Comment'));
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_order_is_not_available_for_refund(): void
     {
         $refundUnitsCommand = new RefundUnits(

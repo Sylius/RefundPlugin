@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\RefundPlugin\Entity\Refund;
@@ -30,12 +31,14 @@ final class RefundFactoryTest extends TestCase
         $this->factory = new RefundFactory(Refund::class);
     }
 
-    public function testItImplementsRefundFactoryInterface(): void
+    #[Test]
+    public function it_implements_refund_factory_interface(): void
     {
         self::assertInstanceOf(RefundFactoryInterface::class, $this->factory);
     }
 
-    public function testItAllowsToCreateRefundWithGivenData(): void
+    #[Test]
+    public function it_allows_to_create_refund_with_given_data(): void
     {
         $order = $this->createMock(OrderInterface::class);
 
@@ -44,7 +47,8 @@ final class RefundFactoryTest extends TestCase
         self::assertEquals(new Refund($order, 1000, 1, RefundType::orderItemUnit()), $result);
     }
 
-    public function testItThrowsExceptionIfItTriesToCreateDefaultRefundWithoutData(): void
+    #[Test]
+    public function it_throws_exception_if_it_tries_to_create_default_refund_without_data(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

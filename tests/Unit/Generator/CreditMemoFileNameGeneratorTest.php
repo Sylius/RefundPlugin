@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoFileNameGenerator;
@@ -28,12 +29,14 @@ final class CreditMemoFileNameGeneratorTest extends TestCase
         $this->generator = new CreditMemoFileNameGenerator();
     }
 
-    public function testItImplementsCreditMemoFileNameGeneratorInterface(): void
+    #[Test]
+    public function it_implements_credit_memo_file_name_generator_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileNameGeneratorInterface::class, $this->generator);
     }
 
-    public function testItGeneratesCreditMemoFileNameBasedOnItsNumber(): void
+    #[Test]
+    public function it_generates_credit_memo_file_name_based_on_its_number(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
         $creditMemo->expects(self::once())

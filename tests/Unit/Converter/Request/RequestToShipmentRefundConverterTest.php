@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\Request;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Converter\RefundUnitsConverterInterface;
@@ -37,13 +38,13 @@ final class RequestToShipmentRefundConverterTest extends TestCase
         $this->converter = new RequestToShipmentRefundConverter($this->refundUnitsConverter);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_request_to_refund_units_converter(): void
     {
         self::assertInstanceOf(RequestToRefundUnitsConverterInterface::class, $this->converter);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_shipment_refund_units_from_request(): void
     {
         $request = $this->createMock(Request::class);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Resolver;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 use Sylius\RefundPlugin\Resolver\CreditMemoFilePathResolver;
@@ -28,13 +29,13 @@ final class CreditMemoFilePathResolverTest extends TestCase
         $this->resolver = new CreditMemoFilePathResolver('/path/to/credit_memos');
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_credit_memo_file_path_resolver_interface(): void
     {
         self::assertInstanceOf(CreditMemoFilePathResolverInterface::class, $this->resolver);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_credit_memo_pdf_file_path(): void
     {
         $creditMemoPdf = new CreditMemoPdf('credit_memo.pdf', 'CONTENT');

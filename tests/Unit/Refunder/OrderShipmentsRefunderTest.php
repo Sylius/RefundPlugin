@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Refunder;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Creator\RefundCreatorInterface;
@@ -50,13 +51,13 @@ final class OrderShipmentsRefunderTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_refunder_interface(): void
     {
         self::assertInstanceOf(RefunderInterface::class, $this->refunder);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_refund_for_each_shipment_and_dispatch_proper_event(): void
     {
         $shipmentRefund = new ShipmentRefund(4, 2500);

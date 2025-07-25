@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Listener;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\SendCreditMemo;
@@ -34,7 +35,7 @@ final class CreditMemoGeneratedEventListenerTest extends TestCase
         $this->listener = new CreditMemoGeneratedEventListener($this->commandBus);
     }
 
-    /** @test */
+    #[Test]
     public function it_sends_an_email_to_customer_for_whose_order_credit_memo_was_generated(): void
     {
         $event = new CreditMemoGenerated('01/01/000002', '000222');

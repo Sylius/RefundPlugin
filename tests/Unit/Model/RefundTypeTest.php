@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Model;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Model\RefundType;
 
 final class RefundTypeTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_be_order_item_unit_type(): void
     {
         $refundType = RefundType::orderItemUnit();
@@ -26,7 +27,7 @@ final class RefundTypeTest extends TestCase
         self::assertEquals(RefundType::ORDER_ITEM_UNIT, $refundType->getValue());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_shipment_type(): void
     {
         $refundType = RefundType::shipment();

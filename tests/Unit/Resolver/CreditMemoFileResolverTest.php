@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Resolver;
 
 use Gaufrette\Exception\FileNotFound;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -53,13 +54,13 @@ final class CreditMemoFileResolverTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_credit_memo_file_resolver_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileResolverInterface::class, $this->resolver);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_credit_memo_pdf_for_credit_memo(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
@@ -76,7 +77,7 @@ final class CreditMemoFileResolverTest extends TestCase
         self::assertEquals($creditMemoPdf, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_credit_memo_pdf_if_it_does_not_exist(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
@@ -109,7 +110,7 @@ final class CreditMemoFileResolverTest extends TestCase
         self::assertEquals($creditMemoPdf, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_credit_memo_pdf_by_credit_memo_id(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
@@ -132,7 +133,7 @@ final class CreditMemoFileResolverTest extends TestCase
         self::assertEquals($creditMemoPdf, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_resolves_credit_memo_pdf_by_its_id_if_it_does_not_exist(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);

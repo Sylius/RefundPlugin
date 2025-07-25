@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
@@ -38,19 +39,19 @@ final class CreditMemoFileProviderTest extends TestCase
         $this->provider = new CreditMemoFileProvider($this->creditMemoFileNameGenerator, $this->creditMemoFileManager);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(CreditMemoFileProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_credit_memo_file_provider_interface(): void
     {
         self::assertInstanceOf(CreditMemoFileProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_credit_memo_pdf_for_credit_memo(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);

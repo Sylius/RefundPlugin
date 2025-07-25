@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Checker\UnitRefundingAvailabilityChecker;
@@ -32,13 +33,13 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
         $this->checker = new UnitRefundingAvailabilityChecker($this->remainingTotalProvider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_unit_refunding_availability_checker_interface(): void
     {
         self::assertInstanceOf(UnitRefundingAvailabilityCheckerInterface::class, $this->checker);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_false_if_remaining_unit_total_is_0(): void
     {
         $type = RefundType::orderItemUnit();
@@ -54,7 +55,7 @@ final class UnitRefundingAvailabilityCheckerTest extends TestCase
         self::assertFalse($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_true_if_remaining_unit_total_is_more_than_0(): void
     {
         $type = RefundType::shipment();

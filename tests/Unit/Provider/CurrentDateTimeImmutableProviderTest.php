@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProvider;
 use Sylius\RefundPlugin\Provider\CurrentDateTimeImmutableProviderInterface;
@@ -27,19 +28,19 @@ final class CurrentDateTimeImmutableProviderTest extends TestCase
         $this->provider = new CurrentDateTimeImmutableProvider();
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(CurrentDateTimeImmutableProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_current_date_time_immutable_provider_interface(): void
     {
         self::assertInstanceOf(CurrentDateTimeImmutableProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_current_immutable_date_and_time(): void
     {
         $now = new \DateTimeImmutable();

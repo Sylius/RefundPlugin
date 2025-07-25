@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Converter\LineItem;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -52,13 +53,13 @@ final class ShipmentLineItemsConverterTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_line_items_converter_interface(): void
     {
         self::assertInstanceOf(LineItemsConverterInterface::class, $this->converter);
     }
 
-    /** @test */
+    #[Test]
     public function it_converts_shipment_unit_refunds_to_line_items(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -117,7 +118,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
         self::assertEquals([$lineItem], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_error_if_one_of_units_is_not_order_item_unit_refund(): void
     {
         $shipmentRefund = new ShipmentRefund(1, 575);
@@ -128,7 +129,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $this->converter->convert([$shipmentRefund, $orderItemUnitRefund]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_there_is_no_shipping_adjustment_with_given_id(): void
     {
         $shipmentRefund = new ShipmentRefund(1, 500);
@@ -144,7 +145,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $this->converter->convert([$shipmentRefund]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_refund_amount_is_higher_than_shipping_amount(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -173,7 +174,7 @@ final class ShipmentLineItemsConverterTest extends TestCase
         $this->converter->convert([$shipmentRefund]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_shipment_has_more_tax_adjustments_than_one(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);

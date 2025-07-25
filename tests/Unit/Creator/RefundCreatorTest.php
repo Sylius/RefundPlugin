@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Tests\Unit\Creator;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -55,12 +56,14 @@ final class RefundCreatorTest extends TestCase
         );
     }
 
-    public function testItImplementsRefundCreatorInterface(): void
+    #[Test]
+    public function it_implements_refund_creator_interface(): void
     {
         self::assertInstanceOf(RefundCreatorInterface::class, $this->refundCreator);
     }
 
-    public function testItCreatesRefundWithGivenDataAndSaveItInDatabase(): void
+    #[Test]
+    public function it_creates_refund_with_given_data_and_save_it_in_database(): void
     {
         $refundType = RefundType::shipment();
         $order = $this->createMock(OrderInterface::class);
@@ -91,7 +94,8 @@ final class RefundCreatorTest extends TestCase
         ($this->refundCreator)('000222', 1, 1000, $refundType);
     }
 
-    public function testItThrowsAnExceptionIfOrderWithGivenNumberDoesNotExist(): void
+    #[Test]
+    public function it_throws_an_exception_if_order_with_given_number_does_not_exist(): void
     {
         $refundType = RefundType::shipment();
 
@@ -105,7 +109,8 @@ final class RefundCreatorTest extends TestCase
         ($this->refundCreator)('000222', 1, 1000, $refundType);
     }
 
-    public function testItThrowsExceptionIfUnitHasAlreadyBeenRefunded(): void
+    #[Test]
+    public function it_throws_exception_if_unit_has_already_been_refunded(): void
     {
         $refundType = RefundType::shipment();
         $order = $this->createMock(OrderInterface::class);

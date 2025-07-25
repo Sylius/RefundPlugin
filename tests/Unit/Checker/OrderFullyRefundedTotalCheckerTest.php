@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -33,19 +34,19 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
         $this->checker = new OrderFullyRefundedTotalChecker($this->orderRefundedTotalProvider);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(OrderFullyRefundedTotalChecker::class, $this->checker);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_order_fully_refunded_total_checker_interface(): void
     {
         self::assertInstanceOf(OrderFullyRefundedTotalCheckerInterface::class, $this->checker);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_false_if_order_refunded_total_is_lower_than_order_total(): void
     {
         $order = $this->createMock(OrderInterface::class);
@@ -66,7 +67,7 @@ final class OrderFullyRefundedTotalCheckerTest extends TestCase
         self::assertFalse($result);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_true_if_order_refunded_total_is_equal_to_order_total(): void
     {
         $order = $this->createMock(OrderInterface::class);

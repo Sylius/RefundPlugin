@@ -228,7 +228,7 @@ jobs:
 
             -
                 name: Run ECS
-                run: vendor/bin/ecs check src/ spec/
+                run: vendor/bin/ecs check src/
 
             -
                 name: Lint container

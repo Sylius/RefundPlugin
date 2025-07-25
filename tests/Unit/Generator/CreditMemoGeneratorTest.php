@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AddressInterface;
@@ -66,12 +67,14 @@ final class CreditMemoGeneratorTest extends TestCase
         );
     }
 
-    public function testItImplementsCreditMemoGeneratorInterface(): void
+    #[Test]
+    public function it_implements_credit_memo_generator_interface(): void
     {
         self::assertInstanceOf(CreditMemoGeneratorInterface::class, $this->creditMemoGenerator);
     }
 
-    public function testItGeneratesCreditMemoBasingOnEventData(): void
+    #[Test]
+    public function it_generates_credit_memo_basing_on_event_data(): void
     {
         $firstUnitRefund = new OrderItemUnitRefund(1, 500);
         $secondUnitRefund = new OrderItemUnitRefund(3, 500);

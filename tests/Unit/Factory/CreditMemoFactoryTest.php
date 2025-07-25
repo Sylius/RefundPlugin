@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -58,12 +59,14 @@ final class CreditMemoFactoryTest extends TestCase
         );
     }
 
-    public function testItImplementsACreditMemoFactoryInterface(): void
+    #[Test]
+    public function it_implements_a_credit_memo_factory_interface(): void
     {
         self::assertInstanceOf(CreditMemoFactoryInterface::class, $this->factory);
     }
 
-    public function testItCreatesANewCreditMemo(): void
+    #[Test]
+    public function it_creates_a_new_credit_memo(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
 
@@ -76,7 +79,8 @@ final class CreditMemoFactoryTest extends TestCase
         self::assertSame($creditMemo, $result);
     }
 
-    public function testItCreatesANewCreditMemoWithData(): void
+    #[Test]
+    public function it_creates_a_new_credit_memo_with_data(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
         $order = $this->createMock(OrderInterface::class);

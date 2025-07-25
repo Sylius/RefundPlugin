@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Converter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Calculator\UnitRefundTotalCalculatorInterface;
@@ -34,13 +35,13 @@ final class RefundUnitsConverterTest extends TestCase
         $this->converter = new RefundUnitsConverter($this->unitRefundTotalCalculator);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_refund_units_converter_interface(): void
     {
         self::assertInstanceOf(RefundUnitsConverterInterface::class, $this->converter);
     }
 
-    /** @test */
+    #[Test]
     public function it_converts_refund_units_from_request_with_full_prices_to_models(): void
     {
         $this->unitRefundTotalCalculator
@@ -65,7 +66,7 @@ final class RefundUnitsConverterTest extends TestCase
         self::assertEquals([new OrderItemUnitRefund(1, 1000), new OrderItemUnitRefund(2, 3000)], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_converts_refund_units_from_request_with_partial_prices_to_models(): void
     {
         $this->unitRefundTotalCalculator

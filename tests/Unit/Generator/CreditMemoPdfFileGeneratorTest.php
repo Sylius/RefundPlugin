@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -55,12 +56,14 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
         );
     }
 
-    public function testItImplementsCreditMemoPdfFileGeneratorInterface(): void
+    #[Test]
+    public function it_implements_credit_memo_pdf_file_generator_interface(): void
     {
         self::assertInstanceOf(CreditMemoPdfFileGeneratorInterface::class, $this->generator);
     }
 
-    public function testItCreatesCreditMemoPdfWithGeneratedContentAndFileNameBasingOnCreditMemoNumber(): void
+    #[Test]
+    public function it_creates_credit_memo_pdf_with_generated_content_and_file_name_basing_on_credit_memo_number(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
 
@@ -95,7 +98,8 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
         self::assertEquals(new CreditMemoPdf('2015_05_00004444.pdf', 'PDF FILE'), $result);
     }
 
-    public function testItThrowsExceptionIfCreditMemoWithGivenIdHasNotBeenFound(): void
+    #[Test]
+    public function it_throws_exception_if_credit_memo_with_given_id_has_not_been_found(): void
     {
         $this->creditMemoRepository->expects(self::once())
             ->method('find')

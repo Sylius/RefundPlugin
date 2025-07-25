@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Filter;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Filter\UnitRefundFilter;
 use Sylius\RefundPlugin\Filter\UnitRefundFilterInterface;
@@ -30,13 +31,13 @@ final class UnitRefundFilterTest extends TestCase
         $this->filter = new UnitRefundFilter();
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_unit_refund_filter_interface(): void
     {
         self::assertInstanceOf(UnitRefundFilterInterface::class, $this->filter);
     }
 
-    /** @test */
+    #[Test]
     public function it_filters_unit_refunds_by_given_unit_refund_class(): void
     {
         $fourthUnitRefund = $this->createMock(UnitRefundInterface::class);
@@ -57,7 +58,7 @@ final class UnitRefundFilterTest extends TestCase
         self::assertEquals([$firstUnitRefund, $thirdUnitRefund], $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_at_least_one_of_given_units_does_not_implement_unit_refund_interface(): void
     {
         $fifthUnitRefund = $this->createMock(UnitRefundInterface::class);

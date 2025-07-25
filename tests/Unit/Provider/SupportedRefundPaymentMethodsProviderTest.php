@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -37,19 +38,19 @@ final class SupportedRefundPaymentMethodsProviderTest extends TestCase
         $this->provider = new SupportedRefundPaymentMethodsProvider($this->paymentMethodRepository, ['offline', 'stripe']);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(SupportedRefundPaymentMethodsProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_refund_payment_methods_provider_interface(): void
     {
         self::assertInstanceOf(RefundPaymentMethodsProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_only_supported_payment_methods(): void
     {
         $order = $this->createMock(OrderInterface::class);

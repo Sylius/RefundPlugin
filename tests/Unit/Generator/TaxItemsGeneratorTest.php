@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\LineItemInterface;
 use Sylius\RefundPlugin\Entity\TaxItem;
@@ -29,12 +30,14 @@ final class TaxItemsGeneratorTest extends TestCase
         $this->generator = new TaxItemsGenerator();
     }
 
-    public function testItImplementsTaxItemsGeneratorInterface(): void
+    #[Test]
+    public function it_implements_tax_items_generator_interface(): void
     {
         self::assertInstanceOf(TaxItemsGeneratorInterface::class, $this->generator);
     }
 
-    public function testItGeneratesTaxItems(): void
+    #[Test]
+    public function it_generates_tax_items(): void
     {
         $firstLineItem = $this->createMock(LineItemInterface::class);
         $secondLineItem = $this->createMock(LineItemInterface::class);

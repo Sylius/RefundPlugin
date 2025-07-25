@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Validator;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Checker\OrderRefundingAvailabilityCheckerInterface;
@@ -56,7 +57,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_when_order_is_not_available_for_refund(): void
     {
         $this->orderRefundingAvailabilityChecker
@@ -72,7 +73,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         $this->validator->validate($refundUnits);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_when_order_item_units_amount_is_not_valid(): void
     {
         $this->orderRefundingAvailabilityChecker
@@ -105,7 +106,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         $this->validator->validate($refundUnits);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_when_order_item_units_do_not_belong_to_an_order(): void
     {
         $this->orderRefundingAvailabilityChecker
@@ -136,7 +137,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         $this->validator->validate($refundUnits);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_when_shipment_amount_is_not_valid(): void
     {
         $this->orderRefundingAvailabilityChecker
@@ -169,7 +170,7 @@ final class RefundUnitsCommandValidatorTest extends TestCase
         $this->validator->validate($refundUnits);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_when_shipment_does_not_belong_to_an_order(): void
     {
         $this->orderRefundingAvailabilityChecker

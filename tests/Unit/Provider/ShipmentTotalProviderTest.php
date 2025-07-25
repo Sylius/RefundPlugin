@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -34,19 +35,19 @@ final class ShipmentTotalProviderTest extends TestCase
         $this->provider = new ShipmentTotalProvider($this->adjustmentRepository);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(ShipmentTotalProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_is_refund_unit_total_provider(): void
     {
         self::assertInstanceOf(RefundUnitTotalProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_shipment_total_to_refund(): void
     {
         $shippingAdjustment = $this->createMock(AdjustmentInterface::class);
@@ -73,7 +74,7 @@ final class ShipmentTotalProviderTest extends TestCase
         self::assertSame(1000, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_there_is_no_shipment_with_given_id(): void
     {
         $this->adjustmentRepository

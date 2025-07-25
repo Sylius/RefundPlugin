@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\CommandHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -64,7 +65,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_credit_memo_with_a_pdf_file(): void
     {
         $creditMemo = $this->createMock(CreditMemoInterface::class);
@@ -120,7 +121,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
         $this->handler->__invoke(new GenerateCreditMemo('000666', 7000, $refundUnits, 'Comment'));
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_only_credit_memo_without_a_pdf_file(): void
     {
         $handler = new GenerateCreditMemoHandler(
@@ -182,7 +183,7 @@ final class GenerateCreditMemoHandlerTest extends TestCase
         $handler->__invoke(new GenerateCreditMemo('000666', 7000, $refundUnits, 'Comment'));
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_only_credit_memo_without_a_pdf_file_if_pdf_generation_is_disabled(): void
     {
         $handler = new GenerateCreditMemoHandler(

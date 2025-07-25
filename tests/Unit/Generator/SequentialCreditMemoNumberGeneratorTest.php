@@ -16,6 +16,7 @@ namespace Sylius\RefundPlugin\Tests\Unit\Generator;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -51,12 +52,14 @@ final class SequentialCreditMemoNumberGeneratorTest extends TestCase
         );
     }
 
-    public function testItImplementsCreditMemoNumberGeneratorInterface(): void
+    #[Test]
+    public function it_implements_credit_memo_number_generator_interface(): void
     {
         self::assertInstanceOf(CreditMemoNumberGeneratorInterface::class, $this->generator);
     }
 
-    public function testItGeneratesSequentialNumber(): void
+    #[Test]
+    public function it_generates_sequential_number(): void
     {
         $sequence = $this->createMock(CreditMemoSequenceInterface::class);
         $issuedAt = $this->createMock(\DateTimeImmutable::class);
@@ -92,7 +95,8 @@ final class SequentialCreditMemoNumberGeneratorTest extends TestCase
         self::assertSame('2018/05/000000006', $result);
     }
 
-    public function testItGeneratesInvoiceNumberWhenSequenceIsNull(): void
+    #[Test]
+    public function it_generates_invoice_number_when_sequence_is_null(): void
     {
         $sequence = $this->createMock(CreditMemoSequenceInterface::class);
         $issuedAt = $this->createMock(\DateTimeImmutable::class);

@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Event;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Event\RefundPaymentGenerated;
 
 final class RefundPaymentGeneratedTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_represents_an_immutable_fact_that_refund_payment_has_been_generated(): void
     {
         $refundPaymentGenerated = new RefundPaymentGenerated(1, '000222', 10000, 'GBP', 2, 3);

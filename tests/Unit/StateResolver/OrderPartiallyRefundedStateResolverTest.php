@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\StateResolver;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
@@ -45,7 +46,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $this->resolver = new OrderPartiallyRefundedStateResolver($this->orderRepository, $this->stateMachineFactory, $this->orderManager);
     }
 
-    /** @test */
+    #[Test]
     public function it_marks_order_as_partially_refunded(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
@@ -78,7 +79,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000777');
     }
 
-    /** @test */
+    #[Test]
     public function it_does_nothing_if_order_is_already_marked_as_partially_refunded(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
@@ -106,7 +107,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000777');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_there_is_no_order_with_given_number(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
@@ -127,7 +128,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
         $resolver->resolve('000777');
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_winzou_state_machine_if_abstraction_not_passed_to_mark_order_as_partially_refunded(): void
     {
         $order = $this->createMock(OrderInterface::class);

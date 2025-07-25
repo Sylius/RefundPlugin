@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Factory;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\AddressInterface;
@@ -34,12 +35,14 @@ final class CustomerBillingDataFactoryTest extends TestCase
         $this->factory = new CustomerBillingDataFactory($this->customerBillingDataFactory);
     }
 
-    public function testItImplementsCustomerBillingDataFactoryInterface(): void
+    #[Test]
+    public function it_implements_customer_billing_data_factory_interface(): void
     {
         self::assertInstanceOf(CustomerBillingDataFactoryInterface::class, $this->factory);
     }
 
-    public function testItCreatesANewCustomerBillingData(): void
+    #[Test]
+    public function it_creates_a_new_customer_billing_data(): void
     {
         $billingData = $this->createMock(CustomerBillingDataInterface::class);
 
@@ -52,7 +55,8 @@ final class CustomerBillingDataFactoryTest extends TestCase
         self::assertSame($billingData, $result);
     }
 
-    public function testItCreatesANewCustomerBillingDataWithData(): void
+    #[Test]
+    public function it_creates_a_new_customer_billing_data_with_data(): void
     {
         $customerBillingData = $this->createMock(CustomerBillingDataInterface::class);
 
@@ -101,7 +105,8 @@ final class CustomerBillingDataFactoryTest extends TestCase
         self::assertSame($customerBillingData, $result);
     }
 
-    public function testItCreatesANewCustomerBillingDataWithAddress(): void
+    #[Test]
+    public function it_creates_a_new_customer_billing_data_with_address(): void
     {
         $customerBillingData = $this->createMock(CustomerBillingDataInterface::class);
         $address = $this->createMock(AddressInterface::class);

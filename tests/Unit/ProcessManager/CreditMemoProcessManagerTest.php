@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\ProcessManager;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Command\GenerateCreditMemo;
@@ -37,13 +38,13 @@ final class CreditMemoProcessManagerTest extends TestCase
         $this->creditMemoProcessManager = new CreditMemoProcessManager($this->commandBus);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_units_refunded_process_step_interface(): void
     {
         self::assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->creditMemoProcessManager);
     }
 
-    /** @test */
+    #[Test]
     public function it_reacts_on_units_generated_event_and_dispatch_generate_credit_memo_command(): void
     {
         $unitRefunds = [

@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Event;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Event\UnitRefunded;
 
 final class UnitRefundedTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_represents_an_immutable_fact_that_unit_has_been_refunded(): void
     {
         $unitRefunded = new UnitRefunded('000222', 1, 1000);

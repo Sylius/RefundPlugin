@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Unit\ProcessManager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -74,13 +75,13 @@ final class RefundPaymentProcessManagerTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_units_refunded_process_step_interface(): void
     {
         self::assertInstanceOf(UnitsRefundedProcessStepInterface::class, $this->refundPaymentProcessManager);
     }
 
-    /** @test */
+    #[Test]
     public function it_reacts_on_units_refunded_event_and_creates_refund_payment(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);

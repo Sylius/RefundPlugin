@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Provider;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
@@ -31,19 +32,19 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
         $this->provider = new DefaultRelatedPaymentIdProvider();
     }
 
-    /** @test */
+    #[Test]
     public function it_is_initializable(): void
     {
         self::assertInstanceOf(DefaultRelatedPaymentIdProvider::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_related_payment_id_provider_interface(): void
     {
         self::assertInstanceOf(RelatedPaymentIdProviderInterface::class, $this->provider);
     }
 
-    /** @test */
+    #[Test]
     public function it_provides_id_of_last_completed_payment_from_refund_payment_order(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);
@@ -71,7 +72,7 @@ final class DefaultRelatedPaymentIdProviderTest extends TestCase
         self::assertSame(4, $result);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_if_order_has_no_completed_payments(): void
     {
         $refundPayment = $this->createMock(RefundPaymentInterface::class);

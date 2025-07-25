@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Tests\Sylius\RefundPlugin\Unit\Entity;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Sylius\RefundPlugin\Entity\ShopBillingData;
 use Sylius\RefundPlugin\Entity\ShopBillingDataInterface;
@@ -27,54 +28,54 @@ final class ShopBillingDataTest extends TestCase
         $this->shopBillingData = new ShopBillingData();
     }
 
-    /** @test */
+    #[Test]
     public function it_implements_shop_billing_data_interface(): void
     {
         self::assertInstanceOf(ShopBillingDataInterface::class, $this->shopBillingData);
     }
 
-    /** @test */
+    #[Test]
     public function it_has_no_id_by_default(): void
     {
         self::assertNull($this->shopBillingData->getId());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_company(): void
     {
         $this->shopBillingData->setCompany('Needful Things');
         self::assertEquals('Needful Things', $this->shopBillingData->getCompany());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_tax_id(): void
     {
         $this->shopBillingData->setTaxId('000222');
         self::assertEquals('000222', $this->shopBillingData->getTaxId());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_country_code(): void
     {
         $this->shopBillingData->setCountryCode('US');
         self::assertEquals('US', $this->shopBillingData->getCountryCode());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_street(): void
     {
         $this->shopBillingData->setStreet('Main St. 123');
         self::assertEquals('Main St. 123', $this->shopBillingData->getStreet());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_city(): void
     {
         $this->shopBillingData->setCity('Los Angeles');
         self::assertEquals('Los Angeles', $this->shopBillingData->getCity());
     }
 
-    /** @test */
+    #[Test]
     public function it_has_a_postcode(): void
     {
         $this->shopBillingData->setPostcode('90001');
