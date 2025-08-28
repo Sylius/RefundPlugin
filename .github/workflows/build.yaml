@@ -228,7 +228,7 @@ jobs:
 
             -
                 name: Run ECS
-                run: vendor/bin/ecs check src/ spec/
+                run: vendor/bin/ecs check src/
 
             -
                 name: Lint container
@@ -237,10 +237,6 @@ jobs:
             -
                 name: Run PHPStan
                 run: vendor/bin/phpstan analyse -c phpstan.neon src/
-
-            -
-                name: Run PHPSpec
-                run: vendor/bin/phpspec run --ansi -f progress --no-interaction
 
             -
                 name: Run PHPUnit

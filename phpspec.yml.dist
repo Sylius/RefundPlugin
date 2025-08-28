@@ -1,4 +1,0 @@
-suites:
-    sylius_refund:
-        namespace: Sylius\RefundPlugin
-        psr4_prefix: Sylius\RefundPlugin

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.6/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/10.5/phpunit.xsd"
          backupGlobals="false"
          colors="true"
          bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="SyliusRefundPlugin Test Suite">
+        <testsuite name="sylius_refund_plugin_test_suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
