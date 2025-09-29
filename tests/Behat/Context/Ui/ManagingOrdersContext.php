@@ -33,9 +33,7 @@ final class ManagingOrdersContext implements Context
         );
     }
 
-    /**
-     * @Then I should not see refunds button
-     */
+    #[Then('I should not see refunds button')]
     public function iShouldNotSeeRefundsButton(): void
     {
         Assert::false($this->showPage->hasRefundsButton());
