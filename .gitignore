@@ -1,9 +1,10 @@
+/composer.lock
+/node_modules/
+/var/
+/vendor/
+
 /bin/*
 !/bin/.gitkeep
-
-/vendor/
-/node_modules/
-/composer.lock
 
 /etc/build/*
 !/etc/build/.gitkeep
