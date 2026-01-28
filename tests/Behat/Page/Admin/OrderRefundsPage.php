@@ -44,7 +44,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
         /** @var double $total */
         $total -= $refunded;
 
-        $units[$unitNumber]->find('css','td:nth-child(3) input')->setValue($total);
+        $units[$unitNumber]->find('css','td:nth-child(3) input')->setValue((string) $total);
     }
 
     public function pickPartOfUnitWithProductToRefund(string $productName, int $unitNumber, string $amount): void
@@ -71,7 +71,7 @@ final class OrderRefundsPage extends SymfonyPage implements OrderRefundsPageInte
             $total = (double) substr($total, 1) - (double) substr($refunded, 1);
         }
 
-        $orderShipment->find('css','td:nth-child(3) input')->setValue($total);
+        $orderShipment->find('css','td:nth-child(3) input')->setValue((string) $total);
     }
 
     public function pickPartOfOrderShipmentToRefund(string $amount): void
