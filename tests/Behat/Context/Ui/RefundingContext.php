@@ -113,7 +113,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->pickPartOfUnitWithProductToRefund(
             $productName,
             $unitNumber-1,
-            sprintf("%f.2", $partialPrice / 100)
+            sprintf("%.2f", $partialPrice / 100)
         );
 
         $this->orderRefundsPage->choosePaymentMethod($paymentMethod);
