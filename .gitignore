@@ -1,5 +1,6 @@
 /composer.lock
 /node_modules/
+tests/Application/node_modules/
 /var/
 /vendor/
 
