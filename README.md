@@ -32,6 +32,10 @@ Instead, all security issues must be sent to `security@sylius.com`.
 
 For online communication, we invite you to chat with us and other users on [Sylius Slack](https://sylius.com/slack).
 
+## Telemetry
+
+This plugin includes telemetry that collects anonymous usage data. For more information, see [TELEMETRY_POLICY.md](TELEMETRY_POLICY.md).
+
 ## License
 
 This plugin is released under the [MIT License](LICENSE).
