@@ -1,11 +1,17 @@
-{% if order.payments.first()  %}
-    {% set completed = constant('Sylius\\Component\\Core\\Model\\PaymentInterface::STATE_COMPLETED') %}
-    {% set original_payment_method = order.lastPayment(completed).method %}
-    <div class="ui hidden divider"></div>
-
-    <div class="ui stackable grid">
-        <div class="two column row">
-            {{ sylius_template_event('sylius_refund.admin.order.refund.form.payment_method', _context) }}
-        </div>
-    </div>
+{% set completed = constant('Sylius\\Component\\Core\\Model\\PaymentInterface::STATE_COMPLETED') %}
+{% set last_completed_payment = order.lastPayment(completed) %}
+{% set lat_payment = order.lastPayment %}
+{% if last_completed_payment is not null %}
+    {% set original_payment_method = last_completed_payment.method %}
+{% elseif last_payment is not null %}
+    {% set original_payment_method = last_payment.method %}
+{% else %}
+    {% set original_payment_method = null %}
 {% endif %}
+
+<div class="ui hidden divider"></div>
+<div class="ui stackable grid">
+    <div class="two column row">
+        {{ sylius_template_event('sylius_refund.admin.order.refund.form.payment_method', _context) }}
+    </div>
+</div>

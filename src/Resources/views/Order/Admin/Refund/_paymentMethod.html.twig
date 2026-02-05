@@ -3,11 +3,14 @@
         <label for="payment-methods">{{ 'sylius.ui.payment_method'|trans }}</label>
         <select id="payment-methods" name="sylius_refund_payment_method" class="ui fluid selection dropdown">
             {% for payment_method in payment_methods %}
-                <option value="{{ payment_method.id }}" {{ (payment_method.code == original_payment_method.code) ? 'selected="selected"' : '' }}>
+                {% set selected = original_payment_method is not null and payment_method.code == original_payment_method.code %}
+                <option value="{{ payment_method.id }}" {{ selected ? 'selected="selected"' : '' }}>
                     {{ payment_method.name }}
                 </option>
             {% endfor %}
         </select>
-        <small id="original-payment-method">{{ 'sylius.ui.original_payment_method'|trans }}: <strong>{{ original_payment_method }}</strong></small>
+        {% if original_payment_method is not null %}
+            <small id="original-payment-method">{{ 'sylius.ui.original_payment_method'|trans }}: <strong>{{ original_payment_method }}</strong></small>
+        {% endif %}
     </div>
 </div>
