@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 $bundles = [
     Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
+    Sylius\PdfGenerationBundle\SyliusPdfGenerationBundle::class => ['all' => true],
     Sylius\RefundPlugin\SyliusRefundPlugin::class => ['all' => true],
 ];
 

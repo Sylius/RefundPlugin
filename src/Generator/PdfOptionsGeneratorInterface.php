@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
+/**
+ * @deprecated since sylius/refund-plugin 2.1, use sylius/pdf-generation-bundle's adapter options instead.
+ */
 interface PdfOptionsGeneratorInterface
 {
     /** @return array<string, mixed> */

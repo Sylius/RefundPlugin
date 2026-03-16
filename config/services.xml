@@ -80,6 +80,7 @@
 
         <service id="sylius_refund.manager.credit_memo_file" class="Sylius\RefundPlugin\Manager\CreditMemoFileManager">
             <argument type="service" id="gaufrette.sylius_refund_credit_memo_filesystem" />
+            <deprecated package="sylius/refund-plugin" version="2.1">The "%service_id%" service is deprecated. Use Sylius\PdfGenerationBundle\Core\Filesystem\Manager\PdfFileManagerInterface from sylius/pdf-generation-bundle instead.</deprecated>
         </service>
         <service id="Sylius\RefundPlugin\Manager\CreditMemoFileManagerInterface" alias="sylius_refund.manager.credit_memo_file" />
     </services>

@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
+use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoFileNameGeneratorInterface;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGenerator;
 use Sylius\RefundPlugin\Generator\CreditMemoPdfFileGeneratorInterface;
@@ -109,5 +110,49 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
         $this->expectException(CreditMemoNotFound::class);
 
         $this->generator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
+    }
+
+    #[Test]
+    public function it_generates_credit_memo_pdf_using_pdf_bundle_renderer(): void
+    {
+        $twigToPdfRenderer = $this->createMock(TwigToPdfRendererInterface::class);
+
+        $generator = new CreditMemoPdfFileGenerator(
+            $this->creditMemoRepository,
+            $this->fileLocator,
+            'creditMemoTemplate.html.twig',
+            '@SyliusRefundPlugin/assets/sylius-logo.png',
+            $twigToPdfRenderer,
+            $this->creditMemoFileNameGenerator,
+        );
+
+        $creditMemo = $this->createMock(CreditMemoInterface::class);
+
+        $this->creditMemoRepository->expects(self::once())
+            ->method('find')
+            ->with('7903c83a-4c5e-4bcf-81d8-9dc304c6a353')
+            ->willReturn($creditMemo);
+
+        $this->creditMemoFileNameGenerator->expects(self::once())
+            ->method('generateForPdf')
+            ->with($creditMemo)
+            ->willReturn('2015_05_00004444.pdf');
+
+        $this->fileLocator->expects(self::once())
+            ->method('locate')
+            ->with('@SyliusRefundPlugin/assets/sylius-logo.png')
+            ->willReturn('located-path/sylius-logo.png');
+
+        $twigToPdfRenderer->expects(self::once())
+            ->method('render')
+            ->with('creditMemoTemplate.html.twig', [
+                'creditMemo' => $creditMemo,
+                'creditMemoLogoPath' => 'located-path/sylius-logo.png',
+            ], 'sylius_refund')
+            ->willReturn('PDF FILE');
+
+        $result = $generator->generate('7903c83a-4c5e-4bcf-81d8-9dc304c6a353');
+
+        self::assertEquals(new CreditMemoPdf('2015_05_00004444.pdf', 'PDF FILE'), $result);
     }
 }

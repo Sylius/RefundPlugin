@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sylius\RefundPlugin\Generator;
 
 use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface;
 use Sylius\RefundPlugin\Entity\CreditMemoInterface;
 use Sylius\RefundPlugin\Exception\CreditMemoNotFound;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
@@ -26,9 +27,19 @@ final readonly class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGene
         private FileLocatorInterface $fileLocator,
         private string $template,
         private string $creditMemoLogoPath,
-        private TwigToPdfGeneratorInterface $twigToPdfGenerator,
+        private TwigToPdfGeneratorInterface|TwigToPdfRendererInterface $twigToPdfRenderer,
         private CreditMemoFileNameGeneratorInterface $creditMemoFileNameGenerator,
     ) {
+        if ($this->twigToPdfRenderer instanceof TwigToPdfGeneratorInterface) {
+            trigger_deprecation(
+                'sylius/refund-plugin',
+                '2.1',
+                'Passing an instance of %s to %s is deprecated and it will not be supported in 3.0, use an instance of %s instead.',
+                TwigToPdfGeneratorInterface::class,
+                self::class,
+                TwigToPdfRendererInterface::class,
+            );
+        }
     }
 
     public function generate(string $creditMemoId): CreditMemoPdf
@@ -51,7 +62,11 @@ final readonly class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGene
     /** @param array<string, mixed> $templateParams */
     private function generateFromTemplate(array $templateParams): string
     {
-        return $this->twigToPdfGenerator->generate($this->template, $templateParams);
+        if ($this->twigToPdfRenderer instanceof TwigToPdfRendererInterface) {
+            return $this->twigToPdfRenderer->render($this->template, $templateParams, 'sylius_refund');
+        }
+
+        return $this->twigToPdfRenderer->generate($this->template, $templateParams);
     }
 
     private function generateFileName(CreditMemoInterface $creditMemo): string

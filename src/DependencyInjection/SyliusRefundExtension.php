@@ -15,16 +15,21 @@ namespace Sylius\RefundPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
+use Sylius\PdfGenerationBundle\Core\Filesystem\Manager\PdfFileManagerInterface;
+use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface;
 use Sylius\RefundPlugin\Converter\LineItem\LineItemsConverterUnitRefundAwareInterface;
 use Sylius\RefundPlugin\Converter\Request\RequestToRefundUnitsConverterInterface;
+use Sylius\RefundPlugin\Generator\RefundAllowedFilesOptionsProcessor;
 use Sylius\RefundPlugin\ProcessManager\UnitsRefundedProcessStepInterface;
 use Sylius\RefundPlugin\Provider\RefundUnitTotalProviderInterface;
 use Sylius\RefundPlugin\Refunder\RefunderInterface;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 final class SyliusRefundExtension extends AbstractResourceExtension implements PrependExtensionInterface
 {
@@ -50,6 +55,22 @@ final class SyliusRefundExtension extends AbstractResourceExtension implements P
         ]);
 
         $container->setParameter('sylius_refund.pdf_generator.allowed_files', $configs['pdf_generator']['allowed_files']);
+
+        if (!$configs['pdf_generator']['legacy']) {
+            $container->getDefinition('sylius_refund.generator.credit_memo_pdf_file')
+                ->replaceArgument(4, new Reference(TwigToPdfRendererInterface::class))
+            ;
+
+            $container->getDefinition('sylius_refund.resolver.credit_memo_file')
+                ->replaceArgument(3, new Reference(PdfFileManagerInterface::class))
+            ;
+
+            $container->getDefinition('sylius_refund.resolver.credit_memo_file_path')
+                ->replaceArgument(0, new Reference(PdfFileManagerInterface::class))
+            ;
+
+            $this->registerAllowedFilesProcessor($container, $configs['pdf_generator']['allowed_files']);
+        }
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -57,6 +78,10 @@ final class SyliusRefundExtension extends AbstractResourceExtension implements P
         $config = $this->getCurrentConfiguration($container);
 
         $container->setParameter('sylius_refund.pdf_generator.enabled', $config['pdf_generator']['enabled']);
+
+        if (!$config['pdf_generator']['legacy']) {
+            $this->prependPdfBundleConfiguration($container);
+        }
 
         $this->registerResources('sylius_refund', 'doctrine/orm', $config['resources'], $container);
 
@@ -98,5 +123,40 @@ final class SyliusRefundExtension extends AbstractResourceExtension implements P
         foreach ($taggedInterfaces as $tag => $interface) {
             $container->registerForAutoconfiguration($interface)->addTag($tag);
         }
+    }
+
+    private function prependPdfBundleConfiguration(ContainerBuilder $container): void
+    {
+        $container->prependExtensionConfig('sylius_pdf_generation', [
+            'contexts' => [
+                'sylius_refund' => [
+                    'adapter' => 'knp_snappy',
+                    'storage' => [
+                        'type' => 'gaufrette',
+                        'filesystem' => 'gaufrette.sylius_refund_credit_memo_filesystem',
+                        'local_cache_directory' => '%kernel.cache_dir%/sylius_refund_pdf/',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    /** @param list<string> $allowedFiles */
+    private function registerAllowedFilesProcessor(ContainerBuilder $container, array $allowedFiles): void
+    {
+        if ([] === $allowedFiles) {
+            return;
+        }
+
+        $definition = new Definition(RefundAllowedFilesOptionsProcessor::class, [
+            new Reference('file_locator'),
+            $allowedFiles,
+        ]);
+        $definition->addTag('sylius_pdf_generation.options_processor', [
+            'adapter' => 'knp_snappy',
+            'context' => 'sylius_refund',
+        ]);
+
+        $container->setDefinition('sylius_refund.options_processor.knp_snappy.allowed_files', $definition);
     }
 }

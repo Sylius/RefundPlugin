@@ -15,4 +15,10 @@ return function (ContainerConfigurator $container) {
     if (filter_var($_ENV['TEST_SYLIUS_REFUND_PDF_GENERATION_DISABLED'], FILTER_VALIDATE_BOOLEAN)) {
         $container->import('sylius_refund_pdf_generation_disabled.yaml');
     }
+
+    if (!filter_var($_ENV['TEST_SYLIUS_REFUND_PDF_LEGACY'] ?? 'true', FILTER_VALIDATE_BOOLEAN)) {
+        $container->extension('sylius_refund', [
+            'pdf_generator' => ['legacy' => false],
+        ]);
+    }
 };
