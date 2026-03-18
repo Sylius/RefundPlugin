@@ -10,14 +10,11 @@ return static function (ECSConfig $containerConfigurator): void
     $containerConfigurator->import('vendor/sylius-labs/coding-standard/ecs.php');
 
     $containerConfigurator->parallel();
-    $containerConfigurator->paths([
-        'src/',
-        'spec/',
-    ]);
+    $containerConfigurator->paths(['src/', 'tests/DependencyInjection/', 'tests/Behat/', 'tests/Unit/']);
 
     $containerConfigurator->skip([
-        VisibilityRequiredFixer::class => ['*Spec.php'],
         InlineDocCommentDeclarationSniff::class . '.MissingVariable',
+        InlineDocCommentDeclarationSniff::class . '.NoAssignment',
         '**/var/*',
     ]);
 

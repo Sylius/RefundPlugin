@@ -28,8 +28,8 @@ jobs:
             fail-fast: false
             matrix:
                 php: ["8.2", "8.3"]
-                symfony: ["^6.4", "~7.3.0"]
-                sylius: ["~2.0.0", "~2.1.0"]
+                symfony: ["^6.4", "^7.4"]
+                sylius: ["~2.0.0", "~2.1.0", "~2.2.0"]
                 node: ["22.x"]
                 database: ["mysql"]
                 database_version: ["8.4"]
@@ -39,8 +39,8 @@ jobs:
                 include:
                     -
                         php: "8.3"
-                        symfony: "~7.3.0"
-                        sylius: "~2.1.0"
+                        symfony: "^7.4"
+                        sylius: "~2.2.0"
                         node: "24.x"
                         database: "mysql"
                         database_version: "8.4"
@@ -49,8 +49,8 @@ jobs:
 
                     -
                         php: "8.3"
-                        symfony: "~7.3.0"
-                        sylius: "~2.1.0"
+                        symfony: "^7.4"
+                        sylius: "~2.2.0"
                         node: "24.x"
                         database: "mysql"
                         database_version: "8.4"
@@ -59,8 +59,8 @@ jobs:
 
                     -
                         php: "8.3"
-                        symfony: "~7.3.0"
-                        sylius: "~2.1.0"
+                        symfony: "^7.4"
+                        sylius: "~2.2.0"
                         node: "24.x"
                         database: "postgres"
                         database_version: "15.8"
@@ -93,6 +93,37 @@ jobs:
                     sudo apt-get install -y xfonts-base xfonts-75dpi
                     wget https://github.com/wkhtmltopdf/packaging/releases/download/${{ matrix.wkhtmltopdf }}/wkhtmltox_${{ matrix.wkhtmltopdf }}.jammy_amd64.deb
                     sudo dpkg -i wkhtmltox_${{ matrix.wkhtmltopdf }}.jammy_amd64.deb
+
+            -
+                name: Output PHP version for Symfony CLI
+                run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
+
+            -
+                name: Get Composer cache directory
+                id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            -
+                name: Cache Composer
+                uses: actions/cache@v4
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-${{ matrix.php }}-composer-
+
+            -
+                name: Restrict Symfony version
+                if: matrix.symfony != ''
+                run: |
+                    composer global config --no-plugins allow-plugins.symfony/flex true
+                    composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
+                    composer config extra.symfony.require "${{ matrix.symfony }}"
+
+            -
+                name: Restrict Sylius version
+                if: matrix.sylius != ''
+                run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
 
             -
                 name: Require Winzou State Machine
