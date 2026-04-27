@@ -81,16 +81,24 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
             ->with($creditMemo)
             ->willReturn('2015_05_00004444.pdf');
 
+        $logoPath = __DIR__ . '/../../../assets/sylius-logo.png';
+        $logoDataUri = sprintf(
+            'data:%s;base64,%s',
+            mime_content_type($logoPath) ?: 'image/png',
+            base64_encode((string) file_get_contents($logoPath)),
+        );
+
         $this->fileLocator->expects(self::once())
             ->method('locate')
             ->with('@SyliusRefundPlugin/assets/sylius-logo.png')
-            ->willReturn('located-path/sylius-logo.png');
+            ->willReturn($logoPath);
 
         $this->twigToPdfGenerator->expects(self::once())
             ->method('generate')
             ->with('creditMemoTemplate.html.twig', [
                 'creditMemo' => $creditMemo,
-                'creditMemoLogoPath' => 'located-path/sylius-logo.png',
+                'creditMemoLogoPath' => $logoPath,
+                'creditMemoLogo' => $logoDataUri,
             ])
             ->willReturn('PDF FILE');
 
@@ -138,16 +146,24 @@ final class CreditMemoPdfFileGeneratorTest extends TestCase
             ->with($creditMemo)
             ->willReturn('2015_05_00004444.pdf');
 
+        $logoPath = __DIR__ . '/../../../assets/sylius-logo.png';
+        $logoDataUri = sprintf(
+            'data:%s;base64,%s',
+            mime_content_type($logoPath) ?: 'image/png',
+            base64_encode((string) file_get_contents($logoPath)),
+        );
+
         $this->fileLocator->expects(self::once())
             ->method('locate')
             ->with('@SyliusRefundPlugin/assets/sylius-logo.png')
-            ->willReturn('located-path/sylius-logo.png');
+            ->willReturn($logoPath);
 
         $twigToPdfRenderer->expects(self::once())
             ->method('render')
             ->with('creditMemoTemplate.html.twig', [
                 'creditMemo' => $creditMemo,
-                'creditMemoLogoPath' => 'located-path/sylius-logo.png',
+                'creditMemoLogoPath' => $logoPath,
+                'creditMemoLogo' => $logoDataUri,
             ], 'sylius_refund')
             ->willReturn('PDF FILE');
 

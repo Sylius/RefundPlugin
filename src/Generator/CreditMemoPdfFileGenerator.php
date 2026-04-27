@@ -51,12 +51,22 @@ final readonly class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGene
             throw CreditMemoNotFound::withId($creditMemoId);
         }
 
+        $logoPath = $this->fileLocator->locate($this->creditMemoLogoPath);
+
         $pdf = $this->generateFromTemplate([
             'creditMemo' => $creditMemo,
-            'creditMemoLogoPath' => $this->fileLocator->locate($this->creditMemoLogoPath),
+            'creditMemoLogoPath' => $logoPath,
+            'creditMemoLogo' => $this->buildLogoDataUri($logoPath),
         ]);
 
         return new CreditMemoPdf($this->generateFileName($creditMemo), $pdf);
+    }
+
+    private function buildLogoDataUri(string $path): string
+    {
+        $mimeType = mime_content_type($path) ?: 'image/png';
+
+        return sprintf('data:%s;base64,%s', $mimeType, base64_encode((string) file_get_contents($path)));
     }
 
     /** @param array<string, mixed> $templateParams */
