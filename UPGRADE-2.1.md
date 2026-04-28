@@ -1,5 +1,7 @@
 # UPGRADE FROM 2.0 TO 2.1
 
+1. The minimum supported Symfony version has been raised to `6.4` and `7.4` — earlier 7.x releases (`7.1`, `7.2`, `7.3`) are no longer supported.
+
 1. Support for the `SyliusPdfGenerationBundle` has been added as an alternative to the legacy PDF generation
    which was using `KnpSnappyBundle` with a hardcoded `wkhtmltopdf` binary.
    To use it, set the `legacy` option to `false` in your configuration:
@@ -11,6 +13,10 @@
     ```
 
    The bundle is preconfigured with `knp_snappy` adapter and `gaufrette` storage by default, with a `sylius_refund` context making it a drop-in replacement.
+
+   The `sylius_refund.pdf_generator.legacy` option itself is deprecated and will be removed in 3.0,
+   together with the entire legacy PDF generation path. The `SyliusPdfGenerationBundle` integration will become
+   the only supported mode.
 
 1. The following services now accept new argument types from the `SyliusPdfGenerationBundle`. Passing the old types is deprecated and will be removed in 3.0:
 

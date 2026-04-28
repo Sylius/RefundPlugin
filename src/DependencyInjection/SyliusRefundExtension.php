@@ -56,6 +56,7 @@ final class SyliusRefundExtension extends AbstractResourceExtension implements P
 
         $container->setParameter('sylius_refund.pdf_generator.allowed_files', $configs['pdf_generator']['allowed_files']);
 
+        // TODO: Remove in 3.0 — once the legacy PDF generator is dropped, the service should be defined directly with its non-legacy arguments instead of being rewired here.
         if (!$configs['pdf_generator']['legacy']) {
             $container->getDefinition('sylius_refund.generator.credit_memo_pdf_file')
                 ->replaceArgument(4, new Reference(TwigToPdfRendererInterface::class))
@@ -79,6 +80,7 @@ final class SyliusRefundExtension extends AbstractResourceExtension implements P
 
         $container->setParameter('sylius_refund.pdf_generator.enabled', $config['pdf_generator']['enabled']);
 
+        // TODO: Remove in 3.0 — once the legacy PDF generator is dropped, the bundle configuration should be prepended unconditionally.
         if (!$config['pdf_generator']['legacy']) {
             $this->prependPdfBundleConfiguration($container);
         }
