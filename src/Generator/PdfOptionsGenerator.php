@@ -15,6 +15,9 @@ namespace Sylius\RefundPlugin\Generator;
 
 use Symfony\Component\Config\FileLocatorInterface;
 
+/**
+ * @deprecated since sylius/refund-plugin 2.1, use sylius/pdf-generation-bundle's option processors instead.
+ */
 final readonly class PdfOptionsGenerator implements PdfOptionsGeneratorInterface
 {
     /**

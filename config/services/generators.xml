@@ -59,6 +59,7 @@
             <argument type="service" id="file_locator" />
             <argument>%knp_snappy.pdf.options%</argument>
             <argument>%sylius_refund.pdf_generator.allowed_files%</argument>
+            <deprecated package="sylius/refund-plugin" version="2.1">The "%service_id%" service is deprecated. PDF options are now handled by sylius/pdf-generation-bundle adapters.</deprecated>
         </service>
         <service id="Sylius\RefundPlugin\Generator\PdfOptionsGeneratorInterface" alias="sylius_refund.generator.pdf_options" />
 
@@ -66,6 +67,7 @@
             <argument type="service" id="twig" />
             <argument type="service" id="knp_snappy.pdf" />
             <argument type="service" id="sylius_refund.generator.pdf_options" />
+            <deprecated package="sylius/refund-plugin" version="2.1">The "%service_id%" service is deprecated. Use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface from sylius/pdf-generation-bundle instead.</deprecated>
         </service>
         <service id="Sylius\RefundPlugin\Generator\TwigToPdfGeneratorInterface" alias="sylius_refund.generator.twig_to_pdf" />
     </services>

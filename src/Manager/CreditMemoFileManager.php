@@ -16,6 +16,9 @@ namespace Sylius\RefundPlugin\Manager;
 use Gaufrette\FilesystemInterface;
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 
+/**
+ * @deprecated since sylius/refund-plugin 2.1, use Sylius\PdfGenerationBundle\Core\Filesystem\Manager\PdfFileManager from sylius/pdf-generation-bundle instead.
+ */
 final readonly class CreditMemoFileManager implements CreditMemoFileManagerInterface
 {
     public function __construct(private FilesystemInterface $filesystem)

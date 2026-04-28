@@ -15,6 +15,9 @@ namespace Sylius\RefundPlugin\Manager;
 
 use Sylius\RefundPlugin\Model\CreditMemoPdf;
 
+/**
+ * @deprecated since sylius/refund-plugin 2.1, use Sylius\PdfGenerationBundle\Core\Filesystem\Manager\PdfFileManagerInterface from sylius/pdf-generation-bundle instead.
+ */
 interface CreditMemoFileManagerInterface
 {
     public function save(CreditMemoPdf $file): void;

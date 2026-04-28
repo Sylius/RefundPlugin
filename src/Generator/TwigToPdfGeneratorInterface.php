@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Sylius\RefundPlugin\Generator;
 
+/**
+ * @deprecated since sylius/refund-plugin 2.1, use Sylius\PdfGenerationBundle\Core\Renderer\TwigToPdfRendererInterface from sylius/pdf-generation-bundle instead.
+ */
 interface TwigToPdfGeneratorInterface
 {
     /** @param array<string, mixed> $templateParams */
