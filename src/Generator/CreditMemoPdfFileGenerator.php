@@ -27,10 +27,10 @@ final readonly class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGene
         private FileLocatorInterface $fileLocator,
         private string $template,
         private string $creditMemoLogoPath,
-        private TwigToPdfGeneratorInterface|TwigToPdfRendererInterface $twigToPdfRenderer,
+        private TwigToPdfGeneratorInterface|TwigToPdfRendererInterface $twigToPdfGenerator,
         private CreditMemoFileNameGeneratorInterface $creditMemoFileNameGenerator,
     ) {
-        if ($this->twigToPdfRenderer instanceof TwigToPdfGeneratorInterface) {
+        if ($this->twigToPdfGenerator instanceof TwigToPdfGeneratorInterface) {
             trigger_deprecation(
                 'sylius/refund-plugin',
                 '2.1',
@@ -72,11 +72,11 @@ final readonly class CreditMemoPdfFileGenerator implements CreditMemoPdfFileGene
     /** @param array<string, mixed> $templateParams */
     private function generateFromTemplate(array $templateParams): string
     {
-        if ($this->twigToPdfRenderer instanceof TwigToPdfRendererInterface) {
-            return $this->twigToPdfRenderer->render($this->template, $templateParams, 'sylius_refund');
+        if ($this->twigToPdfGenerator instanceof TwigToPdfRendererInterface) {
+            return $this->twigToPdfGenerator->render($this->template, $templateParams, 'sylius_refund');
         }
 
-        return $this->twigToPdfRenderer->generate($this->template, $templateParams);
+        return $this->twigToPdfGenerator->generate($this->template, $templateParams);
     }
 
     private function generateFileName(CreditMemoInterface $creditMemo): string
