@@ -16,7 +16,6 @@ namespace Sylius\RefundPlugin\StateResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
@@ -39,7 +38,7 @@ final readonly class OrderPartiallyRefundedStateResolver implements OrderPartial
             throw OrderNotFound::withNumber($orderNumber);
         }
 
-        if ($order->getPaymentState() === OrderPaymentStates::STATE_PARTIALLY_REFUNDED) {
+        if (!$this->stateMachineFactory->can($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)) {
             return;
         }
 

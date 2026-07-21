@@ -1,3 +1,7 @@
+# UPGRADE FROM 2.1.0 TO 2.1.1
+
+1. `OrderPartiallyRefundedStateResolver` now checks whether the `partially_refund` transition is applicable via the state machine instead of comparing the payment state directly, so the transition (and its side effects) is applied again for every subsequent partial refund on an already partially refunded order.
+
 # UPGRADE FROM 2.0 TO 2.1
 
 1. The minimum supported Symfony version has been raised to `6.4` and `7.4` — earlier 7.x releases (`7.1`, `7.2`, `7.3`) are no longer supported.
