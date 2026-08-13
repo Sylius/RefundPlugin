@@ -28,7 +28,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
 final class SyliusRefundExtension extends AbstractResourceExtension implements PrependExtensionInterface
@@ -43,8 +43,8 @@ final class SyliusRefundExtension extends AbstractResourceExtension implements P
 
         $configs = $this->processConfiguration($configuration, $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
-        $loader->load('services.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $loader->load('services.php');
 
         $this->tagsAutoconfiguration($container, [
             'sylius_refund.units_refunded.process_step' => UnitsRefundedProcessStepInterface::class,
