@@ -104,28 +104,6 @@ jobs:
                         state_machine_adapter: "symfony_workflow"
                         legacy_pdf_generation: false
 
-                    -
-                        php: "8.3"
-                        symfony: "^8.0"
-                        sylius: "~2.3.0"
-                        node: "24.x"
-                        database: "mysql"
-                        database_version: "8.4"
-                        wkhtmltopdf: "0.12.6.1-2"
-                        state_machine_adapter: "symfony_workflow"
-                        legacy_pdf_generation: true
-
-                    -
-                        php: "8.3"
-                        symfony: "^8.0"
-                        sylius: "~2.3.0"
-                        node: "24.x"
-                        database: "mysql"
-                        database_version: "8.4"
-                        wkhtmltopdf: "0.12.6.1-2"
-                        state_machine_adapter: "symfony_workflow"
-                        legacy_pdf_generation: false
-
         env:
             APP_ENV: test
             DATABASE_URL: ${{ matrix.database == 'mysql' && format('mysql://root:root@127.0.0.1/sylius?serverVersion={0}', matrix.database_version) || format('pgsql://postgres:postgres@127.0.0.1/sylius?serverVersion={0}', matrix.database_version) }}
