@@ -38,7 +38,7 @@ final readonly class SendCreditMemoAction
     public function __invoke(Request $request): Response
     {
         /** @var CreditMemoInterface|null $creditMemo */
-        $creditMemo = $this->creditMemoRepository->find($request->get('id'));
+        $creditMemo = $this->creditMemoRepository->find($request->attributes->get('id'));
 
         if ($creditMemo !== null) {
             $number = $creditMemo->getNumber();
