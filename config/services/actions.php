@@ -2,6 +2,13 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Sylius\RefundPlugin\Action\Admin\DownloadCreditMemoAction as AdminDownloadCreditMemoAction;
+use Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction;
+use Sylius\RefundPlugin\Action\Admin\RefundUnitsAction;
+use Sylius\RefundPlugin\Action\Admin\SendCreditMemoAction;
+use Sylius\RefundPlugin\Action\CompleteRefundPaymentAction;
+use Sylius\RefundPlugin\Action\Shop\DownloadCreditMemoAction as ShopDownloadCreditMemoAction;
+
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
     $parameters = $container->parameters();
@@ -9,14 +16,14 @@ return static function (ContainerConfigurator $container) {
     $services->defaults()
         ->public();
 
-    $services->set('sylius_refund.controller.admin.download_credit_memo', \Sylius\RefundPlugin\Action\Admin\DownloadCreditMemoAction::class)
+    $services->set('sylius_refund.controller.admin.download_credit_memo', AdminDownloadCreditMemoAction::class)
         ->args([
             service('sylius_refund.resolver.credit_memo_file'),
             service('sylius_refund.response_builder.credit_memo_file'),
             '%sylius_refund.pdf_generator.enabled%',
         ]);
 
-    $services->set('sylius_refund.controller.shop.download_credit_memo', \Sylius\RefundPlugin\Action\Shop\DownloadCreditMemoAction::class)
+    $services->set('sylius_refund.controller.shop.download_credit_memo', ShopDownloadCreditMemoAction::class)
         ->args([
             service('sylius_refund.resolver.credit_memo_file'),
             service('sylius_refund.checker.credit_memo_customer_relation'),
@@ -24,7 +31,7 @@ return static function (ContainerConfigurator $container) {
             '%sylius_refund.pdf_generator.enabled%',
         ]);
 
-    $services->set('sylius_refund.controller.admin.order_refunds_list', \Sylius\RefundPlugin\Action\Admin\OrderRefundsListAction::class)
+    $services->set('sylius_refund.controller.admin.order_refunds_list', OrderRefundsListAction::class)
         ->args([
             service('sylius.repository.order'),
             service('sylius_refund.checker.order_refunds_list_availability'),
@@ -34,7 +41,7 @@ return static function (ContainerConfigurator $container) {
             service('router'),
         ]);
 
-    $services->set('sylius_refund.controller.admin.refund_units', \Sylius\RefundPlugin\Action\Admin\RefundUnitsAction::class)
+    $services->set('sylius_refund.controller.admin.refund_units', RefundUnitsAction::class)
         ->args([
             service('sylius.command_bus'),
             service('request_stack'),
@@ -44,7 +51,7 @@ return static function (ContainerConfigurator $container) {
             service('security.csrf.token_manager'),
         ]);
 
-    $services->set('sylius_refund.controller.complete_refund_payment', \Sylius\RefundPlugin\Action\CompleteRefundPaymentAction::class)
+    $services->set('sylius_refund.controller.complete_refund_payment', CompleteRefundPaymentAction::class)
         ->args([
             service('request_stack'),
             service('sylius_refund.repository.refund_payment'),
@@ -53,7 +60,7 @@ return static function (ContainerConfigurator $container) {
             service('router'),
         ]);
 
-    $services->set('sylius_refund.controller.admin.send_credit_memo', \Sylius\RefundPlugin\Action\Admin\SendCreditMemoAction::class)
+    $services->set('sylius_refund.controller.admin.send_credit_memo', SendCreditMemoAction::class)
         ->args([
             service('sylius.command_bus'),
             service('sylius_refund.repository.credit_memo'),

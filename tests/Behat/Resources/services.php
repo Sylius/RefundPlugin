@@ -2,27 +2,52 @@
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use FriendsOfBehat\PageObjectExtension\Element\Element;
+use Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext as ApplicationCreditMemoContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Application\EmailsContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext as ApplicationRefundingContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Setup\ChannelContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderContext as SetupOrderContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Setup\PaymentContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Setup\ProductContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext as SetupRefundingContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Transform\OrderContext as TransformOrderContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Transform\PriceContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext as UiCreditMemoContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext as UiRefundingContext;
+use Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext as ShopCustomerCreditMemoContext;
+use Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\Order\ShowPage as AdminOrderShowPage;
+use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPage;
+use Tests\Sylius\RefundPlugin\Behat\Page\Shop\Order\ShowPage as ShopOrderShowPage;
+use Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory;
+use Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator;
+
 return static function (ContainerConfigurator $container) {
     $services = $container->services();
     $parameters = $container->parameters();
-    $parameters->set('sylius.behat.page.admin.order.show.class', \Tests\Sylius\RefundPlugin\Behat\Page\Admin\Order\ShowPage::class);
-    $parameters->set('sylius.behat.page.shop.order.show.class', \Tests\Sylius\RefundPlugin\Behat\Page\Shop\Order\ShowPage::class);
+    $parameters->set('sylius.behat.page.admin.order.show.class', AdminOrderShowPage::class);
+    $parameters->set('sylius.behat.page.shop.order.show.class', ShopOrderShowPage::class);
 
     $services->defaults()
         ->public();
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPage::class)
+    $services->set(OrderRefundsPage::class)
         ->parent('sylius.behat.symfony_page');
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage::class)
+    $services->set(CreditMemoDetailsPage::class)
         ->parent('sylius.behat.symfony_page')
         ->args([service('sylius.behat.table_accessor')]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage::class)
+    $services->set(CreditMemoIndexPage::class)
         ->parent('sylius.behat.page.admin.crud.index')
         ->args(['sylius_refund_admin_credit_memo_index']);
 
-    $services->set(\FriendsOfBehat\PageObjectExtension\Element\Element::class)
+    $services->set(Element::class)
         ->private()
         ->abstract()
         ->args([
@@ -30,11 +55,11 @@ return static function (ContainerConfigurator $container) {
             service('behat.mink.parameters'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement::class)
+    $services->set(PdfDownloadElement::class)
         ->private()
-        ->parent(\FriendsOfBehat\PageObjectExtension\Element\Element::class);
+        ->parent(Element::class);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Application\RefundingContext::class)
+    $services->set(ApplicationRefundingContext::class)
         ->args([
             service('sylius.repository.order'),
             service('sylius_refund.repository.refund'),
@@ -43,70 +68,70 @@ return static function (ContainerConfigurator $container) {
             service('sylius.behat.email_checker'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Application\CreditMemoContext::class)
+    $services->set(ApplicationCreditMemoContext::class)
         ->args([
             service('sylius_refund.repository.credit_memo'),
             service('sylius_refund.provider.current_date_time_immutable'),
             '%sylius_refund.credit_memo_save_path%',
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Ui\ManagingOrdersContext::class)
+    $services->set(ManagingOrdersContext::class)
         ->args([
             service('sylius.behat.page.admin.order.show'),
             service('sylius.behat.page.admin.order.index'),
             service('sylius.behat.notification_checker.shop'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Ui\RefundingContext::class)
+    $services->set(UiRefundingContext::class)
         ->args([
-            service(\Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPage::class),
+            service(OrderRefundsPage::class),
             service('sylius.behat.notification_checker.admin'),
             service('sylius.behat.email_checker'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Ui\CreditMemoContext::class)
+    $services->set(UiCreditMemoContext::class)
         ->args([
             service('sylius.behat.page.admin.order.show'),
-            service(\Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoIndexPage::class),
-            service(\Tests\Sylius\RefundPlugin\Behat\Page\Admin\CreditMemoDetailsPage::class),
-            service(\Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement::class),
+            service(CreditMemoIndexPage::class),
+            service(CreditMemoDetailsPage::class),
+            service(PdfDownloadElement::class),
             service('sylius_refund.repository.credit_memo'),
             service('sylius_refund.provider.current_date_time_immutable'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Setup\RefundingContext::class)
+    $services->set(SetupRefundingContext::class)
         ->args([
             service('sylius.repository.order'),
             service('sylius.command_bus'),
-            service(\Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator::class),
-            service(\Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory::class),
+            service(FailedCreditMemoGenerator::class),
+            service(FailedRefundPaymentFactory::class),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Setup\OrderContext::class)
+    $services->set(SetupOrderContext::class)
         ->args([
             service('sylius.manager.order'),
             service('sylius.behat.shared_storage'),
             service('sylius_abstraction.state_machine'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Setup\PaymentContext::class)
+    $services->set(PaymentContext::class)
         ->args([
             service('sylius_abstraction.state_machine'),
             service('sylius.behat.shared_storage'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Transform\OrderContext::class)
+    $services->set(TransformOrderContext::class)
         ->args([service('sylius.repository.order')]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Transform\PriceContext::class);
+    $services->set(PriceContext::class);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Ui\Shop\Customer\CreditMemoContext::class)
+    $services->set(ShopCustomerCreditMemoContext::class)
         ->args([
             service('sylius.behat.page.shop.order.show'),
-            service(\Tests\Sylius\RefundPlugin\Behat\Element\PdfDownloadElement::class),
+            service(PdfDownloadElement::class),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Setup\ChannelContext::class)
+    $services->set(ChannelContext::class)
         ->args([
             service('sylius.behat.shared_storage'),
             service('sylius.behat.factory.default_united_states_channel'),
@@ -114,21 +139,21 @@ return static function (ContainerConfigurator $container) {
             service('sylius.manager.channel'),
         ]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Application\EmailsContext::class)
+    $services->set(EmailsContext::class)
         ->args([service('sylius.behat.email_checker')]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Setup\ProductContext::class)
+    $services->set(ProductContext::class)
         ->args([service('sylius.behat.context.setup.product')]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Context\Hook\CreditMemosContext::class)
+    $services->set(CreditMemosContext::class)
         ->args(['%sylius_refund.credit_memo_save_path%']);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Services\Factory\FailedRefundPaymentFactory::class)
+    $services->set(FailedRefundPaymentFactory::class)
         ->private()
         ->decorate('sylius_refund.factory.refund_payment')
         ->args([service('.inner')]);
 
-    $services->set(\Tests\Sylius\RefundPlugin\Behat\Services\Generator\FailedCreditMemoGenerator::class)
+    $services->set(FailedCreditMemoGenerator::class)
         ->private()
         ->decorate('sylius_refund.generator.credit_memo')
         ->args([service('.inner')]);
