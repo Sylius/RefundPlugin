@@ -133,6 +133,11 @@ jobs:
                     sudo dpkg -i wkhtmltox_${{ matrix.wkhtmltopdf }}.jammy_amd64.deb
 
             -
+                name: Ensure wkhtmltopdf is executable
+                if: matrix.wkhtmltopdf != false
+                run: chmod +x /usr/local/bin/wkhtmltopdf
+
+            -
                 name: Output PHP version for Symfony CLI
                 run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
 

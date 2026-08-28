@@ -47,7 +47,7 @@ Feature: Refunding a single order unit
     @ui
     Scenario: Not being able to refund unit from an order that is unpaid
         When I am viewing the summary of the order "#00000022"
-        Then I should see disabled refunds button
+        Then I should not see refunds button
 
     @application
     Scenario: Not being able to refund unit from an order that is unpaid

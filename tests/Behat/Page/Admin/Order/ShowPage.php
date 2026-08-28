@@ -37,7 +37,7 @@ final class ShowPage extends BaseOrderShowPage implements ShowPageInterface
 
     public function hasRefundsButton(): bool
     {
-        return $this->getDocument()->hasButton('Refunds');
+        return $this->getDocument()->has('css', '[data-test-refunds]');
     }
 
     public function hasDisabledRefundsButton(): bool

@@ -12,6 +12,7 @@ tests/Application/node_modules/
 
 /tests/TestApplication/.env.local
 /tests/TestApplication/.env.*.local
+/var/
 
 phpspec.yml
 
