@@ -19,7 +19,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\RefundPlugin\Exception\OrderNotFound;
@@ -62,10 +61,11 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
             ->with('000777')
             ->willReturn($order);
 
-        $order
+        $stateMachine
             ->expects(self::once())
-            ->method('getPaymentState')
-            ->willReturn(OrderPaymentStates::STATE_PAID);
+            ->method('can')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)
+            ->willReturn(true);
 
         $stateMachine
             ->expects(self::once())
@@ -80,7 +80,7 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
     }
 
     #[Test]
-    public function it_does_nothing_if_order_is_already_marked_as_partially_refunded(): void
+    public function it_marks_order_as_partially_refunded_again_if_it_is_already_partially_refunded(): void
     {
         $orderRepository = $this->createMock(OrderRepositoryInterface::class);
         $stateMachine = $this->createMock(StateMachineInterface::class);
@@ -95,14 +95,53 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
             ->with('000777')
             ->willReturn($order);
 
-        $order
+        $stateMachine
             ->expects(self::once())
-            ->method('getPaymentState')
-            ->willReturn(OrderPaymentStates::STATE_PARTIALLY_REFUNDED);
+            ->method('can')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)
+            ->willReturn(true);
+
+        $stateMachine
+            ->expects(self::once())
+            ->method('apply')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND);
+
+        $orderManager
+            ->expects(self::once())
+            ->method('flush');
+
+        $resolver->resolve('000777');
+    }
+
+    #[Test]
+    public function it_does_nothing_if_partially_refund_transition_is_not_applicable(): void
+    {
+        $orderRepository = $this->createMock(OrderRepositoryInterface::class);
+        $stateMachine = $this->createMock(StateMachineInterface::class);
+        $orderManager = $this->createMock(EntityManagerInterface::class);
+        $order = $this->createMock(OrderInterface::class);
+
+        $resolver = new OrderPartiallyRefundedStateResolver($orderRepository, $stateMachine, $orderManager);
+
+        $orderRepository
+            ->expects(self::once())
+            ->method('findOneByNumber')
+            ->with('000777')
+            ->willReturn($order);
+
+        $stateMachine
+            ->expects(self::once())
+            ->method('can')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)
+            ->willReturn(false);
 
         $stateMachine
             ->expects($this->never())
             ->method('apply');
+
+        $orderManager
+            ->expects($this->never())
+            ->method('flush');
 
         $resolver->resolve('000777');
     }
@@ -139,10 +178,11 @@ final class OrderPartiallyRefundedStateResolverTest extends TestCase
             ->with('000777')
             ->willReturn($order);
 
-        $order
+        $this->stateMachineFactory
             ->expects(self::once())
-            ->method('getPaymentState')
-            ->willReturn(OrderPaymentStates::STATE_PAID);
+            ->method('can')
+            ->with($order, OrderPaymentTransitions::GRAPH, OrderPaymentTransitions::TRANSITION_PARTIALLY_REFUND)
+            ->willReturn(true);
 
         $this->stateMachineFactory
             ->expects(self::once())
