@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return function (ContainerConfigurator $container) {
     $env = $_ENV['APP_ENV'] ?? 'dev';
 
-    if (str_starts_with($env, 'test') && filter_var(getenv('TEST_SYLIUS_REFUND_BEHAT_ENABLED') ?: 'true', FILTER_VALIDATE_BOOLEAN)) {
+    if (str_starts_with($env, 'test')) {
         $container->import('../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml');
         $container->import('@SyliusRefundPlugin/tests/Behat/Resources/services.php');
     }

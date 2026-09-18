@@ -24,9 +24,7 @@ final readonly class OrderContext implements Context
     ) {
     }
 
-    /**
-     * @Given /^(this order) has been placed in ("[^"]+" channel)$/
-     */
+    #[Given('/^(this order) has been placed in ("[^"]+" channel)$/')]
     public function orderHasBeenPlacedInChannel(OrderInterface $order, ChannelInterface $channel): void
     {
         $order->setChannel($channel);

@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
+use Sylius\Behat\Service\Checker\EmailCheckerInterface as BehatEmailCheckerInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
-use Sylius\Behat\Service\Checker\EmailCheckerInterface as BehatEmailCheckerInterface;
 use Sylius\Component\Order\Model\OrderInterface as CoreOrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\RefundPlugin\Command\RefundUnits;
@@ -39,18 +42,14 @@ final class RefundingContext implements Context
     ) {
     }
 
-    /**
-     * @When I want to refund some units of order :orderNumber
-     */
+    #[When('I want to refund some units of order :orderNumber')]
     public function wantToRefundSomeUnitsOfOrder(string $orderNumber): void
     {
         $this->order = $this->orderRepository->findOneByNumber($orderNumber);
     }
 
-    /**
-     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment)$/
-     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and "([^"]+)" comment$/
-     */
+    #[When('/^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment)$/')]
+    #[When('/^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and "([^"]+)" comment$/')]
     public function decideToRefundProduct(
         int $unitNumber,
         string $productName,
@@ -67,9 +66,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/
-     */
+    #[Given('/^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with ("[^"]+" payment)$/')]
     public function decideToRefundPartFromProductWithPayment(
         int $partialPrice,
         int $unitNumber,
@@ -90,9 +87,7 @@ final class RefundingContext implements Context
         }
     }
 
-    /**
-     * @When /^I decide to refund order shipment with ("[^"]+" payment)$/
-     */
+    #[When('/^I decide to refund order shipment with ("[^"]+" payment)$/')]
     public function decideToRefundOrderShipment(PaymentMethodInterface $paymentMethod): void
     {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
@@ -103,9 +98,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @When I decide to refund :shippingMethodName order shipment with :paymentMethod payment
-     */
+    #[When('I decide to refund :shippingMethodName order shipment with :paymentMethod payment')]
     public function iDecideToRefundOrderShipmentWithPayment(
         string $shippingMethodName,
         PaymentMethodInterface $paymentMethod
@@ -118,9 +111,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @When /^I decide to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
-     */
+    #[When('/^I decide to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/')]
     public function decideToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
     {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
@@ -130,9 +121,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @When /^I try to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/
-     */
+    #[When('/^I try to refund ("[^"]+") from order shipment with ("[^"]+" payment)$/')]
     public function tryToRefundPartOfOrderShipment(int $amount, PaymentMethodInterface $paymentMethod): void
     {
         $shippingAdjustment = $this->order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->first();
@@ -146,9 +135,7 @@ final class RefundingContext implements Context
         }
     }
 
-    /**
-     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with ("[^"]+" payment)$/
-     */
+    #[When('/^I decide to refund order shipment and (\d)st "([^"]+)" product with ("[^"]+" payment)$/')]
     public function decideToRefundProductAndShipment(
         int $unitNumber,
         string $productName,
@@ -171,9 +158,7 @@ final class RefundingContext implements Context
         );
     }
 
-    /**
-     * @When I refund all units of :order order with :paymentMethod payment method
-     */
+    #[When('I refund all units of :order order with :paymentMethod payment method')]
     public function iRefundAllUnitsOfOrderWithPaymentMethod(
         OrderInterface $order,
         PaymentMethodInterface $paymentMethod,
@@ -195,9 +180,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Then /^this order refunded total should(?:| still) be ("[^"]+")$/
-     */
+    #[Then('/^this order refunded total should(?:| still) be ("[^"]+")$/')]
     public function refundedTotalShouldBe(int $refundedTotal): void
     {
         $orderRefunds = $this->refundRepository->findBy(['order' => $this->order]);
@@ -209,9 +192,7 @@ final class RefundingContext implements Context
         Assert::same($orderRefundedTotal, $refundedTotal);
     }
 
-    /**
-     * @Then /^(\d+)st "([^"]+)" product should have ("[^"]+") refunded$/
-     */
+    #[Then('/^(\d+)st "([^"]+)" product should have ("[^"]+") refunded$/')]
     public function productShouldHaveSomeAmountRefunded(int $unitNumber, string $productName, int $amount): void
     {
         $unit = $this->getOrderUnit($unitNumber, $productName);
@@ -229,9 +210,7 @@ final class RefundingContext implements Context
         Assert::eq($amount, $refundedTotal);
     }
 
-    /**
-     * @Then /^I should not be able to refund (\d)st unit with product "([^"]+)"$/
-     */
+    #[Then('/^I should not be able to refund (\d)st unit with product "([^"]+)"$/')]
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         $unit = $this->getOrderUnit($unitNumber, $productName);
@@ -250,9 +229,7 @@ final class RefundingContext implements Context
         throw new \Exception('RefundUnits command should fail');
     }
 
-    /**
-     * @Then I should not be able to refund order shipment
-     */
+    #[Then('I should not be able to refund order shipment')]
     public function shouldNotBeAbleToRefundOrderShipment(): void
     {
         /** @var AdjustmentInterface $shippingAdjustment */
@@ -272,9 +249,7 @@ final class RefundingContext implements Context
         throw new \Exception('RefundUnits command should fail');
     }
 
-    /**
-     * @Then /^I should still be able to refund order shipment with ("[^"]+" payment)$/
-     */
+    #[Then('/^I should still be able to refund order shipment with ("[^"]+" payment)$/')]
     public function shouldStillBeAbleToRefundOrderShipment(PaymentMethodInterface $paymentMethod): void
     {
         /** @var AdjustmentInterface $shippingAdjustment */
@@ -290,9 +265,7 @@ final class RefundingContext implements Context
         }
     }
 
-    /**
-     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
-     */
+    #[Then('/^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/')]
     public function shouldBeAbleToRefundUnitWithProduct(
         int $unitNumber,
         string $productName,
@@ -308,20 +281,16 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Then email to :email with credit memo should be sent
-     */
+    #[Then('email to :email with credit memo should be sent')]
     public function emailToWithCreditMemoShouldBeSent(string $email): void
     {
         Assert::true($this->emailChecker->hasMessageTo('Some of the units from your order have been refunded.', $email));
     }
 
-    /**
-     * @Then I should be notified that selected order units have been successfully refunded
-     * @Then I should be notified that I cannot refund more money than the order unit total
-     * @Then I should be notified that I cannot refund more money than the shipment total
-     * @Then I should be notified that refunded amount should be greater than 0
-     */
+    #[Then('I should be notified that selected order units have been successfully refunded')]
+    #[Then('I should be notified that I cannot refund more money than the order unit total')]
+    #[Then('I should be notified that I cannot refund more money than the shipment total')]
+    #[Then('I should be notified that refunded amount should be greater than 0')]
     public function notificationSteps(): void
     {
         // intentionally left blank - not relevant in application scope
