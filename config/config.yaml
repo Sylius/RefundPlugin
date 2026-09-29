@@ -143,3 +143,10 @@ knp_gaufrette:
     filesystems:
         sylius_refund_credit_memo:
             adapter: "%sylius_refund.filesystem_adapter.credit_memo%"
+
+flysystem:
+    storages:
+        sylius_refund.storage.credit_memo:
+            adapter: "local"
+            options:
+                directory: "%sylius_refund.credit_memo_save_path%"
