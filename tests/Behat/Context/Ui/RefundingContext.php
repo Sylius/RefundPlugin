@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
+use Behat\Step\Then;
+use Behat\Step\When;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Sylius\Behat\NotificationType;
-use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Behat\Service\Checker\EmailCheckerInterface as BehatEmailCheckerInterface;
+use Sylius\Behat\Service\NotificationCheckerInterface;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Tests\Sylius\RefundPlugin\Behat\Page\Admin\OrderRefundsPageInterface;
 use Webmozart\Assert\Assert;
@@ -22,17 +25,13 @@ final class RefundingContext implements Context
     ) {
     }
 
-    /**
-     * @When I want to refund some units of order :orderNumber
-     */
+    #[When('I want to refund some units of order :orderNumber')]
     public function wantToRefundSomeUnitsOfOrder(string $orderNumber): void
     {
         $this->orderRefundsPage->open(['orderNumber' => $orderNumber]);
     }
 
-    /**
-     * @When I try to refund some units of order :orderNumber
-     */
+    #[When('I try to refund some units of order :orderNumber')]
     public function tryToRefundSomeUnitsOfOrder(string $orderNumber): void
     {
         try {
@@ -41,10 +40,8 @@ final class RefundingContext implements Context
         }
     }
 
-    /**
-     * @When /^I decide to refund (\d)st "([^"]+)" product with "([^"]+)" payment$/
-     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and "([^"]+)" comment$/
-     */
+    #[When('/^I decide to refund (\d)st "([^"]+)" product with "([^"]+)" payment$/')]
+    #[When('/^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and "([^"]+)" comment$/')]
     public function decideToRefundProduct(
         int $unitNumber,
         string $productName,
@@ -57,9 +54,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and a very long comment$/
-     */
+    #[When('/^I decide to refund (\d)st "([^"]+)" product with ("[^"]+" payment) and a very long comment$/')]
     public function decideToRefundProductWithVeryLongComment(
         int $unitNumber,
         string $productName,
@@ -71,9 +66,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decide to refund (\d+) "([^"]*)" products with "([^"]*)" payment$/
-     */
+    #[When('/^I decide to refund (\d+) "([^"]*)" products with "([^"]*)" payment$/')]
     public function iDecideToRefundProductsWithPayment(int $amount, string $productName, string $paymentMethodName): void
     {
         for ($number = 0; $number < $amount; $number++) {
@@ -83,9 +76,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decide to refund (\d)st "([^"]+)" and (\d)st "([^"]+)" products with "([^"]+)" payment$/
-     */
+    #[When('/^I decide to refund (\d)st "([^"]+)" and (\d)st "([^"]+)" products with "([^"]+)" payment$/')]
     public function decideToRefundMultipleProduct(
         int $firstUnitNumber,
         string $firstProductName,
@@ -101,9 +92,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @Given /^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with "([^"]+)" payment$/
-     */
+    #[Given('/^I decide to refund ("[^"]+") from (\d)st "([^"]+)" product with "([^"]+)" payment$/')]
     public function decideToRefundPartFromProductWithPayment(
         string $partialPrice,
         int $unitNumber,
@@ -120,9 +109,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decided to refund (\d)st "([^"]+)" product of the order "([^"]+)" with "([^"]+)" payment$/
-     */
+    #[When('/^I decided to refund (\d)st "([^"]+)" product of the order "([^"]+)" with "([^"]+)" payment$/')]
     public function decidedToRefundProduct(
         int $unitNumber,
         string $productName,
@@ -135,9 +122,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When I decide to refund all units of this order with :paymentMethod payment
-     */
+    #[When('I decide to refund all units of this order with :paymentMethod payment')]
     public function decideToRefundAllUnits(string $paymentMethod): void
     {
         $this->orderRefundsPage->pickAllUnitsToRefund();
@@ -145,9 +130,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decide to refund order shipment with "([^"]+)" payment$/
-     */
+    #[When('/^I decide to refund order shipment with "([^"]+)" payment$/')]
     public function decideToRefundOrderShipment(string $paymentMethod): void
     {
         $this->orderRefundsPage->pickOrderShipment();
@@ -155,9 +138,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When I decide to refund :shippingMethodName order shipment with :paymentMethodName payment
-     */
+    #[When('I decide to refund :shippingMethodName order shipment with :paymentMethodName payment')]
     public function iDecideToRefundOrderShipmentWithPayment(
         string $shippingMethodName,
         string $paymentMethodName
@@ -167,10 +148,8 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decide to refund "\$([^"]+)" from order shipment with "([^"]+)" payment$/
-     * @When /^I try to refund ("[^"]+") from order shipment with "([^"]+)" payment$/
-     */
+    #[When('/^I decide to refund "\$([^"]+)" from order shipment with "([^"]+)" payment$/')]
+    #[When('/^I try to refund ("[^"]+") from order shipment with "([^"]+)" payment$/')]
     public function decideToRefundPartOfOrderShipment(string $amount, string $paymentMethod): void
     {
         $this->orderRefundsPage->pickPartOfOrderShipmentToRefund($amount);
@@ -178,9 +157,7 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When /^I decide to refund order shipment and (\d)st "([^"]+)" product with "([^"]+)" payment$/
-     */
+    #[When('/^I decide to refund order shipment and (\d)st "([^"]+)" product with "([^"]+)" payment$/')]
     public function decideToRefundProductAndShipment(int $unitNumber, string $productName, string $paymentMethod): void
     {
         $this->orderRefundsPage->pickUnitWithProductToRefund($productName, $unitNumber-1);
@@ -189,33 +166,25 @@ final class RefundingContext implements Context
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @When I refund zero items
-     */
+    #[When('I refund zero items')]
     public function refundZeroItems(): void
     {
         $this->orderRefundsPage->refund();
     }
 
-    /**
-     * @Then I should be able to refund :count :productName products
-     */
+    #[Then('I should be able to refund :count :productName products')]
     public function shouldBeAbleToRefundProducts(int $count, string $productName): void
     {
         Assert::same($count, $this->orderRefundsPage->countRefundableUnitsWithProduct($productName));
     }
 
-    /**
-     * @Then I should be able to go back to order details
-     */
+    #[Then('I should be able to go back to order details')]
     public function shouldBeAbleToGoBackToOrderDetails(): void
     {
         Assert::true($this->orderRefundsPage->hasBackButton());
     }
 
-    /**
-     * @Then I should be notified that selected order units have been successfully refunded
-     */
+    #[Then('I should be notified that selected order units have been successfully refunded')]
     public function shouldBeNotifiedThatSelectedOrderUnitsHaveBeenSuccessfullyRefunded(): void
     {
         $this->notificationChecker->checkNotification(
@@ -224,9 +193,7 @@ final class RefundingContext implements Context
         );
     }
 
-    /**
-     * @Then I should be notified that refunded amount should be greater than 0
-     */
+    #[Then('I should be notified that refunded amount should be greater than 0')]
     public function shouldBeNotifiedThatRefundedAmountShouldBeGreaterThan(): void
     {
         $this->notificationChecker->checkNotification(
@@ -235,10 +202,8 @@ final class RefundingContext implements Context
         );
     }
 
-    /**
-     * @Then I should be notified that I cannot refund more money than the order unit total
-     * @Then I should be notified that I cannot refund more money than the shipment total
-     */
+    #[Then('I should be notified that I cannot refund more money than the order unit total')]
+    #[Then('I should be notified that I cannot refund more money than the shipment total')]
     public function shouldBeNotifiedThatICannotRefundMoreMoneyThanTheRefundedUnitTotal(): void
     {
         $this->notificationChecker->checkNotification(
@@ -247,9 +212,7 @@ final class RefundingContext implements Context
         );
     }
 
-    /**
-     * @Then I should be notified that at least one unit should be selected to refund
-     */
+    #[Then('I should be notified that at least one unit should be selected to refund')]
     public function shouldBeNotifiedThatAtLeastOneUnitShouldBeSelectedToRefund(): void
     {
         $this->notificationChecker->checkNotification(
@@ -258,98 +221,74 @@ final class RefundingContext implements Context
         );
     }
 
-    /**
-     * @Then this order refunded total should (still) be :refundedTotal
-     */
+    #[Then('this order refunded total should (still) be :refundedTotal')]
     public function refundedTotalShouldBe(string $refundedTotal): void
     {
         Assert::same($this->orderRefundsPage->getRefundedTotal(), $refundedTotal);
     }
 
-    /**
-     * @Then /^(\d+)st "([^"]+)" product should have "([^"]+)" refunded$/
-     */
+    #[Then('/^(\d+)st "([^"]+)" product should have "([^"]+)" refunded$/')]
     public function productShouldHaveSomeAmountRefunded(int $unitNumber, string $productName, string $amount): void
     {
         Assert::same($this->orderRefundsPage->getUnitWithProductRefundedTotal($unitNumber-1, $productName), $amount);
     }
 
-    /**
-     * @Then /^I should not be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/
-     */
+    #[Then('/^I should not be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)"$/')]
     public function shouldNotBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         Assert::false($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
     }
 
-    /**
-     * @Then I should still be able to refund order shipment with :paymentMethodName payment
-     */
+    #[Then('I should still be able to refund order shipment with :paymentMethodName payment')]
     public function shouldStillBeAbleToRefundOrderShipment(): void
     {
         Assert::true($this->orderRefundsPage->isOrderShipmentAvailableToRefund());
     }
 
-    /**
-     * @Then I should not be able to refund anything
-     */
+    #[Then('I should not be able to refund anything')]
     public function iShouldNotBeAbleToRefundAnything(): void
     {
         Assert::true($this->orderRefundsPage->eachRefundButtonIsDisabled());
     }
 
-    /**
-     * @Then I should not be able to refund order shipment
-     */
+    #[Then('I should not be able to refund order shipment')]
     public function shouldNotBeAbleToRefundOrderShipment(): void
     {
         Assert::false($this->orderRefundsPage->isOrderShipmentAvailableToRefund());
     }
 
-    /**
-     * @Then /^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/
-     */
+    #[Then('/^I should(?:| still) be able to refund (\d)(?:|st|nd|rd) unit with product "([^"]+)" with ("[^"]+" payment)$/')]
     public function shouldBeAbleToRefundUnitWithProduct(int $unitNumber, string $productName): void
     {
         Assert::true($this->orderRefundsPage->isUnitWithProductAvailableToRefund($productName, $unitNumber-1));
     }
 
-    /**
-     * @Then I should be able to choose refund payment method
-     */
+    #[Then('I should be able to choose refund payment method')]
     public function shouldBeAbleToChooseRefundPaymentMethod(): void
     {
         Assert::true($this->orderRefundsPage->canChoosePaymentMethod());
     }
 
-    /**
-     * @Then there should be :payment payment method
-     */
+    #[Then('there should be :payment payment method')]
     public function thereShouldBePaymentMethod(string $payment): void
     {
         Assert::true($this->orderRefundsPage->isPaymentMethodVisible($payment));
     }
 
-    /**
-     * @Then there should not be :payment payment method
-     */
+    #[Then('there should not be :payment payment method')]
     public function thereShouldNotBePaymentMethod(string $payment): void
     {
         Assert::false($this->orderRefundsPage->isPaymentMethodVisible($payment));
     }
 
-    /**
-     * @Then the selected refund payment method should be :paymentMethod
-     */
+    #[Then('the selected refund payment method should be :paymentMethod')]
     public function theSelectedRefundPaymentMethodShouldBe(string $paymentMethod): void
     {
         Assert::true($this->orderRefundsPage->isPaymentMethodSelected($paymentMethod));
     }
 
-    /**
-     * @Then email to :email with credit memo should not be sent
-     * @Then the customer :email should not receive an email that some units have been refunded
-     */
+    #[Then('email to :email with credit memo should not be sent')]
+    #[Then('the customer :email should not receive an email that some units have been refunded')]
     public function emailToWithCreditMemoShouldNotBeSent(string $email): void
     {
         try {
@@ -358,9 +297,7 @@ final class RefundingContext implements Context
         }
     }
 
-    /**
-     * @Then I should see original payment method :paymentMethodName
-     */
+    #[Then('I should see original payment method :paymentMethodName')]
     public function iShouldSeeOriginalPaymentMethod(string $paymentMethodName): void
     {
         Assert::same($this->orderRefundsPage->getOriginalPaymentMethodName(), sprintf('Original Payment Method: %s', $paymentMethodName));

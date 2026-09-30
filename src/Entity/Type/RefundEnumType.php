@@ -57,7 +57,10 @@ class RefundEnumType extends Type
             return (string) $value->getValue();
         }
 
-        throw ConversionException::conversionFailed((string) $value, 'sylius_refund_refund_type');
+        $stringValue = (string) $value;
+        $stringValue = strlen($stringValue) > 32 ? substr($stringValue, 0, 20) . '...' : $stringValue;
+
+        throw new ConversionException(sprintf('Could not convert database value "%s" to Doctrine Type sylius_refund_refund_type', $stringValue));
     }
 
     protected function createType(string $value): RefundTypeInterface

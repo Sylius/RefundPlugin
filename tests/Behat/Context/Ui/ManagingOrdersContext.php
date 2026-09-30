@@ -6,6 +6,7 @@ namespace Tests\Sylius\RefundPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Behat\Step\Then;
+use Behat\Step\When;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Sylius\Behat\Service\NotificationCheckerInterface;
@@ -22,9 +23,7 @@ final class ManagingOrdersContext implements Context
     ) {
     }
 
-    /**
-     * @Then I should be notified that the order should be paid
-     */
+    #[Then('I should be notified that the order should be paid')]
     public function shouldBeNotifiedThatTheOrderShouldBePaid(): void
     {
         $this->notificationChecker->checkNotification(
@@ -33,9 +32,7 @@ final class ManagingOrdersContext implements Context
         );
     }
 
-    /**
-     * @Then I should not see refunds button
-     */
+    #[Then('I should not see refunds button')]
     public function iShouldNotSeeRefundsButton(): void
     {
         Assert::false($this->showPage->hasRefundsButton());
@@ -47,41 +44,31 @@ final class ManagingOrdersContext implements Context
         Assert::true($this->showPage->hasDisabledRefundsButton());
     }
 
-    /**
-     * @Then I should see :count refund payment(s) with status :status
-     */
+    #[Then('I should see :count refund payment(s) with status :status')]
     public function shouldSeeRefundPaymentWithStatus(int $count, string $status): void
     {
         Assert::true($this->showPage->hasRefundPaymentsWithStatus($count, $status));
     }
 
-    /**
-     * @Then I should not see any refund payments
-     */
+    #[Then('I should not see any refund payments')]
     public function shouldNotSeeAnyRefundPayments(): void
     {
         Assert::same($this->showPage->countRefundPayments(), 0);
     }
 
-    /**
-     * @Then I should not see any credit memos
-     */
+    #[Then('I should not see any credit memos')]
     public function shouldNotSeeAnyCreditMemos(): void
     {
         Assert::same($this->showPage->countCreditMemos(), 0);
     }
 
-    /**
-     * @When I complete the first refund payment
-     */
+    #[When('I complete the first refund payment')]
     public function completeTheFirstRefundPayment(): void
     {
         $this->showPage->completeRefundPayment(0);
     }
 
-    /**
-     * @Then I should be notified that refund payment has been successfully completed
-     */
+    #[Then('I should be notified that refund payment has been successfully completed')]
     public function shouldBeNotifiedThatRefundPaymentHasBeenSuccessfullyCompleted(): void
     {
         $this->notificationChecker->checkNotification(
@@ -90,17 +77,13 @@ final class ManagingOrdersContext implements Context
         );
     }
 
-    /**
-     * @Then I should not be able to complete the first refund payment again
-     */
+    #[Then('I should not be able to complete the first refund payment again')]
     public function shouldNotBeAbleToCompleteTheFirstRefundPaymentAgain(): void
     {
         Assert::false($this->showPage->canCompleteRefundPayment(0));
     }
 
-    /**
-     * @Then /^(this order)'s payment state should be "([^"]+)"$/
-     */
+    #[Then('/^(this order)\'s payment state should be "([^"]+)"$/')]
     public function thisOrderSPaymentStateShouldBe(OrderInterface $order, string $orderPaymentState): void
     {
         $this->indexPage->open();
@@ -110,17 +93,13 @@ final class ManagingOrdersContext implements Context
         ]));
     }
 
-    /**
-     * @Then I should be redirected to the order :order show page
-     */
+    #[Then('I should be redirected to the order :order show page')]
     public function iShouldBeRedirectedToTheOrderShowPage(OrderInterface $order): void
     {
         Assert::true($this->showPage->isOpen(['id' => $order->getId()]));
     }
 
-    /**
-     * @Then I should be notified that I cannot refund an order
-     */
+    #[Then('I should be notified that I cannot refund an order')]
     public function iShouldBeNotifiedThatICannotRefundAnOrder(): void
     {
         $this->notificationChecker->checkNotification(

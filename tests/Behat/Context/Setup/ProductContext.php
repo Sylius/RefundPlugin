@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
 use Sylius\Behat\Context\Setup\ProductContext as BaseProductContext;
 
 final class ProductContext implements Context
@@ -22,9 +23,7 @@ final class ProductContext implements Context
     {
     }
 
-    /**
-     * @Given the store has a free product :productName
-     */
+    #[Given('the store has a free product :productName')]
     public function theStoreHasAFreeProduct(string $productName): void
     {
         $this->baseProductContext->storeHasAProductPricedAt($productName, 0, null);

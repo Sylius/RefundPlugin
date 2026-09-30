@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Transform;
 
 use Behat\Behat\Context\Context;
+use Behat\Transformation\Transform;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Webmozart\Assert\Assert;
@@ -16,9 +17,7 @@ final class OrderContext implements Context
     {
     }
 
-    /**
-     * @Transform /^order "([^"]+)"$/
-     */
+    #[Transform('/^order "([^"]+)"$/')]
     public function getOrderByNumber(string $orderNumber): OrderInterface
     {
         /** @var OrderInterface|null $order */

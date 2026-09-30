@@ -1,4 +1,0 @@
-imports:
-    - suites/application/refunds.yaml
-    - suites/ui/customer_credit_memos.yaml
-    - suites/ui/refunds.yaml

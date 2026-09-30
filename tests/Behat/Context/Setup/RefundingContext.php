@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Hook\AfterScenario;
+use Behat\Step\Given;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
@@ -30,10 +32,8 @@ final class RefundingContext implements Context
     ) {
     }
 
-    /**
-     * @Given /^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already been refunded with ("[^"]+" payment)$/
-     * @Given :productName product from order :orderNumber has already been refunded with :paymentMethod payment
-     */
+    #[Given('/^(\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has already been refunded with ("[^"]+" payment)$/')]
+    #[Given(':productName product from order :orderNumber has already been refunded with :paymentMethod payment')]
     public function productFromOrderHasAlreadyBeenRefunded(
         ?int $unitNumber,
         string $productName,
@@ -56,9 +56,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Given /^the (\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has a refund of ("[^"]+") with ("[^"]+" payment)$/
-     */
+    #[Given('/^the (\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has a refund of ("[^"]+") with ("[^"]+" payment)$/')]
     public function theProductFromOrderHasARefundOfWith(
         int $unitNumber,
         string $productName,
@@ -79,9 +77,7 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Given /^the (\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has a refund of ("[^"]+") with ("[^"]+" payment) done later$/
-     */
+    #[Given('/^the (\d)(?:|st|nd|rd) "([^"]+)" product from order "#([^"]+)" has a refund of ("[^"]+") with ("[^"]+" payment) done later$/')]
     public function theProductFromOrderHasARefundOfWithPaymentDoneLater(
         int $unitNumber,
         string $productName,
@@ -93,9 +89,7 @@ final class RefundingContext implements Context
         $this->theProductFromOrderHasARefundOfWith($unitNumber, $productName, $orderNumber, $partialTotal, $paymentMethod);
     }
 
-    /**
-     * @Given /^all units from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/
-     */
+    #[Given('/^all units from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/')]
     public function allUnitsFromOrderAreRefunded(
         string $orderNumber,
         PaymentMethodInterface $paymentMethod
@@ -116,10 +110,8 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Given /^all units and shipment from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/
-     * @Given /^all units and shipment from the order "#([^"]+)" have been refunded with ("[^"]+" payment)$/
-     */
+    #[Given('/^all units and shipment from the order "#([^"]+)" are refunded with ("[^"]+" payment)$/')]
+    #[Given('/^all units and shipment from the order "#([^"]+)" have been refunded with ("[^"]+" payment)$/')]
     public function allUnitsAndShipmentFromOrderAreRefunded(
         string $orderNumber,
         PaymentMethodInterface $paymentMethod
@@ -141,9 +133,7 @@ final class RefundingContext implements Context
         $this->commandBus->dispatch(new RefundUnits($orderNumber, array_merge($units, $shipments), $paymentMethod->getId(), ''));
     }
 
-    /**
-     * @Given /^the "#([^"]+)" order's shipping cost already has a refund of ("[^"]+") with ("[^"]+" payment)$/
-     */
+    #[Given('/^the "#([^"]+)" order\'s shipping cost already has a refund of ("[^"]+") with ("[^"]+" payment)$/')]
     public function shipmentFromOrderHasAlreadyRefundedWithPayment(
         string $orderNumber,
         int $amount,
@@ -163,25 +153,19 @@ final class RefundingContext implements Context
         ));
     }
 
-    /**
-     * @Given the credit memo generation is broken
-     */
+    #[Given('the credit memo generation is broken')]
     public function theCreditMemoGenerationIsBroken(): void
     {
         $this->failedCreditMemoGenerator->failCreditMemoGeneration();
     }
 
-    /**
-     * @Given the refund payment generation is broken
-     */
+    #[Given('the refund payment generation is broken')]
     public function theRefundPaymentGenerationIsBroken(): void
     {
         $this->failedRefundPaymentFactory->failRefundPaymentCreation();
     }
 
-    /**
-     * @AfterScenario
-     */
+    #[AfterScenario]
     public function removeFailedGenerationFiles(): void
     {
         if (file_exists(FailedCreditMemoGenerator::FAILED_FILE)) {

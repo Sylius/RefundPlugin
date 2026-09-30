@@ -1,0 +1,157 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> and ''Sylius\\\\RefundPlugin\\\\Model\\\\UnitRefundInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Command/GenerateCreditMemo.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:string\(\) with string will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Command/GenerateCreditMemo.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> and ''Sylius\\\\RefundPlugin\\\\Model\\\\UnitRefundInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Command/RefundUnits.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:integer\(\) with int will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Command/RefundUnits.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Sylius\\RefundPlugin\\Refunder\\RefunderInterface and ''Sylius\\\\RefundPlugin\\\\Refunder\\\\RefunderInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/CommandHandler/RefundUnitsHandler.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isIterable\(\) with iterable\<Sylius\\RefundPlugin\\Refunder\\RefunderInterface\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/CommandHandler/RefundUnitsHandler.php
+
+		-
+			message: '#^Property Sylius\\RefundPlugin\\CommandHandler\\RefundUnitsHandler\:\:\$orderShipmentsRefunder \(Sylius\\RefundPlugin\\Refunder\\RefunderInterface\|null\) is never assigned Sylius\\RefundPlugin\\Refunder\\RefunderInterface so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/CommandHandler/RefundUnitsHandler.php
+
+		-
+			message: '#^Property Sylius\\RefundPlugin\\CommandHandler\\RefundUnitsHandler\:\:\$orderUnitsRefunder \(Sylius\\RefundPlugin\\Refunder\\RefunderInterface\|null\) is never assigned Sylius\\RefundPlugin\\Refunder\\RefunderInterface so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/CommandHandler/RefundUnitsHandler.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:notNull\(\) with string will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/CommandHandler/SendCreditMemoHandler.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Sylius\\RefundPlugin\\Converter\\LineItem\\LineItemsConverterUnitRefundAwareInterface and ''Sylius\\\\RefundPlugin\\\\Converter\\\\LineItem\\\\LineItemsConverterUnitRefundAwareInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/LineItem/CompositeLineItemConverter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> and class\-string\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/LineItem/OrderItemUnitLineItemsConverter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> and class\-string\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/LineItem/ShipmentLineItemsConverter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Sylius\\Component\\Core\\Model\\ShipmentInterface and ''Sylius\\\\Component\\\\Order\\\\Model\\\\AdjustableInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/LineItem/ShipmentLineItemsConverter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:notNull\(\) with Sylius\\Component\\Core\\Model\\ShipmentInterface will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/LineItem/ShipmentLineItemsConverter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Sylius\\RefundPlugin\\Model\\UnitRefundInterface and ''Sylius\\\\RefundPlugin\\\\Model\\\\UnitRefundInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/RefundUnitsConverter.php
+
+		-
+			message: '#^Interface Sylius\\RefundPlugin\\Converter\\RefundUnitsConverterInterface has PHPDoc tag @method for method convert\(\) parameter \#1 \$units with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Converter/RefundUnitsConverterInterface.php
+
+		-
+			message: '#^Interface Sylius\\RefundPlugin\\Converter\\RefundUnitsConverterInterface has PHPDoc tag @method for method convert\(\) return type with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Converter/RefundUnitsConverterInterface.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:isInstanceOf\(\) with Sylius\\RefundPlugin\\Converter\\Request\\RequestToRefundUnitsConverterInterface and ''Sylius\\\\RefundPlugin\\\\Converter\\\\Request\\\\RequestToRefundUnitsConverterInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Converter/Request/RequestToRefundUnitsConverter.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> and ''Sylius\\\\RefundPlugin\\\\Model\\\\UnitRefundInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Event/UnitsRefunded.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:integer\(\) with int will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Event/UnitsRefunded.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:notNull\(\) with Sylius\\Component\\Core\\Model\\OrderItemUnitInterface will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Provider/OrderItemUnitTotalProvider.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:notNull\(\) with Sylius\\Component\\Core\\Model\\AdjustmentInterface will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Provider/RefundedShipmentFeeProvider.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:notNull\(\) with string will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Sender/CreditMemoEmailSender.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:notNull\(\) with Sylius\\Component\\Core\\Model\\OrderInterface will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/StateResolver/OrderFullyRefundedStateResolver.php
+
+		-
+			message: '#^Call to static method Webmozart\\Assert\\Assert\:\:allIsInstanceOf\(\) with array\<Sylius\\RefundPlugin\\Model\\UnitRefundInterface\> and ''Sylius\\\\RefundPlugin\\\\Model\\\\UnitRefundInterface'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: src/Validator/RefundAmountValidator.php
+
+		-
+			message: '#^Property Sylius\\RefundPlugin\\Validator\\RefundUnitsCommandValidator\:\:\$refundUnitsBelongingToOrderValidators on left side of \?\? is not nullable nor uninitialized\.$#'
+			identifier: nullCoalesce.initializedProperty
+			count: 1
+			path: src/Validator/RefundUnitsCommandValidator.php

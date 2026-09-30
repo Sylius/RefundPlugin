@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Given;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -29,18 +30,14 @@ final class PaymentContext implements Context
     ) {
     }
 
-    /**
-     * @Given the payment of order :order failed
-     */
+    #[Given('the payment of order :order failed')]
     public function paymentOfOrderFailed(OrderInterface $order): void
     {
         $payment = $order->getLastPayment();
         $this->stateMachineFactory->apply($payment, PaymentTransitions::GRAPH, PaymentTransitions::TRANSITION_FAIL);
     }
 
-    /**
-     * @Given /^the customer chose ("[^"]+" payment) method$/
-     */
+    #[Given('/^the customer chose ("[^"]+" payment) method$/')]
     public function theCustomerChosePaymentMethod(PaymentMethodInterface $paymentMethod): void
     {
         /** @var OrderInterface $order */
@@ -52,9 +49,7 @@ final class PaymentContext implements Context
         $this->sharedStorage->set('payment', $lastPayment);
     }
 
-    /**
-     * @Given /^(this payment) has been paid$/
-     */
+    #[Given('/^(this payment) has been paid$/')]
     public function andThisPaymentHasBeenPaid(PaymentInterface $payment): void
     {
         $this->stateMachineFactory->apply($payment, PaymentTransitions::GRAPH, PaymentTransitions::TRANSITION_COMPLETE);

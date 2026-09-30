@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Sylius\RefundPlugin\Behat\Context\Application;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Doctrine\Persistence\ObjectRepository;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -30,9 +32,7 @@ final class CreditMemoContext implements Context
     ) {
     }
 
-    /**
-     * @When I browse the details of the only credit memo generated for order :order
-     */
+    #[When('I browse the details of the only credit memo generated for order :order')]
     public function browseTheDetailsOfTheOnlyCreditMemoGeneratedForOrder(OrderInterface $order): void
     {
         $creditMemos = $this->creditMemoRepository->findBy(['order' => $order]);
@@ -40,9 +40,7 @@ final class CreditMemoContext implements Context
         $this->creditMemo = $creditMemos[0];
     }
 
-    /**
-     * @Then I should have :count credit memo generated for order :order
-     */
+    #[Then('I should have :count credit memo generated for order :order')]
     public function shouldHaveCountCreditMemoGeneratedForThisOrder(int $count, OrderInterface $order): void
     {
         $creditMemos = $this->creditMemoRepository->findBy(['order' => $order]);
@@ -50,9 +48,7 @@ final class CreditMemoContext implements Context
         Assert::count($creditMemos, $count);
     }
 
-    /**
-     * @Then it should have sequential number generated from current date
-     */
+    #[Then('it should have sequential number generated from current date')]
     public function shouldHaveSequentialNumberGeneratedFromCurrentDate(): void
     {
         Assert::same(
@@ -61,10 +57,8 @@ final class CreditMemoContext implements Context
         );
     }
 
-    /**
-     * @Then /^it should contain (\d+) "([^"]+)" product(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/
-     * @Then /^it should contain (\d+) "([^"]+)" shipment(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/
-     */
+    #[Then('/^it should contain (\d+) "([^"]+)" product(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/')]
+    #[Then('/^it should contain (\d+) "([^"]+)" shipment(?:|s) with ("[^"]+") net value, ("[^"]+") tax amount and ("[^"]+") gross value in "([^"]+)" currency$/')]
     public function itShouldContainProductWithNetValueTaxAmountAndGrossValueInCurrency(
         int $quantity,
         string $productName,
@@ -89,9 +83,7 @@ final class CreditMemoContext implements Context
         throw new \InvalidArgumentException('There is no item with given data.');
     }
 
-    /**
-     * @Then /^it should contain a tax item "([^"]+)" with amount ("[^"]+") in "([^"]+)" currency$/
-     */
+    #[Then('/^it should contain a tax item "([^"]+)" with amount ("[^"]+") in "([^"]+)" currency$/')]
     public function itShouldContainATaxItemWithAmountInCurrency(string $label, int $amount, string $currencyCode): void
     {
         /** @var TaxItemInterface $taxItem */
@@ -104,51 +96,39 @@ final class CreditMemoContext implements Context
         throw new \InvalidArgumentException(sprintf('There is no tax item %s with given amount.', $label));
     }
 
-    /**
-     * @Then it should be issued in :channelName channel
-     */
+    #[Then('it should be issued in :channelName channel')]
     public function creditMemoShouldBeIssuedInChannel(string $channelName): void
     {
         Assert::implementsInterface($this->creditMemo->getChannel(), ChannelInterface::class);
         Assert::same($this->creditMemo->getChannel()->getName(), $channelName);
     }
 
-    /**
-     * @Then /^its total should be ("[^"]+") in "([^"]+)" currency$/
-     */
+    #[Then('/^its total should be ("[^"]+") in "([^"]+)" currency$/')]
     public function creditMemoTotalShouldBe(int $total, string $currencyCode): void
     {
         Assert::same($this->creditMemo->getTotal(), $total);
         Assert::same($this->creditMemo->getCurrencyCode(), $currencyCode);
     }
 
-    /**
-     * @Then /^its net total should be ("[^"]+")$/
-     */
+    #[Then('/^its net total should be ("[^"]+")$/')]
     public function itsNetTotalShouldBe(int $total): void
     {
         Assert::same($this->creditMemo->getNetValueTotal(), $total);
     }
 
-    /**
-     * @Then /^its tax total should be ("[^"]+")$/
-     */
+    #[Then('/^its tax total should be ("[^"]+")$/')]
     public function itsTaxTotalShouldBe(int $total): void
     {
         Assert::same($this->creditMemo->getTaxTotal(), $total);
     }
 
-    /**
-     * @Then it should be commented with :comment
-     */
+    #[Then('it should be commented with :comment')]
     public function itShouldBeCommentedWith(string $comment): void
     {
         Assert::same($this->creditMemo->getComment(), $comment);
     }
 
-    /**
-     * @Then it should be issued from :customerName, :street, :postcode :city in the :country
-     */
+    #[Then('it should be issued from :customerName, :street, :postcode :city in the :country')]
     public function itShouldBeIssuedFrom(
         string $customerName,
         string $street,
@@ -166,9 +146,7 @@ final class CreditMemoContext implements Context
         Assert::same($customerBillingData->getCountryCode(), $country->getCode());
     }
 
-    /**
-     * @Then it should be issued to :company, :street, :postcode :city in the :country with :taxId tax ID
-     */
+    #[Then('it should be issued to :company, :street, :postcode :city in the :country with :taxId tax ID')]
     public function itShouldBeIssuedTo(
         string $company,
         string $street,
@@ -188,9 +166,7 @@ final class CreditMemoContext implements Context
         Assert::same($taxId, $shopBillingData->getTaxId());
     }
 
-    /**
-     * @Then the credit memo for :order order should be saved on the server
-     */
+    #[Then('the credit memo for :order order should be saved on the server')]
     public function theCreditMemoForOrderShouldBeSavedOnTheServer(OrderInterface $order): void
     {
         $creditMemo = $this->creditMemoRepository->findOneBy(['order' => $order]);
