@@ -1,0 +1,38 @@
+sylius_refund:
+    ui:
+        buyer: Comprador
+        clear_refunds: Borrar todo
+        new: Nuevo
+        completed: Completado
+        credit_memo: Factura rectificativa
+        credit_memos: Facturas rectificativas
+        download: Descargar
+        gross_value: Importe bruto
+        issued_at: Fecha de emisión
+        issued_for_order: Emitida para el pedido
+        issued_from: Emitida por
+        manage_credit_memos: Administrar facturas rectificativas
+        net_total: Total neto
+        net_value: Importe neto
+        no: N.º
+        order_number: Número de pedido
+        partial_refund: Reembolso parcial
+        refund: Reembolsar
+        refund_all: Reembolsar todo
+        refund_payment_completed: Pago de reembolso completado correctamente
+        refund_payments: Pagos de reembolso
+        refund_value: Importe a reembolsar
+        refunded: Reembolsado
+        refunded_total: Total reembolsado
+        refunds: Reembolsos
+        resend: Reenviar
+        seller: Vendedor
+        tax_amount: Importe del impuesto
+        tax_rate: Tipo impositivo %
+        tax_total: Total de impuestos
+        unit_net_price: Precio unitario neto
+
+sylius:
+    ui:
+        original_payment_method: Método de pago original
+        partially_refunded: Parcialmente reembolsado
